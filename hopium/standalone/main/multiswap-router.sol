@@ -4,6 +4,13 @@ pragma solidity 0.8.30;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "hopium/common/storage/bips.sol";
+import "hopium/standalone/interface/iMultiSwapRouter.sol";
+
+abstract contract Events {
+    event Swapped(address indexed caller, SwapOrderInput[] inputs, SwapOrderOutput[] outputs, uint256 slippageBips, uint256 deadlineInSec, SwapFee[] fees);
+    event FeePaid(address indexed to, uint256 amountWeth);
+}
 
 interface IWETH {
     function deposit() external payable;
@@ -98,8 +105,6 @@ abstract contract TransferHelpers is ImUniswapV2Router02 {
 abstract contract SwapHelpers is TransferHelpers {
 
     address constant ZERO_ADDRESS = address(0);
-    uint256 constant HUNDRED_PERCENT_BIPS = 10_000;
-
 
     function _swapEthToWeth(address fromAddress, address toAddress, uint256 amount) internal {
         address wethAddress = getWeth();
@@ -134,9 +139,9 @@ abstract contract SwapHelpers is TransferHelpers {
     }
 
     function _swapTokenToToken(address fromTokenAddress, address toTokenAddress, uint256 fromAmount, address fromAddress, address toAddress, uint256 slippageBips, uint256 deadlineInSec) internal returns (uint256) {
-        require(fromTokenAddress != ZERO_ADDRESS, "Router: Invalid from token address");
-        require(toTokenAddress != ZERO_ADDRESS, "Router: Invalid to token address");
-        require(fromAmount > 0, "Router: Amount must be greater than 0");
+        require(fromTokenAddress != ZERO_ADDRESS, "MultiSwap Router: Invalid from token address");
+        require(toTokenAddress != ZERO_ADDRESS, "MultiSwap Router: Invalid to token address");
+        require(fromAmount > 0, "MultiSwap Router: Amount must be greater than 0");
 
         uint256 swapAmount = fromAmount;
         if (fromAddress != address(this)) {
@@ -198,66 +203,9 @@ abstract contract SwapHelpers is TransferHelpers {
     }
 }
 
-contract MultiSwapRouter is SwapHelpers, ReentrancyGuard {
-    constructor(address routerAddress) ImUniswapV2Router02(routerAddress) {}
+abstract contract InternalHelpers is SwapHelpers, Events {
 
-
-    struct OrderInput {
-        address tokenAddress;
-        uint256 amount;
-    }
-
-    struct OrderOutput {
-        address tokenAddress;
-        uint16 weightBips;
-    }
-
-    struct Fee {
-        address feeAddress;
-        uint16 feeBips;
-    }
-
-    event Swapped(address indexed caller, OrderInput[] inputs, OrderOutput[] outputs, uint256 slippageBips, uint256 deadlineInSec, Fee[] fees);
-    event FeePaid(address indexed to, uint256 amountWeth);
-
-    function swap(OrderInput[] calldata inputs, OrderOutput[] calldata outputs, uint256 slippageBips, uint256 deadlineInSec, Fee[] calldata fees) external payable nonReentrant {
-        require(inputs.length > 0, "Router: No inputs");
-        require(outputs.length > 0, "Router: No outputs");
-
-        _assertMsgValue(inputs);
-        _assertWeights(outputs);
-
-        uint256 swappedWeth = _swapInputToWeth(inputs, slippageBips, deadlineInSec);
-
-        uint256 finalWethAmount = _distributeFees(fees, swappedWeth);
-
-        _swapWethToOutput(finalWethAmount, outputs, slippageBips, deadlineInSec);
-
-        _refundDust(msg.sender);
-
-        emit Swapped(msg.sender, inputs, outputs, slippageBips, deadlineInSec, fees);
-    }
-
-    function _assertMsgValue(OrderInput[] calldata inputs) internal {
-        uint256 ethNeeded;
-        for (uint i; i < inputs.length; ++i) {
-            if (inputs[i].tokenAddress == ZERO_ADDRESS) {
-                ethNeeded += inputs[i].amount;
-            }
-        }
-        require(msg.value >= ethNeeded, "msg.value != ETH inputs");
-    }
-
-    function _assertWeights(OrderOutput[] calldata outputs) internal pure {
-        uint256 totalWeight = 0;
-        for ( uint256 i = 0; i < outputs.length; i++) {
-                require(outputs[i].weightBips > 0, "Router: Weight must be greater than 0");
-                totalWeight += outputs[i].weightBips;
-        }
-        require(totalWeight <= HUNDRED_PERCENT_BIPS, "Router: Total weight must be 100%");
-    }
-
-    function _swapInputToWeth(OrderInput[] calldata inputs, uint256 slippageBips, uint256 deadlineInSec) internal returns (uint256) {
+    function _swapInputToWeth(SwapOrderInput[] calldata inputs, uint256 slippageBips, uint256 deadlineInSec) internal returns (uint256) {
         uint256 totalWeth = 0;
         for (uint256 i = 0; i < inputs.length; i++) {
             if (inputs[i].tokenAddress == ZERO_ADDRESS) {
@@ -272,9 +220,8 @@ contract MultiSwapRouter is SwapHelpers, ReentrancyGuard {
         return totalWeth;
     }
 
-    function _swapWethToOutput(uint256 wethAmount, OrderOutput[] calldata outputs, uint256 slippageBips, uint256 deadlineInSec) internal {
+    function _swapWethToOutput(uint256 wethAmount, SwapOrderOutput[] calldata outputs, address receiver, uint256 slippageBips, uint256 deadlineInSec) internal {
         address wethAddress = getWeth();
-        address receiver = msg.sender;
 
         for (uint256 i = 0; i < outputs.length; i++) {
             uint256 amount = _calcAmountFromWeight(wethAmount, outputs[i].weightBips);
@@ -285,7 +232,7 @@ contract MultiSwapRouter is SwapHelpers, ReentrancyGuard {
             } else if (outputs[i].tokenAddress == wethAddress) {
                 _sendToken(wethAddress, receiver, amount);
             } else {
-                _swapTokenToToken(wethAddress, outputs[i].tokenAddress, amount, address(this), msg.sender, slippageBips, deadlineInSec);
+                _swapTokenToToken(wethAddress, outputs[i].tokenAddress, amount, address(this), receiver, slippageBips, deadlineInSec);
             }
         }
 
@@ -295,7 +242,7 @@ contract MultiSwapRouter is SwapHelpers, ReentrancyGuard {
         return (totalWethAmount * weightBips) / HUNDRED_PERCENT_BIPS;
     }
 
-    function _distributeFees(Fee[] calldata fees, uint256 totalWethAmount) internal returns (uint256) {
+    function _distributeFees(SwapFee[] calldata fees, uint256 totalWethAmount) internal returns (uint256) {
         if (fees.length == 0) return totalWethAmount;
 
         uint256 sumBips = 0;
@@ -322,7 +269,7 @@ contract MultiSwapRouter is SwapHelpers, ReentrancyGuard {
         return remaining;
     }
 
-    function _refundDust(address toAddress) internal {
+    function _refundRemaining(address toAddress) internal {
         uint256 wethBalance = IWETH(getWeth()).balanceOf(address(this));
         uint256 ethBalance = address(this).balance;
 
@@ -335,6 +282,54 @@ contract MultiSwapRouter is SwapHelpers, ReentrancyGuard {
         if (ethBalance > 0) {
             _sendEth(toAddress, ethBalance);
         }
+    }
+}
+
+abstract contract Validations is InternalHelpers {
+    function _validateMsgValue(SwapOrderInput[] calldata inputs) internal {
+        uint256 ethNeeded;
+        for (uint i; i < inputs.length; ++i) {
+            if (inputs[i].tokenAddress == ZERO_ADDRESS) {
+                ethNeeded += inputs[i].amount;
+            }
+        }
+        require(msg.value >= ethNeeded, "msg.value != ETH inputs");
+    }
+
+    function _validateWeights(SwapOrderOutput[] calldata outputs) internal pure {
+        uint256 totalWeight = 0;
+        for ( uint256 i = 0; i < outputs.length; i++) {
+                require(outputs[i].weightBips > 0, "MultiSwap Router: Weight must be greater than 0");
+                totalWeight += outputs[i].weightBips;
+        }
+        require(totalWeight <= HUNDRED_PERCENT_BIPS, "MultiSwap Router: Total weight must be 100%");
+    }
+}
+
+contract MultiSwapRouter is Validations, ReentrancyGuard {
+    constructor(address routerAddress) ImUniswapV2Router02(routerAddress) {}
+
+    // -- Write fns --
+
+    function swap(SwapOrderInput[] calldata inputs, SwapOrderOutput[] calldata outputs, address receiver, uint256 slippageBips, uint256 deadlineInSec, SwapFee[] calldata fees) external payable nonReentrant {
+        require(inputs.length > 0, "MultiSwap Router: No inputs");
+        require(outputs.length > 0, "MultiSwap Router: No outputs");
+        require(receiver != address(0), "MultiSwap Router: Receiver cannot be zero address");
+        require(slippageBips <= HUNDRED_PERCENT_BIPS, "MultiSwap Router: bad slippage");
+        require(deadlineInSec >= block.timestamp, "MultiSwap Router: deadline passed");
+
+        _validateMsgValue(inputs);
+        _validateWeights(outputs);
+
+        uint256 swappedWeth = _swapInputToWeth(inputs, slippageBips, deadlineInSec);
+
+        uint256 finalWethAmount = _distributeFees(fees, swappedWeth);
+
+        _swapWethToOutput(finalWethAmount, outputs, receiver, slippageBips, deadlineInSec);
+
+        _refundRemaining(msg.sender);
+
+        emit Swapped(msg.sender, inputs, outputs, slippageBips, deadlineInSec, fees);
     }
 
     // Allow contract to receive ETH

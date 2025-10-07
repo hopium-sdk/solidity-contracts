@@ -1,0 +1,126 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"deployedBytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"gasEstimates": null,
+		"methodIdentifiers": {
+			"swap((address,uint256)[],(address,uint16)[],uint256,uint256,(address,uint16)[])": "5c3e7d95"
+		}
+	},
+	"abi": [
+		{
+			"inputs": [
+				{
+					"components": [
+						{
+							"internalType": "address",
+							"name": "tokenAddress",
+							"type": "address"
+						},
+						{
+							"internalType": "uint256",
+							"name": "amount",
+							"type": "uint256"
+						}
+					],
+					"internalType": "struct OrderInput[]",
+					"name": "inputs",
+					"type": "tuple[]"
+				},
+				{
+					"components": [
+						{
+							"internalType": "address",
+							"name": "tokenAddress",
+							"type": "address"
+						},
+						{
+							"internalType": "uint16",
+							"name": "weightBips",
+							"type": "uint16"
+						}
+					],
+					"internalType": "struct OrderOutput[]",
+					"name": "outputs",
+					"type": "tuple[]"
+				},
+				{
+					"internalType": "uint256",
+					"name": "slippageBips",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "deadlineInSec",
+					"type": "uint256"
+				},
+				{
+					"components": [
+						{
+							"internalType": "address",
+							"name": "feeAddress",
+							"type": "address"
+						},
+						{
+							"internalType": "uint16",
+							"name": "feeBips",
+							"type": "uint16"
+						}
+					],
+					"internalType": "struct Fee[]",
+					"name": "fees",
+					"type": "tuple[]"
+				}
+			],
+			"name": "swap",
+			"outputs": [],
+			"stateMutability": "payable",
+			"type": "function"
+		}
+	]
+}

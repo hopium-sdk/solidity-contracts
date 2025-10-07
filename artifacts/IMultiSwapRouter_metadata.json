@@ -1,0 +1,120 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "tokenAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "amount",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct SwapOrderInput[]",
+						"name": "inputs",
+						"type": "tuple[]"
+					},
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "tokenAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint16",
+								"name": "weightBips",
+								"type": "uint16"
+							}
+						],
+						"internalType": "struct SwapOrderOutput[]",
+						"name": "outputs",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "address",
+						"name": "receiver",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "slippageBips",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "deadlineInSec",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "feeAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint16",
+								"name": "feeBips",
+								"type": "uint16"
+							}
+						],
+						"internalType": "struct SwapFee[]",
+						"name": "fees",
+						"type": "tuple[]"
+					}
+				],
+				"name": "swap",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/standalone/interface/iMultiSwapRouter.sol": "IMultiSwapRouter"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/standalone/interface/iMultiSwapRouter.sol": {
+			"keccak256": "0xcf2603e394ec46e7e54c1e6dcd3daccef52d0a396a3cc72fb66a53e0c8a0a114",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://09af63980ecf382004936836dd6b273ff0f621998bcb9d97a63da8c5c1f07280",
+				"dweb:/ipfs/QmW6HYqCSu3Xjjd487pFV8eWgLjh83VK2xzW2QgsADNGqj"
+			]
+		}
+	},
+	"version": 1
+}

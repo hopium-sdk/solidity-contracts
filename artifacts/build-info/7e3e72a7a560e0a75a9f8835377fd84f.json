@@ -1,0 +1,115 @@
+{
+	"id": "7e3e72a7a560e0a75a9f8835377fd84f",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.30",
+	"solcLongVersion": "0.8.30+commit.73712a01",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"hopium/etf/storage/bips.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nuint256 constant HUNDRED_PERCENT_BIPS = 10_000;\n"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			},
+			"remappings": []
+		}
+	},
+	"output": {
+		"sources": {
+			"hopium/etf/storage/bips.sol": {
+				"ast": {
+					"absolutePath": "hopium/etf/storage/bips.sol",
+					"exportedSymbols": {
+						"HUNDRED_PERCENT_BIPS": [
+							4
+						]
+					},
+					"id": 5,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:0"
+						},
+						{
+							"constant": true,
+							"id": 4,
+							"mutability": "constant",
+							"name": "HUNDRED_PERCENT_BIPS",
+							"nameLocation": "74:20:0",
+							"nodeType": "VariableDeclaration",
+							"scope": 5,
+							"src": "57:46:0",
+							"stateVariable": false,
+							"storageLocation": "default",
+							"typeDescriptions": {
+								"typeIdentifier": "t_uint256",
+								"typeString": "uint256"
+							},
+							"typeName": {
+								"id": 2,
+								"name": "uint256",
+								"nodeType": "ElementaryTypeName",
+								"src": "57:7:0",
+								"typeDescriptions": {
+									"typeIdentifier": "t_uint256",
+									"typeString": "uint256"
+								}
+							},
+							"value": {
+								"hexValue": "31305f303030",
+								"id": 3,
+								"isConstant": false,
+								"isLValue": false,
+								"isPure": true,
+								"kind": "number",
+								"lValueRequested": false,
+								"nodeType": "Literal",
+								"src": "97:6:0",
+								"typeDescriptions": {
+									"typeIdentifier": "t_rational_10000_by_1",
+									"typeString": "int_const 10000"
+								},
+								"value": "10_000"
+							},
+							"visibility": "internal"
+						}
+					],
+					"src": "32:73:0"
+				},
+				"id": 0
+			}
+		}
+	}
+}

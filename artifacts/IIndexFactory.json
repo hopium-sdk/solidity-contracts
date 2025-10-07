@@ -1,0 +1,154 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"deployedBytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"gasEstimates": null,
+		"methodIdentifiers": {
+			"createIndex((string,string,(address,uint16)[]))": "428d9a93",
+			"getIndexById(uint256)": "549e122b"
+		}
+	},
+	"abi": [
+		{
+			"inputs": [
+				{
+					"components": [
+						{
+							"internalType": "string",
+							"name": "name",
+							"type": "string"
+						},
+						{
+							"internalType": "string",
+							"name": "ticker",
+							"type": "string"
+						},
+						{
+							"components": [
+								{
+									"internalType": "address",
+									"name": "tokenAddress",
+									"type": "address"
+								},
+								{
+									"internalType": "uint16",
+									"name": "weightBips",
+									"type": "uint16"
+								}
+							],
+							"internalType": "struct Holding[]",
+							"name": "holdings",
+							"type": "tuple[]"
+						}
+					],
+					"internalType": "struct Index",
+					"name": "index",
+					"type": "tuple"
+				}
+			],
+			"name": "createIndex",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "indexId",
+					"type": "uint256"
+				}
+			],
+			"name": "getIndexById",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "string",
+							"name": "name",
+							"type": "string"
+						},
+						{
+							"internalType": "string",
+							"name": "ticker",
+							"type": "string"
+						},
+						{
+							"components": [
+								{
+									"internalType": "address",
+									"name": "tokenAddress",
+									"type": "address"
+								},
+								{
+									"internalType": "uint16",
+									"name": "weightBips",
+									"type": "uint16"
+								}
+							],
+							"internalType": "struct Holding[]",
+							"name": "holdings",
+							"type": "tuple[]"
+						}
+					],
+					"internalType": "struct Index",
+					"name": "",
+					"type": "tuple"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		}
+	]
+}

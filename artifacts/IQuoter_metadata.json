@@ -1,0 +1,97 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getTokenUsdPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "price18",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getTokenWethPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "price18",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getWethUsdPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "price18",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/standalone/interface/iQuoter.sol": "IQuoter"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/standalone/interface/iQuoter.sol": {
+			"keccak256": "0x8f782aea6fde7f10d5ed3a7cc9a3e3b45baa11db4726507ee570d20d7f543148",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://97fe8840d5cac5d81876c919f4a39a06cc7a2e8119d4f660aa4e94e659c0c6d8",
+				"dweb:/ipfs/Qmc4ry36mDYBG4p2KybogQrvPLmFNxSgggXUDjgznxUE5m"
+			]
+		}
+	},
+	"version": 1
+}

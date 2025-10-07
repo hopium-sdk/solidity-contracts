@@ -1,0 +1,45 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/common/utils/id-idx.sol": "IdIdxUtils"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/common/utils/id-idx.sol": {
+			"keccak256": "0x96224f478ab4b36abefc0b7cd194898e9f2e9a4a24743b1907ed7399fc261cb4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b00708435bf118523dcd940e1dd53633149dea811f7748a6512a602268c0ae71",
+				"dweb:/ipfs/QmY3jxybVsjzgffu6YVyh48JL3FqxEzMVrxdmpqRaFyHjC"
+			]
+		}
+	},
+	"version": 1
+}

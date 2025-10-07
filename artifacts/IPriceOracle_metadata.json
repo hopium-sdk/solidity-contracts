@@ -1,0 +1,97 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getTokenUsdPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "price18",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getTokenWethPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "price18",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getWethUsdPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "price18",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/standalone/interface/iPriceOracle.sol": "IPriceOracle"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/standalone/interface/iPriceOracle.sol": {
+			"keccak256": "0x7a2a9e50af0242b506802775682e7a7ee15a93b8754462eda20b873c7a3a8c74",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0b25fd1737f3f3dbff9754cbf0dc1ca2e32fe0d60b78865fba63e13bf02f8034",
+				"dweb:/ipfs/QmcgjNsYogzJFyAB46mwNDjJiXqwgBNkqwY3uRdnHpQgVS"
+			]
+		}
+	},
+	"version": 1
+}

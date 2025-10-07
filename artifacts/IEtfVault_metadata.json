@@ -1,0 +1,69 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "receiver",
+						"type": "address"
+					}
+				],
+				"name": "withdrawToken",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/etf/interface/iEtfVault.sol": "IEtfVault"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/etf/interface/iEtfVault.sol": {
+			"keccak256": "0x3107f18e0fbb79c678a20426fe6273406393d6ed54c879f47eb3cc9200bea549",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ce65ed17667422d4ae222adea24b9ee1b15a6d634901ebe9f4a85a4d0658944e",
+				"dweb:/ipfs/QmTiZekdHDq99MANGWDLvA781zKxJB3iQ8XK5o3ZubJmWu"
+			]
+		}
+	},
+	"version": 1
+}

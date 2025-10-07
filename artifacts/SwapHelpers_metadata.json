@@ -32,7 +32,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/multiSwapRouter/multiSwapRouter.sol": "SwapHelpers"
+			"hopium/standalone/main/multiswap-router.sol": "SwapHelpers"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -102,12 +102,28 @@
 				"dweb:/ipfs/QmadRjHbkicwqwwh61raUEapaVEtaLMcYbQZWs9gUkgj3u"
 			]
 		},
-		"hopium/multiSwapRouter/multiSwapRouter.sol": {
-			"keccak256": "0x4c4106c61a9d665dea2a66b78ba6db8a2dd4652a0832cc736c94b69b71579ad2",
+		"hopium/common/storage/bips.sol": {
+			"keccak256": "0x3e39e84d405a0032d123c0dc0828e5a44caf8cd7b77c5092020854933f19888a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d9632a7a1ab85ad974bb33c97a075d30479ab567ef7d6e233f0f09480d58302d",
-				"dweb:/ipfs/QmaN5WFTvUn1cMMWZSKBXYwoAsXdJ38sUWW3BLYok84BYQ"
+				"bzz-raw://0254a58b591dacdd2c9c083970b924c7b81cc325967b2f2e13f94a62828af6b0",
+				"dweb:/ipfs/QmQXmTNzdiXtUoCE7pUXLJKjYhxVJqQn5PdxS88e1daq9h"
+			]
+		},
+		"hopium/standalone/interface/iMultiSwapRouter.sol": {
+			"keccak256": "0xcf2603e394ec46e7e54c1e6dcd3daccef52d0a396a3cc72fb66a53e0c8a0a114",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://09af63980ecf382004936836dd6b273ff0f621998bcb9d97a63da8c5c1f07280",
+				"dweb:/ipfs/QmW6HYqCSu3Xjjd487pFV8eWgLjh83VK2xzW2QgsADNGqj"
+			]
+		},
+		"hopium/standalone/main/multiswap-router.sol": {
+			"keccak256": "0x5d011c53e79d7dae8587b4204a92338d278e91afefddd8b4326862995d7cb237",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4d7090151a322232474901fe0e12b2e660f45f2fea9da000169ee120304dd345",
+				"dweb:/ipfs/QmVC6twwdYwgq2ngMSA4UVn2odxvTJXKVHHPkXxsf9EtXW"
 			]
 		}
 	},

@@ -1,0 +1,282 @@
+{
+	"id": "cdd4016ecc5a71a4392a842ebef7be9f",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.30",
+	"solcLongVersion": "0.8.30+commit.73712a01",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"hopium/storage/index.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nstruct TokenHolding {\n    address tokenAddress;\n    address wethPairAddress;\n    uint16 weight;\n}\n\nstruct Index {\n    string name;\n    string ticker;\n    TokenHolding[] tokenHoldings;\n}\n"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			},
+			"remappings": []
+		}
+	},
+	"output": {
+		"sources": {
+			"hopium/storage/index.sol": {
+				"ast": {
+					"absolutePath": "hopium/storage/index.sol",
+					"exportedSymbols": {
+						"Index": [
+							17
+						],
+						"TokenHolding": [
+							8
+						]
+					},
+					"id": 18,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:0"
+						},
+						{
+							"canonicalName": "TokenHolding",
+							"id": 8,
+							"members": [
+								{
+									"constant": false,
+									"id": 3,
+									"mutability": "mutable",
+									"name": "tokenAddress",
+									"nameLocation": "91:12:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 8,
+									"src": "83:20:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 2,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "83:7:0",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 5,
+									"mutability": "mutable",
+									"name": "wethPairAddress",
+									"nameLocation": "117:15:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 8,
+									"src": "109:23:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 4,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "109:7:0",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 7,
+									"mutability": "mutable",
+									"name": "weight",
+									"nameLocation": "145:6:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 8,
+									"src": "138:13:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint16",
+										"typeString": "uint16"
+									},
+									"typeName": {
+										"id": 6,
+										"name": "uint16",
+										"nodeType": "ElementaryTypeName",
+										"src": "138:6:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint16",
+											"typeString": "uint16"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "TokenHolding",
+							"nameLocation": "64:12:0",
+							"nodeType": "StructDefinition",
+							"scope": 18,
+							"src": "57:97:0",
+							"visibility": "public"
+						},
+						{
+							"canonicalName": "Index",
+							"id": 17,
+							"members": [
+								{
+									"constant": false,
+									"id": 10,
+									"mutability": "mutable",
+									"name": "name",
+									"nameLocation": "182:4:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 17,
+									"src": "175:11:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_string_storage_ptr",
+										"typeString": "string"
+									},
+									"typeName": {
+										"id": 9,
+										"name": "string",
+										"nodeType": "ElementaryTypeName",
+										"src": "175:6:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_string_storage_ptr",
+											"typeString": "string"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 12,
+									"mutability": "mutable",
+									"name": "ticker",
+									"nameLocation": "199:6:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 17,
+									"src": "192:13:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_string_storage_ptr",
+										"typeString": "string"
+									},
+									"typeName": {
+										"id": 11,
+										"name": "string",
+										"nodeType": "ElementaryTypeName",
+										"src": "192:6:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_string_storage_ptr",
+											"typeString": "string"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 16,
+									"mutability": "mutable",
+									"name": "tokenHoldings",
+									"nameLocation": "226:13:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 17,
+									"src": "211:28:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_array$_t_struct$_TokenHolding_$8_storage_$dyn_storage_ptr",
+										"typeString": "struct TokenHolding[]"
+									},
+									"typeName": {
+										"baseType": {
+											"id": 14,
+											"nodeType": "UserDefinedTypeName",
+											"pathNode": {
+												"id": 13,
+												"name": "TokenHolding",
+												"nameLocations": [
+													"211:12:0"
+												],
+												"nodeType": "IdentifierPath",
+												"referencedDeclaration": 8,
+												"src": "211:12:0"
+											},
+											"referencedDeclaration": 8,
+											"src": "211:12:0",
+											"typeDescriptions": {
+												"typeIdentifier": "t_struct$_TokenHolding_$8_storage_ptr",
+												"typeString": "struct TokenHolding"
+											}
+										},
+										"id": 15,
+										"nodeType": "ArrayTypeName",
+										"src": "211:14:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_array$_t_struct$_TokenHolding_$8_storage_$dyn_storage_ptr",
+											"typeString": "struct TokenHolding[]"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "Index",
+							"nameLocation": "163:5:0",
+							"nodeType": "StructDefinition",
+							"scope": 18,
+							"src": "156:86:0",
+							"visibility": "public"
+						}
+					],
+					"src": "32:211:0"
+				},
+				"id": 0
+			}
+		}
+	}
+}
