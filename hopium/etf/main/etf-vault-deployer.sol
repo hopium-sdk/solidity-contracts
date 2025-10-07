@@ -7,6 +7,7 @@ import "hopium/etf/interface/imEtfRouter.sol";
 
 interface IERC20 {
     function transfer(address to, uint256 value) external returns (bool);
+    function balanceOf(address account) external view returns (uint256);
 }
 
 library SafeERC20 {
@@ -38,14 +39,15 @@ library SafeERC20 {
     }
 }
 
-/// @notice Etf Vault contract
-contract EtfVault is ImEtfRouter {
+contract TransferHelpers {
     using SafeERC20 for IERC20;
 
-    constructor(address _directory) ImDirectory(_directory) {}
+    function _sendEth(address to, uint256 amount) internal {
+        require(amount > 0, "sendEth: zero amount");
+        require(address(this).balance >= amount, "sendEth: insufficient ETH");
 
-    function withdrawToken(address tokenAddress, uint256 amount, address receiver) public onlyEtfRouter {
-        _sendToken(tokenAddress, receiver, amount);
+        (bool ok, ) = payable(to).call{value: amount}("");
+        require(ok, "ETH send failed");
     }
 
     function _sendToken(address tokenAddress, address toAddress, uint256 amount) internal {
@@ -54,7 +56,24 @@ contract EtfVault is ImEtfRouter {
 
         token.safeTransfer(toAddress, amount);
     }
-   
+}
+
+/// @notice Etf Vault contract
+contract EtfVault is ImEtfRouter, TransferHelpers {
+
+    constructor(address _directory) ImDirectory(_directory) {}
+
+    function redeem(address tokenAddress, uint256 amount, address receiver) public onlyEtfRouter {
+        _sendToken(tokenAddress, receiver, amount);
+    }
+
+    function withdraw(address tokenAddress, address toAddress) public onlyOwner {
+        if(tokenAddress == address(0)) {
+            _sendEth(toAddress, address(this).balance);
+        } else {
+            _sendToken(tokenAddress, toAddress, IERC20(tokenAddress).balanceOf(address(this)));
+        }
+    }
 }
 
 /// @notice Factory that deploys Etf Vault

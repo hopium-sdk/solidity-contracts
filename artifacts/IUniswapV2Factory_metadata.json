@@ -43,7 +43,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/standalone/main/quoter.sol": "IUniswapV2Factory"
+			"hopium/standalone/main/price-oracle.sol": "IUniswapV2Factory"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -73,7 +73,7 @@
 				"dweb:/ipfs/QmSLr6bHkPFWT7ntj34jmwfyskpwo97T9jZUrk5sz3sdtR"
 			]
 		},
-		"hopium/standalone/main/quoter.sol": {
+		"hopium/standalone/main/price-oracle.sol": {
 			"keccak256": "0x79d44570509b16e759ea8500559bbc934b25a9436b0936676a4ac7fbea238b93",
 			"license": "MIT",
 			"urls": [

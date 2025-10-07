@@ -23,7 +23,7 @@
 						"type": "address"
 					}
 				],
-				"name": "withdrawToken",
+				"name": "redeem",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -57,11 +57,11 @@
 	},
 	"sources": {
 		"hopium/etf/interface/iEtfVault.sol": {
-			"keccak256": "0x3107f18e0fbb79c678a20426fe6273406393d6ed54c879f47eb3cc9200bea549",
+			"keccak256": "0x8d804c55efaa4c97071fb51adf601f5f2c22a1c141999e5c28fc437a0f9d815d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ce65ed17667422d4ae222adea24b9ee1b15a6d634901ebe9f4a85a4d0658944e",
-				"dweb:/ipfs/QmTiZekdHDq99MANGWDLvA781zKxJB3iQ8XK5o3ZubJmWu"
+				"bzz-raw://b29e67fa9cbc42470b362939dbb523c7c4fe76d2cff9fa44fbd1ed7ff43645c9",
+				"dweb:/ipfs/QmVY1g4d2wPMeG867N2HjyfPsUj9k4HPcQ21A7Rmsce4QX"
 			]
 		}
 	},

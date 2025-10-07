@@ -130,7 +130,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/standalone/main/multiswap-router.sol": "InternalHelpers"
+			"hopium/multiswap-router/main/multiswap-router.sol": "InternalHelpers"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -200,6 +200,14 @@
 				"dweb:/ipfs/QmadRjHbkicwqwwh61raUEapaVEtaLMcYbQZWs9gUkgj3u"
 			]
 		},
+		"hopium/common/interface/imDirectory.sol": {
+			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
+				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
+			]
+		},
 		"hopium/common/storage/bips.sol": {
 			"keccak256": "0x3e39e84d405a0032d123c0dc0828e5a44caf8cd7b77c5092020854933f19888a",
 			"license": "MIT",
@@ -208,7 +216,15 @@
 				"dweb:/ipfs/QmQXmTNzdiXtUoCE7pUXLJKjYhxVJqQn5PdxS88e1daq9h"
 			]
 		},
-		"hopium/standalone/interface/iMultiSwapRouter.sol": {
+		"hopium/common/utils/transfer-helpers.sol": {
+			"keccak256": "0x5fc5d8cb58b6f8bbdf0ae2fbbbd17f5e94fbf698665b70f7c9ece84ed63d50b1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4a55a113a28d8927c2fbc6a74d8501070b15c8640d0fa84b805d517ac9b5582d",
+				"dweb:/ipfs/QmPYBm5nduA8Ft5VMsTyTMNdryukjcbFnHvHXndh7DAB4F"
+			]
+		},
+		"hopium/multiswap-router/interface/iMultiSwapRouter.sol": {
 			"keccak256": "0xcf2603e394ec46e7e54c1e6dcd3daccef52d0a396a3cc72fb66a53e0c8a0a114",
 			"license": "MIT",
 			"urls": [
@@ -216,12 +232,12 @@
 				"dweb:/ipfs/QmW6HYqCSu3Xjjd487pFV8eWgLjh83VK2xzW2QgsADNGqj"
 			]
 		},
-		"hopium/standalone/main/multiswap-router.sol": {
-			"keccak256": "0x5d011c53e79d7dae8587b4204a92338d278e91afefddd8b4326862995d7cb237",
+		"hopium/multiswap-router/main/multiswap-router.sol": {
+			"keccak256": "0x95fc682b359a2d508acaf164d1d558e484f2b39d2d5e29c26e70ef06a12638f0",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4d7090151a322232474901fe0e12b2e660f45f2fea9da000169ee120304dd345",
-				"dweb:/ipfs/QmVC6twwdYwgq2ngMSA4UVn2odxvTJXKVHHPkXxsf9EtXW"
+				"bzz-raw://233ebbf6e175a452e8bfc5857cd026ce9792ce5d02551a98d6bd8205e429ee6b",
+				"dweb:/ipfs/QmbiMt2tHpeHrTme6pXZacNojpqzb1r6RiiWhvaMikDBc5"
 			]
 		}
 	},

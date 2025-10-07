@@ -4,17 +4,18 @@ pragma solidity 0.8.30;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "hopium/common/interface/imDirectory.sol";
 import "hopium/etf/interface/imEtfFactory.sol";
+import "hopium/etf/interface/imEtfRouter.sol";
 
 /// @notice Minimal ERC20 Etf Token
-contract EtfToken is ERC20, ImEtfFactory {
+contract EtfToken is ERC20, ImEtfRouter {
 
     constructor(string memory name_, string memory symbol_, address _directory) ERC20(name_, symbol_) ImDirectory(_directory) {}
 
-    function mint(address to, uint256 amount) external onlyEtfFactory {
+    function mint(address to, uint256 amount) external onlyEtfRouter {
         _mint(to, amount);
     }
 
-    function burn(address from, uint256 amount) external onlyEtfFactory {
+    function burn(address from, uint256 amount) external onlyEtfRouter {
         _burn(from, amount);
     }
 }

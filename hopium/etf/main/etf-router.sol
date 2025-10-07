@@ -6,34 +6,26 @@ import "hopium/etf/interface/imEtfFactory.sol";
 import "hopium/etf/interface/imIndexFactory.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "hopium/standalone/interface/imMultiSwapRouter.sol";
+import "hopium/multiswap-router/interface/imMultiSwapRouter.sol";
 import "hopium/etf/interface/imIndexPriceOracle.sol";
 import "hopium/etf/interface/iEtfToken.sol";
 import "hopium/common/storage/bips.sol";
 import "hopium/etf/interface/iEtfVault.sol";
+import "hopium/common/utils/transfer-helpers.sol";
 
-abstract contract TransferHelpers {
-    function _approveMaxIfNeeded(address tokenAddress, address spender, uint256 amount) internal {
-        IERC20 token = IERC20(tokenAddress);
-        uint256 current = token.allowance(address(this), spender);
-        if (current < amount) {
-            if (current != 0) {
-                token.approve(spender, 0);
-            }
-            token.approve(spender, type(uint256).max);
-        }
-    }
+abstract contract Storage {
+    uint16 public platformFee = 50;
 }
 
-abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle, TransferHelpers {
+abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle, TransferHelpers, Storage {
     
     function _zeroSwapFees() internal pure returns (SwapFee[] memory) {
         return new SwapFee[](0);
     }
 
-    function _executeBuySwap(Index memory index, uint256 wethAmount, address etfVaultAddress, uint256 slippageBips, uint256 deadlineInSec) internal {
+    function _executeBuySwap(Index memory index, uint256 ethAmount, address etfVaultAddress, uint256 slippageBips, uint256 deadlineInSec) internal {
         SwapOrderInput[] memory inputs = new SwapOrderInput[](1);
-        inputs[0] = SwapOrderInput({ tokenAddress: address(0), amount: wethAmount });
+        inputs[0] = SwapOrderInput({ tokenAddress: address(0), amount: ethAmount });
 
         SwapOrderOutput[] memory outputs = new SwapOrderOutput[](index.holdings.length);
         for (uint256 i = 0; i < index.holdings.length; i++) {
@@ -43,7 +35,7 @@ abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle
             });
         }
 
-        getMultiSwapRouter().swap{value: wethAmount}(inputs, outputs, etfVaultAddress, slippageBips, deadlineInSec, _zeroSwapFees());
+        getMultiSwapRouter().swap{value: ethAmount}(inputs, outputs, etfVaultAddress, slippageBips, deadlineInSec, _zeroSwapFees());
     }
 
     function _executeSellSwap(Index memory index, uint256 sellTokenAmount, uint256 tokenTotalSupplyBefore, address etfVaultAddress, address receiver, uint256 slippageBips, uint256 deadlineInSec) internal {
@@ -71,7 +63,7 @@ abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle
             if (withdrawAmount == 0) continue;
 
             // Ask vault to transfer tokens here
-            IEtfVault(etfVaultAddress).withdrawToken(tokenAddress, withdrawAmount, address(this));
+            IEtfVault(etfVaultAddress).redeem(tokenAddress, withdrawAmount, address(this));
 
             // Approve router to pull
             _approveMaxIfNeeded(tokenAddress, address(getMultiSwapRouter()), withdrawAmount);
@@ -116,6 +108,26 @@ abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle
 
         return (etfTokenAddress, etfVaultAddress);
     }
+
+    function _getPlatformVault() internal view returns (address) {
+        return fetchFromDirectory("vault");
+    }
+
+    function _transferPlatformFee(uint256 amount) internal returns (uint256 netAmount) {
+        address vault = _getPlatformVault();
+        // If no vault set or fee is zero, nothing to do
+        if (vault == address(0) || platformFee == 0) {
+            return amount;
+        }
+
+        // platformFee is in bips (e.g., 50 = 0.50%)
+        uint256 fee = (amount * uint256(platformFee)) / uint256(HUNDRED_PERCENT_BIPS);
+        if (fee > 0) {
+            _sendEth(vault, fee);
+            return amount - fee;
+        }
+        return amount;
+    }
 }
 
 contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers  {
@@ -131,15 +143,15 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers  {
         Index memory index = getIndexFactory().getIndexById(indexId);
         (address etfTokenAddress, address etfVaultAddress) = _resolveTokenAndVault(indexId);
 
-        uint256 buyWethAmount = msg.value;
+        uint256 buyEthAmount = _transferPlatformFee(msg.value);
 
         // Execute swap and send tokens to vault
-        _executeBuySwap(index, buyWethAmount, etfVaultAddress, slippageBips, deadlineInSec);
+        _executeBuySwap(index, buyEthAmount, etfVaultAddress, slippageBips, deadlineInSec);
 
         // Mint Etf tokens to receiver
-        uint256 mintAmount = _mintEtfTokens(indexId, buyWethAmount, etfTokenAddress, receiver);
+        uint256 mintAmount = _mintEtfTokens(indexId, buyEthAmount, etfTokenAddress, receiver);
 
-        emit Buy(indexId, msg.sender, receiver, mintAmount, msg.value);
+        emit Buy(indexId, msg.sender, receiver, mintAmount, buyEthAmount);
     }
 
     function sell(uint256 indexId, uint256 sellTokenAmount, address payable receiver, uint256 slippageBips, uint256 deadlineInSec) external nonReentrant {
@@ -158,12 +170,27 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers  {
         IEtfToken(etfTokenAddress).burn(msg.sender, sellTokenAmount);        
 
         // Execute swap and send ETH to receiver
-        uint256 receiverEthBalBefore = address(receiver).balance;
-        _executeSellSwap(index, sellTokenAmount, totalSupplyBefore, etfVaultAddress, receiver, slippageBips, deadlineInSec);
-        uint256 receiverEthBalAfter = address(receiver).balance;
+        uint256 ethBalBefore = address(this).balance;
+        _executeSellSwap(index, sellTokenAmount, totalSupplyBefore, etfVaultAddress, address(this), slippageBips, deadlineInSec);
+        uint256 ethBalAfter = address(this).balance;
 
-        uint256 receivedEthAmount = receiverEthBalAfter - receiverEthBalBefore;
+        uint256 deltaBal = ethBalAfter - ethBalBefore;
+        require(deltaBal > 0, "Received eth Amount cannot be zero");
+        uint256 receivedEthAmount = _transferPlatformFee(deltaBal);
+
+        _sendEth(receiver, receivedEthAmount);
 
         emit Sell(indexId, msg.sender, receiver, sellTokenAmount, receivedEthAmount);
     }
+
+    function changePlatformFee(uint16 newFee) public onlyOwner {
+        require(newFee <= HUNDRED_PERCENT_BIPS, "fee too large");
+        platformFee = newFee;
+    }
+
+    function withdraw(address tokenAddress, address toAddress) public onlyOwner {
+        _withdraw(tokenAddress, toAddress);
+    }
+
+    receive() external payable {}
 }

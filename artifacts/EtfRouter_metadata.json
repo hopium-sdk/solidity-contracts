@@ -17,6 +17,17 @@
 				"type": "constructor"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "SafeERC20FailedOperation",
+				"type": "error"
+			},
+			{
 				"anonymous": false,
 				"inputs": [
 					{
@@ -147,6 +158,19 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint16",
+						"name": "newFee",
+						"type": "uint16"
+					}
+				],
+				"name": "changePlatformFee",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "string",
 						"name": "_key",
 						"type": "string"
@@ -171,6 +195,19 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "platformFee",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
 					}
 				],
 				"stateMutability": "view",
@@ -208,9 +245,38 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "toAddress",
+						"type": "address"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
 			}
 		],
 		"devdoc": {
+			"errors": {
+				"SafeERC20FailedOperation(address)": [
+					{
+						"details": "An operation with an ERC-20 token failed."
+					}
+				]
+			},
 			"kind": "dev",
 			"methods": {},
 			"version": 1
@@ -237,6 +303,30 @@
 		"remappings": []
 	},
 	"sources": {
+		"@openzeppelin/contracts/interfaces/IERC1363.sol": {
+			"keccak256": "0xd5ea07362ab630a6a3dee4285a74cf2377044ca2e4be472755ad64d7c5d4b69d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://da5e832b40fc5c3145d3781e2e5fa60ac2052c9d08af7e300dc8ab80c4343100",
+				"dweb:/ipfs/QmTzf7N5ZUdh5raqtzbM11yexiUoLC9z3Ws632MCuycq1d"
+			]
+		},
+		"@openzeppelin/contracts/interfaces/IERC165.sol": {
+			"keccak256": "0x0afcb7e740d1537b252cb2676f600465ce6938398569f09ba1b9ca240dde2dfc",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://1c299900ac4ec268d4570ecef0d697a3013cd11a6eb74e295ee3fbc945056037",
+				"dweb:/ipfs/Qmab9owJoxcA7vJT5XNayCMaUR1qxqj1NDzzisduwaJMcZ"
+			]
+		},
+		"@openzeppelin/contracts/interfaces/IERC20.sol": {
+			"keccak256": "0x1a6221315ce0307746c2c4827c125d821ee796c74a676787762f4778671d4f44",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://1bb2332a7ee26dd0b0de9b7fe266749f54820c99ab6a3bcb6f7e6b751d47ee2d",
+				"dweb:/ipfs/QmcRWpaBeCYkhy68PR3B4AgD7asuQk7PwkWxrvJbZcikLF"
+			]
+		},
 		"@openzeppelin/contracts/security/ReentrancyGuard.sol": {
 			"keccak256": "0xa535a5df777d44e945dd24aa43a11e44b024140fc340ad0dfe42acf4002aade1",
 			"license": "MIT",
@@ -251,6 +341,22 @@
 			"urls": [
 				"bzz-raw://5282825a626cfe924e504274b864a652b0023591fa66f06a067b25b51ba9b303",
 				"dweb:/ipfs/QmeCfPykghhMc81VJTrHTC7sF6CRvaA1FXVq2pJhwYp1dV"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol": {
+			"keccak256": "0x982c5cb790ab941d1e04f807120a71709d4c313ba0bfc16006447ffbd27fbbd5",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8150ceb4ac947e8a442b2a9c017e01e880b2be2dd958f1fa9bc405f4c5a86508",
+				"dweb:/ipfs/QmbcBmFX66AY6Kbhnd5gx7zpkgqnUafo43XnmayAM7zVdB"
+			]
+		},
+		"@openzeppelin/contracts/utils/introspection/IERC165.sol": {
+			"keccak256": "0x8891738ffe910f0cf2da09566928589bf5d63f4524dd734fd9cedbac3274dd5c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://971f954442df5c2ef5b5ebf1eb245d7105d9fbacc7386ee5c796df1d45b21617",
+				"dweb:/ipfs/QmadRjHbkicwqwwh61raUEapaVEtaLMcYbQZWs9gUkgj3u"
 			]
 		},
 		"hopium/common/interface/imDirectory.sol": {
@@ -269,6 +375,14 @@
 				"dweb:/ipfs/QmQXmTNzdiXtUoCE7pUXLJKjYhxVJqQn5PdxS88e1daq9h"
 			]
 		},
+		"hopium/common/utils/transfer-helpers.sol": {
+			"keccak256": "0x5fc5d8cb58b6f8bbdf0ae2fbbbd17f5e94fbf698665b70f7c9ece84ed63d50b1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4a55a113a28d8927c2fbc6a74d8501070b15c8640d0fa84b805d517ac9b5582d",
+				"dweb:/ipfs/QmPYBm5nduA8Ft5VMsTyTMNdryukjcbFnHvHXndh7DAB4F"
+			]
+		},
 		"hopium/etf/interface/iEtfToken.sol": {
 			"keccak256": "0x9e71429de296044c7571b71c26ef2654ce9b9b3987ed06109864718cd3d9d957",
 			"license": "MIT",
@@ -278,11 +392,11 @@
 			]
 		},
 		"hopium/etf/interface/iEtfVault.sol": {
-			"keccak256": "0x3107f18e0fbb79c678a20426fe6273406393d6ed54c879f47eb3cc9200bea549",
+			"keccak256": "0x8d804c55efaa4c97071fb51adf601f5f2c22a1c141999e5c28fc437a0f9d815d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ce65ed17667422d4ae222adea24b9ee1b15a6d634901ebe9f4a85a4d0658944e",
-				"dweb:/ipfs/QmTiZekdHDq99MANGWDLvA781zKxJB3iQ8XK5o3ZubJmWu"
+				"bzz-raw://b29e67fa9cbc42470b362939dbb523c7c4fe76d2cff9fa44fbd1ed7ff43645c9",
+				"dweb:/ipfs/QmVY1g4d2wPMeG867N2HjyfPsUj9k4HPcQ21A7Rmsce4QX"
 			]
 		},
 		"hopium/etf/interface/imEtfFactory.sol": {
@@ -310,11 +424,11 @@
 			]
 		},
 		"hopium/etf/main/etf-router.sol": {
-			"keccak256": "0x34f7a835aea21aa510fb0cf21e13291c6f2d5680b386fdf50f9c024e2935e768",
+			"keccak256": "0x24f7dd4c0d5f6869e3b5e1b2f67d3668fee312939627d2c64e6aef84500fbd37",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://77d0f6cd17f36fb219c4239431c13246272b8b7ec6955d27ebeb6f20b0a02514",
-				"dweb:/ipfs/QmTFKND1bW6HYKJJNmMMS4fwo5xcj9svzZFWtErtj4XgbU"
+				"bzz-raw://5ad81de63d9b101b2d96fe4b8a3ae67f94b0e8a2745eed593429c36028b103a9",
+				"dweb:/ipfs/QmQeKU4GxHQNctbYZB6eGBew5twu7Usq2idpgxdErKEcFN"
 			]
 		},
 		"hopium/etf/storage/index.sol": {
@@ -325,7 +439,7 @@
 				"dweb:/ipfs/QmWpKwZ5wv583jTC7JwSna6VosDdmjtD97o9DxY8EYzJrQ"
 			]
 		},
-		"hopium/standalone/interface/iMultiSwapRouter.sol": {
+		"hopium/multiswap-router/interface/iMultiSwapRouter.sol": {
 			"keccak256": "0xcf2603e394ec46e7e54c1e6dcd3daccef52d0a396a3cc72fb66a53e0c8a0a114",
 			"license": "MIT",
 			"urls": [
@@ -333,12 +447,12 @@
 				"dweb:/ipfs/QmW6HYqCSu3Xjjd487pFV8eWgLjh83VK2xzW2QgsADNGqj"
 			]
 		},
-		"hopium/standalone/interface/imMultiSwapRouter.sol": {
-			"keccak256": "0xf1f1ffb6eb9bd0b7daec750bacae6c8ad1634de9e224482425eb114ac84be255",
+		"hopium/multiswap-router/interface/imMultiSwapRouter.sol": {
+			"keccak256": "0xd1629126125bf18345bd66bbadc06e2d86994b65a6789d3354c18a518562fc35",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://63b2647a0c31d14f689a6fe081d91ae239c1e1a46d1cd3c94bcb348889165670",
-				"dweb:/ipfs/QmTWu5h9ThXtZJmPS5k4nPjdETeTxYYprxBFuCFqgkU9hq"
+				"bzz-raw://2e3c8cb12bd3b0ce5b006059908134cbe0d9dc821f1a3e12256cb1a751667f4e",
+				"dweb:/ipfs/QmSMgvyERecj6kNYZVmtMR3YRX691fnsWWbstma1Rjgc6w"
 			]
 		}
 	},

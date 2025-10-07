@@ -332,11 +332,11 @@
 			]
 		},
 		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0xc7ad9bf1742d47cf81b4d253bd2e865019dfb5fd940af738381a54fb78087cd7",
+			"keccak256": "0xf75e060fb5ef9cc4e176c67802d7b498227aed9412ed8b974a3731c32bb30d5e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://85d91ef84912e1823ac5c3c38ce35de32f165199331cdefe7f5c29ae51fb9599",
-				"dweb:/ipfs/QmYNyoQWZPwTv15r4Yd8SQGK46BYEBVCzoBThrXaMo6NEf"
+				"bzz-raw://1f5774b810afa55162dd3d75164a3ac9a5c6b104493a5ebfb0c8900a3ea26058",
+				"dweb:/ipfs/QmdWf5JvQgY4eFL1u2feMmFCAB72dNrRh8HSJ2gVjCBdb4"
 			]
 		},
 		"hopium/etf/main/index-factory.sol": {
