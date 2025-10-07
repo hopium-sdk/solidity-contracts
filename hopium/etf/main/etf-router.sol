@@ -6,7 +6,7 @@ import "hopium/etf/interface/imEtfFactory.sol";
 import "hopium/etf/interface/imIndexFactory.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "hopium/multiswap-router/interface/imMultiSwapRouter.sol";
+import "hopium/multiswap/interface/imMultiSwapRouter.sol";
 import "hopium/etf/interface/imIndexPriceOracle.sol";
 import "hopium/etf/interface/iEtfToken.sol";
 import "hopium/common/storage/bips.sol";
