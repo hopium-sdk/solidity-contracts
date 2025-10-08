@@ -93,17 +93,12 @@
 						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					},
-					{
 						"internalType": "address",
-						"name": "receiver",
+						"name": "toAddress",
 						"type": "address"
 					}
 				],
-				"name": "redeem",
+				"name": "recoverAsset",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -116,12 +111,17 @@
 						"type": "address"
 					},
 					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
 						"internalType": "address",
-						"name": "toAddress",
+						"name": "receiver",
 						"type": "address"
 					}
 				],
-				"name": "withdraw",
+				"name": "redeem",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -180,11 +180,11 @@
 			]
 		},
 		"hopium/etf/main/etf-vault-deployer.sol": {
-			"keccak256": "0xfd2570d26d96d50c1853f3296901970950c89f2f4fa4578a84e3cc60380ab623",
+			"keccak256": "0x2a423a24ad254ddac7b4f0f0760b4210a6af2361765c0bb30f5e8bc129245a73",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f3efc2ec02463ec3d5ce17a7cf633cf4787d17cf8b106d21dabad6911887d6fa",
-				"dweb:/ipfs/QmSVj76UV8FTPWbQZNZKg5AL2hMPsAiLytJXCsfimrECfR"
+				"bzz-raw://cc31486014ea27a1cd3d1a38e46c2a48d77faf616d43f3526763d529453ba4a6",
+				"dweb:/ipfs/QmSc6kC1Uan4twiT886yBZKhYN9oCZoQYLmnd6MmLtPgcd"
 			]
 		}
 	},

@@ -48,11 +48,15 @@ abstract contract TransferHelpers {
         }
     }
 
-    function _withdraw(address tokenAddress, address toAddress) internal {
+    function _sendEthOrToken(address tokenAddress, address toAddress) internal {
         if(tokenAddress == address(0)) {
             _sendEth(toAddress, address(this).balance);
         } else {
             _sendToken(tokenAddress, toAddress, IERC20(tokenAddress).balanceOf(address(this)));
         }
+    }
+
+    function _recoverAsset(address tokenAddress, address toAddress) internal {
+        _sendEthOrToken(tokenAddress, toAddress);
     }
 }

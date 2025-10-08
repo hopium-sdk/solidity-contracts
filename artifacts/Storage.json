@@ -49,46 +49,18 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"UNISWAP_V2_FACTORY_ADDRESS()": "884ec7a9",
-			"WETH_ADDRESS()": "040141e5",
-			"WETH_USD_PAIR_ADDRESS()": "0b017603"
+			"platformFee()": "26232a2e"
 		}
 	},
 	"abi": [
 		{
 			"inputs": [],
-			"name": "UNISWAP_V2_FACTORY_ADDRESS",
+			"name": "platformFee",
 			"outputs": [
 				{
-					"internalType": "address",
+					"internalType": "uint16",
 					"name": "",
-					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "WETH_ADDRESS",
-			"outputs": [
-				{
-					"internalType": "address",
-					"name": "",
-					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "WETH_USD_PAIR_ADDRESS",
-			"outputs": [
-				{
-					"internalType": "address",
-					"name": "",
-					"type": "address"
+					"type": "uint16"
 				}
 			],
 			"stateMutability": "view",

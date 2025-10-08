@@ -206,6 +206,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "isActive",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "owner",
 				"outputs": [
 					{
@@ -215,6 +228,19 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "_active",
+						"type": "bool"
+					}
+				],
+				"name": "setActive",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			}
 		],
@@ -253,6 +279,14 @@
 				"dweb:/ipfs/QmeCfPykghhMc81VJTrHTC7sF6CRvaA1FXVq2pJhwYp1dV"
 			]
 		},
+		"hopium/common/interface/imActive.sol": {
+			"keccak256": "0xea5ef68ff25d474140f1fffefac91d17beef07b12f0ce5aaabbf949e483a2fdd",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c0a3deea93b9a615cc467bc9344596920176b2200d717b82b6c76426100b37b0",
+				"dweb:/ipfs/QmaLiiLjTNHzBZzBaJA2P1kdUyE1yuPmWc512sj3qPSBbF"
+			]
+		},
 		"hopium/common/interface/imDirectory.sol": {
 			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
 			"license": "MIT",
@@ -286,11 +320,11 @@
 			]
 		},
 		"hopium/etf/main/etf-factory.sol": {
-			"keccak256": "0x9a896d3d7e64ea6c725dac04122d28528d61a0fbb5939de84d93729e023ea589",
+			"keccak256": "0x1d2e5279a5ad314bbccd0f0ba419c92da1d7b8c6d624c86e8c920bb4ed839dac",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2820900d1a5b1c4aaf507b8dc535960b2c9740e374d1ca441e66d9bab1a61b61",
-				"dweb:/ipfs/QmNPymrCukKtBKqEXaS31N6Gcn3NAxyrprXVLMqKXvfJ3g"
+				"bzz-raw://a16ab40fa411be9099e4e1f04e8ca31b45c241a367e2c9d7f6326f17f5379143",
+				"dweb:/ipfs/QmQwhGuzgescuZkhD8NudJV2VQVnDRymGMBw9Gbm4PaRKj"
 			]
 		},
 		"hopium/etf/storage/index.sol": {

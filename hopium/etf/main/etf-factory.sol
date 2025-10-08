@@ -8,6 +8,7 @@ import "hopium/etf/interface/imEtfVaultDeployer.sol";
 import "hopium/etf/storage/index.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "hopium/standalone/interface/imPriceOracle.sol";
+import "hopium/common/interface/imActive.sol";
 
 abstract contract Storage {
     mapping(uint256 => address) internal indexIdToEtfTokenAddress;
@@ -50,7 +51,7 @@ abstract contract Helpers is ImIndexFactory, ImPriceOracle, Storage {
     }
 }
 
-contract EtfFactory is ImDirectory, ImEtfTokenDeployer, ImEtfVaultDeployer, Helpers {
+contract EtfFactory is ImDirectory, ImEtfTokenDeployer, ImEtfVaultDeployer, Helpers, ImActive {
     constructor(address _directory) ImDirectory(_directory) {}
 
     event EtfDeployed(
@@ -61,7 +62,7 @@ contract EtfFactory is ImDirectory, ImEtfTokenDeployer, ImEtfVaultDeployer, Help
 
     // -- Write fns --
 
-    function createIndexAndEtf(Index calldata index) public onlyOwner {
+    function createIndexAndEtf(Index calldata index) public onlyOwner onlyActive {
         // create index
         uint256 indexId = getIndexFactory().createIndex(index);
 

@@ -88,8 +88,6 @@ contract PriceOracle is Helpers {
         UNISWAP_V2_FACTORY_ADDRESS = _uniswapV2FactoryAddress;
     }
 
-    // -- write fns --
-
     /// @notice Returns WETH per 1 QUOTE (scaled 1e18) for an arbitrary WETH-QUOTE pair.
     function getTokenWethPrice(address tokenAddress) public view returns (uint256 price18) {
         address pairAddress = _getTokenToWethPairAddress(tokenAddress);

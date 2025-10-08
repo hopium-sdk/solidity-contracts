@@ -6,6 +6,7 @@ import "hopium/etf/storage/index.sol";
 import "hopium/common/storage/bips.sol";
 import "hopium/common/utils/id-idx.sol";
 import "hopium/etf/interface/imEtfFactory.sol";
+import "hopium/common/interface/imActive.sol";
 
 abstract contract Storage {
     Index[] internal createdIndexes;
@@ -107,13 +108,13 @@ abstract contract ValidationHelpers is Storage, Utils {
     }
 }
 
-contract IndexFactory is ImDirectory, ValidationHelpers, ImEtfFactory {
+contract IndexFactory is ImDirectory, ValidationHelpers, ImEtfFactory, ImActive {
     constructor(address _directory) ImDirectory(_directory) {}
 
     event IndexCreated(uint256 indexed indexId, Index index);
 
     // -- Write Fns --
-    function createIndex(Index calldata index) public onlyEtfFactory returns (uint256) {
+    function createIndex(Index calldata index) public onlyEtfFactory onlyActive returns (uint256) {
         _validateTicker(index.ticker);
         _validateHoldings(index.holdings);
         bytes32 indexHash = _validateIndexHash(index.holdings);

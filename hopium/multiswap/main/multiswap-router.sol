@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "hopium/common/storage/bips.sol";
 import "hopium/multiswap/interface/iMultiSwapRouter.sol";
 import "hopium/common/utils/transfer-helpers.sol";
+import "hopium/common/interface/imActive.sol";
 
 abstract contract Events {
     event Swapped(address indexed caller, SwapOrderInput[] inputs, SwapOrderOutput[] outputs, uint256 slippageBips, uint256 deadlineInSec, SwapFee[] fees);
@@ -261,12 +262,12 @@ abstract contract Validations is InternalHelpers {
     }
 }
 
-contract MultiSwapRouter is Validations, ReentrancyGuard, ImDirectory {
+contract MultiSwapRouter is Validations, ReentrancyGuard, ImDirectory, ImActive {
     constructor(address routerAddress, address _directory) ImUniswapV2Router02(routerAddress) ImDirectory(_directory) {}
 
     // -- Write fns --
 
-    function swap(SwapOrderInput[] calldata inputs, SwapOrderOutput[] calldata outputs, address receiver, uint256 slippageBips, uint256 deadlineInSec, SwapFee[] calldata fees) external payable nonReentrant {
+    function swap(SwapOrderInput[] calldata inputs, SwapOrderOutput[] calldata outputs, address receiver, uint256 slippageBips, uint256 deadlineInSec, SwapFee[] calldata fees) external payable nonReentrant onlyActive {
         require(inputs.length > 0, "MultiSwap Router: No inputs");
         require(outputs.length > 0, "MultiSwap Router: No outputs");
         require(receiver != address(0), "MultiSwap Router: Receiver cannot be zero address");
@@ -286,8 +287,8 @@ contract MultiSwapRouter is Validations, ReentrancyGuard, ImDirectory {
         emit Swapped(msg.sender, inputs, outputs, slippageBips, deadlineInSec, fees);
     }
 
-    function withdraw(address tokenAddress, address toAddress) public onlyOwner {
-        _withdraw(tokenAddress, toAddress);
+    function recoverAsset(address tokenAddress, address toAddress) public onlyOwner {
+        _recoverAsset(tokenAddress, toAddress);
     }
 
     // Allow contract to receive ETH
