@@ -69,6 +69,82 @@
 						"type": "uint256"
 					}
 				],
+				"name": "getIndexLiquidityUsd",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "indexId",
+						"type": "uint256"
+					}
+				],
+				"name": "getIndexLiquidityWeth",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "indexId",
+						"type": "uint256"
+					}
+				],
+				"name": "getIndexMarketCapUsd",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "indexId",
+						"type": "uint256"
+					}
+				],
+				"name": "getIndexMarketCapWeth",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "indexId",
+						"type": "uint256"
+					}
+				],
 				"name": "getIndexUsdPrice",
 				"outputs": [
 					{
@@ -120,7 +196,20 @@
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {},
+			"methods": {
+				"getIndexLiquidityUsd(uint256)": {
+					"notice": "Weighted liquidity in USD (1e18) across index components."
+				},
+				"getIndexLiquidityWeth(uint256)": {
+					"notice": "Weighted liquidity in WETH (1e18) across index components."
+				},
+				"getIndexMarketCapUsd(uint256)": {
+					"notice": "Weighted market cap in USD (1e18) across index components."
+				},
+				"getIndexMarketCapWeth(uint256)": {
+					"notice": "Weighted market cap in WETH (1e18) across index components."
+				}
+			},
 			"version": 1
 		}
 	},
@@ -165,11 +254,11 @@
 			]
 		},
 		"hopium/etf/main/index-price-oracle.sol": {
-			"keccak256": "0x47b5b17bce49f734f01cc9186a0ff15add22a0a7cfb1c1d524e1a3b8d69ba4aa",
+			"keccak256": "0xb73771b01a3c1d4bb7d574b8033fd0a8d9f3ac58766c00dddf05f8bad881e579",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c1f377d44fa6374606dbbfbfdf484141dc98bfb6ee31f157af7fb1970dfde833",
-				"dweb:/ipfs/QmaUsjgMfniN6uzy7GCXsmpEy4ZSiAJaTC9H3XRK7aS1Ji"
+				"bzz-raw://4454a2cf488fef5274fd80a8d49ba7e43eb2ef4a253415775648b6b3c0db9af1",
+				"dweb:/ipfs/QmNfni6HDhBpi7J5heEabZKsfDEebVNhqTAZhneTW1tzuS"
 			]
 		},
 		"hopium/etf/storage/index.sol": {
@@ -181,11 +270,11 @@
 			]
 		},
 		"hopium/standalone/interface/iPriceOracle.sol": {
-			"keccak256": "0x7a2a9e50af0242b506802775682e7a7ee15a93b8754462eda20b873c7a3a8c74",
+			"keccak256": "0xa265524b501a2667bc2f1cb1c33c5a2a5c80d5cce552fd9e70699a134fe568d6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://0b25fd1737f3f3dbff9754cbf0dc1ca2e32fe0d60b78865fba63e13bf02f8034",
-				"dweb:/ipfs/QmcgjNsYogzJFyAB46mwNDjJiXqwgBNkqwY3uRdnHpQgVS"
+				"bzz-raw://32a294db775e234300e995e3a0d643d4cae70bbc7abd2d1e0d62d4d921bc11de",
+				"dweb:/ipfs/QmQT3GQDK2aMYbP6QkX29uKxtxoWiZTFeVFKxjMGP2Bgpw"
 			]
 		},
 		"hopium/standalone/interface/imPriceOracle.sol": {

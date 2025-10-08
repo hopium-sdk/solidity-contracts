@@ -73,6 +73,82 @@
 						"type": "address"
 					}
 				],
+				"name": "getTokenLiquidityUsd",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "totalLiquidityUsd18",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getTokenLiquidityWeth",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "totalLiquidityWeth18",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getTokenMarketCapUsd",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "marketCapUsd18",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getTokenMarketCapWeth",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "marketCapWeth18",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
 				"name": "getTokenUsdPrice",
 				"outputs": [
 					{
@@ -125,6 +201,12 @@
 		"userdoc": {
 			"kind": "user",
 			"methods": {
+				"getTokenMarketCapUsd(address)": {
+					"notice": "Returns market cap in USD for TOKEN (scaled 1e18)."
+				},
+				"getTokenMarketCapWeth(address)": {
+					"notice": "Returns market cap in WETH for TOKEN (scaled 1e18): totalSupply * (WETH per 1 TOKEN)."
+				},
 				"getTokenUsdPrice(address)": {
 					"notice": "Returns USD price of 1 TOKEN (scaled to 1e18)"
 				},
@@ -171,11 +253,11 @@
 			]
 		},
 		"hopium/standalone/main/price-oracle.sol": {
-			"keccak256": "0xd144cf5f96d69ffcae4378f1799554a01525aa1785fbbd9537779b99f6412a8a",
+			"keccak256": "0xbeef7ca3812a2fd2ffd710fb9862b969cba0d60a9b2b8bd9eb7118013cfc53a2",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f666c08c24e22bc463b1b00e91ce14eac89f8bbba4c9efb0b7d48013a3b6f6c3",
-				"dweb:/ipfs/Qmcdmjpk5FhCKipHb2f5L1Reh7MyoJVZJALfKkjay58jHK"
+				"bzz-raw://5a07d0025bcc31cae99a3c7304cb267d4a6ad256d9d5befd5de5f0dd7c2299cc",
+				"dweb:/ipfs/QmdFPhGNGHqgggSfMWMF5DHW54X8hFb1ToMxmcg7aTBFr6"
 			]
 		}
 	},

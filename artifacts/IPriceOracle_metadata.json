@@ -9,6 +9,82 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "getTokenLiquidityUsd",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "getTokenLiquidityWeth",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "getTokenMarketCapUsd",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "getTokenMarketCapWeth",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "tokenAddress",
 						"type": "address"
 					}
@@ -85,11 +161,11 @@
 	},
 	"sources": {
 		"hopium/standalone/interface/iPriceOracle.sol": {
-			"keccak256": "0x7a2a9e50af0242b506802775682e7a7ee15a93b8754462eda20b873c7a3a8c74",
+			"keccak256": "0xa265524b501a2667bc2f1cb1c33c5a2a5c80d5cce552fd9e70699a134fe568d6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://0b25fd1737f3f3dbff9754cbf0dc1ca2e32fe0d60b78865fba63e13bf02f8034",
-				"dweb:/ipfs/QmcgjNsYogzJFyAB46mwNDjJiXqwgBNkqwY3uRdnHpQgVS"
+				"bzz-raw://32a294db775e234300e995e3a0d643d4cae70bbc7abd2d1e0d62d4d921bc11de",
+				"dweb:/ipfs/QmQT3GQDK2aMYbP6QkX29uKxtxoWiZTFeVFKxjMGP2Bgpw"
 			]
 		}
 	},

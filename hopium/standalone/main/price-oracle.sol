@@ -79,6 +79,15 @@ abstract contract Helpers is Storage {
 
         return pairAddress;
     }
+
+    function _scaleTo1e18(uint256 amount, uint8 decimals) internal pure returns (uint256 scaled) {
+        if (decimals == 18) return amount;
+        if (decimals < 18) {
+            scaled = amount * (10 ** uint256(18 - decimals));
+        } else {
+            scaled = amount / (10 ** uint256(decimals - 18));
+        }
+    }
 }
 
 contract PriceOracle is Helpers {
@@ -88,16 +97,18 @@ contract PriceOracle is Helpers {
         UNISWAP_V2_FACTORY_ADDRESS = _uniswapV2FactoryAddress;
     }
 
+    /// @notice Returns USD per 1 WETH (scaled 1e18) using the stored WETH/USD pair.
+    function getWethUsdPrice() public view returns (uint256 price18) {
+        (uint256 reserveWeth, uint8 decW, uint256 reserveUsd, uint8 decU,) = _getOrderedReserves(WETH_USD_PAIR_ADDRESS, WETH_ADDRESS);
+
+        // USD per 1 WETH
+        price18 = _computePrice18(reserveUsd, decU, reserveWeth, decW);
+    }
+
     /// @notice Returns WETH per 1 QUOTE (scaled 1e18) for an arbitrary WETH-QUOTE pair.
     function getTokenWethPrice(address tokenAddress) public view returns (uint256 price18) {
         address pairAddress = _getTokenToWethPairAddress(tokenAddress);
-        (
-            uint256 reserveWeth,
-            uint8 decW,
-            uint256 reserveQuote,
-            uint8 decQ,
-
-        ) = _getOrderedReserves(pairAddress, WETH_ADDRESS);
+        (uint256 reserveWeth, uint8 decW, uint256 reserveQuote, uint8 decQ,) = _getOrderedReserves(pairAddress, WETH_ADDRESS);
 
         // WETH per 1 QUOTE
         price18 = _computePrice18(reserveWeth, decW, reserveQuote, decQ);
@@ -112,18 +123,47 @@ contract PriceOracle is Helpers {
         price18 = (tokenWeth * wethUsd) / 1e18;
     }
 
-    /// @notice Returns USD per 1 WETH (scaled 1e18) using the stored WETH/USD pair.
-    function getWethUsdPrice() public view returns (uint256 price18) {
-        (
-            uint256 reserveWeth,
-            uint8 decW,
-            uint256 reserveUsd,
-            uint8 decU,
+    // @notice Returns total pool liquidity in WETH for the TOKEN–WETH pair.
+    function getTokenLiquidityWeth(address tokenAddress) public view returns (uint256 totalLiquidityWeth18) {
+        address pairAddress = _getTokenToWethPairAddress(tokenAddress);
 
-        ) = _getOrderedReserves(WETH_USD_PAIR_ADDRESS, WETH_ADDRESS);
+        (uint256 reserveToken, uint8 decT, uint256 reserveWeth, uint8 decW,) = _getOrderedReserves(pairAddress, tokenAddress);
 
-        // USD per 1 WETH
-        price18 = _computePrice18(reserveUsd, decU, reserveWeth, decW);
+        uint256 tokenAmount18 = _scaleTo1e18(reserveToken, decT);
+        uint256 wethAmount18  = _scaleTo1e18(reserveWeth, decW);
+
+        // WETH per 1 TOKEN (scaled 1e18)
+        uint256 tokenPriceInWeth18 = getTokenWethPrice(tokenAddress);
+
+        // Value of TOKEN side in WETH
+        uint256 tokenValueInWeth18 = (tokenAmount18 * tokenPriceInWeth18) / 1e18;
+
+        // Total liquidity in WETH = TOKEN value (in WETH) + WETH reserve
+        totalLiquidityWeth18 = tokenValueInWeth18 + wethAmount18;
+    }
+
+    // @notice Returns total pool liquidity in USD for the TOKEN–WETH pair.
+    function getTokenLiquidityUsd(address tokenAddress) external view returns (uint256 totalLiquidityUsd18) {
+        uint256 totalLiquidityWeth18 = getTokenLiquidityWeth(tokenAddress);
+        uint256 usdPerWeth18 = getWethUsdPrice();
+
+        totalLiquidityUsd18 = (totalLiquidityWeth18 * usdPerWeth18) / 1e18;
+    }
+
+    /// @notice Returns market cap in WETH for TOKEN (scaled 1e18): totalSupply * (WETH per 1 TOKEN).
+    function getTokenMarketCapWeth(address tokenAddress) public view returns (uint256 marketCapWeth18) {
+        uint256 supply = IERC20(tokenAddress).totalSupply();
+        uint8 decT = IERC20Metadata(tokenAddress).decimals();
+        uint256 supply18 = _scaleTo1e18(supply, decT);          // normalize totalSupply to 1e18
+        uint256 wethPerToken18 = getTokenWethPrice(tokenAddress);
+        marketCapWeth18 = (supply18 * wethPerToken18) / 1e18;
+    }
+
+    /// @notice Returns market cap in USD for TOKEN (scaled 1e18).
+    function getTokenMarketCapUsd(address tokenAddress) external view returns (uint256 marketCapUsd18) {
+        uint256 mcWeth18 = getTokenMarketCapWeth(tokenAddress);
+        uint256 usdPerWeth18 = getWethUsdPrice();
+        marketCapUsd18 = (mcWeth18 * usdPerWeth18) / 1e18;
     }
 
 }
