@@ -218,6 +218,25 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "etfTokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "isEtfTokenAddress",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "owner",
 				"outputs": [
@@ -320,11 +339,11 @@
 			]
 		},
 		"hopium/etf/main/etf-factory.sol": {
-			"keccak256": "0x1d2e5279a5ad314bbccd0f0ba419c92da1d7b8c6d624c86e8c920bb4ed839dac",
+			"keccak256": "0x0ae086b4c2f73c0d6bd46d5806c97bd701bffa490dcdf6acc20d53c0a9921963",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a16ab40fa411be9099e4e1f04e8ca31b45c241a367e2c9d7f6326f17f5379143",
-				"dweb:/ipfs/QmQwhGuzgescuZkhD8NudJV2VQVnDRymGMBw9Gbm4PaRKj"
+				"bzz-raw://f72d6a60a5f64ffa34af9c7d5c482d13cabb40bfb6c355b5be5cfed6e641d3cf",
+				"dweb:/ipfs/QmShiAz5Yn6d8K5MufdH4i4GefFJ3o2MFAdm3uzLGJd3cG"
 			]
 		},
 		"hopium/etf/storage/index.sol": {

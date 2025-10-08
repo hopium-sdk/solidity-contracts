@@ -91,16 +91,16 @@ contract EtfVaultDeployer is ImDirectory, ImEtfFactory {
 
     event EtfVaultDeployed(
         uint256 indexed indexId,
-        address vaultAddress
+        address etfVaultAddress
     );
 
-    /// @notice Deploys a new ERC20 index token and returns its address
+    /// @notice Deploys a new etf vault and returns its address
     function deployEtfVault(uint256 indexId) external onlyEtfFactory returns (address) {
         EtfVault newVault = new EtfVault(address(Directory));
-        address vaultAddress = address(newVault);
+        address etfVaultAddress = address(newVault);
 
-        emit EtfVaultDeployed(indexId, vaultAddress);
+        emit EtfVaultDeployed(indexId, etfVaultAddress);
 
-        return vaultAddress;
+        return etfVaultAddress;
     }
 }
