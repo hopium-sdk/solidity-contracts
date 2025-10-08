@@ -1,0 +1,11 @@
+{
+  "name": "@hopium-sdk/solidity-contracts",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "echo \"No build step defined\""
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "semver": "^7.6.0"
+  }
+}

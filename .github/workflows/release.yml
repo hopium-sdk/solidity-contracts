@@ -1,0 +1,109 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  packages: write
+  pull-requests: write
+  statuses: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      BRANCH: ${{ github.ref_name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+
+      - name: Configure npm auth
+        run: npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Read package name
+        id: pkg
+        run: |
+          echo "name=$(jq -r .name package.json)" >> $GITHUB_OUTPUT
+
+      - name: Get latest Git tag
+        id: git_tag
+        run: |
+          branch=${GITHUB_REF##*/}
+          if [ "$branch" = "dev" ]; then
+            tag=$(git tag -l 'v[0-9]*-dev.*' | sort -V | tail -n1)
+            default='v0.0.0-dev.0'
+          else
+            tag=$(git tag -l 'v[0-9]*'     | sort -V | tail -n1)
+            default='v0.0.0'
+          fi
+          tag=${tag:-$default}
+          echo "git_v=${tag#v}" >> $GITHUB_OUTPUT
+
+      - name: Get latest npm version
+        id: npm_tag
+        run: |
+          suffix=$([[ "$BRANCH" == "dev" ]] && echo "@dev" || echo "")
+          latest=$(npm view "${{ steps.pkg.outputs.name }}$suffix" version 2>/dev/null || echo "0.0.0")
+          echo "npm_v=$latest" >> $GITHUB_OUTPUT
+
+      - name: Determine new version
+        id: bump
+        run: |
+          git_v=${{ steps.git_tag.outputs.git_v }}
+          npm_v=${{ steps.npm_tag.outputs.npm_v }}
+          branch=${GITHUB_REF##*/}
+          if [[ "$branch" == "main" ]]; then
+            if git log "v$git_v"..HEAD --pretty=%B | grep -qE '!:|BREAKING CHANGE'; then
+              level=major
+            elif git log "v$git_v"..HEAD --pretty=%s | grep -q '^feat'; then
+              level=minor
+            else
+              level=patch
+            fi
+            base=${git_v%%-dev.*}
+            new_v=$(npx semver -i "$level" "$base")
+          else
+            prev=${git_v##*-dev.}; prev=${prev:-0}
+            base=${git_v%%-dev.*}
+            new_v="${base}-dev.$((prev+1))"
+          fi
+          echo "new_version=$new_v" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ steps.bump.outputs.new_version }}"
+          name: "v${{ steps.bump.outputs.new_version }}"
+          files: |
+            dist/**
+          generate_release_notes: true
+          prerelease: ${{ env.BRANCH == 'dev' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to npm
+        run: |
+          npm install
+          npm run build
+          npm version ${{ steps.bump.outputs.new_version }} --no-git-tag-version
+          if [[ "$BRANCH" == "dev" ]]; then
+            npm publish --tag dev
+          else
+            npm publish --access public
+          fi
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
