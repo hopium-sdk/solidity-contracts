@@ -205,19 +205,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "isActive",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -225,7 +212,20 @@
 						"type": "address"
 					}
 				],
-				"name": "isEtfTokenAddress",
+				"name": "getIndexIdFromEtfTokenAddress",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "isActive",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -339,11 +339,11 @@
 			]
 		},
 		"hopium/etf/main/etf-factory.sol": {
-			"keccak256": "0x0ae086b4c2f73c0d6bd46d5806c97bd701bffa490dcdf6acc20d53c0a9921963",
+			"keccak256": "0xead1113cd92a495950c8473c02354ec8ac19449b26a90e9b46afffc70c705340",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f72d6a60a5f64ffa34af9c7d5c482d13cabb40bfb6c355b5be5cfed6e641d3cf",
-				"dweb:/ipfs/QmShiAz5Yn6d8K5MufdH4i4GefFJ3o2MFAdm3uzLGJd3cG"
+				"bzz-raw://bb0c14aa381af99376419cefd570dc537b20a1e7e5c3cf6069d801c6c73d7ff7",
+				"dweb:/ipfs/QmWhrmbxqp7qb7ZfGy2MssajWu1CbchPgNuWstECoZWr1m"
 			]
 		},
 		"hopium/etf/storage/index.sol": {

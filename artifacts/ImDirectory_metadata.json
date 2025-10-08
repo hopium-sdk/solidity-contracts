@@ -77,7 +77,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/common/interfaces/imDirectory.sol": "ImDirectory"
+			"hopium/common/interface/imDirectory.sol": "ImDirectory"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -91,7 +91,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/common/interfaces/imDirectory.sol": {
+		"hopium/common/interface/imDirectory.sol": {
 			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
 			"license": "MIT",
 			"urls": [

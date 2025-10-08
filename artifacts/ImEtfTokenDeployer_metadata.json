@@ -77,7 +77,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/etf/interface/imEtfVaultDeployer.sol": "ImEtfTokenDeployer"
+			"hopium/etf/interface/imEtfTokenDeployer.sol": "ImEtfTokenDeployer"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -99,12 +99,12 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
-		"hopium/etf/interface/imEtfVaultDeployer.sol": {
-			"keccak256": "0xfef703222f98c288e6b1a6cb0354080a4f930f85ee62517d504d936af539838c",
+		"hopium/etf/interface/imEtfTokenDeployer.sol": {
+			"keccak256": "0x41da03c13718837d9b5e96279677c1aeb6b170f6d9cc0f5cc264e60c7ffeeb9e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://50aed57c04ad696a314f53fbe30e973a65af9df991aee914fccc4459b275bd13",
-				"dweb:/ipfs/QmS6n4HNuN1yLMceZ6er9LgMrPZ45N3LmSRs11tJXV4tMM"
+				"bzz-raw://e048890db56605e3ec375bbc59b9a5c5b5e87d5f00f04486d7ff3b065544a8d2",
+				"dweb:/ipfs/QmZ2sqEprEgb55TXNy4UATj5r1wmJ55uZACoyC9AehTAk5"
 			]
 		}
 	},

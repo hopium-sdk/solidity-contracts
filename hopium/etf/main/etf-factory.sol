@@ -12,7 +12,7 @@ import "hopium/common/interface/imActive.sol";
 
 abstract contract Storage {
     mapping(uint256 => address) internal indexIdToEtfTokenAddress;
-    mapping(address => bool) internal etfTokenAddresses;
+    mapping(address => uint256) internal etfTokenAddressToIndexId;
     mapping(uint256 => address) internal indexIdToEtfVaultAddress;
 }
 
@@ -70,7 +70,7 @@ contract EtfFactory is ImDirectory, ImEtfTokenDeployer, ImEtfVaultDeployer, Help
         // deploy etf token
         address etfTokenAddress = getEtfTokenDeployer().deployEtfToken(indexId, index.name, index.ticker);
         indexIdToEtfTokenAddress[indexId] = etfTokenAddress;
-        etfTokenAddresses[etfTokenAddress] = true;
+        etfTokenAddressToIndexId[etfTokenAddress] = indexId;
 
         // deploy etf vault
         address etfVaultAddress = getEtfVaultDeployer().deployEtfVault(indexId);
@@ -97,7 +97,7 @@ contract EtfFactory is ImDirectory, ImEtfTokenDeployer, ImEtfVaultDeployer, Help
         return _getEtfNavUsd(indexId);
     }
 
-    function isEtfTokenAddress(address etfTokenAddress) public view returns (bool) {
-        return etfTokenAddresses[etfTokenAddress];
+    function getIndexIdFromEtfTokenAddress(address etfTokenAddress) public view returns (uint256) {
+        return etfTokenAddressToIndexId[etfTokenAddress];
     }
 }

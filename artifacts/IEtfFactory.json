@@ -52,7 +52,7 @@
 			"getEtfNavWeth(uint256)": "e4b603b3",
 			"getEtfTokenAddress(uint256)": "f2018a1f",
 			"getEtfVaultAddress(uint256)": "3ee79962",
-			"isEtfTokenAddress(address)": "c721d625"
+			"getIndexIdFromEtfTokenAddress(address)": "d00ed651"
 		}
 	},
 	"abi": [
@@ -121,12 +121,12 @@
 					"type": "address"
 				}
 			],
-			"name": "isEtfTokenAddress",
+			"name": "getIndexIdFromEtfTokenAddress",
 			"outputs": [
 				{
-					"internalType": "bool",
+					"internalType": "uint256",
 					"name": "",
-					"type": "bool"
+					"type": "uint256"
 				}
 			],
 			"stateMutability": "view",

@@ -20,6 +20,8 @@ contract Directory is Ownable {
     }
 
     function fetchFromDirectory(string memory _key) public view returns (address) {
-        return directory[_key];
+        address value = directory[_key];
+        require(value != address(0), "fetchFromDirectory: Address not set");
+        return value;
     }
 }

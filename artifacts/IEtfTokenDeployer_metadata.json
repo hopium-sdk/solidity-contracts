@@ -48,7 +48,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/etf/interface/imEtfVaultDeployer.sol": "IEtfTokenDeployer"
+			"hopium/etf/interface/imEtfTokenDeployer.sol": "IEtfTokenDeployer"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -70,7 +70,7 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
-		"hopium/etf/interface/imEtfVaultDeployer.sol": {
+		"hopium/etf/interface/imEtfTokenDeployer.sol": {
 			"keccak256": "0x41da03c13718837d9b5e96279677c1aeb6b170f6d9cc0f5cc264e60c7ffeeb9e",
 			"license": "MIT",
 			"urls": [

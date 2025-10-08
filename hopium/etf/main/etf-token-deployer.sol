@@ -25,6 +25,7 @@ contract EtfToken is ERC20, ImEtfRouter, ImEtfTokenEvents {
     function _update(address from, address to, uint256 value) internal override {
         super._update(from, to, value); // state updated and standard Transfer emitted
 
+        //Emit transfer event on etfTokenEvents contract
         IEtfTokenEvents etfTokenEvents = getEtfTokenEvents();
         require(address(etfTokenEvents) != address(0), "Etf token events contract not set");
 

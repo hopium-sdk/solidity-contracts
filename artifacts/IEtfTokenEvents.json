@@ -67,7 +67,7 @@
 				},
 				{
 					"internalType": "uint256",
-					"name": "amount",
+					"name": "transferAmount",
 					"type": "uint256"
 				}
 			],
