@@ -93,7 +93,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/standalone/interface/iMultiSwapRouter.sol": "IMultiSwapRouter"
+			"hopium/multiswap/interface/iMultiSwapRouter.sol": "IMultiSwapRouter"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -107,7 +107,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/standalone/interface/iMultiSwapRouter.sol": {
+		"hopium/multiswap/interface/iMultiSwapRouter.sol": {
 			"keccak256": "0xcf2603e394ec46e7e54c1e6dcd3daccef52d0a396a3cc72fb66a53e0c8a0a114",
 			"license": "MIT",
 			"urls": [

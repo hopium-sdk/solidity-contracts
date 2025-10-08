@@ -49,15 +49,48 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"UNISWAP_V2_FACTORY_ADDRESS()": "884ec7a9",
-			"WETH_ADDRESS()": "040141e5",
-			"WETH_USD_PAIR_ADDRESS()": "0b017603"
+			"Directory()": "658a847a",
+			"changeDirectoryAddress(address)": "ba4c7be1",
+			"fetchFromDirectory(string)": "27262618",
+			"owner()": "8da5cb5b"
 		}
 	},
 	"abi": [
 		{
 			"inputs": [],
-			"name": "UNISWAP_V2_FACTORY_ADDRESS",
+			"name": "Directory",
+			"outputs": [
+				{
+					"internalType": "contract IDirectory",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_directory",
+					"type": "address"
+				}
+			],
+			"name": "changeDirectoryAddress",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_key",
+					"type": "string"
+				}
+			],
+			"name": "fetchFromDirectory",
 			"outputs": [
 				{
 					"internalType": "address",
@@ -70,20 +103,7 @@
 		},
 		{
 			"inputs": [],
-			"name": "WETH_ADDRESS",
-			"outputs": [
-				{
-					"internalType": "address",
-					"name": "",
-					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "WETH_USD_PAIR_ADDRESS",
+			"name": "owner",
 			"outputs": [
 				{
 					"internalType": "address",

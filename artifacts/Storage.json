@@ -48,51 +48,7 @@
 			"sourceMap": ""
 		},
 		"gasEstimates": null,
-		"methodIdentifiers": {
-			"UNISWAP_V2_FACTORY_ADDRESS()": "884ec7a9",
-			"WETH_ADDRESS()": "040141e5",
-			"WETH_USD_PAIR_ADDRESS()": "0b017603"
-		}
+		"methodIdentifiers": {}
 	},
-	"abi": [
-		{
-			"inputs": [],
-			"name": "UNISWAP_V2_FACTORY_ADDRESS",
-			"outputs": [
-				{
-					"internalType": "address",
-					"name": "",
-					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "WETH_ADDRESS",
-			"outputs": [
-				{
-					"internalType": "address",
-					"name": "",
-					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "WETH_USD_PAIR_ADDRESS",
-			"outputs": [
-				{
-					"internalType": "address",
-					"name": "",
-					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		}
-	]
+	"abi": []
 }

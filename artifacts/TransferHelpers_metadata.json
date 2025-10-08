@@ -18,7 +18,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/etf/main/etf-vault-deployer.sol": "TransferHelpers"
+			"hopium/common/utils/transfer-helpers.sol": "TransferHelpers"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -32,36 +32,60 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/common/interface/imDirectory.sol": {
-			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
+		"@openzeppelin/contracts/interfaces/IERC1363.sol": {
+			"keccak256": "0xd5ea07362ab630a6a3dee4285a74cf2377044ca2e4be472755ad64d7c5d4b69d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
-				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
+				"bzz-raw://da5e832b40fc5c3145d3781e2e5fa60ac2052c9d08af7e300dc8ab80c4343100",
+				"dweb:/ipfs/QmTzf7N5ZUdh5raqtzbM11yexiUoLC9z3Ws632MCuycq1d"
 			]
 		},
-		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0xf75e060fb5ef9cc4e176c67802d7b498227aed9412ed8b974a3731c32bb30d5e",
+		"@openzeppelin/contracts/interfaces/IERC165.sol": {
+			"keccak256": "0x0afcb7e740d1537b252cb2676f600465ce6938398569f09ba1b9ca240dde2dfc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1f5774b810afa55162dd3d75164a3ac9a5c6b104493a5ebfb0c8900a3ea26058",
-				"dweb:/ipfs/QmdWf5JvQgY4eFL1u2feMmFCAB72dNrRh8HSJ2gVjCBdb4"
+				"bzz-raw://1c299900ac4ec268d4570ecef0d697a3013cd11a6eb74e295ee3fbc945056037",
+				"dweb:/ipfs/Qmab9owJoxcA7vJT5XNayCMaUR1qxqj1NDzzisduwaJMcZ"
 			]
 		},
-		"hopium/etf/interface/imEtfRouter.sol": {
-			"keccak256": "0x9ef2dafe8d3bf78ea2372470cd04070489e0d2324d91a8fbc7c3867a8eabc9f6",
+		"@openzeppelin/contracts/interfaces/IERC20.sol": {
+			"keccak256": "0x1a6221315ce0307746c2c4827c125d821ee796c74a676787762f4778671d4f44",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a558b98b69ec2677eb516606b18553fb1ea77376d5db15cef8ef4283c7b7ad95",
-				"dweb:/ipfs/Qmdey7B1K99bf8XbQ3NAS1RMntRkziFFitrBQQpzM2hqiz"
+				"bzz-raw://1bb2332a7ee26dd0b0de9b7fe266749f54820c99ab6a3bcb6f7e6b751d47ee2d",
+				"dweb:/ipfs/QmcRWpaBeCYkhy68PR3B4AgD7asuQk7PwkWxrvJbZcikLF"
 			]
 		},
-		"hopium/etf/main/etf-vault-deployer.sol": {
-			"keccak256": "0x922d805a2fd3cfabf62fbdbb7b0cdd0f0e7d086b1eee76ba3be5518dea88dcb7",
+		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0x74ed01eb66b923d0d0cfe3be84604ac04b76482a55f9dd655e1ef4d367f95bc2",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://cbc893ed8cf2bc04477def77f11d9a8cbbf47b9ff7c2a9c991b75258d4b94aaf",
-				"dweb:/ipfs/QmPk1FKbrz3Ew53u1TZD2fdVF3M7WUQsvM1YomqoejimwX"
+				"bzz-raw://5282825a626cfe924e504274b864a652b0023591fa66f06a067b25b51ba9b303",
+				"dweb:/ipfs/QmeCfPykghhMc81VJTrHTC7sF6CRvaA1FXVq2pJhwYp1dV"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol": {
+			"keccak256": "0x982c5cb790ab941d1e04f807120a71709d4c313ba0bfc16006447ffbd27fbbd5",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8150ceb4ac947e8a442b2a9c017e01e880b2be2dd958f1fa9bc405f4c5a86508",
+				"dweb:/ipfs/QmbcBmFX66AY6Kbhnd5gx7zpkgqnUafo43XnmayAM7zVdB"
+			]
+		},
+		"@openzeppelin/contracts/utils/introspection/IERC165.sol": {
+			"keccak256": "0x8891738ffe910f0cf2da09566928589bf5d63f4524dd734fd9cedbac3274dd5c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://971f954442df5c2ef5b5ebf1eb245d7105d9fbacc7386ee5c796df1d45b21617",
+				"dweb:/ipfs/QmadRjHbkicwqwwh61raUEapaVEtaLMcYbQZWs9gUkgj3u"
+			]
+		},
+		"hopium/common/utils/transfer-helpers.sol": {
+			"keccak256": "0x000a3fe5c7e0070366251b607e818cba17e52637465dd6c3974329e193525424",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://836e6d607ac696bf96f2851d19da344968012f922602edf6510c723f46bdb997",
+				"dweb:/ipfs/QmYecodVdruanNf9dAMvJr3hNE2R4g3RiSmZpX8o3vbCza"
 			]
 		}
 	},
