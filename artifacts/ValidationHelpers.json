@@ -50,5 +50,51 @@
 		"gasEstimates": null,
 		"methodIdentifiers": {}
 	},
-	"abi": []
+	"abi": [
+		{
+			"inputs": [],
+			"name": "DuplicateToken",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "EmptyTicker",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "IndexExists",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "NoHoldings",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "NotHundred",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "OverWeight",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "TickerExists",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "ZeroToken",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "ZeroWeight",
+			"type": "error"
+		}
+	]
 }

@@ -49,10 +49,43 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
+			"FACTORY_ADDR()": "b13e6196",
+			"WETH_ADDR()": "82dfc5f7",
 			"router()": "f887ea40"
 		}
 	},
 	"abi": [
+		{
+			"inputs": [],
+			"name": "QuoteUnavailable",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "FACTORY_ADDR",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "WETH_ADDR",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
 		{
 			"inputs": [],
 			"name": "router",

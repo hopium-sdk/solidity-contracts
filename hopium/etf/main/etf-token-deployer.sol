@@ -7,21 +7,17 @@ import "hopium/common/interface/imDirectory.sol";
 import "hopium/etf/interface/imEtfFactory.sol";
 import "hopium/etf/interface/iEtfToken.sol";
 
-error ImplNotSet();
-
 abstract contract Helpers is ImDirectory {
     /// @dev Deterministic salt; include indexId to keep it stable per index.
     /// You can also add name/symbol if you want unique addresses per symbol.
     function _salt(uint256 indexId) internal pure returns (bytes32) {
-        return keccak256(abi.encodePacked("ETF_TOKEN", indexId));
+        return bytes32(indexId);
     }
 
-    /// @dev Fetch the token implementation (logic) from Directory
-    function getTokenImpl() internal view returns (address) {
-        address tokenImpl = fetchFromDirectory("etf-token-impl");
+    error ImplNotSet();
+    function _getTokenImplAddress() internal view returns (address tokenImpl) {
+        tokenImpl = fetchFromDirectory("etf-token-impl");
         if (tokenImpl == address(0)) revert ImplNotSet();
-
-        return tokenImpl;
     }
 }
 
@@ -33,12 +29,22 @@ contract EtfTokenDeployer is ImDirectory, ImEtfFactory, Helpers {
 
     /// @notice Deploy a new ETF token clone with per-clone name/symbol
     function deployEtfToken(uint256 indexId, string calldata name, string calldata symbol) external onlyEtfFactory returns (address proxy) {
-        address tokenImpl = getTokenImpl();
-
         // Create deterministic clone (CREATE2). Reverts if already deployed for same salt.
-        proxy = Clones.cloneDeterministic(tokenImpl, _salt(indexId));
+        proxy = Clones.cloneDeterministic(_getTokenImplAddress(), _salt(indexId));
 
         // Initialize with per-clone params
-        IEtfToken(proxy).initialize(name, symbol, address(Directory));
+        IEtfToken(proxy).initialize(indexId, name, symbol, address(Directory));
     }
+
+    /// @notice Predicts the ETF token address for given indexId.
+    /// @dev Returns address(0) if it hasn't been deployed yet.
+    function getEtfTokenAddress(uint256 indexId) external view returns (address tokenAddr) {
+        tokenAddr = Clones.predictDeterministicAddress(_getTokenImplAddress(), _salt(indexId), address(this));
+
+        // Return zero address if no contract code deployed yet
+        if (tokenAddr.code.length == 0) {
+            tokenAddr = address(0);
+        }
+    }
+
 }

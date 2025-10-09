@@ -66,19 +66,19 @@
 			]
 		},
 		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x113e7a55f043117f2fd334de4b88221f31f30045310aa99fe6b5db3d3bd13486",
+			"keccak256": "0x3820f2778c924824b1e6dfca430b0342c45f7f7af501369e4f59a4b11a077a54",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4a884bdaa7b3979d02ee6c57af2fc1cbbd31b302b66aacfcdf3f0724f007227b",
-				"dweb:/ipfs/QmbNFvdG9cnJht3omTmbuiCATyW895mvPUrLrRbCfikfaQ"
+				"bzz-raw://04d4ee52be93a42e457abdf9847279d4f743de2a308620e0cd6c7423775af9c1",
+				"dweb:/ipfs/QmcfbB8X9PGMx1Ra9ZyHz7BFfDYjbdnvcDbK44kqXHvEum"
 			]
 		},
 		"hopium/etf/main/index-factory.sol": {
-			"keccak256": "0x5f2398d63b2cfac7ed02f6b61e5613cc18601d742a3759397572bea25d09e764",
+			"keccak256": "0xcc032dd9c59d2cd3cb8aad76a15b5cb1703c7ae84d0ddb02d5c2927cd462882b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://21dfe8599de973a6ab5d651230edf818562d32fa139b6732fd1fac5c8dc08b3d",
-				"dweb:/ipfs/QmaDv427cc5KaYLN9ziQpHMAa2oX6LS3zte3ikxPiWcuvK"
+				"bzz-raw://ec6a61b42a201a168457822736f80c43363663ef383a4150df96155cbb6ea542",
+				"dweb:/ipfs/QmP4rnogG7kyaFuu4DrZF9sxJq6zUyFQDZcWKNGJCQuzNX"
 			]
 		},
 		"hopium/etf/storage/index.sol": {

@@ -49,7 +49,8 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"deployEtfVault(uint256)": "b57c59a7"
+			"deployEtfVault(uint256)": "b57c59a7",
+			"getEtfVaultAddress(uint256)": "3ee79962"
 		}
 	},
 	"abi": [
@@ -70,6 +71,25 @@
 				}
 			],
 			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "indexId",
+					"type": "uint256"
+				}
+			],
+			"name": "getEtfVaultAddress",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		}
 	]

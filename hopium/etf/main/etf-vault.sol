@@ -10,16 +10,17 @@ interface IERC20 {
 }
 
 contract TransferHelpers {
+    error ZeroAmount();
+    error EthSendFailed();
 
     function _sendEth(address to, uint256 amount) internal {
-        require(amount > 0, "sendEth: zero amount");
-        require(address(this).balance >= amount, "sendEth: insufficient ETH");
+        if (amount == 0) revert ZeroAmount();
         (bool ok, ) = payable(to).call{value: amount}("");
-        require(ok, "ETH send failed");
+        if (!ok) revert EthSendFailed();
     }
 
     function _sendToken(address tokenAddress, address toAddress, uint256 amount) internal {
-        require(amount > 0, "sendToken: zero amount");
+        if (amount == 0) revert ZeroAmount();
         IERC20(tokenAddress).transfer(toAddress, amount);
     }
 
@@ -45,9 +46,10 @@ contract EtfVault is ImEtfRouter, TransferHelpers {
     /// @dev You can pass an existing Directory here; clones still call initialize().
     constructor(address _directory) ImDirectory(_directory) {}
 
+    error AlreadyInitialized();
     /// @notice One-time initializer for clones (constructors don't run for proxies)
     function initialize(address _directory) external {
-        require(!_initialized, "EtfVault: already initialized");
+         if (_initialized) revert AlreadyInitialized();
         _initialized = true;
 
         _setDirectory(_directory); // from ImDirectory (no modifier)

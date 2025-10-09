@@ -49,12 +49,17 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"emitTransferEvent(address,address,uint256)": "a6d49dca"
+			"emitTransferEvent(uint256,address,address,uint256)": "c082f03f"
 		}
 	},
 	"abi": [
 		{
 			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "indexId",
+					"type": "uint256"
+				},
 				{
 					"internalType": "address",
 					"name": "fromAddress",

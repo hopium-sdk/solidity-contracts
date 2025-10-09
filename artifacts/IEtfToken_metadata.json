@@ -26,6 +26,11 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "indexId_",
+						"type": "uint256"
+					},
+					{
 						"internalType": "string",
 						"name": "name_",
 						"type": "string"
@@ -93,11 +98,11 @@
 	},
 	"sources": {
 		"hopium/etf/interface/iEtfToken.sol": {
-			"keccak256": "0xa3591312dbc09a247fe0d00e72f9a5ec157509d629b6f44f12b125671fcb5171",
+			"keccak256": "0x4bf190ed008aae8ac1607437b5115c34166cf84f6557e8ad470f42b95c8572f6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c9c78bc62f2442b9074e45e7920c8baf134c6c6ab187c0cf4b6760dcbca1f402",
-				"dweb:/ipfs/QmaynfiUE6X7NTFw4MMr7pLfgmL2SCEJRqGMDbScPkxhRc"
+				"bzz-raw://e8be03a55396baa8098df3497d6a3b17a87a9434101bbb636a04d223801ac19a",
+				"dweb:/ipfs/QmNRME98Nei6kW4Tmrq9agiEiYWEf9c7jL2Ftnu3hw8L88"
 			]
 		}
 	},

@@ -82,6 +82,11 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "indexId",
+						"type": "uint256"
+					},
+					{
 						"internalType": "address",
 						"name": "fromAddress",
 						"type": "address"
@@ -143,7 +148,7 @@
 		"userdoc": {
 			"kind": "user",
 			"methods": {
-				"emitTransferEvent(address,address,uint256)": {
+				"emitTransferEvent(uint256,address,address,uint256)": {
 					"notice": "Emits a transfer event for ETF tokens"
 				}
 			},
@@ -174,14 +179,6 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
-		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x6283cc12219d5ee3b7f3a5452c20e99a9190472e2a8af881fadc1a7616832921",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://c999d4f2f9a4b949e84d56643667cee4e37c8ce2490d249efb3b2ff36041680e",
-				"dweb:/ipfs/QmfUjdmy4DvkqMoTyWHXtp8y4PYLZdP6ESBQkA1GyG3gxi"
-			]
-		},
 		"hopium/etf/interface/imIndexPriceOracle.sol": {
 			"keccak256": "0xc691bc85c2a507d96bca1a31dee86e3c1a43fe948fc51eb53ba8d83a1424846b",
 			"license": "MIT",
@@ -191,11 +188,11 @@
 			]
 		},
 		"hopium/etf/main/etf-token-events.sol": {
-			"keccak256": "0xfe56c735ab6c6d348c66593281ce628b5b55fe351e1d3d910cd80bd05b00ee76",
+			"keccak256": "0xf5a3eb8b4cb2c89d1e7638cdf3336ba905f5ef76b9937bd14ee955d9db16db97",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://79e54871580bcebb1dfcd8b3c379debeabfc96c85cf2e905029769978f479194",
-				"dweb:/ipfs/QmWZTYaNuWsmFs3jwDD21N1MBLUaX1UzNBBVQvGUydqVaw"
+				"bzz-raw://6b23cd7ef90244e507f127a0836a65ff5b437acf8462662365a927bb0a742cc3",
+				"dweb:/ipfs/QmdFWgVDYuKs2B3Vb1Nc3AbajgsNXVo3pVCTsuzQB6kF21"
 			]
 		},
 		"hopium/etf/storage/index.sol": {

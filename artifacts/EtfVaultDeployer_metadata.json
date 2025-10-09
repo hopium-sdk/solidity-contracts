@@ -58,6 +58,25 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "indexId",
+						"type": "uint256"
+					}
+				],
+				"name": "calcEtfVaultAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "_directory",
 						"type": "address"
@@ -107,6 +126,25 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "indexId",
+						"type": "uint256"
+					}
+				],
+				"name": "getEtfVaultAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "vaultAddr",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "owner",
 				"outputs": [
@@ -134,7 +172,11 @@
 				]
 			},
 			"kind": "dev",
-			"methods": {},
+			"methods": {
+				"getEtfVaultAddress(uint256)": {
+					"details": "Returns address(0) if it hasn't been deployed yet."
+				}
+			},
 			"version": 1
 		},
 		"userdoc": {
@@ -142,6 +184,9 @@
 			"methods": {
 				"deployEtfVault(uint256)": {
 					"notice": "Deploys a new EtfVault clone and initializes it with current Directory"
+				},
+				"getEtfVaultAddress(uint256)": {
+					"notice": "Predicts the ETF token address for given indexId."
 				}
 			},
 			"notice": "Factory that mints minimal-proxy clones of EtfVault (EIP-1167)",
@@ -205,19 +250,19 @@
 			]
 		},
 		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x113e7a55f043117f2fd334de4b88221f31f30045310aa99fe6b5db3d3bd13486",
+			"keccak256": "0x3820f2778c924824b1e6dfca430b0342c45f7f7af501369e4f59a4b11a077a54",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4a884bdaa7b3979d02ee6c57af2fc1cbbd31b302b66aacfcdf3f0724f007227b",
-				"dweb:/ipfs/QmbNFvdG9cnJht3omTmbuiCATyW895mvPUrLrRbCfikfaQ"
+				"bzz-raw://04d4ee52be93a42e457abdf9847279d4f743de2a308620e0cd6c7423775af9c1",
+				"dweb:/ipfs/QmcfbB8X9PGMx1Ra9ZyHz7BFfDYjbdnvcDbK44kqXHvEum"
 			]
 		},
 		"hopium/etf/main/etf-vault-deployer.sol": {
-			"keccak256": "0x8cff437714a15c2c0976b71a067f0d4011863af437369edaf78a2201a70d36e0",
+			"keccak256": "0xfe7cf9d191f068a21915d9c41b3b66fec972d571821af4807dff3dd24be88772",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ca55eac73cbefd65908a9eb2f034e2e3de3b63cd981fc4802eec7c6fbfb9475b",
-				"dweb:/ipfs/QmXvTj2iv7KS8S9qtmSWzL6edQgtrqUi6QRp65UjU2AU9R"
+				"bzz-raw://07ab32e996aafb054e8a5298f6ea0f59003531831ae6516abebb04048e86fc06",
+				"dweb:/ipfs/Qmcm12mkvNe9Bz2xRkcFTPFzoK2XENKLRnSpsjEmLbDXYy"
 			]
 		}
 	},

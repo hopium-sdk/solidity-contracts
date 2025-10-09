@@ -63,90 +63,11 @@
 				{
 					"indexed": false,
 					"internalType": "uint256",
-					"name": "amountWeth",
+					"name": "amountEth",
 					"type": "uint256"
 				}
 			],
 			"name": "FeePaid",
-			"type": "event"
-		},
-		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": true,
-					"internalType": "address",
-					"name": "caller",
-					"type": "address"
-				},
-				{
-					"components": [
-						{
-							"internalType": "address",
-							"name": "tokenAddress",
-							"type": "address"
-						},
-						{
-							"internalType": "uint256",
-							"name": "amount",
-							"type": "uint256"
-						}
-					],
-					"indexed": false,
-					"internalType": "struct SwapOrderInput[]",
-					"name": "inputs",
-					"type": "tuple[]"
-				},
-				{
-					"components": [
-						{
-							"internalType": "address",
-							"name": "tokenAddress",
-							"type": "address"
-						},
-						{
-							"internalType": "uint16",
-							"name": "weightBips",
-							"type": "uint16"
-						}
-					],
-					"indexed": false,
-					"internalType": "struct SwapOrderOutput[]",
-					"name": "outputs",
-					"type": "tuple[]"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "slippageBips",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "deadlineInSec",
-					"type": "uint256"
-				},
-				{
-					"components": [
-						{
-							"internalType": "address",
-							"name": "feeAddress",
-							"type": "address"
-						},
-						{
-							"internalType": "uint16",
-							"name": "feeBips",
-							"type": "uint16"
-						}
-					],
-					"indexed": false,
-					"internalType": "struct SwapFee[]",
-					"name": "fees",
-					"type": "tuple[]"
-				}
-			],
-			"name": "Swapped",
 			"type": "event"
 		}
 	]

@@ -1,62 +1,96 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.30;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "hopium/common/utils/ierc20.sol";
 
 abstract contract TransferHelpers {
-    using SafeERC20 for IERC20;
+    /* ----------------------------- Custom Errors ----------------------------- */
+    error ZeroAmount();
+    error InsufficientETH();
+    error ETHSendFailed();
+    error AllowanceTooLow();
+    error NothingReceived();
+
+    /* ----------------------------- Internal Helpers -------------------------- */
+
+    function _safeTransfer(
+        address token,
+        address to,
+        uint256 value
+    ) internal {
+        (bool success, bytes memory data) =
+            token.call(abi.encodeWithSelector(IERC20.transfer.selector, to, value));
+        require(success && (data.length == 0 || abi.decode(data, (bool))), "TRANSFER_FAILED");
+    }
+
+    function _safeTransferFrom(
+        address token,
+        address from,
+        address to,
+        uint256 value
+    ) internal {
+        (bool success, bytes memory data) =
+            token.call(abi.encodeWithSelector(IERC20.transferFrom.selector, from, to, value));
+        require(success && (data.length == 0 || abi.decode(data, (bool))), "TRANSFER_FROM_FAILED");
+    }
+
+    function _safeApprove(address token, address spender, uint256 value) internal {
+        (bool success, bytes memory data) =
+            token.call(abi.encodeWithSelector(IERC20.approve.selector, spender, value));
+        require(success && (data.length == 0 || abi.decode(data, (bool))), "APPROVE_FAILED");
+    }
+
+    /* ------------------------------- ETH helpers ----------------------------- */
 
     function _sendEth(address to, uint256 amount) internal {
-        require(amount > 0, "sendEth: zero amount");
-        require(address(this).balance >= amount, "sendEth: insufficient ETH");
+        if (amount == 0) revert ZeroAmount();
+        if (address(this).balance < amount) revert InsufficientETH();
 
         (bool ok, ) = payable(to).call{value: amount}("");
-        require(ok, "ETH send failed");
+        if (!ok) revert ETHSendFailed();
     }
 
-    function _sendToken(address tokenAddress, address toAddress, uint256 amount) internal {
-        IERC20 token = IERC20(tokenAddress);
-        require(amount > 0, "sendToken: zero amount");
+    /* ------------------------------ Token helpers ---------------------------- */
 
-        token.safeTransfer(toAddress, amount);
+    function _sendToken(address token, address to, uint256 amount) internal {
+        if (amount == 0) revert ZeroAmount();
+        _safeTransfer(token, to, amount);
     }
 
-    function _receiveToken(address tokenAddress, uint256 amount, address fromAddress) internal returns (uint256) {
-        IERC20 token = IERC20(tokenAddress);
-        require(amount > 0, "receiveToken: zero amount");
-        require(token.allowance(fromAddress, address(this)) >= amount, "receiveToken: allowance is less than amount");
+    function _receiveToken(address token, uint256 amount, address from) internal returns (uint256 received) {
+        if (amount == 0) revert ZeroAmount();
 
-        uint256 balBefore = token.balanceOf(address(this));
-        token.safeTransferFrom(fromAddress, address(this), amount);
-        uint256 balAfter = token.balanceOf(address(this));
+        uint256 currentAllowance = IERC20(token).allowance(from, address(this));
+        if (currentAllowance < amount) revert AllowanceTooLow();
 
-        uint256 received = balAfter - balBefore;
-        require(received > 0, "receiveToken: nothing received");
+        uint256 balBefore = IERC20(token).balanceOf(address(this));
+        _safeTransferFrom(token, from, address(this), amount);
+        uint256 balAfter = IERC20(token).balanceOf(address(this));
 
-        return received;
+        unchecked {
+            received = balAfter - balBefore;
+        }
+        if (received == 0) revert NothingReceived();
     }
 
-    function _approveMaxIfNeeded(address tokenAddress, address spender, uint256 amount) internal {
-        IERC20 token = IERC20(tokenAddress);
-        uint256 current = token.allowance(address(this), spender);
+    function _approveMaxIfNeeded(address token, address spender, uint256 amount) internal {
+        uint256 current = IERC20(token).allowance(address(this), spender);
         if (current < amount) {
-            if (current != 0) {
-                token.approve(spender, 0);
-            }
-            token.approve(spender, type(uint256).max);
+            if (current != 0) _safeApprove(token, spender, 0);
+            _safeApprove(token, spender, type(uint256).max);
         }
     }
 
-    function _sendEthOrToken(address tokenAddress, address toAddress) internal {
-        if(tokenAddress == address(0)) {
-            _sendEth(toAddress, address(this).balance);
+    function _sendEthOrToken(address token, address to) internal {
+        if (token == address(0)) {
+            _sendEth(to, address(this).balance);
         } else {
-            _sendToken(tokenAddress, toAddress, IERC20(tokenAddress).balanceOf(address(this)));
+            uint256 bal = IERC20(token).balanceOf(address(this));
+            if (bal > 0) _safeTransfer(token, to, bal);
         }
     }
 
-    function _recoverAsset(address tokenAddress, address toAddress) internal {
-        _sendEthOrToken(tokenAddress, toAddress);
+    function _recoverAsset(address token, address to) internal {
+        _sendEthOrToken(token, to);
     }
 }

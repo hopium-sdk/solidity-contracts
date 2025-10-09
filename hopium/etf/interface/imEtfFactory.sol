@@ -4,11 +4,8 @@ pragma solidity 0.8.30;
 import "hopium/common/interface/imDirectory.sol";
 
 interface IEtfFactory {
-    function getEtfTokenAddress(uint256 indexId) external view returns (address);
-    function getEtfVaultAddress(uint256 indexId) external view returns (address);
     function getEtfNavWeth(uint256 indexId) external view returns (uint256 nav);
-    function getIndexIdFromEtfTokenAddress(address etfTokenAddress) external view returns (uint256);
-    function updateEtfVolume(uint256 indexId, uint256 tradeWethValue) external;
+    function emitEtfVolumeEvent(uint256 indexId, uint256 ethAmount) external;
 }
 
 abstract contract ImEtfFactory is ImDirectory {

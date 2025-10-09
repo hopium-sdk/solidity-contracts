@@ -57,6 +57,31 @@
 	},
 	"abi": [
 		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "indexId",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "amountWeth",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "amountUsd",
+					"type": "uint256"
+				}
+			],
+			"name": "EtfVolumeUpdated",
+			"type": "event"
+		},
+		{
 			"inputs": [],
 			"name": "Directory",
 			"outputs": [

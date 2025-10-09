@@ -8,19 +8,6 @@ import "hopium/common/utils/id-idx.sol";
 import "hopium/etf/interface/imEtfFactory.sol";
 import "hopium/common/interface/imActive.sol";
 
-/// @notice Custom, low-gas errors (replace revert strings)
-error EmptyTicker();
-error TickerExists();
-error NoHoldings();
-error ZeroToken();
-error ZeroWeight();
-error OverWeight();
-error NotHundred();
-error DuplicateToken();
-error IndexExists();
-error InvalidId();
-error UnknownTicker();
-
 /// @notice Storage keeps created indexes and mapping tables
 abstract contract Storage {
     Index[] internal createdIndexes;
@@ -69,6 +56,8 @@ abstract contract Utils is IdIdxUtils {
 
 /// @notice Validation + helpers fused for fewer passes & less memory churn
 abstract contract ValidationHelpers is Storage, Utils {
+    error EmptyTicker();
+    error TickerExists();
     /// @dev ensure ticker is non-empty and globally unique (by bytes32 hash)
     function _validateTicker(string calldata ticker) internal view returns (bytes32 tickerHash) {
         if (bytes(ticker).length == 0) revert EmptyTicker();
@@ -76,6 +65,12 @@ abstract contract ValidationHelpers is Storage, Utils {
         if (indexTickerHashToId[tickerHash] != 0) revert TickerExists();
     }
 
+    error NoHoldings();
+    error ZeroToken();
+    error ZeroWeight();
+    error OverWeight();
+    error NotHundred();
+    error DuplicateToken();
     /// @dev copy->sort once; validate weights/duplicates in a single linear pass
     function _validateAndSort(Holding[] calldata holdings)
         internal
@@ -115,6 +110,7 @@ abstract contract ValidationHelpers is Storage, Utils {
         if (sum != HUNDRED_PERCENT_BIPS) revert NotHundred();
     }
 
+    error IndexExists();
     /// @dev ensure the set (by canonical hash) hasn't been used yet
     function _validateIndexHashUnique(Holding[] memory sorted) internal view returns (bytes32 indexHash) {
         indexHash = _computeIndexHashSorted(sorted);
@@ -159,11 +155,13 @@ contract IndexFactory is ImDirectory, ValidationHelpers, ImEtfFactory, ImActive 
         return createdIndexes.length;
     }
 
+    error InvalidId();
     function getIndexById(uint256 indexId) external view returns (Index memory) {
         if (indexId == 0 || indexId > createdIndexes.length) revert InvalidId();
         return createdIndexes[_idToIdx(indexId)];
     }
 
+    error UnknownTicker();
     function getIndexByTicker(string calldata ticker) external view returns (Index memory) {
         bytes32 tHash = _tickerKey(ticker);
         uint256 indexId = indexTickerHashToId[tHash];

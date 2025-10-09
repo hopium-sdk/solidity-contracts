@@ -15,7 +15,7 @@ contract Directory is Ownable {
 
     function updateDirectory(KeyValue[] memory _keyValue) public onlyOwner {
         for (uint256 i = 0; i < _keyValue.length; i++) {
-                directory[_keyValue[i].key] = _keyValue[i].value;
+            directory[_keyValue[i].key] = _keyValue[i].value;
         }
     }
 

@@ -33,6 +33,25 @@
 				],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "indexId",
+						"type": "uint256"
+					}
+				],
+				"name": "getEtfTokenAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -71,11 +90,11 @@
 			]
 		},
 		"hopium/etf/interface/imEtfTokenDeployer.sol": {
-			"keccak256": "0xd9a347b8d4bba0303eab9bcc18f499f99628781c31648be834fb4306e718bf6f",
+			"keccak256": "0x0b513a5c51c2a351fcb3f983dce598278c5c8c1255cbed64bcb5bae12b001d7e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://599190f700caf03ed2d268652caaa479e905d5e88090072f70b34c2ddafd167c",
-				"dweb:/ipfs/QmWC4NRfES4tGwSTjq2cSoEmKGVv2yzfDYpSwuMbDrXpyx"
+				"bzz-raw://4dd397ee20cf2a88c2dbde288aafbe5f93375564ded5cb6af6edd8df31ec593f",
+				"dweb:/ipfs/QmTuy1CYmXzqs9YtTVeBRvSi2YgLDCixxcsjr2U1j9j9an"
 			]
 		}
 	},

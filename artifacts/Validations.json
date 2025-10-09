@@ -49,10 +49,62 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
+			"FACTORY_ADDR()": "b13e6196",
+			"WETH_ADDR()": "82dfc5f7",
 			"router()": "f887ea40"
 		}
 	},
 	"abi": [
+		{
+			"inputs": [],
+			"name": "AllowanceTooLow",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "BadTokenAmount",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "ETHSendFailed",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "InsufficientETH",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "InsufficientWeth",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "MsgValueMismatch",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "NothingReceived",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "OnlyThis",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "QuoteUnavailable",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "ZeroAmount",
+			"type": "error"
+		},
 		{
 			"anonymous": false,
 			"inputs": [
@@ -65,7 +117,7 @@
 				{
 					"indexed": false,
 					"internalType": "uint256",
-					"name": "amountWeth",
+					"name": "amountEth",
 					"type": "uint256"
 				}
 			],
@@ -73,83 +125,30 @@
 			"type": "event"
 		},
 		{
-			"anonymous": false,
-			"inputs": [
+			"inputs": [],
+			"name": "FACTORY_ADDR",
+			"outputs": [
 				{
-					"indexed": true,
 					"internalType": "address",
-					"name": "caller",
+					"name": "",
 					"type": "address"
-				},
-				{
-					"components": [
-						{
-							"internalType": "address",
-							"name": "tokenAddress",
-							"type": "address"
-						},
-						{
-							"internalType": "uint256",
-							"name": "amount",
-							"type": "uint256"
-						}
-					],
-					"indexed": false,
-					"internalType": "struct SwapOrderInput[]",
-					"name": "inputs",
-					"type": "tuple[]"
-				},
-				{
-					"components": [
-						{
-							"internalType": "address",
-							"name": "tokenAddress",
-							"type": "address"
-						},
-						{
-							"internalType": "uint16",
-							"name": "weightBips",
-							"type": "uint16"
-						}
-					],
-					"indexed": false,
-					"internalType": "struct SwapOrderOutput[]",
-					"name": "outputs",
-					"type": "tuple[]"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "slippageBips",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "deadlineInSec",
-					"type": "uint256"
-				},
-				{
-					"components": [
-						{
-							"internalType": "address",
-							"name": "feeAddress",
-							"type": "address"
-						},
-						{
-							"internalType": "uint16",
-							"name": "feeBips",
-							"type": "uint16"
-						}
-					],
-					"indexed": false,
-					"internalType": "struct SwapFee[]",
-					"name": "fees",
-					"type": "tuple[]"
 				}
 			],
-			"name": "Swapped",
-			"type": "event"
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "WETH_ADDR",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
 		},
 		{
 			"inputs": [],

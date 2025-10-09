@@ -195,11 +195,11 @@
 			]
 		},
 		"hopium/common/main/directory.sol": {
-			"keccak256": "0x473fa0bf782d15f4e75c348fd59c8ee84e39e75d5ef0fcd9129053fae305657e",
+			"keccak256": "0x7c7e4d9884eb5e6b2759ca33cb5b3c8c625c46a91a0171fce378bf8109c02162",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7226f765f9e5549ea4a2b824b26dd6d6c9b5712adf5ad6184aacb22d7f702468",
-				"dweb:/ipfs/QmZbHSp9AQdwgE9y2MKqAX3dwv121zZGpamUjRLTSWuHru"
+				"bzz-raw://ca9bd99af09b16444b4048c3f1020856564e4c1ac5663beeddc29237c97240ae",
+				"dweb:/ipfs/QmYfnBevn2kSgE7NcEXZQVZropUgtKeaXHT4gRyq6hSp4s"
 			]
 		}
 	},

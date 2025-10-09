@@ -28,6 +28,16 @@
 			},
 			{
 				"inputs": [],
+				"name": "PairDoesNotContainBase",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "PairDoesNotExist",
+				"type": "error"
+			},
+			{
+				"inputs": [],
 				"name": "UNISWAP_V2_FACTORY_ADDRESS",
 				"outputs": [
 					{
@@ -47,6 +57,19 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "WETH_DECIMALS",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
 					}
 				],
 				"stateMutability": "view",
@@ -220,20 +243,26 @@
 		"userdoc": {
 			"kind": "user",
 			"methods": {
+				"getTokenLiquidityUsd(address)": {
+					"notice": "Total pool liquidity in USD for the TOKEN–WETH pair (scaled 1e18)."
+				},
+				"getTokenLiquidityWeth(address)": {
+					"notice": "Total pool liquidity in WETH for the TOKEN–WETH pair (scaled 1e18). If TOKEN is WETH, returns WETH totalSupply (scaled to 1e18)."
+				},
 				"getTokenMarketCapUsd(address)": {
-					"notice": "Returns market cap in USD for TOKEN (scaled 1e18)."
+					"notice": "Market cap in USD for TOKEN (scaled 1e18)."
 				},
 				"getTokenMarketCapWeth(address)": {
-					"notice": "Returns market cap in WETH for TOKEN (scaled 1e18): totalSupply * (WETH per 1 TOKEN). If TOKEN is WETH, this is simply WETH totalSupply (scaled to 1e18)."
+					"notice": "Market cap in WETH for TOKEN (scaled 1e18): totalSupply * (WETH per 1 TOKEN). If TOKEN is WETH, this is simply WETH totalSupply (scaled 1e18)."
 				},
 				"getTokenUsdPrice(address)": {
-					"notice": "Returns USD price of 1 TOKEN (scaled 1e18)"
+					"notice": "USD price of 1 TOKEN (scaled 1e18)."
 				},
 				"getTokenWethPrice(address)": {
-					"notice": "Returns WETH per 1 QUOTE (scaled 1e18) for an arbitrary WETH-QUOTE pair. If QUOTE is WETH, returns 1e18."
+					"notice": "WETH per 1 TOKEN (scaled 1e18) for an arbitrary TOKEN–WETH pair. If TOKEN is WETH, returns 1e18."
 				},
 				"getWethUsdPrice()": {
-					"notice": "Returns USD per 1 WETH (scaled 1e18) using the stored WETH/USD pair."
+					"notice": "USD per 1 WETH (scaled 1e18) using the stored WETH/USD pair."
 				}
 			},
 			"version": 1
@@ -255,28 +284,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
-			"keccak256": "0x74ed01eb66b923d0d0cfe3be84604ac04b76482a55f9dd655e1ef4d367f95bc2",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://5282825a626cfe924e504274b864a652b0023591fa66f06a067b25b51ba9b303",
-				"dweb:/ipfs/QmeCfPykghhMc81VJTrHTC7sF6CRvaA1FXVq2pJhwYp1dV"
-			]
-		},
-		"@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
-			"keccak256": "0xd6fa4088198f04eef10c5bce8a2f4d60554b7ec4b987f684393c01bf79b94d9f",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://f95ee0bbd4dd3ac730d066ba3e785ded4565e890dbec2fa7d3b9fe3bad9d0d6e",
-				"dweb:/ipfs/QmSLr6bHkPFWT7ntj34jmwfyskpwo97T9jZUrk5sz3sdtR"
-			]
-		},
 		"hopium/standalone/main/price-oracle.sol": {
-			"keccak256": "0x1564b3b24dad751537d321b2dfea4e7fa616e79d604d2e8bbbdb262772240107",
+			"keccak256": "0x025937e2db17879abde9b068e4dab69822ef9ccfca0602c33ac91cd362bf5d1c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3ecaf0a7af244293fbcc98261f88f3bc675e5b5cddf85aecf8ac61644e25c9f4",
-				"dweb:/ipfs/QmYA9aQ35nsP7ShddTYn7SdxVwiJhGQKj3wb7TjPf38Udc"
+				"bzz-raw://82c711f92e36ceeb8ebdeab28f4edf9f9aee060294c1e0f3d3f001dc52f8354f",
+				"dweb:/ipfs/QmTde5RFP8mRqCmytq4hahd8BsQwuh1R3WiAc47Dy7sNp3"
 			]
 		}
 	},

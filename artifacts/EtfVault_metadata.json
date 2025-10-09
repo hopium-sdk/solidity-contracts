@@ -18,6 +18,21 @@
 			},
 			{
 				"inputs": [],
+				"name": "AlreadyInitialized",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "EthSendFailed",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ZeroAmount",
+				"type": "error"
+			},
+			{
+				"inputs": [],
 				"name": "Directory",
 				"outputs": [
 					{
@@ -196,11 +211,11 @@
 			]
 		},
 		"hopium/etf/main/etf-vault.sol": {
-			"keccak256": "0x016c7ae9f24cca1471709fa3de555ea4a5090de672f05806ef17b06aff3e55c4",
+			"keccak256": "0xc660f5b335af9df35e2ad156364449fc83fe86d7d489cc0f756d866b235c9a1e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f7e366b6adfe049eab5629f53e6d0bae2e7db8e97c95cb09fca2de4a07a28609",
-				"dweb:/ipfs/QmSPTcqx3pACKpyRVXing9vmwqCUHTPX2Zv4HiWV9pLvki"
+				"bzz-raw://f6b00327d3022a9575ae67659f90ca3331beec274a06dea34840b302200bfe5c",
+				"dweb:/ipfs/QmRKFLquyBnL4KKFjpWGjm3wSV5CJN4QV3Nepar9uyH3bG"
 			]
 		}
 	},

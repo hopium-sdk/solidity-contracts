@@ -1,0 +1,72 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "decimals",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "totalSupply",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/standalone/main/price-oracle.sol": "IERC20Metadata"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/standalone/main/price-oracle.sol": {
+			"keccak256": "0x025937e2db17879abde9b068e4dab69822ef9ccfca0602c33ac91cd362bf5d1c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://82c711f92e36ceeb8ebdeab28f4edf9f9aee060294c1e0f3d3f001dc52f8354f",
+				"dweb:/ipfs/QmTde5RFP8mRqCmytq4hahd8BsQwuh1R3WiAc47Dy7sNp3"
+			]
+		}
+	},
+	"version": 1
+}

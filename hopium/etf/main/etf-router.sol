@@ -5,7 +5,6 @@ import "hopium/common/interface/imDirectory.sol";
 import "hopium/etf/interface/imEtfFactory.sol";
 import "hopium/etf/interface/imIndexFactory.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "hopium/multiswap/interface/imMultiSwapRouter.sol";
 import "hopium/etf/interface/imIndexPriceOracle.sol";
 import "hopium/etf/interface/iEtfToken.sol";
@@ -13,117 +12,128 @@ import "hopium/common/storage/bips.sol";
 import "hopium/etf/interface/iEtfVault.sol";
 import "hopium/common/utils/transfer-helpers.sol";
 import "hopium/common/interface/imActive.sol";
+import "hopium/etf/utils/etf-addresses-helpers.sol";
+
+uint256 constant WAD = 1e18;
+
+// -------- Custom errors (cheaper than revert strings) --------
+error ZeroMsgValue();
+error ZeroReceiver();
 
 abstract contract Storage {
+    // packed-friendly size; keep as-is for behavior, but easy to co-pack later if desired
     uint16 public platformFee = 25;
+
+    event EtfTokensMinted(uint256 indexId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
+    event EtfTokensRedeemed(uint256 indexId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
 }
 
-abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle, TransferHelpers, Storage {
-    
-    function _zeroSwapFees() internal pure returns (SwapFee[] memory) {
-        return new SwapFee[](0);
-    }
+abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle, TransferHelpers, Storage, EtfAddressesHelpers {
 
+    // Swap ETH into the index's component tokens and deliver directly to the vault
     function _swapEthToVaultTokens(Index memory index, uint256 ethAmount, address receiver, uint256 slippageBips, uint256 deadlineInSec) internal {
         SwapOrderInput[] memory inputs = new SwapOrderInput[](1);
         inputs[0] = SwapOrderInput({ tokenAddress: address(0), amount: ethAmount });
 
-        SwapOrderOutput[] memory outputs = new SwapOrderOutput[](index.holdings.length);
-        for (uint256 i = 0; i < index.holdings.length; i++) {
+        uint256 len = index.holdings.length;
+        SwapOrderOutput[] memory outputs = new SwapOrderOutput[](len);
+        for (uint256 i; i < len; ) {
             outputs[i] = SwapOrderOutput({
                 tokenAddress: index.holdings[i].tokenAddress,
                 weightBips: index.holdings[i].weightBips
             });
+            unchecked { ++i; }
         }
 
-        getMultiSwapRouter().swap{value: ethAmount}(inputs, outputs, receiver, slippageBips, deadlineInSec, _zeroSwapFees());
+        // inline zero-fees array to avoid a helper call
+        getMultiSwapRouter().swap{value: ethAmount}(inputs, outputs, receiver, slippageBips, deadlineInSec, new SwapFee[](0));
     }
 
+    error NothingToWithdraw();
+    // Redeem a proportional slice of vault holdings into ETH and send to `receiver`
     function _swapVaultTokensToEth(Index memory index, uint256 etfTokenAmount, uint256 etfTokenTotalSupplyBefore, address etfVaultAddress, address receiver, uint256 slippageBips, uint256 deadlineInSec) internal {
-        // Figure how many nonzero inputs we will have
-        uint256 nonZeroCount = 0;
-        for (uint256 i = 0; i < index.holdings.length; i++) {
-            address token = index.holdings[i].tokenAddress;
-            uint256 bal = IERC20(token).balanceOf(etfVaultAddress);
-            uint256 withdrawAmount = (bal * etfTokenAmount) / etfTokenTotalSupplyBefore;
-            if (withdrawAmount > 0) nonZeroCount++;
+        uint256 len = index.holdings.length;
+
+        // Read each balance once, compute withdraws once
+        uint256[] memory withdraws = new uint256[](len);
+        uint256 nonZeroCount;
+        for (uint256 i; i < len; ) {
+            address t = index.holdings[i].tokenAddress;
+            uint256 bal = IERC20(t).balanceOf(etfVaultAddress);
+            uint256 w = (bal * etfTokenAmount) / etfTokenTotalSupplyBefore;
+            withdraws[i] = w;
+            if (w != 0) nonZeroCount++;
+            unchecked { ++i; }
         }
 
-        require(nonZeroCount > 0, "EtfRouter: nothing to withdraw");
+        if (nonZeroCount == 0) revert NothingToWithdraw();
 
-        // Build inputs after pulling tokens here
+        // Build inputs and pull tokens (single router addr var; no IMultiSwapRouter local)
         SwapOrderInput[] memory inputs = new SwapOrderInput[](nonZeroCount);
-        uint256 k = 0;
+        address routerAddr = address(getMultiSwapRouter());
 
-        for (uint256 i = 0; i < index.holdings.length; i++) {
-            address tokenAddress = index.holdings[i].tokenAddress;
-            uint256 bal = IERC20(tokenAddress).balanceOf(etfVaultAddress);
-            if (bal == 0) continue;
+        uint256 k;
+        for (uint256 i; i < len; ) {
+            uint256 w = withdraws[i];
+            if (w != 0) {
+                address t = index.holdings[i].tokenAddress;
 
-            uint256 withdrawAmount = (bal * etfTokenAmount) / etfTokenTotalSupplyBefore;
-            if (withdrawAmount == 0) continue;
+                IEtfVault(etfVaultAddress).redeem(t, w, address(this));
+                _approveMaxIfNeeded(t, routerAddr, w);
 
-            // Ask vault to transfer tokens here
-            IEtfVault(etfVaultAddress).redeem(tokenAddress, withdrawAmount, address(this));
-
-            // Approve router to pull
-            _approveMaxIfNeeded(tokenAddress, address(getMultiSwapRouter()), withdrawAmount);
-
-            inputs[k++] = SwapOrderInput({ tokenAddress: tokenAddress, amount: withdrawAmount });
+                inputs[k++] = SwapOrderInput({ tokenAddress: t, amount: w });
+            }
+            unchecked { ++i; }
         }
 
+        // Build outputs and swap to WETH
         SwapOrderOutput[] memory outputs = new SwapOrderOutput[](1);
-        outputs[0] = SwapOrderOutput({ tokenAddress: address(0), weightBips: uint16(HUNDRED_PERCENT_BIPS) });
+        outputs[0] = SwapOrderOutput({
+            tokenAddress: address(0),
+            weightBips: uint16(HUNDRED_PERCENT_BIPS)
+        });
 
-        getMultiSwapRouter().swap(inputs, outputs, receiver, slippageBips, deadlineInSec, _zeroSwapFees());
+        IMultiSwapRouter(routerAddr).swap(inputs, outputs, receiver, slippageBips, deadlineInSec, new SwapFee[](0));
     }
 
+    error ZeroIndexPrice();
+    error ZeroNav();
+    // Mint ETF tokens at fair price given incoming WETH amount
     function _mintEtfTokens(uint256 indexId, uint256 wethAmount, address etfTokenAddress, address receiver) internal returns (uint256) {
-
-        uint256 etfTokenSupply = IERC20(etfTokenAddress).totalSupply();
+        uint256 supply = IERC20(etfTokenAddress).totalSupply();
         uint256 navWethBefore = getEtfFactory().getEtfNavWeth(indexId);
 
         uint256 mintAmount;
-        // Mint shares at fair price:
-        if (etfTokenSupply == 0) {
+        if (supply == 0) {
             // Bootstrap to index price
             uint256 p = getIndexPriceOracle().getIndexWethPrice(indexId); // WETH per 1e18-share
-            require(p > 0, "EtfRouter: index price is zero");
-            mintAmount = (wethAmount * 1e18) / p;
+            if (p == 0) revert ZeroIndexPrice();
+            mintAmount = (wethAmount * WAD) / p;
         } else {
+            if (navWethBefore == 0) revert ZeroNav();
             // shares = ethIn * supply / navBefore
-            require(navWethBefore > 0, "EtfRouter: NAV is zero");
-            mintAmount = (wethAmount * etfTokenSupply) / navWethBefore;
+            mintAmount = (wethAmount * supply) / navWethBefore;
         }
 
         IEtfToken(etfTokenAddress).mint(receiver, mintAmount);
-
         return mintAmount;
     }
 
-    function _resolveTokenAndVault(uint256 indexId) internal view returns (address, address) {
-        address etfTokenAddress = getEtfFactory().getEtfTokenAddress(indexId);
-        address etfVaultAddress = getEtfFactory().getEtfVaultAddress(indexId);
-        require(etfTokenAddress != address(0), "EtfRouter: etfTokenAddress not deployed");
-        require(etfVaultAddress != address(0), "EtfRouter: etfVaultAddress not deployed");
-
-        return (etfTokenAddress, etfVaultAddress);
-    }
-
-    function _getPlatformVault() internal view returns (address) {
-        return fetchFromDirectory("vault");
+    function _resolveTokenAndVault(uint256 indexId) internal view returns (address etfTokenAddress, address etfVaultAddress) {
+        etfTokenAddress = _getEtfTokenAddress(indexId);
+        etfVaultAddress = _getEtfVaultAddress(indexId);
+        if (etfTokenAddress == address(0)) revert ZeroReceiver(); // reuse small error to save bytecode (semantically: missing address)
+        if (etfVaultAddress == address(0)) revert ZeroReceiver();
     }
 
     function _transferPlatformFee(uint256 amount) internal returns (uint256 netAmount) {
-        address vault = _getPlatformVault();
-        // If no vault set or fee is zero, nothing to do
-        if (vault == address(0) || platformFee == 0) {
-            return amount;
-        }
+        address vault = fetchFromDirectory("vault");
+        uint16 feeBips = platformFee;
 
-        // platformFee is in bips (e.g., 50 = 0.50%)
-        uint256 fee = (amount * uint256(platformFee)) / uint256(HUNDRED_PERCENT_BIPS);
-        if (fee > 0) {
+        if (vault == address(0) || feeBips == 0) return amount;
+
+        uint256 fee = (amount * uint256(feeBips)) / uint256(HUNDRED_PERCENT_BIPS);
+        if (fee != 0) {
             _sendEth(vault, fee);
             return amount - fee;
         }
@@ -131,70 +141,70 @@ abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle
     }
 }
 
-contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImActive  {
+contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImActive {
     constructor(address _directory) ImDirectory(_directory) {}
 
-    event EtfTokensMinted(uint256 indexId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
-    event EtfTokensRedeemed(uint256 indexId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
-
-    //Mints tokens from Eth
-    function mintEtfTokens(uint256 indexId, address receiver, uint256 slippageBips, uint256 deadlineInSec) external payable nonReentrant onlyActive  {
-        require(msg.value > 0, "EtfRouter: Msg value cannot be zero");
-        require(receiver != address(0), "EtfRouter: Receiver cannot be zero address");
+    // -------- Mint from ETH --------
+    function mintEtfTokens(uint256 indexId, address receiver, uint256 slippageBips, uint256 deadlineInSec) external payable nonReentrant onlyActive {
+        if (msg.value == 0) revert ZeroMsgValue();
+        if (receiver == address(0)) revert ZeroReceiver();
 
         Index memory index = getIndexFactory().getIndexById(indexId);
         (address etfTokenAddress, address etfVaultAddress) = _resolveTokenAndVault(indexId);
 
         uint256 ethAmount = _transferPlatformFee(msg.value);
 
-        // Swap eth to vault tokens and send to vault
+        // Swap ETH -> component tokens to the vault
         _swapEthToVaultTokens(index, ethAmount, etfVaultAddress, slippageBips, deadlineInSec);
 
-        // Mint Etf tokens to receiver
+        // Mint ETF tokens
         uint256 etfTokenAmount = _mintEtfTokens(indexId, ethAmount, etfTokenAddress, receiver);
 
-        // Update Etf Volume in Etf factory
-        getEtfFactory().updateEtfVolume(indexId, ethAmount);
+        // Emit volume event on etf factory
+        getEtfFactory().emitEtfVolumeEvent(indexId, ethAmount);
 
         emit EtfTokensMinted(indexId, msg.sender, receiver, etfTokenAmount, ethAmount);
     }
 
-    //Redeems tokens to Eth
+    error SupplyZero();
+    error RedeemTooLarge();
+    // -------- Redeem to ETH --------
     function redeemEtfTokens(uint256 indexId, uint256 etfTokenAmount, address payable receiver, uint256 slippageBips, uint256 deadlineInSec) external nonReentrant onlyActive {
-        require(etfTokenAmount > 0, "EtfRouter: tokens to redeem should not be zero");
-        require(receiver != address(0), "EtfRouter: receiver should not be zero address");
+        if (etfTokenAmount == 0) revert ZeroMsgValue();
+        if (receiver == address(0)) revert ZeroReceiver();
 
         Index memory index = getIndexFactory().getIndexById(indexId);
         (address etfTokenAddress, address etfVaultAddress) = _resolveTokenAndVault(indexId);
 
         // Snapshot total supply before burn
-        uint256 etfTokenTotalSupplyBefore = IERC20(etfTokenAddress).totalSupply();
-        require(etfTokenTotalSupplyBefore > 0, "EtfRouter: token supply is zero");
-        require(etfTokenAmount <= etfTokenTotalSupplyBefore, "EtfRouter: redeemTokenAmount is greater than total supply");
+        uint256 supplyBefore = IERC20(etfTokenAddress).totalSupply();
+        if (supplyBefore == 0) revert SupplyZero();
+        if (etfTokenAmount > supplyBefore) revert RedeemTooLarge();
 
-        // Burn caller's Etf tokens
-        IEtfToken(etfTokenAddress).burn(msg.sender, etfTokenAmount);        
+        // Burn caller's ETF tokens
+        IEtfToken(etfTokenAddress).burn(msg.sender, etfTokenAmount);
 
-        // Swap vault tokens to eth and receive here
+        // Swap vault tokens -> ETH to this router
         uint256 ethBalBefore = address(this).balance;
-        _swapVaultTokensToEth(index, etfTokenAmount, etfTokenTotalSupplyBefore, etfVaultAddress, address(this), slippageBips, deadlineInSec);
+        _swapVaultTokensToEth(index, etfTokenAmount, supplyBefore, etfVaultAddress, address(this), slippageBips, deadlineInSec);
         uint256 ethBalAfter = address(this).balance;
 
         uint256 deltaBal = ethBalAfter - ethBalBefore;
-        require(deltaBal > 0, "Received eth Amount cannot be zero");
-        uint256 ethAmount = _transferPlatformFee(deltaBal);
+        if (deltaBal == 0) revert ZeroMsgValue();
 
-        // Send eth to receiver
+        // Platform fee (if any), then send ETH to receiver
+        uint256 ethAmount = _transferPlatformFee(deltaBal);
         _sendEth(receiver, ethAmount);
 
-        // Update Etf Volume in Etf factory
-        getEtfFactory().updateEtfVolume(indexId, ethAmount);
+        // Emit volume event on etf factory
+        getEtfFactory().emitEtfVolumeEvent(indexId, ethAmount);
 
         emit EtfTokensRedeemed(indexId, msg.sender, receiver, etfTokenAmount, ethAmount);
     }
 
+    error FeeTooLarge();
     function changePlatformFee(uint16 newFee) public onlyOwner onlyActive {
-        require(newFee <= HUNDRED_PERCENT_BIPS, "fee too large");
+        if (newFee > HUNDRED_PERCENT_BIPS) revert FeeTooLarge();
         platformFee = newFee;
     }
 
