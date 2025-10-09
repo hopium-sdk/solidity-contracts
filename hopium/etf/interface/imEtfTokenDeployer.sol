@@ -12,5 +12,10 @@ abstract contract ImEtfTokenDeployer is ImDirectory {
     function getEtfTokenDeployer() internal view virtual returns (IEtfTokenDeployer) {
         return IEtfTokenDeployer(fetchFromDirectory("etf-token-deployer"));
     }
+
+     modifier onlyEtfTokenDeployer() {
+        require(msg.sender == fetchFromDirectory("etf-token-deployer"), "msg.sender is not etf token deployer");
+        _;
+    }
     
 }

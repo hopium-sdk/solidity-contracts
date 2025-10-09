@@ -52,8 +52,7 @@
 			"Directory()": "658a847a",
 			"changeDirectoryAddress(address)": "ba4c7be1",
 			"fetchFromDirectory(string)": "27262618",
-			"owner()": "8da5cb5b",
-			"platformFee()": "26232a2e"
+			"owner()": "8da5cb5b"
 		}
 	},
 	"abi": [
@@ -110,19 +109,6 @@
 					"internalType": "address",
 					"name": "",
 					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "platformFee",
-			"outputs": [
-				{
-					"internalType": "uint16",
-					"name": "",
-					"type": "uint16"
 				}
 			],
 			"stateMutability": "view",

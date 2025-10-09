@@ -1,5 +1,5 @@
 {
-	"id": "24ee5aadc21fd71dee04addb9ab30662",
+	"id": "9c447372f3669e74261f6978c43300e4",
 	"_format": "hh-sol-build-info-1",
 	"solcVersion": "0.8.30",
 	"solcLongVersion": "0.8.30+commit.73712a01",
@@ -7,7 +7,7 @@
 		"language": "Solidity",
 		"sources": {
 			"hopium/etf/interface/iEtfVault.sol": {
-				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\ninterface IEtfVault{\n   function redeem(address tokenAddress, uint256 amount, address receiver) external;\n}\n"
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\ninterface IEtfVault{\n   function redeem(address tokenAddress, uint256 amount, address receiver) external;\n   function initialize(address _directory) external;\n}\n"
 			}
 		},
 		"settings": {
@@ -43,6 +43,19 @@
 			"hopium/etf/interface/iEtfVault.sol": {
 				"IEtfVault": {
 					"abi": [
+						{
+							"inputs": [
+								{
+									"internalType": "address",
+									"name": "_directory",
+									"type": "address"
+								}
+							],
+							"name": "initialize",
+							"outputs": [],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
 						{
 							"inputs": [
 								{
@@ -94,10 +107,11 @@
 						"gasEstimates": null,
 						"legacyAssembly": null,
 						"methodIdentifiers": {
+							"initialize(address)": "c4d66de8",
 							"redeem(address,uint256,address)": "5c833bfd"
 						}
 					},
-					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"}],\"name\":\"redeem\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/etf/interface/iEtfVault.sol\":\"IEtfVault\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/etf/interface/iEtfVault.sol\":{\"keccak256\":\"0x8d804c55efaa4c97071fb51adf601f5f2c22a1c141999e5c28fc437a0f9d815d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b29e67fa9cbc42470b362939dbb523c7c4fe76d2cff9fa44fbd1ed7ff43645c9\",\"dweb:/ipfs/QmVY1g4d2wPMeG867N2HjyfPsUj9k4HPcQ21A7Rmsce4QX\"]}},\"version\":1}",
+					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_directory\",\"type\":\"address\"}],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"}],\"name\":\"redeem\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/etf/interface/iEtfVault.sol\":\"IEtfVault\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/etf/interface/iEtfVault.sol\":{\"keccak256\":\"0xfb14def9e2497164d73a038644d6f2ceb3fe8cfa996ca53a5487439dfe7f6ee2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4ac07badc503ea718e351f5e4694021ed548e4e5256f90be6d53c871a108dc3b\",\"dweb:/ipfs/QmeK4yf9x5LF2JaGRfmYto7sddL3AWFU9N1sirAmd8ZFBY\"]}},\"version\":1}",
 					"storageLayout": {
 						"storage": [],
 						"types": null
@@ -116,10 +130,10 @@
 					"absolutePath": "hopium/etf/interface/iEtfVault.sol",
 					"exportedSymbols": {
 						"IEtfVault": [
-							11
+							16
 						]
 					},
-					"id": 12,
+					"id": 17,
 					"license": "MIT",
 					"nodeType": "SourceUnit",
 					"nodes": [
@@ -140,9 +154,9 @@
 							"contractDependencies": [],
 							"contractKind": "interface",
 							"fullyImplemented": false,
-							"id": 11,
+							"id": 16,
 							"linearizedBaseContracts": [
-								11
+								16
 							],
 							"name": "IEtfVault",
 							"nameLocation": "67:9:0",
@@ -253,20 +267,76 @@
 										"parameters": [],
 										"src": "161:0:0"
 									},
-									"scope": 11,
+									"scope": 16,
 									"src": "81:81:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "c4d66de8",
+									"id": 15,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "initialize",
+									"nameLocation": "175:10:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 13,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 12,
+												"mutability": "mutable",
+												"name": "_directory",
+												"nameLocation": "194:10:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 15,
+												"src": "186:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 11,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "186:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "185:20:0"
+									},
+									"returnParameters": {
+										"id": 14,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "214:0:0"
+									},
+									"scope": 16,
+									"src": "166:49:0",
 									"stateMutability": "nonpayable",
 									"virtual": false,
 									"visibility": "external"
 								}
 							],
-							"scope": 12,
-							"src": "57:107:0",
+							"scope": 17,
+							"src": "57:160:0",
 							"usedErrors": [],
 							"usedEvents": []
 						}
 					],
-					"src": "32:133:0"
+					"src": "32:186:0"
 				},
 				"id": 0
 			}

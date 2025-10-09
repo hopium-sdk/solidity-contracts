@@ -26,6 +26,29 @@
 			{
 				"inputs": [
 					{
+						"internalType": "string",
+						"name": "name_",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "symbol_",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "directory_",
+						"type": "address"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "to",
 						"type": "address"
@@ -70,11 +93,11 @@
 	},
 	"sources": {
 		"hopium/etf/interface/iEtfToken.sol": {
-			"keccak256": "0x9e71429de296044c7571b71c26ef2654ce9b9b3987ed06109864718cd3d9d957",
+			"keccak256": "0xa3591312dbc09a247fe0d00e72f9a5ec157509d629b6f44f12b125671fcb5171",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c86f65852bb5d3e9e2b1c62e9c6b2d386cb73d9e16178d427f7070efac1f5507",
-				"dweb:/ipfs/QmcHjgLkehqWuL5rdrse1eQ4FpMLTfwRHVHQUAgrJLhTD3"
+				"bzz-raw://c9c78bc62f2442b9074e45e7920c8baf134c6c6ab187c0cf4b6760dcbca1f402",
+				"dweb:/ipfs/QmaynfiUE6X7NTFw4MMr7pLfgmL2SCEJRqGMDbScPkxhRc"
 			]
 		}
 	},

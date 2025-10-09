@@ -8,143 +8,166 @@ import "hopium/common/utils/id-idx.sol";
 import "hopium/etf/interface/imEtfFactory.sol";
 import "hopium/common/interface/imActive.sol";
 
+/// @notice Custom, low-gas errors (replace revert strings)
+error EmptyTicker();
+error TickerExists();
+error NoHoldings();
+error ZeroToken();
+error ZeroWeight();
+error OverWeight();
+error NotHundred();
+error DuplicateToken();
+error IndexExists();
+error InvalidId();
+error UnknownTicker();
+
+/// @notice Storage keeps created indexes and mapping tables
 abstract contract Storage {
     Index[] internal createdIndexes;
 
-    // map ticker → indexId (1-based)
-    mapping(string => uint256) internal indexTickerToId;
+    // map tickerHash (bytes32) → indexId (1-based)
+    mapping(bytes32 => uint256) internal indexTickerHashToId;
 
     // map indexHash → indexId (1-based)
     mapping(bytes32 => uint256) internal indexHashToId;
-
 }
 
+/// @notice Utils: sorting & hashing helpers
 abstract contract Utils is IdIdxUtils {
-    /// @dev simple in-place sort by (tokenAddress, weight)
-    function _sortHoldings(Holding[] memory h) internal pure {
-        uint256 n = h.length;
-        for (uint256 i = 0; i < n; i++) {
-            uint256 minIndex = i;
-            for (uint256 j = i + 1; j < n; j++) {
-                if (
-                    (uint160(h[j].tokenAddress) < uint160(h[minIndex].tokenAddress)) ||
-                    (
-                        h[j].tokenAddress == h[minIndex].tokenAddress &&
-                        h[j].weightBips < h[minIndex].weightBips
-                    )
-                ) {
-                    minIndex = j;
+    /// @dev insertion sort by (tokenAddress, weightBips). Cheaper for small n.
+    function _insertionSort(Holding[] memory a) internal pure {
+        uint256 n = a.length;
+        for (uint256 i = 1; i < n; ) {
+            Holding memory key = a[i];
+            uint256 j = i;
+            while (j > 0) {
+                Holding memory prev = a[j - 1];
+                // order by address, then by weight
+                if (prev.tokenAddress < key.tokenAddress || 
+                   (prev.tokenAddress == key.tokenAddress && prev.weightBips <= key.weightBips)) {
+                    break;
                 }
+                a[j] = prev;
+                unchecked { --j; }
             }
-            if (minIndex != i) {
-                (h[i], h[minIndex]) = (h[minIndex], h[i]);
-            }
+            a[j] = key;
+            unchecked { ++i; }
         }
     }
 
-    /// @dev compute canonical, order-insensitive hash for token-weight pairs
-    function _computeIndexHash(Holding[] calldata holdings)
+    /// @dev canonical, order-insensitive hash for token-weight pairs from a *sorted* array
+    function _computeIndexHashSorted(Holding[] memory sorted) internal pure returns (bytes32) {
+        // Avoid building parallel arrays; encode the struct array directly
+        return keccak256(abi.encode(sorted));
+    }
+
+    /// @dev derive bytes32 key for ticker
+    function _tickerKey(string calldata t) internal pure returns (bytes32) {
+        return keccak256(bytes(t));
+    }
+}
+
+/// @notice Validation + helpers fused for fewer passes & less memory churn
+abstract contract ValidationHelpers is Storage, Utils {
+    /// @dev ensure ticker is non-empty and globally unique (by bytes32 hash)
+    function _validateTicker(string calldata ticker) internal view returns (bytes32 tickerHash) {
+        if (bytes(ticker).length == 0) revert EmptyTicker();
+        tickerHash = _tickerKey(ticker);
+        if (indexTickerHashToId[tickerHash] != 0) revert TickerExists();
+    }
+
+    /// @dev copy->sort once; validate weights/duplicates in a single linear pass
+    function _validateAndSort(Holding[] calldata holdings)
         internal
         pure
-        returns (bytes32)
+        returns (Holding[] memory sorted)
     {
         uint256 n = holdings.length;
-        Holding[] memory h = new Holding[](n);
-        for (uint256 i = 0; i < n; i++) h[i] = holdings[i];
+        if (n == 0) revert NoHoldings();
 
-        _sortHoldings(h);
+        // Copy calldata to memory once
+        sorted = new Holding[](n);
+        for (uint256 i = 0; i < n; ) {
+            Holding calldata h = holdings[i];
+            address token = h.tokenAddress;
+            uint256 w = h.weightBips;
 
-        address[] memory tokens = new address[](n);
-        uint16[] memory weights = new uint16[](n);
-        for (uint256 i = 0; i < n; i++) {
-            tokens[i] = h[i].tokenAddress;
-            weights[i] = h[i].weightBips;
+            if (token == address(0)) revert ZeroToken();
+            if (w == 0) revert ZeroWeight();
+            if (w > HUNDRED_PERCENT_BIPS) revert OverWeight();
+
+            sorted[i] = h;
+            unchecked { ++i; }
         }
 
-        return keccak256(abi.encode(tokens, weights));
-    }
-}
+        // Sort in-place
+        _insertionSort(sorted);
 
-abstract contract ValidationHelpers is Storage, Utils {
-    /// @dev ensure ticker is non-empty and globally unique
-    function _validateTicker(string calldata ticker) internal view {
-        require(bytes(ticker).length != 0, "Empty ticker");
-        require(indexTickerToId[ticker] == 0, "Ticker already exists");
-    }
-
-    /// @dev ensure all tokens are valid & unique, and weights sum to 100%
-    function _validateHoldings(Holding[] calldata holdings) internal pure {
-        uint256 n = holdings.length;
-        require(n > 0, "No holdings");
-
-        uint256 sumBips;
-
-        for (uint256 i = 0; i < n; i++) {
-            address tokenA = holdings[i].tokenAddress;
-            require(tokenA != address(0), "Zero token address");
-
-            uint256 w = holdings[i].weightBips;
-            require(w > 0, "Zero weight");
-            require(w <= HUNDRED_PERCENT_BIPS, "Weight > 100%");
-
-            sumBips += w;
-
-            for (uint256 j = i + 1; j < n; j++) {
-                require(tokenA != holdings[j].tokenAddress, "Duplicate token in holdings");
+        // Single pass: check duplicates + sum to 100%
+        uint256 sum;
+        for (uint256 i = 0; i < n; ) {
+            if (i > 0 && sorted[i - 1].tokenAddress == sorted[i].tokenAddress) {
+                revert DuplicateToken();
             }
+            sum += sorted[i].weightBips;
+            unchecked { ++i; }
         }
-
-        require(sumBips == HUNDRED_PERCENT_BIPS, "Weights must sum to 100%");
+        if (sum != HUNDRED_PERCENT_BIPS) revert NotHundred();
     }
 
-    /// @dev ensure this index hash (token-weight set) has not been used before
-    function _validateIndexHash(Holding[] calldata holdings)
-        internal
-        view
-        returns (bytes32 indexHash)
-    {
-        indexHash = _computeIndexHash(holdings);
-        require(indexHashToId[indexHash] == 0, "Index with same token-weight set exists");
+    /// @dev ensure the set (by canonical hash) hasn't been used yet
+    function _validateIndexHashUnique(Holding[] memory sorted) internal view returns (bytes32 indexHash) {
+        indexHash = _computeIndexHashSorted(sorted);
+        if (indexHashToId[indexHash] != 0) revert IndexExists();
     }
 }
 
+/// @notice Factory with gas-optimized validation & events
 contract IndexFactory is ImDirectory, ValidationHelpers, ImEtfFactory, ImActive {
     constructor(address _directory) ImDirectory(_directory) {}
 
-    event IndexCreated(uint256 indexed indexId, Index index);
+    /// @dev lean event: all topics, constant-size; no dynamic arrays/strings in data
+    event IndexCreated(uint256 indexed indexId);
 
     // -- Write Fns --
+
     function createIndex(Index calldata index) public onlyEtfFactory onlyActive returns (uint256) {
-        _validateTicker(index.ticker);
-        _validateHoldings(index.holdings);
-        bytes32 indexHash = _validateIndexHash(index.holdings);
+        // Validate ticker & get key
+        bytes32 tHash = _validateTicker(index.ticker);
+
+        // Validate holdings (copy, sort once, linear checks)
+        Holding[] memory sorted = _validateAndSort(index.holdings);
+
+        // Unique by canonical hash
+        bytes32 iHash = _validateIndexHashUnique(sorted);
 
         // next 0-based position becomes a 1-based id via helper
         uint256 newIndexId = _idxToId(createdIndexes.length);
         createdIndexes.push(index);
 
         // register mappings
-        indexTickerToId[index.ticker] = newIndexId;
-        indexHashToId[indexHash] = newIndexId;
+        indexTickerHashToId[tHash] = newIndexId;
+        indexHashToId[iHash] = newIndexId;
 
-        emit IndexCreated(newIndexId, index);
-
+        emit IndexCreated(newIndexId);
         return newIndexId;
     }
 
     // -- Read fns --
-    function totalIndexes() public view returns (uint256) {
+
+    function totalIndexes() external view returns (uint256) {
         return createdIndexes.length;
     }
 
-    function getIndexById(uint256 indexId) public view returns (Index memory) {
-        require(indexId > 0 && indexId <= createdIndexes.length, "Invalid index id");
+    function getIndexById(uint256 indexId) external view returns (Index memory) {
+        if (indexId == 0 || indexId > createdIndexes.length) revert InvalidId();
         return createdIndexes[_idToIdx(indexId)];
     }
 
-    function getIndexByTicker(string calldata ticker) public view returns (Index memory) {
-        uint256 indexId = indexTickerToId[ticker];
-        require(indexId != 0, "Unknown ticker");
-        return getIndexById(indexId);
+    function getIndexByTicker(string calldata ticker) external view returns (Index memory) {
+        bytes32 tHash = _tickerKey(ticker);
+        uint256 indexId = indexTickerHashToId[tHash];
+        if (indexId == 0) revert UnknownTicker();
+        return createdIndexes[_idToIdx(indexId)];
     }
 }

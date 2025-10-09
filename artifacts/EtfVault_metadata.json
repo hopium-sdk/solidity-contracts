@@ -17,17 +17,6 @@
 				"type": "constructor"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "token",
-						"type": "address"
-					}
-				],
-				"name": "SafeERC20FailedOperation",
-				"type": "error"
-			},
-			{
 				"inputs": [],
 				"name": "Directory",
 				"outputs": [
@@ -70,6 +59,19 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_directory",
+						"type": "address"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -125,23 +127,45 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
 			}
 		],
 		"devdoc": {
+			"details": "Assumes ImEtfRouter -> ImDirectory for access control & Directory wiring.",
 			"kind": "dev",
-			"methods": {},
+			"methods": {
+				"constructor": {
+					"details": "You can pass an existing Directory here; clones still call initialize()."
+				}
+			},
 			"version": 1
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {},
-			"notice": "Etf Vault contract",
+			"methods": {
+				"constructor": {
+					"notice": "Constructor runs once for the implementation only."
+				},
+				"initialize(address)": {
+					"notice": "One-time initializer for clones (constructors don't run for proxies)"
+				},
+				"recoverAsset(address,address)": {
+					"notice": "Owner (Directory.owner()) can recover stuck ETH/ERC20"
+				},
+				"redeem(address,uint256,address)": {
+					"notice": "Redeem underlying tokens to receiver; callable only by EtfRouter"
+				}
+			},
+			"notice": "Etf Vault implementation (logic). Clones delegatecall into this.",
 			"version": 1
 		}
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/etf/main/etf-vault-deployer.sol": "EtfVault"
+			"hopium/etf/main/etf-vault.sol": "EtfVault"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -163,14 +187,6 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
-		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x6283cc12219d5ee3b7f3a5452c20e99a9190472e2a8af881fadc1a7616832921",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://c999d4f2f9a4b949e84d56643667cee4e37c8ce2490d249efb3b2ff36041680e",
-				"dweb:/ipfs/QmfUjdmy4DvkqMoTyWHXtp8y4PYLZdP6ESBQkA1GyG3gxi"
-			]
-		},
 		"hopium/etf/interface/imEtfRouter.sol": {
 			"keccak256": "0x9ef2dafe8d3bf78ea2372470cd04070489e0d2324d91a8fbc7c3867a8eabc9f6",
 			"license": "MIT",
@@ -179,12 +195,12 @@
 				"dweb:/ipfs/Qmdey7B1K99bf8XbQ3NAS1RMntRkziFFitrBQQpzM2hqiz"
 			]
 		},
-		"hopium/etf/main/etf-vault-deployer.sol": {
-			"keccak256": "0x922d805a2fd3cfabf62fbdbb7b0cdd0f0e7d086b1eee76ba3be5518dea88dcb7",
+		"hopium/etf/main/etf-vault.sol": {
+			"keccak256": "0x016c7ae9f24cca1471709fa3de555ea4a5090de672f05806ef17b06aff3e55c4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://cbc893ed8cf2bc04477def77f11d9a8cbbf47b9ff7c2a9c991b75258d4b94aaf",
-				"dweb:/ipfs/QmPk1FKbrz3Ew53u1TZD2fdVF3M7WUQsvM1YomqoejimwX"
+				"bzz-raw://f7e366b6adfe049eab5629f53e6d0bae2e7db8e97c95cb09fca2de4a07a28609",
+				"dweb:/ipfs/QmSPTcqx3pACKpyRVXing9vmwqCUHTPX2Zv4HiWV9pLvki"
 			]
 		}
 	},

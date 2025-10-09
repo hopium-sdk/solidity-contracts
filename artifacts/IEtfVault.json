@@ -49,10 +49,24 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
+			"initialize(address)": "c4d66de8",
 			"redeem(address,uint256,address)": "5c833bfd"
 		}
 	},
 	"abi": [
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_directory",
+					"type": "address"
+				}
+			],
+			"name": "initialize",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
 		{
 			"inputs": [
 				{

@@ -196,20 +196,7 @@
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {
-				"getIndexLiquidityUsd(uint256)": {
-					"notice": "Weighted liquidity in USD (1e18) across index components."
-				},
-				"getIndexLiquidityWeth(uint256)": {
-					"notice": "Weighted liquidity in WETH (1e18) across index components."
-				},
-				"getIndexMarketCapUsd(uint256)": {
-					"notice": "Weighted market cap in USD (1e18) across index components."
-				},
-				"getIndexMarketCapWeth(uint256)": {
-					"notice": "Weighted market cap in WETH (1e18) across index components."
-				}
-			},
+			"methods": {},
 			"version": 1
 		}
 	},
@@ -254,11 +241,11 @@
 			]
 		},
 		"hopium/etf/main/index-price-oracle.sol": {
-			"keccak256": "0xb73771b01a3c1d4bb7d574b8033fd0a8d9f3ac58766c00dddf05f8bad881e579",
+			"keccak256": "0xf439f6103a94853f491f3296ab2972492d8b7850d91ac1e7beefd8cadcd81cfd",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4454a2cf488fef5274fd80a8d49ba7e43eb2ef4a253415775648b6b3c0db9af1",
-				"dweb:/ipfs/QmNfni6HDhBpi7J5heEabZKsfDEebVNhqTAZhneTW1tzuS"
+				"bzz-raw://ce049234b5795ca11441822b9995003621009f90a22f8f0d21c83f9df5608c15",
+				"dweb:/ipfs/QmS4jd93A18wqGiS8vKhAmBRcHCqQnXhKPqMtpgieGHJEQ"
 			]
 		},
 		"hopium/etf/storage/index.sol": {

@@ -17,35 +17,30 @@
 				"type": "constructor"
 			},
 			{
-				"anonymous": false,
+				"inputs": [],
+				"name": "FailedDeployment",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ImplNotSet",
+				"type": "error"
+			},
+			{
 				"inputs": [
 					{
-						"indexed": true,
 						"internalType": "uint256",
-						"name": "indexId",
+						"name": "balance",
 						"type": "uint256"
 					},
 					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "etfTokenAddress",
-						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "symbol",
-						"type": "string"
+						"internalType": "uint256",
+						"name": "needed",
+						"type": "uint256"
 					}
 				],
-				"name": "EtfTokenDeployed",
-				"type": "event"
+				"name": "InsufficientBalance",
+				"type": "error"
 			},
 			{
 				"inputs": [],
@@ -95,7 +90,7 @@
 				"outputs": [
 					{
 						"internalType": "address",
-						"name": "",
+						"name": "proxy",
 						"type": "address"
 					}
 				],
@@ -136,6 +131,18 @@
 			}
 		],
 		"devdoc": {
+			"errors": {
+				"FailedDeployment()": [
+					{
+						"details": "The deployment failed."
+					}
+				],
+				"InsufficientBalance(uint256,uint256)": [
+					{
+						"details": "The ETH balance of the account is not enough to perform the operation."
+					}
+				]
+			},
 			"kind": "dev",
 			"methods": {},
 			"version": 1
@@ -144,10 +151,10 @@
 			"kind": "user",
 			"methods": {
 				"deployEtfToken(uint256,string,string)": {
-					"notice": "Deploys a new ERC20 etf token and returns its address"
+					"notice": "Deploy a new ETF token clone with per-clone name/symbol"
 				}
 			},
-			"notice": "Factory that deploys ERC20 Contract for each etf",
+			"notice": "Factory that mints minimal-proxy clones of EtfToken (EIP-1167)",
 			"version": 1
 		}
 	},
@@ -167,44 +174,28 @@
 		"remappings": []
 	},
 	"sources": {
-		"@openzeppelin/contracts/interfaces/draft-IERC6093.sol": {
-			"keccak256": "0x19fdfb0f3b89a230e7dbd1cf416f1a6b531a3ee5db4da483f946320fc74afc0e",
+		"@openzeppelin/contracts/proxy/Clones.sol": {
+			"keccak256": "0x7e918671c04972845975935ea13c9ce0be1228031ba0e929d0f1f68fd1f17214",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3490d794728f5bfecb46820431adaff71ba374141545ec20b650bb60353fac23",
-				"dweb:/ipfs/QmPsfxjVpMcZbpE7BH93DzTpEaktESigEw4SmDzkXuJ4WR"
+				"bzz-raw://3027ebaeef3e678ad9bae26f0556469878e992bf7dec94bede328a92be529419",
+				"dweb:/ipfs/Qmdu4RfMYv9Q7iHWuYfyUL6fZKc73nM4YWizNP8w1xay56"
 			]
 		},
-		"@openzeppelin/contracts/token/ERC20/ERC20.sol": {
-			"keccak256": "0x86b7b71a6aedefdad89b607378eeab1dcc5389b9ea7d17346d08af01d7190994",
+		"@openzeppelin/contracts/utils/Create2.sol": {
+			"keccak256": "0xbb7e8401583d26268ea9103013bcdcd90866a7718bd91105ebd21c9bf11f4f06",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1dc2db8d94a21eac8efe03adf574c419b08536409b416057a2b5b95cb772c43c",
-				"dweb:/ipfs/QmZfqJCKVU1ScuX2A7s8WZdQEaikwJbDH5JBrBdKTUT4Gu"
+				"bzz-raw://866a11ad89c93ee918078f7a46ae31e17d89216ce64603f0d34be7ed0a5c520e",
+				"dweb:/ipfs/QmW3ckLEJg2v2NzuVLNJFmRuerGSipw6Dzg6ntbmqbAGoC"
 			]
 		},
-		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
-			"keccak256": "0x74ed01eb66b923d0d0cfe3be84604ac04b76482a55f9dd655e1ef4d367f95bc2",
+		"@openzeppelin/contracts/utils/Errors.sol": {
+			"keccak256": "0x6afa713bfd42cf0f7656efa91201007ac465e42049d7de1d50753a373648c123",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5282825a626cfe924e504274b864a652b0023591fa66f06a067b25b51ba9b303",
-				"dweb:/ipfs/QmeCfPykghhMc81VJTrHTC7sF6CRvaA1FXVq2pJhwYp1dV"
-			]
-		},
-		"@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
-			"keccak256": "0xd6fa4088198f04eef10c5bce8a2f4d60554b7ec4b987f684393c01bf79b94d9f",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://f95ee0bbd4dd3ac730d066ba3e785ded4565e890dbec2fa7d3b9fe3bad9d0d6e",
-				"dweb:/ipfs/QmSLr6bHkPFWT7ntj34jmwfyskpwo97T9jZUrk5sz3sdtR"
-			]
-		},
-		"@openzeppelin/contracts/utils/Context.sol": {
-			"keccak256": "0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://6a708e8a5bdb1011c2c381c9a5cfd8a9a956d7d0a9dc1bd8bcdaf52f76ef2f12",
-				"dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF"
+				"bzz-raw://ba1d02f4847670a1b83dec9f7d37f0b0418d6043447b69f3a29a5f9efc547fcf",
+				"dweb:/ipfs/QmQ7iH2keLNUKgq2xSWcRmuBE5eZ3F5whYAkAGzCNNoEWB"
 			]
 		},
 		"hopium/common/interface/imDirectory.sol": {
@@ -215,36 +206,28 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
+		"hopium/etf/interface/iEtfToken.sol": {
+			"keccak256": "0xa3591312dbc09a247fe0d00e72f9a5ec157509d629b6f44f12b125671fcb5171",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c9c78bc62f2442b9074e45e7920c8baf134c6c6ab187c0cf4b6760dcbca1f402",
+				"dweb:/ipfs/QmaynfiUE6X7NTFw4MMr7pLfgmL2SCEJRqGMDbScPkxhRc"
+			]
+		},
 		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x6283cc12219d5ee3b7f3a5452c20e99a9190472e2a8af881fadc1a7616832921",
+			"keccak256": "0x113e7a55f043117f2fd334de4b88221f31f30045310aa99fe6b5db3d3bd13486",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c999d4f2f9a4b949e84d56643667cee4e37c8ce2490d249efb3b2ff36041680e",
-				"dweb:/ipfs/QmfUjdmy4DvkqMoTyWHXtp8y4PYLZdP6ESBQkA1GyG3gxi"
-			]
-		},
-		"hopium/etf/interface/imEtfRouter.sol": {
-			"keccak256": "0x9ef2dafe8d3bf78ea2372470cd04070489e0d2324d91a8fbc7c3867a8eabc9f6",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://a558b98b69ec2677eb516606b18553fb1ea77376d5db15cef8ef4283c7b7ad95",
-				"dweb:/ipfs/Qmdey7B1K99bf8XbQ3NAS1RMntRkziFFitrBQQpzM2hqiz"
-			]
-		},
-		"hopium/etf/interface/imEtfTokenEvents.sol": {
-			"keccak256": "0x8c8d2994faa15185ec07293b444929d13c29333095497cb115fc85c74281b6ec",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://ae3ff09139579ca9d5bc67db27812228e0dcff828da15bb1f8d6b31955733e59",
-				"dweb:/ipfs/QmVuuXMiHzfY9cbDpL5RApszivFUQF1MjELYvZH1A5wTUT"
+				"bzz-raw://4a884bdaa7b3979d02ee6c57af2fc1cbbd31b302b66aacfcdf3f0724f007227b",
+				"dweb:/ipfs/QmbNFvdG9cnJht3omTmbuiCATyW895mvPUrLrRbCfikfaQ"
 			]
 		},
 		"hopium/etf/main/etf-token-deployer.sol": {
-			"keccak256": "0xbe289f46f6d16dcd46da995f6871c8b06f890ea94d00885010f38a6c91437123",
+			"keccak256": "0x0eabf1a70aa6073dc74b840a3401c383bebd5e2c77d3b0731adc46ae450fdfe2",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://74477e3e2f6f194ab80ee641279c1f69dc359bf640f9fdd20c0523553f337481",
-				"dweb:/ipfs/QmPMkApcsd2bWyb3ofWPzbTR1YPY7xos48H9MuYZySsxex"
+				"bzz-raw://ee2026fb828113eb41b3cf45a3bc417c37d0bd653e9fad74921af5e5bfad0fee",
+				"dweb:/ipfs/QmZgwpVM315tEN8YNBaNtdBdZz8hdkzKk5uFzSfie8RA2e"
 			]
 		}
 	},

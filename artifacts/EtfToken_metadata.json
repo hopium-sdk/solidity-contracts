@@ -8,16 +8,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "string",
-						"name": "name_",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "symbol_",
-						"type": "string"
-					},
-					{
 						"internalType": "address",
 						"name": "_directory",
 						"type": "address"
@@ -113,6 +103,16 @@
 				"type": "error"
 			},
 			{
+				"inputs": [],
+				"name": "InvalidInitialization",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "NotInitializing",
+				"type": "error"
+			},
+			{
 				"anonymous": false,
 				"inputs": [
 					{
@@ -135,6 +135,19 @@
 					}
 				],
 				"name": "Approval",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint64",
+						"name": "version",
+						"type": "uint64"
+					}
+				],
+				"name": "Initialized",
 				"type": "event"
 			},
 			{
@@ -308,6 +321,29 @@
 			{
 				"inputs": [
 					{
+						"internalType": "string",
+						"name": "name_",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "symbol_",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "directory_",
+						"type": "address"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "to",
 						"type": "address"
@@ -430,6 +466,7 @@
 			}
 		],
 		"devdoc": {
+			"details": "Uses OZ *Upgradeable* ERC20 so name/symbol can be set at runtime.      Access control (onlyEtfRouter/onlyOwner) resolves via ImDirectory.",
 			"errors": {
 				"ERC20InsufficientAllowance(address,uint256,uint256)": [
 					{
@@ -482,11 +519,24 @@
 							"spender": "Address that may be allowed to operate on tokens without being their owner."
 						}
 					}
+				],
+				"InvalidInitialization()": [
+					{
+						"details": "The contract is already initialized."
+					}
+				],
+				"NotInitializing()": [
+					{
+						"details": "The contract is not initializing."
+					}
 				]
 			},
 			"events": {
 				"Approval(address,address,uint256)": {
 					"details": "Emitted when the allowance of a `spender` for an `owner` is set by a call to {approve}. `value` is the new allowance."
+				},
+				"Initialized(uint64)": {
+					"details": "Triggered when the contract has been initialized or reinitialized."
 				},
 				"Transfer(address,address,uint256)": {
 					"details": "Emitted when `value` tokens are moved from one account (`from`) to another (`to`). Note that `value` may be zero."
@@ -502,6 +552,9 @@
 				},
 				"balanceOf(address)": {
 					"details": "Returns the value of tokens owned by `account`."
+				},
+				"constructor": {
+					"details": "The logic/implementation constructor runs once when you deploy the master.      Clones DO NOT run constructors, they use initialize()."
 				},
 				"decimals()": {
 					"details": "Returns the number of decimals used to get its user representation. For example, if `decimals` equals `2`, a balance of `505` tokens should be displayed to a user as `5.05` (`505 / 10 ** 2`). Tokens usually opt for a value of 18, imitating the relationship between Ether and Wei. This is the default value returned by this function, unless it's overridden. NOTE: This information is only used for _display_ purposes: it in no way affects any of the arithmetic of the contract, including {IERC20-balanceOf} and {IERC20-transfer}."
@@ -526,14 +579,24 @@
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {},
-			"notice": "Minimal ERC20 Etf Token",
+			"methods": {
+				"burn(address,uint256)": {
+					"notice": "Router-controlled burn"
+				},
+				"initialize(string,string,address)": {
+					"notice": "One-time initializer for clones (constructors don't run for proxies)"
+				},
+				"mint(address,uint256)": {
+					"notice": "Router-controlled mint"
+				}
+			},
+			"notice": "Cloneable ETF ERC20 with per-clone name/symbol via initialize()",
 			"version": 1
 		}
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/etf/main/etf-token-deployer.sol": "EtfToken"
+			"hopium/etf/main/etf-token.sol": "EtfToken"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -547,20 +610,36 @@
 		"remappings": []
 	},
 	"sources": {
+		"@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol": {
+			"keccak256": "0xdb4d24ee2c087c391d587cd17adfe5b3f9d93b3110b1388c2ab6c7c0ad1dcd05",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ab7b6d5b9e2b88176312967fe0f0e78f3d9a1422fa5e4b64e2440c35869b5d08",
+				"dweb:/ipfs/QmXKYWWyzcLg1B2k7Sb1qkEXgLCYfXecR9wYW5obRzWP1Q"
+			]
+		},
+		"@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol": {
+			"keccak256": "0xfcd09c2aa8cc3f93e12545454359f901965db312bc03833daf84de0c03e05022",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://07701188648d2ab83dab1037808298585264559bddf243bd8929037adcb984b0",
+				"dweb:/ipfs/QmavmG5REdHCAWsZ8Cag26BCxAq27DRKGxr3uBg5ZYxQ51"
+			]
+		},
+		"@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol": {
+			"keccak256": "0xdbef5f0c787055227243a7318ef74c8a5a1108ca3a07f2b3a00ef67769e1e397",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://08e39f23d5b4692f9a40803e53a8156b72b4c1f9902a88cd65ba964db103dab9",
+				"dweb:/ipfs/QmPKn6EYDgpga7KtpkA8wV2yJCYGMtc9K4LkJfhKX2RVSV"
+			]
+		},
 		"@openzeppelin/contracts/interfaces/draft-IERC6093.sol": {
 			"keccak256": "0x19fdfb0f3b89a230e7dbd1cf416f1a6b531a3ee5db4da483f946320fc74afc0e",
 			"license": "MIT",
 			"urls": [
 				"bzz-raw://3490d794728f5bfecb46820431adaff71ba374141545ec20b650bb60353fac23",
 				"dweb:/ipfs/QmPsfxjVpMcZbpE7BH93DzTpEaktESigEw4SmDzkXuJ4WR"
-			]
-		},
-		"@openzeppelin/contracts/token/ERC20/ERC20.sol": {
-			"keccak256": "0x86b7b71a6aedefdad89b607378eeab1dcc5389b9ea7d17346d08af01d7190994",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://1dc2db8d94a21eac8efe03adf574c419b08536409b416057a2b5b95cb772c43c",
-				"dweb:/ipfs/QmZfqJCKVU1ScuX2A7s8WZdQEaikwJbDH5JBrBdKTUT4Gu"
 			]
 		},
 		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
@@ -579,28 +658,12 @@
 				"dweb:/ipfs/QmSLr6bHkPFWT7ntj34jmwfyskpwo97T9jZUrk5sz3sdtR"
 			]
 		},
-		"@openzeppelin/contracts/utils/Context.sol": {
-			"keccak256": "0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://6a708e8a5bdb1011c2c381c9a5cfd8a9a956d7d0a9dc1bd8bcdaf52f76ef2f12",
-				"dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF"
-			]
-		},
 		"hopium/common/interface/imDirectory.sol": {
 			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
 			"license": "MIT",
 			"urls": [
 				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
-			]
-		},
-		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x6283cc12219d5ee3b7f3a5452c20e99a9190472e2a8af881fadc1a7616832921",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://c999d4f2f9a4b949e84d56643667cee4e37c8ce2490d249efb3b2ff36041680e",
-				"dweb:/ipfs/QmfUjdmy4DvkqMoTyWHXtp8y4PYLZdP6ESBQkA1GyG3gxi"
 			]
 		},
 		"hopium/etf/interface/imEtfRouter.sol": {
@@ -619,12 +682,12 @@
 				"dweb:/ipfs/QmVuuXMiHzfY9cbDpL5RApszivFUQF1MjELYvZH1A5wTUT"
 			]
 		},
-		"hopium/etf/main/etf-token-deployer.sol": {
-			"keccak256": "0xbe289f46f6d16dcd46da995f6871c8b06f890ea94d00885010f38a6c91437123",
+		"hopium/etf/main/etf-token.sol": {
+			"keccak256": "0x9fcbdcced01c1841516962cc15739aa5d5adbcd42bdc7ee3e10257f2d07bd400",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://74477e3e2f6f194ab80ee641279c1f69dc359bf640f9fdd20c0523553f337481",
-				"dweb:/ipfs/QmPMkApcsd2bWyb3ofWPzbTR1YPY7xos48H9MuYZySsxex"
+				"bzz-raw://598a6ad91509d743f9bf24e573105e15557b1f15f9b2af01997c0ab23c3f6b9a",
+				"dweb:/ipfs/QmfLJBPqLCBFVkSVJW2oeW9bdJesLYtwUnjw9jKo1Juauq"
 			]
 		}
 	},

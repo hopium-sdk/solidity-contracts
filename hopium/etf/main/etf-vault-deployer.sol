@@ -1,106 +1,39 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.30;
 
+import "@openzeppelin/contracts/proxy/Clones.sol";
 import "hopium/common/interface/imDirectory.sol";
 import "hopium/etf/interface/imEtfFactory.sol";
-import "hopium/etf/interface/imEtfRouter.sol";
+import "hopium/etf/interface/iEtfVault.sol";
 
-interface IERC20 {
-    function transfer(address to, uint256 value) external returns (bool);
-    function balanceOf(address account) external view returns (uint256);
-}
+error ImplNotSet();
 
-library SafeERC20 {
-    
-    error SafeERC20FailedOperation(address token);
-
-    function safeTransfer(IERC20 token, address to, uint256 value) internal {
-        _callOptionalReturn(token, abi.encodeCall(token.transfer, (to, value)));
+abstract contract Helpers is ImDirectory {
+    /// @dev Deterministic salt per indexId for CREATE2 clones (optional but useful)
+    function _salt(uint256 indexId) internal pure returns (bytes32) {
+        return keccak256(abi.encodePacked("ETF_VAULT", indexId));
     }
 
-    function _callOptionalReturn(IERC20 token, bytes memory data) private {
-        uint256 returnSize;
-        uint256 returnValue;
-        assembly ("memory-safe") {
-            let success := call(gas(), token, 0, add(data, 0x20), mload(data), 0, 0x20)
-            // bubble errors
-            if iszero(success) {
-                let ptr := mload(0x40)
-                returndatacopy(ptr, 0, returndatasize())
-                revert(ptr, returndatasize())
-            }
-            returnSize := returndatasize()
-            returnValue := mload(0)
-        }
-
-        if (returnSize == 0 ? address(token).code.length == 0 : returnValue != 1) {
-            revert SafeERC20FailedOperation(address(token));
-        }
+    function getVaultImpl() internal view returns (address) {
+        address vaultImpl =  fetchFromDirectory("etf-vault-impl");
+        if (vaultImpl == address(0)) revert ImplNotSet();
+        
+        return vaultImpl;
     }
 }
 
-contract TransferHelpers {
-    using SafeERC20 for IERC20;
-
-    function _sendEth(address to, uint256 amount) internal {
-        require(amount > 0, "sendEth: zero amount");
-        require(address(this).balance >= amount, "sendEth: insufficient ETH");
-
-        (bool ok, ) = payable(to).call{value: amount}("");
-        require(ok, "ETH send failed");
-    }
-
-    function _sendToken(address tokenAddress, address toAddress, uint256 amount) internal {
-        IERC20 token = IERC20(tokenAddress);
-        require(amount > 0, "sendToken: zero amount");
-
-        token.safeTransfer(toAddress, amount);
-    }
-
-    function _sendEthOrToken(address tokenAddress, address toAddress) internal {
-        if(tokenAddress == address(0)) {
-            _sendEth(toAddress, address(this).balance);
-        } else {
-            _sendToken(tokenAddress, toAddress, IERC20(tokenAddress).balanceOf(address(this)));
-        }
-    }
-
-    function _recoverAsset(address tokenAddress, address toAddress) internal {
-        _sendEthOrToken(tokenAddress, toAddress);
-    }
-}
-
-/// @notice Etf Vault contract
-contract EtfVault is ImEtfRouter, TransferHelpers {
+/// @notice Factory that mints minimal-proxy clones of EtfVault (EIP-1167)
+contract EtfVaultDeployer is ImEtfFactory, Helpers {
+    using Clones for address;
 
     constructor(address _directory) ImDirectory(_directory) {}
 
-    function redeem(address tokenAddress, uint256 amount, address receiver) public onlyEtfRouter {
-        _sendToken(tokenAddress, receiver, amount);
-    }
+    /// @notice Deploys a new EtfVault clone and initializes it with current Directory
+    function deployEtfVault(uint256 indexId) external onlyEtfFactory returns (address proxy) {
+        address vaultImpl = getVaultImpl();
 
-    function recoverAsset(address tokenAddress, address toAddress) public onlyOwner {
-        _recoverAsset(tokenAddress, toAddress);
-    }
-}
-
-/// @notice Factory that deploys Etf Vault
-contract EtfVaultDeployer is ImDirectory, ImEtfFactory {
-
-    constructor(address _directory) ImDirectory(_directory) {}
-
-    event EtfVaultDeployed(
-        uint256 indexed indexId,
-        address etfVaultAddress
-    );
-
-    /// @notice Deploys a new etf vault and returns its address
-    function deployEtfVault(uint256 indexId) external onlyEtfFactory returns (address) {
-        EtfVault newVault = new EtfVault(address(Directory));
-        address etfVaultAddress = address(newVault);
-
-        emit EtfVaultDeployed(indexId, etfVaultAddress);
-
-        return etfVaultAddress;
+        proxy = Clones.cloneDeterministic(vaultImpl, _salt(indexId));
+        
+        IEtfVault(proxy).initialize(address(Directory));
     }
 }

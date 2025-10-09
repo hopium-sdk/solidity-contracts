@@ -1,57 +1,44 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.30;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/proxy/Clones.sol";
+
 import "hopium/common/interface/imDirectory.sol";
 import "hopium/etf/interface/imEtfFactory.sol";
-import "hopium/etf/interface/imEtfRouter.sol";
-import "hopium/etf/interface/imEtfTokenEvents.sol";
+import "hopium/etf/interface/iEtfToken.sol";
 
-/// @notice Minimal ERC20 Etf Token
-contract EtfToken is ERC20, ImEtfRouter, ImEtfTokenEvents {
+error ImplNotSet();
 
-    constructor(string memory name_, string memory symbol_, address _directory) ERC20(name_, symbol_) ImDirectory(_directory) {}
-
-    function mint(address to, uint256 amount) external onlyEtfRouter {
-        _mint(to, amount);
+abstract contract Helpers is ImDirectory {
+    /// @dev Deterministic salt; include indexId to keep it stable per index.
+    /// You can also add name/symbol if you want unique addresses per symbol.
+    function _salt(uint256 indexId) internal pure returns (bytes32) {
+        return keccak256(abi.encodePacked("ETF_TOKEN", indexId));
     }
 
-    function burn(address from, uint256 amount) external onlyEtfRouter {
-        _burn(from, amount);
-    }
+    /// @dev Fetch the token implementation (logic) from Directory
+    function getTokenImpl() internal view returns (address) {
+        address tokenImpl = fetchFromDirectory("etf-token-impl");
+        if (tokenImpl == address(0)) revert ImplNotSet();
 
-    /// @dev OZ v5.4 central hook for transfer/mint/burn.
-    /// We forward a transfer event to the EtfTokenEvents contract.
-    function _update(address from, address to, uint256 value) internal override {
-        super._update(from, to, value); // state updated and standard Transfer emitted
-
-        //Emit transfer event on etfTokenEvents contract
-        IEtfTokenEvents etfTokenEvents = getEtfTokenEvents();
-        require(address(etfTokenEvents) != address(0), "Etf token events contract not set");
-
-        etfTokenEvents.emitTransferEvent(from, to, value);
+        return tokenImpl;
     }
 }
 
-/// @notice Factory that deploys ERC20 Contract for each etf
-contract EtfTokenDeployer is ImDirectory, ImEtfFactory {
-
-    event EtfTokenDeployed(
-        uint256 indexed indexId,
-        address etfTokenAddress,
-        string name,
-        string symbol
-    );
+/// @notice Factory that mints minimal-proxy clones of EtfToken (EIP-1167)
+contract EtfTokenDeployer is ImDirectory, ImEtfFactory, Helpers {
+    using Clones for address;
 
     constructor(address _directory) ImDirectory(_directory) {}
 
-    /// @notice Deploys a new ERC20 etf token and returns its address
-    function deployEtfToken(uint256 indexId, string calldata name, string calldata symbol) external onlyEtfFactory returns (address) {
-        EtfToken newToken = new EtfToken(name, symbol, address(Directory));
-        address etfTokenAddress = address(newToken);
+    /// @notice Deploy a new ETF token clone with per-clone name/symbol
+    function deployEtfToken(uint256 indexId, string calldata name, string calldata symbol) external onlyEtfFactory returns (address proxy) {
+        address tokenImpl = getTokenImpl();
 
-        emit EtfTokenDeployed(indexId, etfTokenAddress, name, symbol);
+        // Create deterministic clone (CREATE2). Reverts if already deployed for same salt.
+        proxy = Clones.cloneDeterministic(tokenImpl, _salt(indexId));
 
-        return etfTokenAddress;
+        // Initialize with per-clone params
+        IEtfToken(proxy).initialize(name, symbol, address(Directory));
     }
 }
