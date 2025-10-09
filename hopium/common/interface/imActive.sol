@@ -4,7 +4,7 @@ pragma solidity 0.8.30;
 import "hopium/common/interface/imDirectory.sol";
 
 abstract contract ImActive is ImDirectory {
-    bool public isActive;
+    bool public isActive = true;
 
     modifier onlyActive() {
         require(isActive, "Contract is not active");

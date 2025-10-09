@@ -166,4 +166,7 @@ contract PriceOracle is Helpers {
         marketCapUsd18 = (mcWeth18 * usdPerWeth18) / 1e18;
     }
 
+    function getTokenWethPairAddress(address tokenAddress) external view returns (address) {
+        return _getTokenToWethPairAddress(tokenAddress);
+    }
 }

@@ -118,11 +118,11 @@
 	},
 	"sources": {
 		"hopium/common/interface/imActive.sol": {
-			"keccak256": "0xea5ef68ff25d474140f1fffefac91d17beef07b12f0ce5aaabbf949e483a2fdd",
+			"keccak256": "0xc2ee8143001e064b7399891f652a74992469884f27719a3a77108839df8db2ce",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c0a3deea93b9a615cc467bc9344596920176b2200d717b82b6c76426100b37b0",
-				"dweb:/ipfs/QmaLiiLjTNHzBZzBaJA2P1kdUyE1yuPmWc512sj3qPSBbF"
+				"bzz-raw://f2b7deed09edd45178e9295c027ed4813e78438696f78f27904b3da6421949d2",
+				"dweb:/ipfs/QmYivXXuUfpnzj7HS9A51UFYmpnzHJ39V5e9y6q8Uo1t5u"
 			]
 		},
 		"hopium/common/interface/imDirectory.sol": {
