@@ -21,7 +21,6 @@ abstract contract Storage {
 }
 
 abstract contract Helpers is Storage {
-    /// @dev Returns reserves and decimals ordered so that the first tuple corresponds to `baseToken`.
     function _getOrderedReserves(address pairAddress, address baseToken)
         internal
         view
@@ -51,13 +50,11 @@ abstract contract Helpers is Storage {
         reserveQuote = baseIsToken0 ? uint256(r1) : uint256(r0);
         quoteToken   = baseIsToken0 ? t1 : t0;
 
-        // Use metadata for decimals so helpers are reusable (WETH is typically 18, but don't assume).
         decBase  = IERC20Metadata(baseToken).decimals();
         decQuote = IERC20Metadata(quoteToken).decimals();
     }
 
-    /// @dev Compute price as "amountA per 1 unit of B", scaled to 1e18.
-    /// price18 = (reserveA * 10^(18 + decB - decA)) / reserveB
+    /// price18 = (reserveA * 1e18 * 10^(decB - decA)) / reserveB
     function _computePrice18(
         uint256 reserveA,
         uint8 decA,
@@ -76,7 +73,6 @@ abstract contract Helpers is Storage {
     function _getTokenToWethPairAddress(address tokenAddress) internal view returns (address) {
         address pairAddress = IUniswapV2Factory(UNISWAP_V2_FACTORY_ADDRESS).getPair(tokenAddress, WETH_ADDRESS);
         require (pairAddress != address(0), "UniswapV2Pair: pair does not exist" );
-
         return pairAddress;
     }
 
@@ -99,64 +95,86 @@ contract PriceOracle is Helpers {
 
     /// @notice Returns USD per 1 WETH (scaled 1e18) using the stored WETH/USD pair.
     function getWethUsdPrice() public view returns (uint256 price18) {
-        (uint256 reserveWeth, uint8 decW, uint256 reserveUsd, uint8 decU,) = _getOrderedReserves(WETH_USD_PAIR_ADDRESS, WETH_ADDRESS);
+        (uint256 reserveWeth, uint8 decW, uint256 reserveUsd, uint8 decU,) =
+            _getOrderedReserves(WETH_USD_PAIR_ADDRESS, WETH_ADDRESS);
 
         // USD per 1 WETH
         price18 = _computePrice18(reserveUsd, decU, reserveWeth, decW);
     }
 
     /// @notice Returns WETH per 1 QUOTE (scaled 1e18) for an arbitrary WETH-QUOTE pair.
-    function getTokenWethPrice(address tokenAddress) public view returns (uint256 price18) {
-        address pairAddress = _getTokenToWethPairAddress(tokenAddress);
-        (uint256 reserveWeth, uint8 decW, uint256 reserveQuote, uint8 decQ,) = _getOrderedReserves(pairAddress, WETH_ADDRESS);
+    /// If QUOTE is WETH, returns 1e18.
+    function getTokenWethPrice(address tokenAddress) public view returns (uint256) {
+        if (tokenAddress == WETH_ADDRESS) {
+            // 1 WETH per 1 WETH
+            return 1e18;
+        } else {
+            address pairAddress = _getTokenToWethPairAddress(tokenAddress);
+            (uint256 reserveWeth, uint8 decW, uint256 reserveQuote, uint8 decQ,) =
+                _getOrderedReserves(pairAddress, WETH_ADDRESS);
 
-        // WETH per 1 QUOTE
-        price18 = _computePrice18(reserveWeth, decW, reserveQuote, decQ);
+            // WETH per 1 QUOTE
+            uint256 price18 = _computePrice18(reserveWeth, decW, reserveQuote, decQ);
+            return price18;
+        }
     }
 
-    /// @notice Returns USD price of 1 TOKEN (scaled to 1e18)
+    /// @notice Returns USD price of 1 TOKEN (scaled 1e18)
     function getTokenUsdPrice(address tokenAddress) public view returns (uint256 price18) {
         uint256 tokenWeth = getTokenWethPrice(tokenAddress); // WETH per 1 TOKEN
-        uint256 wethUsd   = getWethUsdPrice();              // USD per 1 WETH
-
+        uint256 wethUsd   = getWethUsdPrice();               // USD per 1 WETH
         // tokenUsd = (WETH per TOKEN) * (USD per WETH)
         price18 = (tokenWeth * wethUsd) / 1e18;
     }
 
     // @notice Returns total pool liquidity in WETH for the TOKEN–WETH pair.
-    function getTokenLiquidityWeth(address tokenAddress) public view returns (uint256 totalLiquidityWeth18) {
-        address pairAddress = _getTokenToWethPairAddress(tokenAddress);
+    // If TOKEN is WETH, returns WETH totalSupply (scaled to 1e18).
+    function getTokenLiquidityWeth(address tokenAddress) public view returns (uint256) {
+        if (tokenAddress == WETH_ADDRESS) {
+            uint8 decW = IERC20Metadata(WETH_ADDRESS).decimals();
+            uint256 supply = IERC20(WETH_ADDRESS).totalSupply();
+            return _scaleTo1e18(supply, decW);
+        } else {
+            address pairAddress = _getTokenToWethPairAddress(tokenAddress);
+            (uint256 reserveToken, uint8 decT, uint256 reserveWeth, uint8 decW,) =
+                _getOrderedReserves(pairAddress, tokenAddress);
 
-        (uint256 reserveToken, uint8 decT, uint256 reserveWeth, uint8 decW,) = _getOrderedReserves(pairAddress, tokenAddress);
+            uint256 tokenAmount18 = _scaleTo1e18(reserveToken, decT);
+            uint256 wethAmount18  = _scaleTo1e18(reserveWeth, decW);
 
-        uint256 tokenAmount18 = _scaleTo1e18(reserveToken, decT);
-        uint256 wethAmount18  = _scaleTo1e18(reserveWeth, decW);
+            // WETH per 1 TOKEN (scaled 1e18)
+            uint256 tokenPriceInWeth18 = getTokenWethPrice(tokenAddress);
 
-        // WETH per 1 TOKEN (scaled 1e18)
-        uint256 tokenPriceInWeth18 = getTokenWethPrice(tokenAddress);
+            // Value of TOKEN side in WETH
+            uint256 tokenValueInWeth18 = (tokenAmount18 * tokenPriceInWeth18) / 1e18;
 
-        // Value of TOKEN side in WETH
-        uint256 tokenValueInWeth18 = (tokenAmount18 * tokenPriceInWeth18) / 1e18;
-
-        // Total liquidity in WETH = TOKEN value (in WETH) + WETH reserve
-        totalLiquidityWeth18 = tokenValueInWeth18 + wethAmount18;
+            // Total liquidity in WETH = TOKEN value (in WETH) + WETH reserve
+            uint256 totalLiquidityWeth18 = tokenValueInWeth18 + wethAmount18;
+            return totalLiquidityWeth18;
+        }
     }
 
     // @notice Returns total pool liquidity in USD for the TOKEN–WETH pair.
     function getTokenLiquidityUsd(address tokenAddress) external view returns (uint256 totalLiquidityUsd18) {
         uint256 totalLiquidityWeth18 = getTokenLiquidityWeth(tokenAddress);
         uint256 usdPerWeth18 = getWethUsdPrice();
-
         totalLiquidityUsd18 = (totalLiquidityWeth18 * usdPerWeth18) / 1e18;
     }
 
     /// @notice Returns market cap in WETH for TOKEN (scaled 1e18): totalSupply * (WETH per 1 TOKEN).
-    function getTokenMarketCapWeth(address tokenAddress) public view returns (uint256 marketCapWeth18) {
+    /// If TOKEN is WETH, this is simply WETH totalSupply (scaled to 1e18).
+    function getTokenMarketCapWeth(address tokenAddress) public view returns (uint256) {
         uint256 supply = IERC20(tokenAddress).totalSupply();
         uint8 decT = IERC20Metadata(tokenAddress).decimals();
-        uint256 supply18 = _scaleTo1e18(supply, decT);          // normalize totalSupply to 1e18
-        uint256 wethPerToken18 = getTokenWethPrice(tokenAddress);
-        marketCapWeth18 = (supply18 * wethPerToken18) / 1e18;
+        uint256 supply18 = _scaleTo1e18(supply, decT);
+
+        if (tokenAddress == WETH_ADDRESS) {
+            return supply18; // price == 1 WETH
+        } else {
+            uint256 wethPerToken18 = getTokenWethPrice(tokenAddress);
+            uint256 marketCapWeth18 = (supply18 * wethPerToken18) / 1e18;
+            return marketCapWeth18;
+        }
     }
 
     /// @notice Returns market cap in USD for TOKEN (scaled 1e18).

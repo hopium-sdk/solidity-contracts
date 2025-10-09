@@ -96,7 +96,7 @@
 				"outputs": [
 					{
 						"internalType": "uint256",
-						"name": "totalLiquidityWeth18",
+						"name": "",
 						"type": "uint256"
 					}
 				],
@@ -134,7 +134,7 @@
 				"outputs": [
 					{
 						"internalType": "uint256",
-						"name": "marketCapWeth18",
+						"name": "",
 						"type": "uint256"
 					}
 				],
@@ -191,7 +191,7 @@
 				"outputs": [
 					{
 						"internalType": "uint256",
-						"name": "price18",
+						"name": "",
 						"type": "uint256"
 					}
 				],
@@ -224,13 +224,13 @@
 					"notice": "Returns market cap in USD for TOKEN (scaled 1e18)."
 				},
 				"getTokenMarketCapWeth(address)": {
-					"notice": "Returns market cap in WETH for TOKEN (scaled 1e18): totalSupply * (WETH per 1 TOKEN)."
+					"notice": "Returns market cap in WETH for TOKEN (scaled 1e18): totalSupply * (WETH per 1 TOKEN). If TOKEN is WETH, this is simply WETH totalSupply (scaled to 1e18)."
 				},
 				"getTokenUsdPrice(address)": {
-					"notice": "Returns USD price of 1 TOKEN (scaled to 1e18)"
+					"notice": "Returns USD price of 1 TOKEN (scaled 1e18)"
 				},
 				"getTokenWethPrice(address)": {
-					"notice": "Returns WETH per 1 QUOTE (scaled 1e18) for an arbitrary WETH-QUOTE pair."
+					"notice": "Returns WETH per 1 QUOTE (scaled 1e18) for an arbitrary WETH-QUOTE pair. If QUOTE is WETH, returns 1e18."
 				},
 				"getWethUsdPrice()": {
 					"notice": "Returns USD per 1 WETH (scaled 1e18) using the stored WETH/USD pair."
@@ -272,11 +272,11 @@
 			]
 		},
 		"hopium/standalone/main/price-oracle.sol": {
-			"keccak256": "0x8468b30275fd9674f6cbfd9cba7664cbb2fec02bb36077467a1b93f64335aea2",
+			"keccak256": "0x1564b3b24dad751537d321b2dfea4e7fa616e79d604d2e8bbbdb262772240107",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1e9e33415c038de2c2abc806fba0fe089a2d817212fd4f51a74782d0659398a4",
-				"dweb:/ipfs/QmW7MPbRJkDscPZPfPg5NPPvEW5iaPbXr7hvD14rm74gCM"
+				"bzz-raw://3ecaf0a7af244293fbcc98261f88f3bc675e5b5cddf85aecf8ac61644e25c9f4",
+				"dweb:/ipfs/QmYA9aQ35nsP7ShddTYn7SdxVwiJhGQKj3wb7TjPf38Udc"
 			]
 		}
 	},
