@@ -80,6 +80,24 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "indexId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tradeWethValue",
+						"type": "uint256"
+					}
+				],
+				"name": "updateEtfVolume",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -118,11 +136,11 @@
 			]
 		},
 		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x6283cc12219d5ee3b7f3a5452c20e99a9190472e2a8af881fadc1a7616832921",
+			"keccak256": "0x113e7a55f043117f2fd334de4b88221f31f30045310aa99fe6b5db3d3bd13486",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c999d4f2f9a4b949e84d56643667cee4e37c8ce2490d249efb3b2ff36041680e",
-				"dweb:/ipfs/QmfUjdmy4DvkqMoTyWHXtp8y4PYLZdP6ESBQkA1GyG3gxi"
+				"bzz-raw://4a884bdaa7b3979d02ee6c57af2fc1cbbd31b302b66aacfcdf3f0724f007227b",
+				"dweb:/ipfs/QmbNFvdG9cnJht3omTmbuiCATyW895mvPUrLrRbCfikfaQ"
 			]
 		}
 	},

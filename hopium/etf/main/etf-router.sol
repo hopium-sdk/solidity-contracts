@@ -134,11 +134,11 @@ abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle
 contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImActive  {
     constructor(address _directory) ImDirectory(_directory) {}
 
-    event TokensMinted(uint256 indexId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
-    event TokensRedeemed(uint256 indexId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
+    event EtfTokensMinted(uint256 indexId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
+    event EtfTokensRedeemed(uint256 indexId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
 
     //Mints tokens from Eth
-    function mintTokens(uint256 indexId, address receiver, uint256 slippageBips, uint256 deadlineInSec) external payable nonReentrant onlyActive  {
+    function mintEtfTokens(uint256 indexId, address receiver, uint256 slippageBips, uint256 deadlineInSec) external payable nonReentrant onlyActive  {
         require(msg.value > 0, "EtfRouter: Msg value cannot be zero");
         require(receiver != address(0), "EtfRouter: Receiver cannot be zero address");
 
@@ -153,11 +153,14 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
         // Mint Etf tokens to receiver
         uint256 etfTokenAmount = _mintEtfTokens(indexId, ethAmount, etfTokenAddress, receiver);
 
-        emit TokensMinted(indexId, msg.sender, receiver, etfTokenAmount, ethAmount);
+        // Update Etf Volume in Etf factory
+        getEtfFactory().updateEtfVolume(indexId, ethAmount);
+
+        emit EtfTokensMinted(indexId, msg.sender, receiver, etfTokenAmount, ethAmount);
     }
 
     //Redeems tokens to Eth
-    function redeemTokens(uint256 indexId, uint256 etfTokenAmount, address payable receiver, uint256 slippageBips, uint256 deadlineInSec) external nonReentrant onlyActive {
+    function redeemEtfTokens(uint256 indexId, uint256 etfTokenAmount, address payable receiver, uint256 slippageBips, uint256 deadlineInSec) external nonReentrant onlyActive {
         require(etfTokenAmount > 0, "EtfRouter: tokens to redeem should not be zero");
         require(receiver != address(0), "EtfRouter: receiver should not be zero address");
 
@@ -184,7 +187,10 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
         // Send eth to receiver
         _sendEth(receiver, ethAmount);
 
-        emit TokensRedeemed(indexId, msg.sender, receiver, etfTokenAmount, ethAmount);
+        // Update Etf Volume in Etf factory
+        getEtfFactory().updateEtfVolume(indexId, ethAmount);
+
+        emit EtfTokensRedeemed(indexId, msg.sender, receiver, etfTokenAmount, ethAmount);
     }
 
     function changePlatformFee(uint16 newFee) public onlyOwner onlyActive {

@@ -61,7 +61,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "TokensMinted",
+				"name": "EtfTokensMinted",
 				"type": "event"
 			},
 			{
@@ -98,7 +98,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "TokensRedeemed",
+				"name": "EtfTokensRedeemed",
 				"type": "event"
 			},
 			{
@@ -195,7 +195,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "mintTokens",
+				"name": "mintEtfTokens",
 				"outputs": [],
 				"stateMutability": "payable",
 				"type": "function"
@@ -272,7 +272,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "redeemTokens",
+				"name": "redeemEtfTokens",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -386,11 +386,11 @@
 			]
 		},
 		"hopium/common/interface/imActive.sol": {
-			"keccak256": "0xea5ef68ff25d474140f1fffefac91d17beef07b12f0ce5aaabbf949e483a2fdd",
+			"keccak256": "0xc2ee8143001e064b7399891f652a74992469884f27719a3a77108839df8db2ce",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c0a3deea93b9a615cc467bc9344596920176b2200d717b82b6c76426100b37b0",
-				"dweb:/ipfs/QmaLiiLjTNHzBZzBaJA2P1kdUyE1yuPmWc512sj3qPSBbF"
+				"bzz-raw://f2b7deed09edd45178e9295c027ed4813e78438696f78f27904b3da6421949d2",
+				"dweb:/ipfs/QmYivXXuUfpnzj7HS9A51UFYmpnzHJ39V5e9y6q8Uo1t5u"
 			]
 		},
 		"hopium/common/interface/imDirectory.sol": {
@@ -434,11 +434,11 @@
 			]
 		},
 		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x6283cc12219d5ee3b7f3a5452c20e99a9190472e2a8af881fadc1a7616832921",
+			"keccak256": "0x113e7a55f043117f2fd334de4b88221f31f30045310aa99fe6b5db3d3bd13486",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c999d4f2f9a4b949e84d56643667cee4e37c8ce2490d249efb3b2ff36041680e",
-				"dweb:/ipfs/QmfUjdmy4DvkqMoTyWHXtp8y4PYLZdP6ESBQkA1GyG3gxi"
+				"bzz-raw://4a884bdaa7b3979d02ee6c57af2fc1cbbd31b302b66aacfcdf3f0724f007227b",
+				"dweb:/ipfs/QmbNFvdG9cnJht3omTmbuiCATyW895mvPUrLrRbCfikfaQ"
 			]
 		},
 		"hopium/etf/interface/imIndexFactory.sol": {
@@ -458,11 +458,11 @@
 			]
 		},
 		"hopium/etf/main/etf-router.sol": {
-			"keccak256": "0xc245f30f4698e9482b651c925f361b045c77bca44f11a3b50856219a7e370325",
+			"keccak256": "0x52078cda4f1b7bfca100ebbded4c68cbb4bdedfebb670404d9e1af033b0ef77c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://54cd6a61fa9c5c7b83bf02e61e5133eae8e628f4e1ee5c53855d6cc15f46c91a",
-				"dweb:/ipfs/Qme6W6fZ3dvjbEsJs6tqhQapWXtMKDKrefWf7GjrNMJ7K2"
+				"bzz-raw://81274ae499926b2f2250dc266ed86127841c30b343b11fe6f7b8a4710c8891d3",
+				"dweb:/ipfs/QmThzxa9h76tBAi1sESX7yQ7JjmTsCq6uVjJWpNkzBuymc"
 			]
 		},
 		"hopium/etf/storage/index.sol": {

@@ -52,7 +52,8 @@
 			"getEtfNavWeth(uint256)": "e4b603b3",
 			"getEtfTokenAddress(uint256)": "f2018a1f",
 			"getEtfVaultAddress(uint256)": "3ee79962",
-			"getIndexIdFromEtfTokenAddress(address)": "d00ed651"
+			"getIndexIdFromEtfTokenAddress(address)": "d00ed651",
+			"updateEtfVolume(uint256,uint256)": "1626542c"
 		}
 	},
 	"abi": [
@@ -130,6 +131,24 @@
 				}
 			],
 			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "indexId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "tradeWethValue",
+					"type": "uint256"
+				}
+			],
+			"name": "updateEtfVolume",
+			"outputs": [],
+			"stateMutability": "nonpayable",
 			"type": "function"
 		}
 	]

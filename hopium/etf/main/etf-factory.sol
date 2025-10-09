@@ -9,11 +9,14 @@ import "hopium/etf/storage/index.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "hopium/standalone/interface/imPriceOracle.sol";
 import "hopium/common/interface/imActive.sol";
+import "hopium/etf/interface/imEtfRouter.sol";
 
 abstract contract Storage {
     mapping(uint256 => address) internal indexIdToEtfTokenAddress;
     mapping(address => uint256) internal etfTokenAddressToIndexId;
     mapping(uint256 => address) internal indexIdToEtfVaultAddress;
+    mapping(uint256 => uint256) internal indexIdToTotalVolumeWeth;
+    mapping(uint256 => uint256) internal indexIdToTotalVolumeUsd;
 }
 
 abstract contract Helpers is ImIndexFactory, ImPriceOracle, Storage {
@@ -52,7 +55,7 @@ abstract contract Helpers is ImIndexFactory, ImPriceOracle, Storage {
     }
 }
 
-contract EtfFactory is ImDirectory, ImEtfTokenDeployer, ImEtfVaultDeployer, Helpers, ImActive {
+contract EtfFactory is ImDirectory, ImEtfTokenDeployer, ImEtfVaultDeployer, Helpers, ImActive, ImEtfRouter {
     constructor(address _directory) ImDirectory(_directory) {}
 
     event EtfDeployed(
@@ -79,6 +82,20 @@ contract EtfFactory is ImDirectory, ImEtfTokenDeployer, ImEtfVaultDeployer, Help
         emit EtfDeployed(indexId, etfTokenAddress, etfVaultAddress);
     }
 
+    function updateEtfVolume(uint256 indexId, uint256 tradeWethValue) public onlyEtfRouter {
+        require(tradeWethValue > 0, "EtfFactory: trade value is zero");
+
+        uint256 wethUsdPrice = getPriceOracle().getWethUsdPrice(); // USD per 1 WETH (1e18-scaled)
+        require(wethUsdPrice > 0, "EtfFactory: WETH/USD price is zero");
+
+        // Calculate USD value of trade: (tradeWethValue * USD per WETH) / 1e18
+        uint256 tradeUsdValue = (tradeWethValue * wethUsdPrice) / 1e18;
+
+        // Accumulate WETH and USD trade volumes for this index
+        indexIdToTotalVolumeWeth[indexId] += tradeWethValue;
+        indexIdToTotalVolumeUsd[indexId] += tradeUsdValue;
+    }
+
     // -- Read fns --
 
     function getEtfTokenAddress(uint256 indexId) public view returns (address) {
@@ -99,5 +116,13 @@ contract EtfFactory is ImDirectory, ImEtfTokenDeployer, ImEtfVaultDeployer, Help
 
     function getIndexIdFromEtfTokenAddress(address etfTokenAddress) public view returns (uint256) {
         return etfTokenAddressToIndexId[etfTokenAddress];
+    }
+
+    function getEtfTotalVolumeWeth(uint256 indexId) public view returns (uint256) {
+        return indexIdToTotalVolumeWeth[indexId];
+    }
+
+    function getEtfTotalVolumeUsd(uint256 indexId) public view returns (uint256) {    
+        return indexIdToTotalVolumeUsd[indexId];
     }
 }

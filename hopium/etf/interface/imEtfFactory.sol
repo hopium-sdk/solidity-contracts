@@ -8,6 +8,7 @@ interface IEtfFactory {
     function getEtfVaultAddress(uint256 indexId) external view returns (address);
     function getEtfNavWeth(uint256 indexId) external view returns (uint256 nav);
     function getIndexIdFromEtfTokenAddress(address etfTokenAddress) external view returns (uint256);
+    function updateEtfVolume(uint256 indexId, uint256 tradeWethValue) external;
 }
 
 abstract contract ImEtfFactory is ImDirectory {
