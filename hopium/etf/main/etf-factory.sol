@@ -15,8 +15,6 @@ uint256 constant WAD = 1e18;
 abstract contract Storage {
     mapping(uint256 => uint256) internal indexIdToTotalVolumeWeth;
     mapping(uint256 => uint256) internal indexIdToTotalVolumeUsd;
-
-    event EtfVolumeUpdated(uint256 indexId, uint256 amountWeth, uint256 amountUsd);
 }
 
 error ZeroWethUsdPrice();
@@ -76,7 +74,7 @@ contract EtfFactory is ImDirectory, Helpers, ImActive, ImEtfRouter {
     }
 
     error ZeroTradeValue();
-    function emitEtfVolumeEvent(uint256 indexId, uint256 ethAmount) public onlyEtfRouter {
+    function updateEtfVolume(uint256 indexId, uint256 ethAmount) public onlyEtfRouter {
         if (ethAmount == 0) revert ZeroTradeValue();
 
         uint256 wethUsd = getPriceOracle().getWethUsdPrice(); // 1e18
@@ -84,7 +82,8 @@ contract EtfFactory is ImDirectory, Helpers, ImActive, ImEtfRouter {
 
         uint256 amountUsd = (ethAmount * wethUsd) / WAD;
 
-        emit EtfVolumeUpdated(indexId, ethAmount, amountUsd);
+        indexIdToTotalVolumeWeth[indexId] += ethAmount;
+        indexIdToTotalVolumeUsd[indexId] += amountUsd;
     }
 
     // -- Read fns --

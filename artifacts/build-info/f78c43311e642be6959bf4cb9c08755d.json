@@ -1,5 +1,5 @@
 {
-	"id": "7a13c673a0674b3c89b2af4a3815c9e0",
+	"id": "f78c43311e642be6959bf4cb9c08755d",
 	"_format": "hh-sol-build-info-1",
 	"solcVersion": "0.8.30",
 	"solcLongVersion": "0.8.30+commit.73712a01",
@@ -7,7 +7,7 @@
 		"language": "Solidity",
 		"sources": {
 			"hopium/etf/interface/imEtfFactory.sol": {
-				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nimport \"hopium/common/interface/imDirectory.sol\";\n\ninterface IEtfFactory {\n    function getEtfNavWeth(uint256 indexId) external view returns (uint256 nav);\n    function emitEtfVolumeEvent(uint256 indexId, uint256 ethAmount) external;\n}\n\nabstract contract ImEtfFactory is ImDirectory {\n\n    function getEtfFactory() internal view virtual returns (IEtfFactory) {\n        return IEtfFactory(fetchFromDirectory(\"etf-factory\"));\n    }\n\n    modifier onlyEtfFactory() {\n        require(msg.sender == fetchFromDirectory(\"etf-factory\"), \"msg.sender is not etf factory\");\n        _;\n    }\n}"
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nimport \"hopium/common/interface/imDirectory.sol\";\n\ninterface IEtfFactory {\n    function getEtfNavWeth(uint256 indexId) external view returns (uint256 nav);\n    function updateEtfVolume(uint256 indexId, uint256 ethAmount) external;\n}\n\nabstract contract ImEtfFactory is ImDirectory {\n\n    function getEtfFactory() internal view virtual returns (IEtfFactory) {\n        return IEtfFactory(fetchFromDirectory(\"etf-factory\"));\n    }\n\n    modifier onlyEtfFactory() {\n        require(msg.sender == fetchFromDirectory(\"etf-factory\"), \"msg.sender is not etf factory\");\n        _;\n    }\n}"
 			},
 			"hopium/common/interface/imDirectory.sol": {
 				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\n/// @notice Interface used by the registry to talk to the external directory.\ninterface IDirectory {\n    function owner() external view returns (address);\n    function fetchFromDirectory(string memory _key) external view returns (address);\n}\n\nabstract contract ImDirectory {\n    IDirectory public Directory;\n\n    constructor(address _directory) {\n        _setDirectory(_directory); // no modifier here\n    }\n\n    function changeDirectoryAddress(address _directory) external onlyOwner {\n        _setDirectory(_directory);\n    }\n\n    function _setDirectory(address _directory) internal {\n        require(_directory != address(0), \"Directory cannot be zero address\");\n        require(_directory.code.length > 0, \"Directory must be a contract\");\n\n        // Sanity check the interface\n        try IDirectory(_directory).owner() returns (address) {\n            Directory = IDirectory(_directory);\n        } catch {\n            revert(\"Directory address does not implement owner()\");\n        }\n    }\n\n    modifier onlyOwner() {\n        require(msg.sender == Directory.owner(), \"Caller is not the owner\");\n        _;\n    }\n\n    function owner() public view returns (address) {\n        return Directory.owner();\n    }\n\n    function fetchFromDirectory(string memory _key) public view returns (address) {\n        return Directory.fetchFromDirectory(_key);\n    }\n}\n"
@@ -252,24 +252,6 @@
 									"internalType": "uint256",
 									"name": "indexId",
 									"type": "uint256"
-								},
-								{
-									"internalType": "uint256",
-									"name": "ethAmount",
-									"type": "uint256"
-								}
-							],
-							"name": "emitEtfVolumeEvent",
-							"outputs": [],
-							"stateMutability": "nonpayable",
-							"type": "function"
-						},
-						{
-							"inputs": [
-								{
-									"internalType": "uint256",
-									"name": "indexId",
-									"type": "uint256"
 								}
 							],
 							"name": "getEtfNavWeth",
@@ -281,6 +263,24 @@
 								}
 							],
 							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "uint256",
+									"name": "indexId",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "ethAmount",
+									"type": "uint256"
+								}
+							],
+							"name": "updateEtfVolume",
+							"outputs": [],
+							"stateMutability": "nonpayable",
 							"type": "function"
 						}
 					],
@@ -311,11 +311,11 @@
 						"gasEstimates": null,
 						"legacyAssembly": null,
 						"methodIdentifiers": {
-							"emitEtfVolumeEvent(uint256,uint256)": "e73a482a",
-							"getEtfNavWeth(uint256)": "e4b603b3"
+							"getEtfNavWeth(uint256)": "e4b603b3",
+							"updateEtfVolume(uint256,uint256)": "1626542c"
 						}
 					},
-					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"indexId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"ethAmount\",\"type\":\"uint256\"}],\"name\":\"emitEtfVolumeEvent\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"indexId\",\"type\":\"uint256\"}],\"name\":\"getEtfNavWeth\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"nav\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/etf/interface/imEtfFactory.sol\":\"IEtfFactory\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/common/interface/imDirectory.sol\":{\"keccak256\":\"0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626\",\"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e\"]},\"hopium/etf/interface/imEtfFactory.sol\":{\"keccak256\":\"0x3820f2778c924824b1e6dfca430b0342c45f7f7af501369e4f59a4b11a077a54\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://04d4ee52be93a42e457abdf9847279d4f743de2a308620e0cd6c7423775af9c1\",\"dweb:/ipfs/QmcfbB8X9PGMx1Ra9ZyHz7BFfDYjbdnvcDbK44kqXHvEum\"]}},\"version\":1}",
+					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"indexId\",\"type\":\"uint256\"}],\"name\":\"getEtfNavWeth\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"nav\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"indexId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"ethAmount\",\"type\":\"uint256\"}],\"name\":\"updateEtfVolume\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/etf/interface/imEtfFactory.sol\":\"IEtfFactory\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/common/interface/imDirectory.sol\":{\"keccak256\":\"0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626\",\"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e\"]},\"hopium/etf/interface/imEtfFactory.sol\":{\"keccak256\":\"0x9cfc476b774a92659a646d6a43aba5469411095e24879e6b205948a8cccb1961\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2be2117fe765ce2959796b673503334ce0f00ee2c36149519bb9ff07d3bb6689\",\"dweb:/ipfs/QmXi6P1b2St4LCuSDa7NZ58gjyhuFS1tHs4kTgEfiGaeiy\"]}},\"version\":1}",
 					"storageLayout": {
 						"storage": [],
 						"types": null
@@ -420,7 +420,7 @@
 							"owner()": "8da5cb5b"
 						}
 					},
-					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"Directory\",\"outputs\":[{\"internalType\":\"contract IDirectory\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_directory\",\"type\":\"address\"}],\"name\":\"changeDirectoryAddress\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_key\",\"type\":\"string\"}],\"name\":\"fetchFromDirectory\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/etf/interface/imEtfFactory.sol\":\"ImEtfFactory\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/common/interface/imDirectory.sol\":{\"keccak256\":\"0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626\",\"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e\"]},\"hopium/etf/interface/imEtfFactory.sol\":{\"keccak256\":\"0x3820f2778c924824b1e6dfca430b0342c45f7f7af501369e4f59a4b11a077a54\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://04d4ee52be93a42e457abdf9847279d4f743de2a308620e0cd6c7423775af9c1\",\"dweb:/ipfs/QmcfbB8X9PGMx1Ra9ZyHz7BFfDYjbdnvcDbK44kqXHvEum\"]}},\"version\":1}",
+					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"Directory\",\"outputs\":[{\"internalType\":\"contract IDirectory\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_directory\",\"type\":\"address\"}],\"name\":\"changeDirectoryAddress\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_key\",\"type\":\"string\"}],\"name\":\"fetchFromDirectory\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/etf/interface/imEtfFactory.sol\":\"ImEtfFactory\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/common/interface/imDirectory.sol\":{\"keccak256\":\"0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626\",\"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e\"]},\"hopium/etf/interface/imEtfFactory.sol\":{\"keccak256\":\"0x9cfc476b774a92659a646d6a43aba5469411095e24879e6b205948a8cccb1961\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2be2117fe765ce2959796b673503334ce0f00ee2c36149519bb9ff07d3bb6689\",\"dweb:/ipfs/QmXi6P1b2St4LCuSDa7NZ58gjyhuFS1tHs4kTgEfiGaeiy\"]}},\"version\":1}",
 					"storageLayout": {
 						"storage": [
 							{
@@ -2214,13 +2214,13 @@
 									"visibility": "external"
 								},
 								{
-									"functionSelector": "e73a482a",
+									"functionSelector": "1626542c",
 									"id": 143,
 									"implemented": false,
 									"kind": "function",
 									"modifiers": [],
-									"name": "emitEtfVolumeEvent",
-									"nameLocation": "226:18:1",
+									"name": "updateEtfVolume",
+									"nameLocation": "226:15:1",
 									"nodeType": "FunctionDefinition",
 									"parameters": {
 										"id": 141,
@@ -2231,10 +2231,10 @@
 												"id": 138,
 												"mutability": "mutable",
 												"name": "indexId",
-												"nameLocation": "253:7:1",
+												"nameLocation": "250:7:1",
 												"nodeType": "VariableDeclaration",
 												"scope": 143,
-												"src": "245:15:1",
+												"src": "242:15:1",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
@@ -2245,7 +2245,7 @@
 													"id": 137,
 													"name": "uint256",
 													"nodeType": "ElementaryTypeName",
-													"src": "245:7:1",
+													"src": "242:7:1",
 													"typeDescriptions": {
 														"typeIdentifier": "t_uint256",
 														"typeString": "uint256"
@@ -2258,10 +2258,10 @@
 												"id": 140,
 												"mutability": "mutable",
 												"name": "ethAmount",
-												"nameLocation": "270:9:1",
+												"nameLocation": "267:9:1",
 												"nodeType": "VariableDeclaration",
 												"scope": 143,
-												"src": "262:17:1",
+												"src": "259:17:1",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
@@ -2272,7 +2272,7 @@
 													"id": 139,
 													"name": "uint256",
 													"nodeType": "ElementaryTypeName",
-													"src": "262:7:1",
+													"src": "259:7:1",
 													"typeDescriptions": {
 														"typeIdentifier": "t_uint256",
 														"typeString": "uint256"
@@ -2281,23 +2281,23 @@
 												"visibility": "internal"
 											}
 										],
-										"src": "244:36:1"
+										"src": "241:36:1"
 									},
 									"returnParameters": {
 										"id": 142,
 										"nodeType": "ParameterList",
 										"parameters": [],
-										"src": "289:0:1"
+										"src": "286:0:1"
 									},
 									"scope": 144,
-									"src": "217:73:1",
+									"src": "217:70:1",
 									"stateMutability": "nonpayable",
 									"virtual": false,
 									"visibility": "external"
 								}
 							],
 							"scope": 175,
-							"src": "108:184:1",
+							"src": "108:181:1",
 							"usedErrors": [],
 							"usedEvents": []
 						},
@@ -2309,15 +2309,15 @@
 										"id": 145,
 										"name": "ImDirectory",
 										"nameLocations": [
-											"328:11:1"
+											"325:11:1"
 										],
 										"nodeType": "IdentifierPath",
 										"referencedDeclaration": 126,
-										"src": "328:11:1"
+										"src": "325:11:1"
 									},
 									"id": 146,
 									"nodeType": "InheritanceSpecifier",
-									"src": "328:11:1"
+									"src": "325:11:1"
 								}
 							],
 							"canonicalName": "ImEtfFactory",
@@ -2330,14 +2330,14 @@
 								126
 							],
 							"name": "ImEtfFactory",
-							"nameLocation": "312:12:1",
+							"nameLocation": "309:12:1",
 							"nodeType": "ContractDefinition",
 							"nodes": [
 								{
 									"body": {
 										"id": 158,
 										"nodeType": "Block",
-										"src": "416:70:1",
+										"src": "413:70:1",
 										"statements": [
 											{
 												"expression": {
@@ -2353,7 +2353,7 @@
 																	"kind": "string",
 																	"lValueRequested": false,
 																	"nodeType": "Literal",
-																	"src": "464:13:1",
+																	"src": "461:13:1",
 																	"typeDescriptions": {
 																		"typeIdentifier": "t_stringliteral_943729610839eba57b71f5d9959c11c5b12a75d61eab5ef533c966664c99cdca",
 																		"typeString": "literal_string \"etf-factory\""
@@ -2373,7 +2373,7 @@
 																"nodeType": "Identifier",
 																"overloadedDeclarations": [],
 																"referencedDeclaration": 125,
-																"src": "445:18:1",
+																"src": "442:18:1",
 																"typeDescriptions": {
 																	"typeIdentifier": "t_function_internal_view$_t_string_memory_ptr_$returns$_t_address_$",
 																	"typeString": "function (string memory) view returns (address)"
@@ -2388,7 +2388,7 @@
 															"nameLocations": [],
 															"names": [],
 															"nodeType": "FunctionCall",
-															"src": "445:33:1",
+															"src": "442:33:1",
 															"tryCall": false,
 															"typeDescriptions": {
 																"typeIdentifier": "t_address",
@@ -2408,7 +2408,7 @@
 														"nodeType": "Identifier",
 														"overloadedDeclarations": [],
 														"referencedDeclaration": 144,
-														"src": "433:11:1",
+														"src": "430:11:1",
 														"typeDescriptions": {
 															"typeIdentifier": "t_type$_t_contract$_IEtfFactory_$144_$",
 															"typeString": "type(contract IEtfFactory)"
@@ -2423,7 +2423,7 @@
 													"nameLocations": [],
 													"names": [],
 													"nodeType": "FunctionCall",
-													"src": "433:46:1",
+													"src": "430:46:1",
 													"tryCall": false,
 													"typeDescriptions": {
 														"typeIdentifier": "t_contract$_IEtfFactory_$144",
@@ -2433,7 +2433,7 @@
 												"functionReturnParameters": 151,
 												"id": 157,
 												"nodeType": "Return",
-												"src": "426:53:1"
+												"src": "423:53:1"
 											}
 										]
 									},
@@ -2442,13 +2442,13 @@
 									"kind": "function",
 									"modifiers": [],
 									"name": "getEtfFactory",
-									"nameLocation": "356:13:1",
+									"nameLocation": "353:13:1",
 									"nodeType": "FunctionDefinition",
 									"parameters": {
 										"id": 147,
 										"nodeType": "ParameterList",
 										"parameters": [],
-										"src": "369:2:1"
+										"src": "366:2:1"
 									},
 									"returnParameters": {
 										"id": 151,
@@ -2462,7 +2462,7 @@
 												"nameLocation": "-1:-1:-1",
 												"nodeType": "VariableDeclaration",
 												"scope": 159,
-												"src": "403:11:1",
+												"src": "400:11:1",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
@@ -2476,14 +2476,14 @@
 														"id": 148,
 														"name": "IEtfFactory",
 														"nameLocations": [
-															"403:11:1"
+															"400:11:1"
 														],
 														"nodeType": "IdentifierPath",
 														"referencedDeclaration": 144,
-														"src": "403:11:1"
+														"src": "400:11:1"
 													},
 													"referencedDeclaration": 144,
-													"src": "403:11:1",
+													"src": "400:11:1",
 													"typeDescriptions": {
 														"typeIdentifier": "t_contract$_IEtfFactory_$144",
 														"typeString": "contract IEtfFactory"
@@ -2492,10 +2492,10 @@
 												"visibility": "internal"
 											}
 										],
-										"src": "402:13:1"
+										"src": "399:13:1"
 									},
 									"scope": 174,
-									"src": "347:139:1",
+									"src": "344:139:1",
 									"stateMutability": "view",
 									"virtual": true,
 									"visibility": "internal"
@@ -2504,7 +2504,7 @@
 									"body": {
 										"id": 172,
 										"nodeType": "Block",
-										"src": "518:117:1",
+										"src": "515:117:1",
 										"statements": [
 											{
 												"expression": {
@@ -2526,7 +2526,7 @@
 																	"nodeType": "Identifier",
 																	"overloadedDeclarations": [],
 																	"referencedDeclaration": 4294967281,
-																	"src": "536:3:1",
+																	"src": "533:3:1",
 																	"typeDescriptions": {
 																		"typeIdentifier": "t_magic_message",
 																		"typeString": "msg"
@@ -2537,10 +2537,10 @@
 																"isLValue": false,
 																"isPure": false,
 																"lValueRequested": false,
-																"memberLocation": "540:6:1",
+																"memberLocation": "537:6:1",
 																"memberName": "sender",
 																"nodeType": "MemberAccess",
-																"src": "536:10:1",
+																"src": "533:10:1",
 																"typeDescriptions": {
 																	"typeIdentifier": "t_address",
 																	"typeString": "address"
@@ -2559,7 +2559,7 @@
 																		"kind": "string",
 																		"lValueRequested": false,
 																		"nodeType": "Literal",
-																		"src": "569:13:1",
+																		"src": "566:13:1",
 																		"typeDescriptions": {
 																			"typeIdentifier": "t_stringliteral_943729610839eba57b71f5d9959c11c5b12a75d61eab5ef533c966664c99cdca",
 																			"typeString": "literal_string \"etf-factory\""
@@ -2579,7 +2579,7 @@
 																	"nodeType": "Identifier",
 																	"overloadedDeclarations": [],
 																	"referencedDeclaration": 125,
-																	"src": "550:18:1",
+																	"src": "547:18:1",
 																	"typeDescriptions": {
 																		"typeIdentifier": "t_function_internal_view$_t_string_memory_ptr_$returns$_t_address_$",
 																		"typeString": "function (string memory) view returns (address)"
@@ -2594,14 +2594,14 @@
 																"nameLocations": [],
 																"names": [],
 																"nodeType": "FunctionCall",
-																"src": "550:33:1",
+																"src": "547:33:1",
 																"tryCall": false,
 																"typeDescriptions": {
 																	"typeIdentifier": "t_address",
 																	"typeString": "address"
 																}
 															},
-															"src": "536:47:1",
+															"src": "533:47:1",
 															"typeDescriptions": {
 																"typeIdentifier": "t_bool",
 																"typeString": "bool"
@@ -2616,7 +2616,7 @@
 															"kind": "string",
 															"lValueRequested": false,
 															"nodeType": "Literal",
-															"src": "585:31:1",
+															"src": "582:31:1",
 															"typeDescriptions": {
 																"typeIdentifier": "t_stringliteral_96d2274afc2e46d87651e0ea9c531d7bd4a8254dcdfc9658ecdc8737b93f78e9",
 																"typeString": "literal_string \"msg.sender is not etf factory\""
@@ -2644,7 +2644,7 @@
 															4294967278
 														],
 														"referencedDeclaration": 4294967278,
-														"src": "528:7:1",
+														"src": "525:7:1",
 														"typeDescriptions": {
 															"typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
 															"typeString": "function (bool,string memory) pure"
@@ -2659,7 +2659,7 @@
 													"nameLocations": [],
 													"names": [],
 													"nodeType": "FunctionCall",
-													"src": "528:89:1",
+													"src": "525:89:1",
 													"tryCall": false,
 													"typeDescriptions": {
 														"typeIdentifier": "t_tuple$__$",
@@ -2668,37 +2668,37 @@
 												},
 												"id": 170,
 												"nodeType": "ExpressionStatement",
-												"src": "528:89:1"
+												"src": "525:89:1"
 											},
 											{
 												"id": 171,
 												"nodeType": "PlaceholderStatement",
-												"src": "627:1:1"
+												"src": "624:1:1"
 											}
 										]
 									},
 									"id": 173,
 									"name": "onlyEtfFactory",
-									"nameLocation": "501:14:1",
+									"nameLocation": "498:14:1",
 									"nodeType": "ModifierDefinition",
 									"parameters": {
 										"id": 160,
 										"nodeType": "ParameterList",
 										"parameters": [],
-										"src": "515:2:1"
+										"src": "512:2:1"
 									},
-									"src": "492:143:1",
+									"src": "489:143:1",
 									"virtual": false,
 									"visibility": "internal"
 								}
 							],
 							"scope": 175,
-							"src": "294:343:1",
+							"src": "291:343:1",
 							"usedErrors": [],
 							"usedEvents": []
 						}
 					],
-					"src": "32:605:1"
+					"src": "32:602:1"
 				},
 				"id": 1
 			}

@@ -161,7 +161,7 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
         uint256 etfTokenAmount = _mintEtfTokens(indexId, ethAmount, etfTokenAddress, receiver);
 
         // Emit volume event on etf factory
-        getEtfFactory().emitEtfVolumeEvent(indexId, ethAmount);
+        getEtfFactory().updateEtfVolume(indexId, ethAmount);
 
         emit EtfTokensMinted(indexId, msg.sender, receiver, etfTokenAmount, ethAmount);
     }
@@ -197,7 +197,7 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
         _sendEth(receiver, ethAmount);
 
         // Emit volume event on etf factory
-        getEtfFactory().emitEtfVolumeEvent(indexId, ethAmount);
+        getEtfFactory().updateEtfVolume(indexId, ethAmount);
 
         emit EtfTokensRedeemed(indexId, msg.sender, receiver, etfTokenAmount, ethAmount);
     }

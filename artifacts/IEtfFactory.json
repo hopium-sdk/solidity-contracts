@@ -49,29 +49,11 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"emitEtfVolumeEvent(uint256,uint256)": "e73a482a",
-			"getEtfNavWeth(uint256)": "e4b603b3"
+			"getEtfNavWeth(uint256)": "e4b603b3",
+			"updateEtfVolume(uint256,uint256)": "1626542c"
 		}
 	},
 	"abi": [
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "indexId",
-					"type": "uint256"
-				},
-				{
-					"internalType": "uint256",
-					"name": "ethAmount",
-					"type": "uint256"
-				}
-			],
-			"name": "emitEtfVolumeEvent",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
 		{
 			"inputs": [
 				{
@@ -89,6 +71,24 @@
 				}
 			],
 			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "indexId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "ethAmount",
+					"type": "uint256"
+				}
+			],
+			"name": "updateEtfVolume",
+			"outputs": [],
+			"stateMutability": "nonpayable",
 			"type": "function"
 		}
 	]

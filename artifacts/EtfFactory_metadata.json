@@ -52,31 +52,6 @@
 				"type": "event"
 			},
 			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "indexId",
-						"type": "uint256"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "amountWeth",
-						"type": "uint256"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "amountUsd",
-						"type": "uint256"
-					}
-				],
-				"name": "EtfVolumeUpdated",
-				"type": "event"
-			},
-			{
 				"inputs": [],
 				"name": "Directory",
 				"outputs": [
@@ -140,24 +115,6 @@
 					}
 				],
 				"name": "createIndexAndEtf",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "indexId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "ethAmount",
-						"type": "uint256"
-					}
-				],
-				"name": "emitEtfVolumeEvent",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -333,6 +290,24 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "indexId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "ethAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "updateEtfVolume",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -419,11 +394,11 @@
 			]
 		},
 		"hopium/etf/main/etf-factory.sol": {
-			"keccak256": "0xd54cbc1d2921fed4fe65c4a9ce7b2c6320011af9460cef7efa0c95f683230882",
+			"keccak256": "0x2276410085a21770774d9632d21838f2081c4f5499645d268dd36a83807db0c7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8cf1d21f055e443b9b1d6f8cfbb758b7e0aaae3428afbb2a4078aa8167ad3cb9",
-				"dweb:/ipfs/QmPZk5Auum1V7MnExhKMHkK5dGCvTguiJyZTsE5Vot8oMq"
+				"bzz-raw://0a6b8a34c7497a6e0c400152b9afab3d40a8631fe1287b32dcfec3a285d2edf4",
+				"dweb:/ipfs/QmZa8WGebStJ8jATbz58N98U2PtQJdWrsAvvUc8bWG9fpY"
 			]
 		},
 		"hopium/etf/storage/index.sol": {

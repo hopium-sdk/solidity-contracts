@@ -5,7 +5,7 @@ import "hopium/common/interface/imDirectory.sol";
 
 interface IEtfFactory {
     function getEtfNavWeth(uint256 indexId) external view returns (uint256 nav);
-    function emitEtfVolumeEvent(uint256 indexId, uint256 ethAmount) external;
+    function updateEtfVolume(uint256 indexId, uint256 ethAmount) external;
 }
 
 abstract contract ImEtfFactory is ImDirectory {
