@@ -49,27 +49,32 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"permit2()": "12261ee7",
-			"uRouter()": "5cf39049",
-			"v2Factory()": "b4b57c39",
-			"v2Router()": "deadbc14",
-			"v3Factory()": "7c887c59",
-			"v3Quoter()": "d7dfe3af",
-			"wethAddress()": "4f0e0ef3"
+			"IS_WETH_USD_PAIR_ADDRESS_V3()": "5498f4bc",
+			"WETH_ADDRESS()": "040141e5",
+			"WETH_DECIMALS()": "d08aef7c",
+			"WETH_USD_PAIR_ADDRESS()": "0b017603"
 		}
 	},
 	"abi": [
 		{
 			"inputs": [],
-			"name": "ZeroAddress",
-			"type": "error"
+			"name": "IS_WETH_USD_PAIR_ADDRESS_V3",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
 		},
 		{
 			"inputs": [],
-			"name": "permit2",
+			"name": "WETH_ADDRESS",
 			"outputs": [
 				{
-					"internalType": "contract IPermit2",
+					"internalType": "address",
 					"name": "",
 					"type": "address"
 				}
@@ -79,12 +84,12 @@
 		},
 		{
 			"inputs": [],
-			"name": "uRouter",
+			"name": "WETH_DECIMALS",
 			"outputs": [
 				{
-					"internalType": "contract IUniversalRouter",
+					"internalType": "uint8",
 					"name": "",
-					"type": "address"
+					"type": "uint8"
 				}
 			],
 			"stateMutability": "view",
@@ -92,59 +97,7 @@
 		},
 		{
 			"inputs": [],
-			"name": "v2Factory",
-			"outputs": [
-				{
-					"internalType": "contract IUniswapV2Factory",
-					"name": "",
-					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "v2Router",
-			"outputs": [
-				{
-					"internalType": "contract IUniswapV2Router02",
-					"name": "",
-					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "v3Factory",
-			"outputs": [
-				{
-					"internalType": "contract IUniswapV3Factory",
-					"name": "",
-					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "v3Quoter",
-			"outputs": [
-				{
-					"internalType": "contract IUniswapV3Quoter",
-					"name": "",
-					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "wethAddress",
+			"name": "WETH_USD_PAIR_ADDRESS",
 			"outputs": [
 				{
 					"internalType": "address",

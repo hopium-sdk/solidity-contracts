@@ -306,6 +306,24 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "toAddress",
+						"type": "address"
+					}
+				],
+				"name": "recoverAsset",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "newStaleTime",
 						"type": "uint256"
@@ -603,11 +621,11 @@
 			]
 		},
 		"hopium/multiswap-eth/main/multiswap-eth-router.sol": {
-			"keccak256": "0x56550b2cc6f140f7cfcc484e0dd826c90ecc3e01aada1eff00dbe37616f4f250",
+			"keccak256": "0x2a542b9d964fdb755d935b83b02e56604b8b0171fd08609837ad2bc5669fb299",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f6d18233adee7f458e85b94df9373cf38dafde8202b01e50cd3e440518af5698",
-				"dweb:/ipfs/QmdxXkKvNtzu7YMzzBSiPeQf1j2pWoiYokg1x1ySSabuav"
+				"bzz-raw://6f281c8f688951c1700b5ebd4acff99ba98df1b2a83475587127815e6900dbf1",
+				"dweb:/ipfs/QmUi7JaijFKkEB64bMByfZTknrnX8wNpwWxRZgq5erHUw5"
 			]
 		}
 	},

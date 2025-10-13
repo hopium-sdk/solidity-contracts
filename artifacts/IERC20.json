@@ -50,7 +50,7 @@
 		"gasEstimates": null,
 		"methodIdentifiers": {
 			"balanceOf(address)": "70a08231",
-			"transfer(address,uint256)": "a9059cbb"
+			"totalSupply()": "18160ddd"
 		}
 	},
 	"abi": [
@@ -74,27 +74,16 @@
 			"type": "function"
 		},
 		{
-			"inputs": [
-				{
-					"internalType": "address",
-					"name": "to",
-					"type": "address"
-				},
+			"inputs": [],
+			"name": "totalSupply",
+			"outputs": [
 				{
 					"internalType": "uint256",
-					"name": "value",
+					"name": "",
 					"type": "uint256"
 				}
 			],
-			"name": "transfer",
-			"outputs": [
-				{
-					"internalType": "bool",
-					"name": "",
-					"type": "bool"
-				}
-			],
-			"stateMutability": "nonpayable",
+			"stateMutability": "view",
 			"type": "function"
 		}
 	]

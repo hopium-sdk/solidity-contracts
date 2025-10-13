@@ -538,5 +538,9 @@ contract MultiswapEthRouter is BatchBuilders, ReentrancyGuard {
         _unwrapAndSendWETH(wethBal, recipientAddress);
     }
 
+    function recoverAsset(address tokenAddress, address toAddress) public onlyOwner {
+        _recoverAsset(tokenAddress, toAddress);
+    }
+
     receive() external payable {} // to receive ETH for wrap/unwrap only
 }

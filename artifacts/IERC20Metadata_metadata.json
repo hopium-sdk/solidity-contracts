@@ -87,11 +87,11 @@
 			]
 		},
 		"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
-			"keccak256": "0x67b4ec9f7dff209ae01ae9e8e299ce648f53038edba46bb83bdd063caaee7970",
+			"keccak256": "0x0b42522bd386cbbadd5632b94facb1ef3ae320326136ad7c1c2479b1c6bed178",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f2b84929c02344165804df7e5c22fa4ed7779f65e61aa5e80d8cadb7c5e116e0",
-				"dweb:/ipfs/QmYUKkkYjoeor1es6rBjBg68dcQQecEzYPnZYvwA2gKxyS"
+				"bzz-raw://db9a6662c0c9c02192b8b1b417a424deb588f675fd4d9c0061a3c8e8f6c27895",
+				"dweb:/ipfs/QmUNvndDu9Mzsnh4rot3YPEPagdqFRpvgbUsGA8zdLsk3x"
 			]
 		},
 		"hopium/multiswap-eth/interface/imMultiSwapEthRouter.sol": {
