@@ -5,6 +5,7 @@ pragma solidity ^0.8.20;
 /*                External interfaces (deps)             */
 /* ----------------------------------------------------- */
 import "hopium/common/interface/imDirectory.sol";
+import "hopium/multiswap-eth/types/types.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "hopium/common/interface/ierc20.sol";
 import "hopium/common/interface/iweth.sol";
@@ -13,13 +14,16 @@ import "hopium/multiswap-eth/interface/uniswapV3.sol";
 import "hopium/multiswap-eth/interface/universal-router.sol";
 import "hopium/common/utils/transfer-helpers.sol";
 import "hopium/common/storage/bips.sol";
-import "hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol";
 import "hopium/common/interface/imPermit2.sol";
+import "hopium/multiswap-eth/utils/oracleLibrary.sol";
+import "hopium/multiswap-eth/utils/twapTick.sol";
+import "hopium/multiswap-eth/utils/weth.sol";
+
 /* ----------------------------------------------------- */
 /*                  Custom errors (cheaper)              */
 /* ----------------------------------------------------- */
 error ZeroAddress();
-error EmptyArray();
+error InvalidInput();
 error WeightsInvalid();
 error NoPoolFound();
 
@@ -35,24 +39,21 @@ abstract contract Storage {
     IUniswapV3Factory public immutable v3Factory;
 
     IUniswapV2Router02 public immutable v2Router;   // read-only getAmountsOut
-    IUniswapV3Quoter    public immutable v3Quoter;  // quoteExactInputSingle
     IUniversalRouter    public immutable uRouter;   // actual swaps
 
     constructor(
         address _v2Router,
         address _v3Factory,
-        address _v3Quoter,
         address _universalRouter,
         address _permit2
     ) {
         if (_v3Factory == address(0)) revert ZeroAddress();
         if (_v2Router  == address(0)) revert ZeroAddress();
-        if (_v3Quoter  == address(0)) revert ZeroAddress();
         if (_universalRouter == address(0)) revert ZeroAddress();
+        if (_permit2 == address(0)) revert ZeroAddress();
 
         v3Factory = IUniswapV3Factory(_v3Factory);
         v2Router  = IUniswapV2Router02(_v2Router);
-        v3Quoter  = IUniswapV3Quoter(_v3Quoter);
         uRouter   = IUniversalRouter(_universalRouter);
 
         address _weth = IUniswapV2Router02(_v2Router).WETH();
@@ -69,7 +70,7 @@ abstract contract Storage {
 abstract contract PoolFinder is Storage, ImDirectory {
     error TokenIsWETH();
 
-    mapping(address => Pool) public cachedPools;
+    mapping(address => Pool) internal cachedPools;
 
     // constant fee tiers — cheapest way (no constructor needed)
     uint24 internal constant V3_FEE0 = 3000;   // 0.3%
@@ -171,26 +172,99 @@ abstract contract QuoteHelpers is PoolFinder, TransferHelpers {
     }
 
     /// @dev V2 minOut calc using Router.getAmountsOut (read-only use)
+    /// @dev V2 minOut calc using Router.getAmountsOut (cheap view).
+    ///      For fee-on-transfer tokens, this is only an estimate (the router can’t know transfer fees).
     function _calcMinOutV2(
-        address /*tokenInAddress*/,
-        address /*tokenOutAddress*/,
-        uint256 /*amountIn*/,
-        uint32  /*slippageBps*/
-    ) internal pure returns (uint256 minOut) {
-        // Re-enable to use real quotes; zero for now.
-        minOut = 0;
+        address tokenInAddress,
+        address tokenOutAddress,
+        uint256 amountIn,
+        uint32  slippageBps
+    ) internal view returns (uint256 minOut) {
+        if (amountIn == 0) return 0;
+        if (tokenInAddress == address(0) || tokenOutAddress == address(0)) revert ZeroAddress();
+        if (slippageBps > HUNDRED_PERCENT_BIPS) revert WeightsInvalid();
+
+        address[] memory path = new address[](2);
+        path[0] = tokenInAddress;
+        path[1] = tokenOutAddress;
+
+        uint256[] memory amounts;
+        // some routers may revert if pair doesn’t exist; catch and signal unavailability
+        try v2Router.getAmountsOut(amountIn, path) returns (uint256[] memory outAmts) {
+            amounts = outAmts;
+        } catch {
+            revert QuoteUnavailable();
+        }
+
+        if (amounts.length < 2) revert QuoteUnavailable();
+        uint256 quoteOut = amounts[1];
+        if (quoteOut == 0) revert QuoteUnavailable();
+
+        minOut = _applySlippage(quoteOut, slippageBps);
     }
 
-    /// @dev V3 minOut calc using Quoter.quoteExactInputSingle (non-view)
+    /// @dev V3 minOut calc using pool TWAP/spot — no Quoter simulation gas.
+    ///      - Applies fee-on-input (1e6 denominator) before pricing.
+    ///      - Uses a short TWAP (e.g., 15s), falling back to spot tick if oracle is too young.
+    ///      NOTE: Ignores your own price impact; use conservative slippage for large trades.
     function _calcMinOutV3(
-        address /*tokenInAddress*/,
-        address /*tokenOutAddress*/,
-        uint24  /*fee*/,
-        uint256 /*amountIn*/,
-        uint32  /*slippageBps*/
-    ) internal pure returns (uint256 minOut) {
-        // Re-enable to use real quotes; zero for now.
-        minOut = 0;
+        address tokenInAddress,
+        address tokenOutAddress,
+        uint24  fee,           // 500, 3000, 10000, etc.
+        uint256 amountIn,
+        uint32  slippageBps
+    ) internal view returns (uint256 minOut) {
+        if (amountIn == 0) return 0;
+        if (tokenInAddress == address(0) || tokenOutAddress == address(0)) revert ZeroAddress();
+        if (slippageBps > HUNDRED_PERCENT_BIPS) revert WeightsInvalid();
+
+        address pool = v3Factory.getPool(tokenInAddress, tokenOutAddress, fee);
+        if (pool == address(0)) revert NoPoolFound();
+
+        // Uniswap V3 takes fee from amountIn
+        uint256 amountAfterFee = (amountIn * (1_000_000 - uint256(fee))) / 1_000_000;
+        if (amountAfterFee == 0) revert QuoteUnavailable();
+
+        // Cap to uint128 as required by OracleLibrary.getQuoteAtTick
+        uint128 amt128 = amountAfterFee > type(uint128).max ? type(uint128).max : uint128(amountAfterFee);
+
+        // Choose a short, cheap TWAP window (adjust if you like)
+        uint32 secondsAgo = 15;
+
+        // Derive a tick to quote at: prefer TWAP, fall back to spot
+        int24 tickForQuote;
+        {
+            uint32[] memory secondsAgos = new uint32[](2);
+            secondsAgos[0] = secondsAgo; // older
+            secondsAgos[1] = 0;          // now
+
+            // try TWAP via external call (try/catch allowed)
+            try IUniswapV3Pool(pool).observe(secondsAgos) returns (
+                int56[] memory tickCumulatives,
+                uint160[] memory /* secondsPerLiquidityCumulativeX128s */
+            ) {
+                tickForQuote = TwapTick.meanTickFromCumulatives(
+                    tickCumulatives[0],
+                    tickCumulatives[1],
+                    secondsAgo
+                );
+            } catch {
+                // not enough observations (young/idle pool) — use spot tick
+                (, int24 spotTick, , , , , ) = IUniswapV3Pool(pool).slot0();
+                tickForQuote = spotTick;
+            }
+        }
+
+        uint256 quoteOut = OracleLibrary.getQuoteAtTick(
+            tickForQuote,
+            amt128,
+            tokenInAddress,
+            tokenOutAddress
+        );
+        if (quoteOut == 0) revert QuoteUnavailable();
+
+        // Apply user slippage tolerance
+        minOut = _applySlippage(quoteOut, slippageBps);
     }
 }
 
@@ -201,19 +275,6 @@ abstract contract URSwapHelpers is QuoteHelpers, ImPermit2 {
     // Command bytes (from Uniswap’s Commands.sol)
     uint256 constant CMD_V3_SWAP_EXACT_IN = 0x00;
     uint256 constant CMD_V2_SWAP_EXACT_IN = 0x08;
-
-    /* --------- ETH <-> WETH handled in this contract only --------- */
-    function _wrapETH(uint256 amt) internal {
-        if (address(this).balance < amt) revert InsufficientETH();
-        IWETH(wethAddress).deposit{value: amt}();
-    }
-
-    error ETHSendFailure();
-    function _unwrapAndSendWETH(uint256 amt, address payable to) internal {
-        IWETH(wethAddress).withdraw(amt);
-        (bool ok, ) = to.call{value: amt}("");
-        if (!ok) revert ETHSendFailure();
-    }
 
     /* ---------------------- Packing helpers ----------------------- */
     // inputs for V3_SWAP_EXACT_IN = abi.encode(recipient, amountIn, amountOutMin, path, payerIsUser)
@@ -458,12 +519,11 @@ contract MultiswapEthRouter is BatchBuilders, ReentrancyGuard {
         address _directory,
         address _v2Router,
         address _v3Factory,
-        address _v3Quoter,
         address _universalRouter,
         address _permit2
     )
         ImDirectory(_directory)
-        Storage(_v2Router, _v3Factory, _v3Quoter, _universalRouter, _permit2)
+        Storage(_v2Router, _v3Factory, _universalRouter, _permit2)
     {}
 
     /* ────────────────────────────────────────────────────────────────
@@ -472,8 +532,6 @@ contract MultiswapEthRouter is BatchBuilders, ReentrancyGuard {
        - Build all swap legs via _buildEthToTokensBatch
        - Single Universal Router execute
     ───────────────────────────────────────────────────────────────── */
-    error NoEthSent();
-
     function swapEthToMultipleTokens(
         MultiTokenOutput[] calldata outputs,
         address recipientAddress,
@@ -481,8 +539,8 @@ contract MultiswapEthRouter is BatchBuilders, ReentrancyGuard {
     ) external payable nonReentrant {
         if (recipientAddress == address(0)) revert ZeroAddress();
         uint256 msgValue = msg.value;
-        if (outputs.length == 0) revert EmptyArray();
-        if (msgValue == 0) revert NoEthSent();
+        if (outputs.length == 0) revert InvalidInput();
+        if (msgValue == 0) revert InvalidInput();
 
         EthToTokenBatch memory batch =
             _buildEthToTokensBatch(outputs, recipientAddress, slippageBps, msgValue);
@@ -493,7 +551,7 @@ contract MultiswapEthRouter is BatchBuilders, ReentrancyGuard {
 
         // Wrap exactly once for all legs (including direct-WETH)
         uint256 alloc = batch.allocatedWeth;
-        if (alloc > 0) _wrapETH(alloc);
+        if (alloc > 0) WETH.wrapETH(wethAddress, alloc);
 
         // Execute swaps in one UR call
         _executeBatch(batch.commands, batch.inputs, batch.count);
@@ -525,7 +583,7 @@ contract MultiswapEthRouter is BatchBuilders, ReentrancyGuard {
         bool preTransferred
     ) external nonReentrant {
         if (recipientAddress == address(0)) revert ZeroAddress();
-        if (inputsIn.length == 0) revert EmptyArray();
+        if (inputsIn.length == 0) revert InvalidInput();
 
         TokenToEthBatch memory batch =
             _buildTokensToEthBatch(inputsIn, slippageBps, preTransferred);
@@ -535,10 +593,10 @@ contract MultiswapEthRouter is BatchBuilders, ReentrancyGuard {
         uint256 wethBal = IERC20(wethAddress).balanceOf(address(this));
         if (wethBal == 0) revert NoSwaps();
 
-        _unwrapAndSendWETH(wethBal, recipientAddress);
+        WETH.unwrapAndSendWETH(wethAddress,wethBal, recipientAddress);
     }
 
-    function recoverAsset(address tokenAddress, address toAddress) public onlyOwner {
+    function recoverAsset(address tokenAddress, address toAddress) external onlyOwner {
         _recoverAsset(tokenAddress, toAddress);
     }
 

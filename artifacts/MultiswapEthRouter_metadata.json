@@ -24,11 +24,6 @@
 					},
 					{
 						"internalType": "address",
-						"name": "_v3Quoter",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
 						"name": "_universalRouter",
 						"type": "address"
 					},
@@ -63,7 +58,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "EmptyArray",
+				"name": "InsufficientETH",
 				"type": "error"
 			},
 			{
@@ -73,7 +68,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "NoEthSent",
+				"name": "InvalidInput",
 				"type": "error"
 			},
 			{
@@ -94,6 +89,11 @@
 			{
 				"inputs": [],
 				"name": "PreTransferInsufficient",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "QuoteUnavailable",
 				"type": "error"
 			},
 			{
@@ -124,40 +124,6 @@
 						"internalType": "contract IDirectory",
 						"name": "",
 						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "cachedPools",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "poolAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "uint24",
-						"name": "poolFee",
-						"type": "uint24"
-					},
-					{
-						"internalType": "uint8",
-						"name": "isV3Pool",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint64",
-						"name": "lastCached",
-						"type": "uint64"
 					}
 				],
 				"stateMutability": "view",
@@ -476,19 +442,6 @@
 			},
 			{
 				"inputs": [],
-				"name": "v3Quoter",
-				"outputs": [
-					{
-						"internalType": "contract IUniswapV3Quoter",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
 				"name": "wethAddress",
 				"outputs": [
 					{
@@ -526,7 +479,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -588,14 +541,6 @@
 				"dweb:/ipfs/QmYTpTwfN1Khz3yEUdWH55hrHkDPsk1mxxcdBBxhWoLKvq"
 			]
 		},
-		"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
-			"keccak256": "0x0b42522bd386cbbadd5632b94facb1ef3ae320326136ad7c1c2479b1c6bed178",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://db9a6662c0c9c02192b8b1b417a424deb588f675fd4d9c0061a3c8e8f6c27895",
-				"dweb:/ipfs/QmUNvndDu9Mzsnh4rot3YPEPagdqFRpvgbUsGA8zdLsk3x"
-			]
-		},
 		"hopium/multiswap-eth/interface/uniswapV2.sol": {
 			"keccak256": "0xdd8afdfef3fc93bb606a050f43111b8603b21add7a93a9bfba89a49b3ed3b051",
 			"license": "MIT",
@@ -605,11 +550,11 @@
 			]
 		},
 		"hopium/multiswap-eth/interface/uniswapV3.sol": {
-			"keccak256": "0xfa8bcf1dd583cedf664f54a6bdb4a17b76bcc2093da66d4e6316c6c114dddfa8",
+			"keccak256": "0xf7973138b1fe9ea12d8e05ebb142aec328e0824446881112f6d13d7ce59bdd6a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8e7bbffa8ca730fdac3768429fae816cdc50da3a981c282758f03cfc3e2b2343",
-				"dweb:/ipfs/QmcPVd95VDw6VZmzKaNm8rP9VVMe8zQmVmnMvM2uiGm2Bb"
+				"bzz-raw://84fc650d3de4c9e6de8bbd8a77b7ccca6ea5ee90318087a406b09099fb5ad3eb",
+				"dweb:/ipfs/Qmd7YXgge6hgNxCE33tZ12e4By4A9PHzKwpXbcK19Kd6fX"
 			]
 		},
 		"hopium/multiswap-eth/interface/universal-router.sol": {
@@ -621,11 +566,59 @@
 			]
 		},
 		"hopium/multiswap-eth/main/multiswap-eth-router.sol": {
-			"keccak256": "0x2a542b9d964fdb755d935b83b02e56604b8b0171fd08609837ad2bc5669fb299",
+			"keccak256": "0xeb0415f81de1fb5a199253cf5805129ea2c5039e224c3b2760bec7f3c609c059",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6f281c8f688951c1700b5ebd4acff99ba98df1b2a83475587127815e6900dbf1",
-				"dweb:/ipfs/QmUi7JaijFKkEB64bMByfZTknrnX8wNpwWxRZgq5erHUw5"
+				"bzz-raw://0fe74b7ce0de2713c1811bbde4bc9c471b3cf5d34f88a0bba024494f67a79b09",
+				"dweb:/ipfs/QmQJSnqX1qTWUkkKfes379aHDHBfn6uLoeqn92KRZz79eY"
+			]
+		},
+		"hopium/multiswap-eth/types/types.sol": {
+			"keccak256": "0xbd1eb1a5cd5bbbaa693cd2780bb0f6ce4e75048b736ccde8acb659ae097b372a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ca59483ecfce1d2688a5b40436d615b3870cecd4b7fd862d1354f26ac0cbaa85",
+				"dweb:/ipfs/QmXngnEfyM2n9M9WKRcbXKFPTiBQywaQSs8zHQtNVTmacc"
+			]
+		},
+		"hopium/multiswap-eth/utils/fullMath.sol": {
+			"keccak256": "0xcd063d59449476f651d61702f20299bf83d3230a2568895f8d7c79ae43ad71a3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8f1c2d9a6d5d28542e552f7b47338417ec44ba9b0df8d505c7fa5cead4dda7a3",
+				"dweb:/ipfs/QmSEuBPFRtNgv3VB17YQx3dEnreD8sRgChfbsNvBQzeXKQ"
+			]
+		},
+		"hopium/multiswap-eth/utils/oracleLibrary.sol": {
+			"keccak256": "0x53e316508de7ddd8219d98d9e2e963b12eb2526b10957d2473db4150c02391f7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://485373c25190c2b1167b149769c8589dab855351007697faaf8b937d81b55c18",
+				"dweb:/ipfs/QmXZkGaDHREd4fNbFUh9qcq3DuSbnQg1wsqpaWJHUMMhmk"
+			]
+		},
+		"hopium/multiswap-eth/utils/tickMath.sol": {
+			"keccak256": "0x2716e74702fa876058a468c22bb5d832eb8e02c0f4f2c79cb2a2ed0196fcdd65",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://900349f059c92550f59863270dcd1ff1f23efc0ef0fa9492372a8d6205fa41a1",
+				"dweb:/ipfs/Qma8tB3C2JRyytYHLJM4xfKzQDiBq1hNuYbT1C3wCYpKDP"
+			]
+		},
+		"hopium/multiswap-eth/utils/twapTick.sol": {
+			"keccak256": "0x83126e9f4636d70959e658e0f24657399c042c0755fc8cc95a87d0ad879c1154",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://be0c5c350cd02fc4889164d703d76cd501b6d81af346ed2625cf5b35c7f0c477",
+				"dweb:/ipfs/QmZjpYLLYDBCh1rsBQUVpv1cLXLn9GdGU4cTiVGdEbzfRF"
+			]
+		},
+		"hopium/multiswap-eth/utils/weth.sol": {
+			"keccak256": "0x709261ff2ab2abed7023dfd874f49f7118f79dfe3272d74030d35b9f15dce4e4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://83daae8704217e440673e03463b50ac3c77f218e966977438823196662df268c",
+				"dweb:/ipfs/QmVVR2QhUAukAteyj5Ypa6jWZdbEcFPCsVkUSsDHCUyPEQ"
 			]
 		}
 	},

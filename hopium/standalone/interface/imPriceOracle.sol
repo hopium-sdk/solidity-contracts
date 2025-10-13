@@ -2,7 +2,6 @@
 pragma solidity 0.8.30;
 
 import "hopium/common/interface/imDirectory.sol";
-import "hopium/etf/storage/index.sol";
 import "hopium/standalone/interface/iPriceOracle.sol";
 
 abstract contract ImPriceOracle is ImDirectory {

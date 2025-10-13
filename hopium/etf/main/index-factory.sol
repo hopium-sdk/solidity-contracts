@@ -2,7 +2,7 @@
 pragma solidity 0.8.30;
 
 import "hopium/common/interface/imDirectory.sol";
-import "hopium/etf/storage/index.sol";
+import "hopium/etf/types/index.sol";
 import "hopium/common/storage/bips.sol";
 import "hopium/common/utils/id-idx.sol";
 import "hopium/etf/interface/imEtfFactory.sol";

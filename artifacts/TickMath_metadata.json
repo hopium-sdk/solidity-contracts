@@ -1,0 +1,53 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"stateVariables": {
+				"MAX_TICK": {
+					"details": "The maximum tick that may be passed to #getSqrtRatioAtTick computed from log base 1.0001 of 2**128"
+				},
+				"MIN_TICK": {
+					"details": "The minimum tick that may be passed to #getSqrtRatioAtTick computed from log base 1.0001 of 2**-128"
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/multiswap-eth/utils/tickMath.sol": "TickMath"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/multiswap-eth/utils/tickMath.sol": {
+			"keccak256": "0x2716e74702fa876058a468c22bb5d832eb8e02c0f4f2c79cb2a2ed0196fcdd65",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://900349f059c92550f59863270dcd1ff1f23efc0ef0fa9492372a8d6205fa41a1",
+				"dweb:/ipfs/Qma8tB3C2JRyytYHLJM4xfKzQDiBq1hNuYbT1C3wCYpKDP"
+			]
+		}
+	},
+	"version": 1
+}

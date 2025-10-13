@@ -2,7 +2,7 @@
 pragma solidity 0.8.30;
 
 import "hopium/common/interface/imDirectory.sol";
-import "hopium/etf/storage/index.sol";
+import "hopium/etf/types/index.sol";
 
 interface IIndexFactory {
     function createIndex(Index calldata index) external returns (uint256);

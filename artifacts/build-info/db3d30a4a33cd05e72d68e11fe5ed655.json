@@ -1,0 +1,1086 @@
+{
+	"id": "db3d30a4a33cd05e72d68e11fe5ed655",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.30",
+	"solcLongVersion": "0.8.30+commit.73712a01",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nimport \"hopium/multiswap-eth/types/types.sol\";\n\ninterface IMultiSwapEthRouter {\n   function swapEthToMultipleTokens(\n        MultiTokenOutput[] calldata outputs,\n        address recipientAddress,\n        uint32 slippageBps\n    ) external payable;\n\n    function swapMultipleTokensToEth(\n        MultiTokenInput[] calldata inputsIn,\n        address payable recipientAddress,\n        uint32 slippageBps,\n        bool preTransferred\n    ) external;\n\n    function getBestWethPool(address tokenAddress) external view returns (Pool memory pool);\n    function getBestWethPoolUpdatable(address tokenAddress) external returns (Pool memory pool);\n}"
+			},
+			"hopium/multiswap-eth/types/types.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nstruct MultiTokenInput {\n    address tokenAddress;\n    uint256 amount; // For tokens->ETH: amount of the ERC20 to sell\n}\n\nstruct MultiTokenOutput {\n    address tokenAddress;\n    uint16  weightBips; // Weight in basis points (must sum to <= 10_000)\n}\n\nstruct Pool {\n    address poolAddress; // 20\n    uint24  poolFee;     // 3\n    uint8   isV3Pool;    // 1 (0/1)\n    uint64  lastCached;  // 8\n}"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			},
+			"remappings": []
+		}
+	},
+	"output": {
+		"contracts": {
+			"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+				"IMultiSwapEthRouter": {
+					"abi": [
+						{
+							"inputs": [
+								{
+									"internalType": "address",
+									"name": "tokenAddress",
+									"type": "address"
+								}
+							],
+							"name": "getBestWethPool",
+							"outputs": [
+								{
+									"components": [
+										{
+											"internalType": "address",
+											"name": "poolAddress",
+											"type": "address"
+										},
+										{
+											"internalType": "uint24",
+											"name": "poolFee",
+											"type": "uint24"
+										},
+										{
+											"internalType": "uint8",
+											"name": "isV3Pool",
+											"type": "uint8"
+										},
+										{
+											"internalType": "uint64",
+											"name": "lastCached",
+											"type": "uint64"
+										}
+									],
+									"internalType": "struct Pool",
+									"name": "pool",
+									"type": "tuple"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "address",
+									"name": "tokenAddress",
+									"type": "address"
+								}
+							],
+							"name": "getBestWethPoolUpdatable",
+							"outputs": [
+								{
+									"components": [
+										{
+											"internalType": "address",
+											"name": "poolAddress",
+											"type": "address"
+										},
+										{
+											"internalType": "uint24",
+											"name": "poolFee",
+											"type": "uint24"
+										},
+										{
+											"internalType": "uint8",
+											"name": "isV3Pool",
+											"type": "uint8"
+										},
+										{
+											"internalType": "uint64",
+											"name": "lastCached",
+											"type": "uint64"
+										}
+									],
+									"internalType": "struct Pool",
+									"name": "pool",
+									"type": "tuple"
+								}
+							],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"components": [
+										{
+											"internalType": "address",
+											"name": "tokenAddress",
+											"type": "address"
+										},
+										{
+											"internalType": "uint16",
+											"name": "weightBips",
+											"type": "uint16"
+										}
+									],
+									"internalType": "struct MultiTokenOutput[]",
+									"name": "outputs",
+									"type": "tuple[]"
+								},
+								{
+									"internalType": "address",
+									"name": "recipientAddress",
+									"type": "address"
+								},
+								{
+									"internalType": "uint32",
+									"name": "slippageBps",
+									"type": "uint32"
+								}
+							],
+							"name": "swapEthToMultipleTokens",
+							"outputs": [],
+							"stateMutability": "payable",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"components": [
+										{
+											"internalType": "address",
+											"name": "tokenAddress",
+											"type": "address"
+										},
+										{
+											"internalType": "uint256",
+											"name": "amount",
+											"type": "uint256"
+										}
+									],
+									"internalType": "struct MultiTokenInput[]",
+									"name": "inputsIn",
+									"type": "tuple[]"
+								},
+								{
+									"internalType": "address payable",
+									"name": "recipientAddress",
+									"type": "address"
+								},
+								{
+									"internalType": "uint32",
+									"name": "slippageBps",
+									"type": "uint32"
+								},
+								{
+									"internalType": "bool",
+									"name": "preTransferred",
+									"type": "bool"
+								}
+							],
+							"name": "swapMultipleTokensToEth",
+							"outputs": [],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"kind": "dev",
+						"methods": {},
+						"version": 1
+					},
+					"evm": {
+						"assembly": "",
+						"bytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"deployedBytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"immutableReferences": {},
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"gasEstimates": null,
+						"legacyAssembly": null,
+						"methodIdentifiers": {
+							"getBestWethPool(address)": "df697cc4",
+							"getBestWethPoolUpdatable(address)": "d32563c8",
+							"swapEthToMultipleTokens((address,uint16)[],address,uint32)": "1623306b",
+							"swapMultipleTokensToEth((address,uint256)[],address,uint32,bool)": "3814bc6e"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"getBestWethPool\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"poolAddress\",\"type\":\"address\"},{\"internalType\":\"uint24\",\"name\":\"poolFee\",\"type\":\"uint24\"},{\"internalType\":\"uint8\",\"name\":\"isV3Pool\",\"type\":\"uint8\"},{\"internalType\":\"uint64\",\"name\":\"lastCached\",\"type\":\"uint64\"}],\"internalType\":\"struct Pool\",\"name\":\"pool\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"getBestWethPoolUpdatable\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"poolAddress\",\"type\":\"address\"},{\"internalType\":\"uint24\",\"name\":\"poolFee\",\"type\":\"uint24\"},{\"internalType\":\"uint8\",\"name\":\"isV3Pool\",\"type\":\"uint8\"},{\"internalType\":\"uint64\",\"name\":\"lastCached\",\"type\":\"uint64\"}],\"internalType\":\"struct Pool\",\"name\":\"pool\",\"type\":\"tuple\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint16\",\"name\":\"weightBips\",\"type\":\"uint16\"}],\"internalType\":\"struct MultiTokenOutput[]\",\"name\":\"outputs\",\"type\":\"tuple[]\"},{\"internalType\":\"address\",\"name\":\"recipientAddress\",\"type\":\"address\"},{\"internalType\":\"uint32\",\"name\":\"slippageBps\",\"type\":\"uint32\"}],\"name\":\"swapEthToMultipleTokens\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"internalType\":\"struct MultiTokenInput[]\",\"name\":\"inputsIn\",\"type\":\"tuple[]\"},{\"internalType\":\"address payable\",\"name\":\"recipientAddress\",\"type\":\"address\"},{\"internalType\":\"uint32\",\"name\":\"slippageBps\",\"type\":\"uint32\"},{\"internalType\":\"bool\",\"name\":\"preTransferred\",\"type\":\"bool\"}],\"name\":\"swapMultipleTokensToEth\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol\":\"IMultiSwapEthRouter\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol\":{\"keccak256\":\"0x492e790a969be24ae17ac36b255bf3cbd8c45370037f23b6724964e1b4262c13\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://22aaa8b60d3120e0400a8c39f8c6390754019199e5108c95154a4648e9a2e775\",\"dweb:/ipfs/Qma6qJ5MqUss6mfvPSkRvEf8qfSgDvib19LXmpAZXKPjJN\"]},\"hopium/multiswap-eth/types/types.sol\":{\"keccak256\":\"0xbd1eb1a5cd5bbbaa693cd2780bb0f6ce4e75048b736ccde8acb659ae097b372a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ca59483ecfce1d2688a5b40436d615b3870cecd4b7fd862d1354f26ac0cbaa85\",\"dweb:/ipfs/QmXngnEfyM2n9M9WKRcbXKFPTiBQywaQSs8zHQtNVTmacc\"]}},\"version\":1}",
+					"storageLayout": {
+						"storage": [],
+						"types": null
+					},
+					"userdoc": {
+						"kind": "user",
+						"methods": {},
+						"version": 1
+					}
+				}
+			}
+		},
+		"sources": {
+			"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+				"ast": {
+					"absolutePath": "hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol",
+					"exportedSymbols": {
+						"IMultiSwapEthRouter": [
+							43
+						],
+						"MultiTokenInput": [
+							50
+						],
+						"MultiTokenOutput": [
+							55
+						],
+						"Pool": [
+							64
+						]
+					},
+					"id": 44,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:0"
+						},
+						{
+							"absolutePath": "hopium/multiswap-eth/types/types.sol",
+							"file": "hopium/multiswap-eth/types/types.sol",
+							"id": 2,
+							"nameLocation": "-1:-1:-1",
+							"nodeType": "ImportDirective",
+							"scope": 44,
+							"sourceUnit": 65,
+							"src": "57:46:0",
+							"symbolAliases": [],
+							"unitAlias": ""
+						},
+						{
+							"abstract": false,
+							"baseContracts": [],
+							"canonicalName": "IMultiSwapEthRouter",
+							"contractDependencies": [],
+							"contractKind": "interface",
+							"fullyImplemented": false,
+							"id": 43,
+							"linearizedBaseContracts": [
+								43
+							],
+							"name": "IMultiSwapEthRouter",
+							"nameLocation": "115:19:0",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"functionSelector": "1623306b",
+									"id": 13,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "swapEthToMultipleTokens",
+									"nameLocation": "149:23:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 11,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 6,
+												"mutability": "mutable",
+												"name": "outputs",
+												"nameLocation": "210:7:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 13,
+												"src": "182:35:0",
+												"stateVariable": false,
+												"storageLocation": "calldata",
+												"typeDescriptions": {
+													"typeIdentifier": "t_array$_t_struct$_MultiTokenOutput_$55_calldata_ptr_$dyn_calldata_ptr",
+													"typeString": "struct MultiTokenOutput[]"
+												},
+												"typeName": {
+													"baseType": {
+														"id": 4,
+														"nodeType": "UserDefinedTypeName",
+														"pathNode": {
+															"id": 3,
+															"name": "MultiTokenOutput",
+															"nameLocations": [
+																"182:16:0"
+															],
+															"nodeType": "IdentifierPath",
+															"referencedDeclaration": 55,
+															"src": "182:16:0"
+														},
+														"referencedDeclaration": 55,
+														"src": "182:16:0",
+														"typeDescriptions": {
+															"typeIdentifier": "t_struct$_MultiTokenOutput_$55_storage_ptr",
+															"typeString": "struct MultiTokenOutput"
+														}
+													},
+													"id": 5,
+													"nodeType": "ArrayTypeName",
+													"src": "182:18:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_array$_t_struct$_MultiTokenOutput_$55_storage_$dyn_storage_ptr",
+														"typeString": "struct MultiTokenOutput[]"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 8,
+												"mutability": "mutable",
+												"name": "recipientAddress",
+												"nameLocation": "235:16:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 13,
+												"src": "227:24:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 7,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "227:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 10,
+												"mutability": "mutable",
+												"name": "slippageBps",
+												"nameLocation": "268:11:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 13,
+												"src": "261:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint32",
+													"typeString": "uint32"
+												},
+												"typeName": {
+													"id": 9,
+													"name": "uint32",
+													"nodeType": "ElementaryTypeName",
+													"src": "261:6:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint32",
+														"typeString": "uint32"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "172:113:0"
+									},
+									"returnParameters": {
+										"id": 12,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "302:0:0"
+									},
+									"scope": 43,
+									"src": "140:163:0",
+									"stateMutability": "payable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "3814bc6e",
+									"id": 26,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "swapMultipleTokensToEth",
+									"nameLocation": "318:23:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 24,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 17,
+												"mutability": "mutable",
+												"name": "inputsIn",
+												"nameLocation": "378:8:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 26,
+												"src": "351:35:0",
+												"stateVariable": false,
+												"storageLocation": "calldata",
+												"typeDescriptions": {
+													"typeIdentifier": "t_array$_t_struct$_MultiTokenInput_$50_calldata_ptr_$dyn_calldata_ptr",
+													"typeString": "struct MultiTokenInput[]"
+												},
+												"typeName": {
+													"baseType": {
+														"id": 15,
+														"nodeType": "UserDefinedTypeName",
+														"pathNode": {
+															"id": 14,
+															"name": "MultiTokenInput",
+															"nameLocations": [
+																"351:15:0"
+															],
+															"nodeType": "IdentifierPath",
+															"referencedDeclaration": 50,
+															"src": "351:15:0"
+														},
+														"referencedDeclaration": 50,
+														"src": "351:15:0",
+														"typeDescriptions": {
+															"typeIdentifier": "t_struct$_MultiTokenInput_$50_storage_ptr",
+															"typeString": "struct MultiTokenInput"
+														}
+													},
+													"id": 16,
+													"nodeType": "ArrayTypeName",
+													"src": "351:17:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_array$_t_struct$_MultiTokenInput_$50_storage_$dyn_storage_ptr",
+														"typeString": "struct MultiTokenInput[]"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 19,
+												"mutability": "mutable",
+												"name": "recipientAddress",
+												"nameLocation": "412:16:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 26,
+												"src": "396:32:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address_payable",
+													"typeString": "address payable"
+												},
+												"typeName": {
+													"id": 18,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "396:15:0",
+													"stateMutability": "payable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address_payable",
+														"typeString": "address payable"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 21,
+												"mutability": "mutable",
+												"name": "slippageBps",
+												"nameLocation": "445:11:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 26,
+												"src": "438:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint32",
+													"typeString": "uint32"
+												},
+												"typeName": {
+													"id": 20,
+													"name": "uint32",
+													"nodeType": "ElementaryTypeName",
+													"src": "438:6:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint32",
+														"typeString": "uint32"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 23,
+												"mutability": "mutable",
+												"name": "preTransferred",
+												"nameLocation": "471:14:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 26,
+												"src": "466:19:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bool",
+													"typeString": "bool"
+												},
+												"typeName": {
+													"id": 22,
+													"name": "bool",
+													"nodeType": "ElementaryTypeName",
+													"src": "466:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bool",
+														"typeString": "bool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "341:150:0"
+									},
+									"returnParameters": {
+										"id": 25,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "500:0:0"
+									},
+									"scope": 43,
+									"src": "309:192:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "df697cc4",
+									"id": 34,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "getBestWethPool",
+									"nameLocation": "516:15:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 29,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 28,
+												"mutability": "mutable",
+												"name": "tokenAddress",
+												"nameLocation": "540:12:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 34,
+												"src": "532:20:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 27,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "532:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "531:22:0"
+									},
+									"returnParameters": {
+										"id": 33,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 32,
+												"mutability": "mutable",
+												"name": "pool",
+												"nameLocation": "589:4:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 34,
+												"src": "577:16:0",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_struct$_Pool_$64_memory_ptr",
+													"typeString": "struct Pool"
+												},
+												"typeName": {
+													"id": 31,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 30,
+														"name": "Pool",
+														"nameLocations": [
+															"577:4:0"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 64,
+														"src": "577:4:0"
+													},
+													"referencedDeclaration": 64,
+													"src": "577:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_struct$_Pool_$64_storage_ptr",
+														"typeString": "struct Pool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "576:18:0"
+									},
+									"scope": 43,
+									"src": "507:88:0",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "d32563c8",
+									"id": 42,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "getBestWethPoolUpdatable",
+									"nameLocation": "609:24:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 37,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 36,
+												"mutability": "mutable",
+												"name": "tokenAddress",
+												"nameLocation": "642:12:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 42,
+												"src": "634:20:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 35,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "634:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "633:22:0"
+									},
+									"returnParameters": {
+										"id": 41,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 40,
+												"mutability": "mutable",
+												"name": "pool",
+												"nameLocation": "686:4:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 42,
+												"src": "674:16:0",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_struct$_Pool_$64_memory_ptr",
+													"typeString": "struct Pool"
+												},
+												"typeName": {
+													"id": 39,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 38,
+														"name": "Pool",
+														"nameLocations": [
+															"674:4:0"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 64,
+														"src": "674:4:0"
+													},
+													"referencedDeclaration": 64,
+													"src": "674:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_struct$_Pool_$64_storage_ptr",
+														"typeString": "struct Pool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "673:18:0"
+									},
+									"scope": 43,
+									"src": "600:92:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								}
+							],
+							"scope": 44,
+							"src": "105:589:0",
+							"usedErrors": [],
+							"usedEvents": []
+						}
+					],
+					"src": "32:662:0"
+				},
+				"id": 0
+			},
+			"hopium/multiswap-eth/types/types.sol": {
+				"ast": {
+					"absolutePath": "hopium/multiswap-eth/types/types.sol",
+					"exportedSymbols": {
+						"MultiTokenInput": [
+							50
+						],
+						"MultiTokenOutput": [
+							55
+						],
+						"Pool": [
+							64
+						]
+					},
+					"id": 65,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 45,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:1"
+						},
+						{
+							"canonicalName": "MultiTokenInput",
+							"id": 50,
+							"members": [
+								{
+									"constant": false,
+									"id": 47,
+									"mutability": "mutable",
+									"name": "tokenAddress",
+									"nameLocation": "94:12:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 50,
+									"src": "86:20:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 46,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "86:7:1",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 49,
+									"mutability": "mutable",
+									"name": "amount",
+									"nameLocation": "120:6:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 50,
+									"src": "112:14:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 48,
+										"name": "uint256",
+										"nodeType": "ElementaryTypeName",
+										"src": "112:7:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "MultiTokenInput",
+							"nameLocation": "64:15:1",
+							"nodeType": "StructDefinition",
+							"scope": 65,
+							"src": "57:120:1",
+							"visibility": "public"
+						},
+						{
+							"canonicalName": "MultiTokenOutput",
+							"id": 55,
+							"members": [
+								{
+									"constant": false,
+									"id": 52,
+									"mutability": "mutable",
+									"name": "tokenAddress",
+									"nameLocation": "217:12:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 55,
+									"src": "209:20:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 51,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "209:7:1",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 54,
+									"mutability": "mutable",
+									"name": "weightBips",
+									"nameLocation": "243:10:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 55,
+									"src": "235:18:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint16",
+										"typeString": "uint16"
+									},
+									"typeName": {
+										"id": 53,
+										"name": "uint16",
+										"nodeType": "ElementaryTypeName",
+										"src": "235:6:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint16",
+											"typeString": "uint16"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "MultiTokenOutput",
+							"nameLocation": "186:16:1",
+							"nodeType": "StructDefinition",
+							"scope": 65,
+							"src": "179:127:1",
+							"visibility": "public"
+						},
+						{
+							"canonicalName": "Pool",
+							"id": 64,
+							"members": [
+								{
+									"constant": false,
+									"id": 57,
+									"mutability": "mutable",
+									"name": "poolAddress",
+									"nameLocation": "334:11:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 64,
+									"src": "326:19:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 56,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "326:7:1",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 59,
+									"mutability": "mutable",
+									"name": "poolFee",
+									"nameLocation": "365:7:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 64,
+									"src": "357:15:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint24",
+										"typeString": "uint24"
+									},
+									"typeName": {
+										"id": 58,
+										"name": "uint24",
+										"nodeType": "ElementaryTypeName",
+										"src": "357:6:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint24",
+											"typeString": "uint24"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 61,
+									"mutability": "mutable",
+									"name": "isV3Pool",
+									"nameLocation": "395:8:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 64,
+									"src": "387:16:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint8",
+										"typeString": "uint8"
+									},
+									"typeName": {
+										"id": 60,
+										"name": "uint8",
+										"nodeType": "ElementaryTypeName",
+										"src": "387:5:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint8",
+											"typeString": "uint8"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 63,
+									"mutability": "mutable",
+									"name": "lastCached",
+									"nameLocation": "431:10:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 64,
+									"src": "423:18:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint64",
+										"typeString": "uint64"
+									},
+									"typeName": {
+										"id": 62,
+										"name": "uint64",
+										"nodeType": "ElementaryTypeName",
+										"src": "423:6:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint64",
+											"typeString": "uint64"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "Pool",
+							"nameLocation": "315:4:1",
+							"nodeType": "StructDefinition",
+							"scope": 65,
+							"src": "308:142:1",
+							"visibility": "public"
+						}
+					],
+					"src": "32:418:1"
+				},
+				"id": 1
+			}
+		}
+	}
+}

@@ -49,92 +49,93 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"platformFee()": "26232a2e"
+			"permit2()": "12261ee7",
+			"uRouter()": "5cf39049",
+			"v2Factory()": "b4b57c39",
+			"v2Router()": "deadbc14",
+			"v3Factory()": "7c887c59",
+			"wethAddress()": "4f0e0ef3"
 		}
 	},
 	"abi": [
 		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "indexId",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "address",
-					"name": "caller",
-					"type": "address"
-				},
-				{
-					"indexed": false,
-					"internalType": "address",
-					"name": "receiver",
-					"type": "address"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "etfTokenAmount",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "ethAmount",
-					"type": "uint256"
-				}
-			],
-			"name": "EtfTokensMinted",
-			"type": "event"
-		},
-		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "indexId",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "address",
-					"name": "caller",
-					"type": "address"
-				},
-				{
-					"indexed": false,
-					"internalType": "address",
-					"name": "receiver",
-					"type": "address"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "etfTokenAmount",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "ethAmount",
-					"type": "uint256"
-				}
-			],
-			"name": "EtfTokensRedeemed",
-			"type": "event"
+			"inputs": [],
+			"name": "ZeroAddress",
+			"type": "error"
 		},
 		{
 			"inputs": [],
-			"name": "platformFee",
+			"name": "permit2",
 			"outputs": [
 				{
-					"internalType": "uint16",
+					"internalType": "contract IPermit2",
 					"name": "",
-					"type": "uint16"
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "uRouter",
+			"outputs": [
+				{
+					"internalType": "contract IUniversalRouter",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "v2Factory",
+			"outputs": [
+				{
+					"internalType": "contract IUniswapV2Factory",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "v2Router",
+			"outputs": [
+				{
+					"internalType": "contract IUniswapV2Router02",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "v3Factory",
+			"outputs": [
+				{
+					"internalType": "contract IUniswapV3Factory",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "wethAddress",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
 				}
 			],
 			"stateMutability": "view",

@@ -1,0 +1,206 @@
+{
+	"id": "12848b271ac6e30ce5ce04429f5b544b",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.30",
+	"solcLongVersion": "0.8.30+commit.73712a01",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"hopium/multiswap-eth/components/errors.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\nerror QuoteUnavailable();\nerror WeightsInvalid();\nerror ZeroAddress();\nerror NoPoolFound();\nerror TokenIsWETH();\nerror EmptyArray();\nerror NoSwaps();\nerror PreTransferInsufficient();\n"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			},
+			"remappings": []
+		}
+	},
+	"output": {
+		"sources": {
+			"hopium/multiswap-eth/components/errors.sol": {
+				"ast": {
+					"absolutePath": "hopium/multiswap-eth/components/errors.sol",
+					"exportedSymbols": {
+						"EmptyArray": [
+							13
+						],
+						"NoPoolFound": [
+							9
+						],
+						"NoSwaps": [
+							15
+						],
+						"PreTransferInsufficient": [
+							17
+						],
+						"QuoteUnavailable": [
+							3
+						],
+						"TokenIsWETH": [
+							11
+						],
+						"WeightsInvalid": [
+							5
+						],
+						"ZeroAddress": [
+							7
+						]
+					},
+					"id": 18,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"^",
+								"0.8",
+								".20"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:24:0"
+						},
+						{
+							"errorSelector": "6eed12ff",
+							"id": 3,
+							"name": "QuoteUnavailable",
+							"nameLocation": "64:16:0",
+							"nodeType": "ErrorDefinition",
+							"parameters": {
+								"id": 2,
+								"nodeType": "ParameterList",
+								"parameters": [],
+								"src": "80:2:0"
+							},
+							"src": "58:25:0"
+						},
+						{
+							"errorSelector": "124955fb",
+							"id": 5,
+							"name": "WeightsInvalid",
+							"nameLocation": "90:14:0",
+							"nodeType": "ErrorDefinition",
+							"parameters": {
+								"id": 4,
+								"nodeType": "ParameterList",
+								"parameters": [],
+								"src": "104:2:0"
+							},
+							"src": "84:23:0"
+						},
+						{
+							"errorSelector": "d92e233d",
+							"id": 7,
+							"name": "ZeroAddress",
+							"nameLocation": "114:11:0",
+							"nodeType": "ErrorDefinition",
+							"parameters": {
+								"id": 6,
+								"nodeType": "ParameterList",
+								"parameters": [],
+								"src": "125:2:0"
+							},
+							"src": "108:20:0"
+						},
+						{
+							"errorSelector": "791c2fed",
+							"id": 9,
+							"name": "NoPoolFound",
+							"nameLocation": "135:11:0",
+							"nodeType": "ErrorDefinition",
+							"parameters": {
+								"id": 8,
+								"nodeType": "ParameterList",
+								"parameters": [],
+								"src": "146:2:0"
+							},
+							"src": "129:20:0"
+						},
+						{
+							"errorSelector": "871c78af",
+							"id": 11,
+							"name": "TokenIsWETH",
+							"nameLocation": "156:11:0",
+							"nodeType": "ErrorDefinition",
+							"parameters": {
+								"id": 10,
+								"nodeType": "ParameterList",
+								"parameters": [],
+								"src": "167:2:0"
+							},
+							"src": "150:20:0"
+						},
+						{
+							"errorSelector": "521299a9",
+							"id": 13,
+							"name": "EmptyArray",
+							"nameLocation": "177:10:0",
+							"nodeType": "ErrorDefinition",
+							"parameters": {
+								"id": 12,
+								"nodeType": "ParameterList",
+								"parameters": [],
+								"src": "187:2:0"
+							},
+							"src": "171:19:0"
+						},
+						{
+							"errorSelector": "abff335a",
+							"id": 15,
+							"name": "NoSwaps",
+							"nameLocation": "197:7:0",
+							"nodeType": "ErrorDefinition",
+							"parameters": {
+								"id": 14,
+								"nodeType": "ParameterList",
+								"parameters": [],
+								"src": "204:2:0"
+							},
+							"src": "191:16:0"
+						},
+						{
+							"errorSelector": "06998f5b",
+							"id": 17,
+							"name": "PreTransferInsufficient",
+							"nameLocation": "214:23:0",
+							"nodeType": "ErrorDefinition",
+							"parameters": {
+								"id": 16,
+								"nodeType": "ParameterList",
+								"parameters": [],
+								"src": "237:2:0"
+							},
+							"src": "208:32:0"
+						}
+					],
+					"src": "32:209:0"
+				},
+				"id": 0
+			}
+		}
+	}
+}

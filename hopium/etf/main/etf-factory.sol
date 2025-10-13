@@ -3,7 +3,7 @@ pragma solidity 0.8.30;
 
 import "hopium/common/interface/imDirectory.sol";
 import "hopium/etf/interface/imIndexFactory.sol";
-import "hopium/etf/storage/index.sol";
+import "hopium/etf/types/index.sol";
 import "hopium/common/interface/ierc20.sol";
 import "hopium/standalone/interface/imPriceOracle.sol";
 import "hopium/common/interface/imActive.sol";

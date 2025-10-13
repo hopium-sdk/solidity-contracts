@@ -1,0 +1,46 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"notice": "Helpers to compute the arithmetic mean tick from Uniswap V3 tick cumulatives",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/multiswap-eth/utils/twapTick.sol": "TwapTick"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/multiswap-eth/utils/twapTick.sol": {
+			"keccak256": "0x83126e9f4636d70959e658e0f24657399c042c0755fc8cc95a87d0ad879c1154",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://be0c5c350cd02fc4889164d703d76cd501b6d81af346ed2625cf5b35c7f0c477",
+				"dweb:/ipfs/QmZjpYLLYDBCh1rsBQUVpv1cLXLn9GdGU4cTiVGdEbzfRF"
+			]
+		}
+	},
+	"version": 1
+}

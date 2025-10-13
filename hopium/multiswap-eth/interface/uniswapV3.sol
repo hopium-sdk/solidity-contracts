@@ -5,17 +5,22 @@ interface IUniswapV3Factory {
     function getPool(address tokenA, address tokenB, uint24 fee) external view returns (address pool);
 }
 
-interface IUniswapV3Quoter {
-    struct QuoteExactInputSingleParams {
-        address tokenIn;
-        address tokenOut;
-        uint24  fee;
-        uint256 amountIn;
-        uint160 sqrtPriceLimitX96; // 0 for no limit
-    }
-
-    /// @return amountOut, sqrtPriceX96After, initializedTicksCrossed, gasEstimate
-    function quoteExactInputSingle(QuoteExactInputSingleParams calldata params)
+interface IUniswapV3Pool {
+    function slot0()
         external
-        returns (uint256, uint160, uint32, uint256);
+        view
+        returns (
+            uint160 sqrtPriceX96,
+            int24 tick,
+            uint16 observationIndex,
+            uint16 observationCardinality,
+            uint16 observationCardinalityNext,
+            uint8 feeProtocol,
+            bool unlocked
+        );
+    
+    function observe(uint32[] calldata secondsAgos)
+        external
+        view
+        returns (int56[] memory tickCumulatives, uint160[] memory secondsPerLiquidityCumulativeX128s);
 }

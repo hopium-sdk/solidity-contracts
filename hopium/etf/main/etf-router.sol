@@ -112,7 +112,7 @@ abstract contract Helpers is ImMultiSwapEthRouter, ImEtfFactory, ImIndexPriceOra
 
     error ZeroIndexPrice();
     error ZeroNav();
-    // Mint ETF tokens at fair price given incoming WETH amount
+    // Calculate ETF tokens to mint at fair price given incoming WETH amount
     function _calcMintAmount(
         uint256 indexId,
         uint256 wethAmount,
