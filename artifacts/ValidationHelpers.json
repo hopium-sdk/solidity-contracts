@@ -48,7 +48,12 @@
 			"sourceMap": ""
 		},
 		"gasEstimates": null,
-		"methodIdentifiers": {}
+		"methodIdentifiers": {
+			"Directory()": "658a847a",
+			"changeDirectoryAddress(address)": "ba4c7be1",
+			"fetchFromDirectory(string)": "27262618",
+			"owner()": "8da5cb5b"
+		}
 	},
 	"abi": [
 		{
@@ -69,6 +74,11 @@
 		{
 			"inputs": [],
 			"name": "NoHoldings",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "NoPoolFound",
 			"type": "error"
 		},
 		{
@@ -95,6 +105,64 @@
 			"inputs": [],
 			"name": "ZeroWeight",
 			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "Directory",
+			"outputs": [
+				{
+					"internalType": "contract IDirectory",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_directory",
+					"type": "address"
+				}
+			],
+			"name": "changeDirectoryAddress",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_key",
+					"type": "string"
+				}
+			],
+			"name": "fetchFromDirectory",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "owner",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
 		}
 	]
 }

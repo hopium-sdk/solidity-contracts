@@ -9,6 +9,11 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "_directory",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
 						"name": "_wethAddress",
 						"type": "address"
 					},
@@ -18,13 +23,18 @@
 						"type": "address"
 					},
 					{
-						"internalType": "address",
-						"name": "_uniswapV2FactoryAddress",
-						"type": "address"
+						"internalType": "bool",
+						"name": "_isWethUsdPairV3",
+						"type": "bool"
 					}
 				],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "EmptyReserves",
+				"type": "error"
 			},
 			{
 				"inputs": [],
@@ -38,12 +48,25 @@
 			},
 			{
 				"inputs": [],
-				"name": "UNISWAP_V2_FACTORY_ADDRESS",
+				"name": "Directory",
 				"outputs": [
 					{
-						"internalType": "address",
+						"internalType": "contract IDirectory",
 						"name": "",
 						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "IS_WETH_USD_PAIR_ADDRESS_V3",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
 					}
 				],
 				"stateMutability": "view",
@@ -78,6 +101,38 @@
 			{
 				"inputs": [],
 				"name": "WETH_USD_PAIR_ADDRESS",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_directory",
+						"type": "address"
+					}
+				],
+				"name": "changeDirectoryAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_key",
+						"type": "string"
+					}
+				],
+				"name": "fetchFromDirectory",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -194,8 +249,13 @@
 				"name": "getTokenWethPairAddress",
 				"outputs": [
 					{
+						"internalType": "bool",
+						"name": "isV3Pool",
+						"type": "bool"
+					},
+					{
 						"internalType": "address",
-						"name": "",
+						"name": "pairAddress",
 						"type": "address"
 					}
 				],
@@ -229,6 +289,19 @@
 						"internalType": "uint256",
 						"name": "price18",
 						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -284,12 +357,36 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/standalone/main/price-oracle.sol": {
-			"keccak256": "0x025937e2db17879abde9b068e4dab69822ef9ccfca0602c33ac91cd362bf5d1c",
+		"hopium/common/interface/imDirectory.sol": {
+			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://82c711f92e36ceeb8ebdeab28f4edf9f9aee060294c1e0f3d3f001dc52f8354f",
-				"dweb:/ipfs/QmTde5RFP8mRqCmytq4hahd8BsQwuh1R3WiAc47Dy7sNp3"
+				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
+				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
+			]
+		},
+		"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+			"keccak256": "0x67b4ec9f7dff209ae01ae9e8e299ce648f53038edba46bb83bdd063caaee7970",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f2b84929c02344165804df7e5c22fa4ed7779f65e61aa5e80d8cadb7c5e116e0",
+				"dweb:/ipfs/QmYUKkkYjoeor1es6rBjBg68dcQQecEzYPnZYvwA2gKxyS"
+			]
+		},
+		"hopium/multiswap-eth/interface/imMultiSwapEthRouter.sol": {
+			"keccak256": "0x67cd6409a4db4f14edd2dea5daa60d82ce74994b7b342c5d2f5cdb9fddb5c9e7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://48a5ac0b1626c83477c69c8eacbbc51c050468a58345e2fe1a03c4b6fcdbd0e0",
+				"dweb:/ipfs/QmUxApGW4nH7G873HeFcqNhrE2F5a8YANTFDuTJYvhuVSj"
+			]
+		},
+		"hopium/standalone/main/price-oracle.sol": {
+			"keccak256": "0xdf3e90f686861895c9dacb32be8a2b3ba2b2c847bd4c618784bf386d7526bb32",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://71597df945c0236bf2eeb6bb8bdd83942fb7067e6242a5628d143979e11b3d5f",
+				"dweb:/ipfs/QmSU7wcZAGVY9Lo98ad4scMJYfdnvpQzWSS4i97uWrjQTg"
 			]
 		}
 	},

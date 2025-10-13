@@ -49,10 +49,46 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"swap((address,uint256)[],(address,uint16)[],address,uint256,uint256,(address,uint16)[])": "192b5887"
+			"swapEthToMultipleTokens((address,uint16)[],address,uint32)": "1623306b",
+			"swapMultipleTokensToEth((address,uint256)[],address,uint32)": "3de545c2"
 		}
 	},
 	"abi": [
+		{
+			"inputs": [
+				{
+					"components": [
+						{
+							"internalType": "address",
+							"name": "tokenAddress",
+							"type": "address"
+						},
+						{
+							"internalType": "uint16",
+							"name": "weightBips",
+							"type": "uint16"
+						}
+					],
+					"internalType": "struct MultiTokenOutput[]",
+					"name": "outputs",
+					"type": "tuple[]"
+				},
+				{
+					"internalType": "address",
+					"name": "recipientAddress",
+					"type": "address"
+				},
+				{
+					"internalType": "uint32",
+					"name": "slippageBps",
+					"type": "uint32"
+				}
+			],
+			"name": "swapEthToMultipleTokens",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
 		{
 			"inputs": [
 				{
@@ -68,63 +104,24 @@
 							"type": "uint256"
 						}
 					],
-					"internalType": "struct SwapOrderInput[]",
+					"internalType": "struct MultiTokenInput[]",
 					"name": "inputs",
 					"type": "tuple[]"
 				},
 				{
-					"components": [
-						{
-							"internalType": "address",
-							"name": "tokenAddress",
-							"type": "address"
-						},
-						{
-							"internalType": "uint16",
-							"name": "weightBips",
-							"type": "uint16"
-						}
-					],
-					"internalType": "struct SwapOrderOutput[]",
-					"name": "outputs",
-					"type": "tuple[]"
-				},
-				{
-					"internalType": "address",
-					"name": "receiver",
+					"internalType": "address payable",
+					"name": "recipientAddress",
 					"type": "address"
 				},
 				{
-					"internalType": "uint256",
-					"name": "slippageBips",
-					"type": "uint256"
-				},
-				{
-					"internalType": "uint256",
-					"name": "deadlineInSec",
-					"type": "uint256"
-				},
-				{
-					"components": [
-						{
-							"internalType": "address",
-							"name": "feeAddress",
-							"type": "address"
-						},
-						{
-							"internalType": "uint16",
-							"name": "feeBips",
-							"type": "uint16"
-						}
-					],
-					"internalType": "struct SwapFee[]",
-					"name": "fees",
-					"type": "tuple[]"
+					"internalType": "uint32",
+					"name": "slippageBps",
+					"type": "uint32"
 				}
 			],
-			"name": "swap",
+			"name": "swapMultipleTokensToEth",
 			"outputs": [],
-			"stateMutability": "payable",
+			"stateMutability": "nonpayable",
 			"type": "function"
 		}
 	]

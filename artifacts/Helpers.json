@@ -52,125 +52,10 @@
 			"Directory()": "658a847a",
 			"changeDirectoryAddress(address)": "ba4c7be1",
 			"fetchFromDirectory(string)": "27262618",
-			"owner()": "8da5cb5b",
-			"platformFee()": "26232a2e"
+			"owner()": "8da5cb5b"
 		}
 	},
 	"abi": [
-		{
-			"inputs": [],
-			"name": "AllowanceTooLow",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "ETHSendFailed",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "InsufficientETH",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "NothingReceived",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "NothingToWithdraw",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "ZeroAmount",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "ZeroIndexPrice",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "ZeroNav",
-			"type": "error"
-		},
-		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "indexId",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "address",
-					"name": "caller",
-					"type": "address"
-				},
-				{
-					"indexed": false,
-					"internalType": "address",
-					"name": "receiver",
-					"type": "address"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "etfTokenAmount",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "ethAmount",
-					"type": "uint256"
-				}
-			],
-			"name": "EtfTokensMinted",
-			"type": "event"
-		},
-		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "indexId",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "address",
-					"name": "caller",
-					"type": "address"
-				},
-				{
-					"indexed": false,
-					"internalType": "address",
-					"name": "receiver",
-					"type": "address"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "etfTokenAmount",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "ethAmount",
-					"type": "uint256"
-				}
-			],
-			"name": "EtfTokensRedeemed",
-			"type": "event"
-		},
 		{
 			"inputs": [],
 			"name": "Directory",
@@ -224,19 +109,6 @@
 					"internalType": "address",
 					"name": "",
 					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "platformFee",
-			"outputs": [
-				{
-					"internalType": "uint16",
-					"name": "",
-					"type": "uint16"
 				}
 			],
 			"stateMutability": "view",

@@ -1,0 +1,64 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "bytes",
+						"name": "commands",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bytes[]",
+						"name": "inputs",
+						"type": "bytes[]"
+					}
+				],
+				"name": "execute",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/multiswap-eth/interface/universal-router.sol": "IUniversalRouter"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/multiswap-eth/interface/universal-router.sol": {
+			"keccak256": "0x9990bf50be738563550a245afadc944f192178dbfdb4675124909051c272a45b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2b3a16c623a5c130dd193813cbca221261938a5e547e94f1183bfbb5b5672cd6",
+				"dweb:/ipfs/QmP9YjmLyWhPx493mtrcpMnULfgrKNRnduU8ZmpNtAZCqb"
+			]
+		}
+	},
+	"version": 1
+}

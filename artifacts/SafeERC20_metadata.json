@@ -4,19 +4,7 @@
 	},
 	"language": "Solidity",
 	"output": {
-		"abi": [
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "token",
-						"type": "address"
-					}
-				],
-				"name": "SafeERC20FailedOperation",
-				"type": "error"
-			}
-		],
+		"abi": [],
 		"devdoc": {
 			"kind": "dev",
 			"methods": {},
@@ -30,7 +18,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/etf/main/etf-vault.sol": "SafeERC20"
+			"hopium/multiswap-eth/main/multiswap-eth-router.sol": "SafeERC20"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -44,28 +32,28 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/common/interface/imDirectory.sol": {
-			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
+		"hopium/common/interface/ierc20.sol": {
+			"keccak256": "0x06621693c71a7aa555704700fc27eed66d47985744f77d0ae654edf3a6c57f7c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
-				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
+				"bzz-raw://85951ebab78257d64b5d0c4ee77d8c3b5884e199e3f98f8df816ac8029cd90ba",
+				"dweb:/ipfs/QmVvZuotoyhm5XcWoBYWMHQDowpSbML3jtaHnCsV3AiyDU"
 			]
 		},
-		"hopium/etf/interface/imEtfRouter.sol": {
-			"keccak256": "0x9ef2dafe8d3bf78ea2372470cd04070489e0d2324d91a8fbc7c3867a8eabc9f6",
+		"hopium/common/interface/iweth.sol": {
+			"keccak256": "0xbc19abfa70aa141d1d67d8ead91e3d6599c5a4a3eb99f87c61fbb936d7d2b9ec",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a558b98b69ec2677eb516606b18553fb1ea77376d5db15cef8ef4283c7b7ad95",
-				"dweb:/ipfs/Qmdey7B1K99bf8XbQ3NAS1RMntRkziFFitrBQQpzM2hqiz"
+				"bzz-raw://911c00ebca9045a567babf91a309471e4aee9437aebf004285718b49e5f21b4a",
+				"dweb:/ipfs/QmUDhY53YdmHdqYXWKcDmZDuC2xhfxeXtETqadp1ZNiXUj"
 			]
 		},
-		"hopium/etf/main/etf-vault.sol": {
-			"keccak256": "0x94c341d7c99e1d4cd53cfa3d35582d6c1967c6c614dd77894d3201fd7499420f",
+		"hopium/multiswap-eth/main/multiswap-eth-router.sol": {
+			"keccak256": "0x1ff303cba2f8ec7a3586852983e38a29d764ae079b50362d45436165c30ac7ba",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a67b9c39e84ab2510cabc1e051fee6bbe10dc51602e7f7e4adc8151e273aca1d",
-				"dweb:/ipfs/QmWFUZURqAZjcuSmibj8f2U4u9wx1nyxXrnG1aaoYqqDE3"
+				"bzz-raw://cbf53fa0c0fc6ea5932cd1f63f8435cc26923fbf6c05ad3430eb634a549895d3",
+				"dweb:/ipfs/QmZAjnqwcV6iC1ZejyuHrvnQWaoF3CnevqKDTvRKqf2MGp"
 			]
 		}
 	},

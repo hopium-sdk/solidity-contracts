@@ -1,0 +1,145 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "WETH9",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "tokenIn",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "tokenOut",
+								"type": "address"
+							},
+							{
+								"internalType": "uint24",
+								"name": "fee",
+								"type": "uint24"
+							},
+							{
+								"internalType": "address",
+								"name": "recipient",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "deadline",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "amountIn",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "amountOutMinimum",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint160",
+								"name": "sqrtPriceLimitX96",
+								"type": "uint160"
+							}
+						],
+						"internalType": "struct ISwapRouter.ExactInputSingleParams",
+						"name": "params",
+						"type": "tuple"
+					}
+				],
+				"name": "exactInputSingle",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "amountOut",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "refundETH",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "minAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					}
+				],
+				"name": "unwrapWETH9",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/multiswap-eth/interface/uniswapV3.sol": "ISwapRouter"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/multiswap-eth/interface/uniswapV3.sol": {
+			"keccak256": "0x3f0aef6c966aa7f9d652df5a2a2e039ddb6d981cc0847984d02e795d7c609d07",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f5ae71ed17265480b2d8475310d4b1e3f6e232d09410540842419a1fe159fcbd",
+				"dweb:/ipfs/QmQXMdqaiaLrP6qyakUT9TfW4C7PqoyzeuM7SUB2ccp1hH"
+			]
+		}
+	},
+	"version": 1
+}

@@ -7,6 +7,7 @@ import "hopium/common/storage/bips.sol";
 import "hopium/common/utils/id-idx.sol";
 import "hopium/etf/interface/imEtfFactory.sol";
 import "hopium/common/interface/imActive.sol";
+import "hopium/multiswap-eth/interface/imMultiSwapEthRouter.sol";
 
 /// @notice Storage keeps created indexes and mapping tables
 abstract contract Storage {
@@ -55,7 +56,7 @@ abstract contract Utils is IdIdxUtils {
 }
 
 /// @notice Validation + helpers fused for fewer passes & less memory churn
-abstract contract ValidationHelpers is Storage, Utils {
+abstract contract ValidationHelpers is Storage, Utils, ImMultiSwapEthRouter {
     error EmptyTicker();
     error TickerExists();
     /// @dev ensure ticker is non-empty and globally unique (by bytes32 hash)
@@ -71,10 +72,10 @@ abstract contract ValidationHelpers is Storage, Utils {
     error OverWeight();
     error NotHundred();
     error DuplicateToken();
+    error NoPoolFound();
     /// @dev copy->sort once; validate weights/duplicates in a single linear pass
     function _validateAndSort(Holding[] calldata holdings)
         internal
-        pure
         returns (Holding[] memory sorted)
     {
         uint256 n = holdings.length;
@@ -86,10 +87,12 @@ abstract contract ValidationHelpers is Storage, Utils {
             Holding calldata h = holdings[i];
             address token = h.tokenAddress;
             uint256 w = h.weightBips;
+            Pool memory pool = getMultiSwapEthRouter().getBestWethPoolUpdatable(token);
 
             if (token == address(0)) revert ZeroToken();
             if (w == 0) revert ZeroWeight();
             if (w > HUNDRED_PERCENT_BIPS) revert OverWeight();
+            if (pool.poolAddress == address(0)) revert NoPoolFound();
 
             sorted[i] = h;
             unchecked { ++i; }

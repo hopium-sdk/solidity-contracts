@@ -384,6 +384,14 @@
 				"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1"
 			]
 		},
+		"hopium/common/interface/ierc20.sol": {
+			"keccak256": "0x06621693c71a7aa555704700fc27eed66d47985744f77d0ae654edf3a6c57f7c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://85951ebab78257d64b5d0c4ee77d8c3b5884e199e3f98f8df816ac8029cd90ba",
+				"dweb:/ipfs/QmVvZuotoyhm5XcWoBYWMHQDowpSbML3jtaHnCsV3AiyDU"
+			]
+		},
 		"hopium/common/interface/imActive.sol": {
 			"keccak256": "0xc2ee8143001e064b7399891f652a74992469884f27719a3a77108839df8db2ce",
 			"license": "MIT",
@@ -408,20 +416,12 @@
 				"dweb:/ipfs/QmQXmTNzdiXtUoCE7pUXLJKjYhxVJqQn5PdxS88e1daq9h"
 			]
 		},
-		"hopium/common/utils/ierc20.sol": {
-			"keccak256": "0x06621693c71a7aa555704700fc27eed66d47985744f77d0ae654edf3a6c57f7c",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://85951ebab78257d64b5d0c4ee77d8c3b5884e199e3f98f8df816ac8029cd90ba",
-				"dweb:/ipfs/QmVvZuotoyhm5XcWoBYWMHQDowpSbML3jtaHnCsV3AiyDU"
-			]
-		},
 		"hopium/common/utils/transfer-helpers.sol": {
-			"keccak256": "0x9785e1d014bd47eab5257c9943a916e74759ffa315d59c88899ce7488d89c98f",
+			"keccak256": "0x3c955635cdfdcbc072f796e4ffe551731510141135b0a2f69649511ce433df56",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b022895930d7b97ed6cac8149db2f679e760ba16515206db4ba6d1ec1626d931",
-				"dweb:/ipfs/QmbpX398WgBu5ZDCNmggTUyZzEFruoLEXpNpG2VgcmVz5Y"
+				"bzz-raw://5014ba914a001b421b8854530667967976d49f9f1c6073c2ad5d0b592a62d715",
+				"dweb:/ipfs/QmYTpTwfN1Khz3yEUdWH55hrHkDPsk1mxxcdBBxhWoLKvq"
 			]
 		},
 		"hopium/etf/interface/iEtfToken.sol": {

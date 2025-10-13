@@ -1,0 +1,75 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenA",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenB",
+						"type": "address"
+					},
+					{
+						"internalType": "uint24",
+						"name": "fee",
+						"type": "uint24"
+					}
+				],
+				"name": "getPool",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "pool",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/multiswap-eth/interface/uniswapV3.sol": "IUniswapV3Factory"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/multiswap-eth/interface/uniswapV3.sol": {
+			"keccak256": "0xfa8bcf1dd583cedf664f54a6bdb4a17b76bcc2093da66d4e6316c6c114dddfa8",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8e7bbffa8ca730fdac3768429fae816cdc50da3a981c282758f03cfc3e2b2343",
+				"dweb:/ipfs/QmcPVd95VDw6VZmzKaNm8rP9VVMe8zQmVmnMvM2uiGm2Bb"
+			]
+		}
+	},
+	"version": 1
+}

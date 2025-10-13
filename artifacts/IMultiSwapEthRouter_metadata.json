@@ -1,0 +1,198 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getBestWethPool",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "poolAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint24",
+								"name": "poolFee",
+								"type": "uint24"
+							},
+							{
+								"internalType": "uint8",
+								"name": "isV3Pool",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint64",
+								"name": "lastCached",
+								"type": "uint64"
+							}
+						],
+						"internalType": "struct Pool",
+						"name": "pool",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getBestWethPoolUpdatable",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "poolAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint24",
+								"name": "poolFee",
+								"type": "uint24"
+							},
+							{
+								"internalType": "uint8",
+								"name": "isV3Pool",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint64",
+								"name": "lastCached",
+								"type": "uint64"
+							}
+						],
+						"internalType": "struct Pool",
+						"name": "pool",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "tokenAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint16",
+								"name": "weightBips",
+								"type": "uint16"
+							}
+						],
+						"internalType": "struct MultiTokenOutput[]",
+						"name": "outputs",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "address",
+						"name": "recipientAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint32",
+						"name": "slippageBps",
+						"type": "uint32"
+					}
+				],
+				"name": "swapEthToMultipleTokens",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "tokenAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "amount",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct MultiTokenInput[]",
+						"name": "inputs",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "address payable",
+						"name": "recipientAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint32",
+						"name": "slippageBps",
+						"type": "uint32"
+					}
+				],
+				"name": "swapMultipleTokensToEth",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": "IMultiSwapEthRouter"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+			"keccak256": "0x67b4ec9f7dff209ae01ae9e8e299ce648f53038edba46bb83bdd063caaee7970",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f2b84929c02344165804df7e5c22fa4ed7779f65e61aa5e80d8cadb7c5e116e0",
+				"dweb:/ipfs/QmYUKkkYjoeor1es6rBjBg68dcQQecEzYPnZYvwA2gKxyS"
+			]
+		}
+	},
+	"version": 1
+}

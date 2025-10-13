@@ -12,11 +12,6 @@
 			},
 			{
 				"inputs": [],
-				"name": "BadTokenAmount",
-				"type": "error"
-			},
-			{
-				"inputs": [],
 				"name": "ETHSendFailed",
 				"type": "error"
 			},
@@ -27,22 +22,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "InsufficientWeth",
-				"type": "error"
-			},
-			{
-				"inputs": [],
 				"name": "NothingReceived",
-				"type": "error"
-			},
-			{
-				"inputs": [],
-				"name": "OnlyThis",
-				"type": "error"
-			},
-			{
-				"inputs": [],
-				"name": "QuoteUnavailable",
 				"type": "error"
 			},
 			{
@@ -52,7 +32,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "FACTORY_ADDR",
+				"name": "WETH",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -64,11 +44,45 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "WETH_ADDR",
-				"outputs": [
+				"inputs": [
 					{
 						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "findBestWETHPool",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "isV3",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "pool",
+						"type": "address"
+					},
+					{
+						"internalType": "uint24",
+						"name": "fee",
+						"type": "uint24"
+					},
+					{
+						"internalType": "uint256",
+						"name": "wethLiquidity",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v2Factory",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV2Factory",
 						"name": "",
 						"type": "address"
 					}
@@ -78,10 +92,49 @@
 			},
 			{
 				"inputs": [],
-				"name": "router",
+				"name": "v2Router",
 				"outputs": [
 					{
 						"internalType": "contract IUniswapV2Router02",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v3Factory",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV3Factory",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v3Quoter",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV3Quoter",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v3Router",
+				"outputs": [
+					{
+						"internalType": "contract ISwapRouter",
 						"name": "",
 						"type": "address"
 					}
@@ -92,18 +145,31 @@
 		],
 		"devdoc": {
 			"kind": "dev",
-			"methods": {},
+			"methods": {
+				"findBestWETHPool(address)": {
+					"returns": {
+						"fee": "V3 fee tier (0 for V2)",
+						"isV3": "True if best pool is V3, false if V2",
+						"pool": "Address of the best pool (pair for V2, pool for V3)",
+						"wethLiquidity": "Raw WETH in pool (wei)"
+					}
+				}
+			},
 			"version": 1
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {},
+			"methods": {
+				"findBestWETHPool(address)": {
+					"notice": "Finds the TOKEN–WETH pool with the most WETH across Uniswap V2 and V3."
+				}
+			},
 			"version": 1
 		}
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/multiswap/main/multiswap-router.sol": "SwapHelpers"
+			"hopium/multiswap-eth/main/multiswap-eth-router.sol": "SwapHelpers"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -117,39 +183,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"@openzeppelin/contracts/security/ReentrancyGuard.sol": {
-			"keccak256": "0xa535a5df777d44e945dd24aa43a11e44b024140fc340ad0dfe42acf4002aade1",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://41319e7f621f2dc3733511332c4fd032f8e32ad2aa7fd6f665c19741d9941a34",
-				"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1"
-			]
-		},
-		"hopium/common/interface/imActive.sol": {
-			"keccak256": "0xc2ee8143001e064b7399891f652a74992469884f27719a3a77108839df8db2ce",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://f2b7deed09edd45178e9295c027ed4813e78438696f78f27904b3da6421949d2",
-				"dweb:/ipfs/QmYivXXuUfpnzj7HS9A51UFYmpnzHJ39V5e9y6q8Uo1t5u"
-			]
-		},
-		"hopium/common/interface/imDirectory.sol": {
-			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
-				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
-			]
-		},
-		"hopium/common/storage/bips.sol": {
-			"keccak256": "0x3e39e84d405a0032d123c0dc0828e5a44caf8cd7b77c5092020854933f19888a",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://0254a58b591dacdd2c9c083970b924c7b81cc325967b2f2e13f94a62828af6b0",
-				"dweb:/ipfs/QmQXmTNzdiXtUoCE7pUXLJKjYhxVJqQn5PdxS88e1daq9h"
-			]
-		},
-		"hopium/common/utils/ierc20.sol": {
+		"hopium/common/interface/ierc20.sol": {
 			"keccak256": "0x06621693c71a7aa555704700fc27eed66d47985744f77d0ae654edf3a6c57f7c",
 			"license": "MIT",
 			"urls": [
@@ -157,28 +191,44 @@
 				"dweb:/ipfs/QmVvZuotoyhm5XcWoBYWMHQDowpSbML3jtaHnCsV3AiyDU"
 			]
 		},
+		"hopium/common/interface/iweth.sol": {
+			"keccak256": "0xbc19abfa70aa141d1d67d8ead91e3d6599c5a4a3eb99f87c61fbb936d7d2b9ec",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://911c00ebca9045a567babf91a309471e4aee9437aebf004285718b49e5f21b4a",
+				"dweb:/ipfs/QmUDhY53YdmHdqYXWKcDmZDuC2xhfxeXtETqadp1ZNiXUj"
+			]
+		},
 		"hopium/common/utils/transfer-helpers.sol": {
-			"keccak256": "0x9785e1d014bd47eab5257c9943a916e74759ffa315d59c88899ce7488d89c98f",
+			"keccak256": "0x3c955635cdfdcbc072f796e4ffe551731510141135b0a2f69649511ce433df56",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b022895930d7b97ed6cac8149db2f679e760ba16515206db4ba6d1ec1626d931",
-				"dweb:/ipfs/QmbpX398WgBu5ZDCNmggTUyZzEFruoLEXpNpG2VgcmVz5Y"
+				"bzz-raw://5014ba914a001b421b8854530667967976d49f9f1c6073c2ad5d0b592a62d715",
+				"dweb:/ipfs/QmYTpTwfN1Khz3yEUdWH55hrHkDPsk1mxxcdBBxhWoLKvq"
 			]
 		},
-		"hopium/multiswap/interface/iMultiSwapRouter.sol": {
-			"keccak256": "0xcf2603e394ec46e7e54c1e6dcd3daccef52d0a396a3cc72fb66a53e0c8a0a114",
+		"hopium/multiswap-eth/interface/uniswapV2.sol": {
+			"keccak256": "0xc59003174dfdb512e80fbd1cf68e44d6e19294611f5cbfefe252d774844b2d96",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://09af63980ecf382004936836dd6b273ff0f621998bcb9d97a63da8c5c1f07280",
-				"dweb:/ipfs/QmW6HYqCSu3Xjjd487pFV8eWgLjh83VK2xzW2QgsADNGqj"
+				"bzz-raw://0bcce4f18b13f63bbade5412a49131f3961b6f91584dc9273ef1fcd0bbb06735",
+				"dweb:/ipfs/QmPN2mnQBKcWxR6gvhQPHZnV6vwpJ5H5GUYyv8LrNvSfuD"
 			]
 		},
-		"hopium/multiswap/main/multiswap-router.sol": {
-			"keccak256": "0xad0144809ef4419b009d6363d324dea09e48a27d986258923fb145e969c9a74f",
+		"hopium/multiswap-eth/interface/uniswapV3.sol": {
+			"keccak256": "0x21557f45a9c86eb86ddb0875b7ed481f955c11e72d2989b30530baefcd3ed5d7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7301a4d008750f01bc4b97485d9fc7950b3e211c3d21ab0b68229327af443d05",
-				"dweb:/ipfs/QmSAq5pnoQzExijmu3mc11EH2VUewFVKZqiLYWhUzLKDzz"
+				"bzz-raw://e8fb306051224fbdb0700a642b4235d4fd200b274102c7c6f71bdead81fda0de",
+				"dweb:/ipfs/QmWtwRoYpW39Jv7cWuMW1hC8QzgrLTCzZxEbJwUeXqj6FP"
+			]
+		},
+		"hopium/multiswap-eth/main/multiswap-eth-router.sol": {
+			"keccak256": "0xf08231be3c2395be4e0cc025f47541f21596cf6935312e60a877215b5b146ab1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://7e64efe2fed8951d8a02b0e87fe5253e3acd377383867b60010ab913f353b9be",
+				"dweb:/ipfs/QmedNmmMEbPzyotP73rLQMxcrdGDKk9iNHaieRTu2WYsvW"
 			]
 		}
 	},

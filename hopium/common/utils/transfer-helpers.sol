@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.30;
 
-import "hopium/common/utils/ierc20.sol";
+import "hopium/common/interface/ierc20.sol";
 
 abstract contract TransferHelpers {
     /* ----------------------------- Custom Errors ----------------------------- */

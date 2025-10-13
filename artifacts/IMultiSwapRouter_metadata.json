@@ -15,15 +15,33 @@
 								"type": "address"
 							},
 							{
-								"internalType": "uint256",
-								"name": "amount",
-								"type": "uint256"
+								"internalType": "uint16",
+								"name": "weightBips",
+								"type": "uint16"
 							}
 						],
-						"internalType": "struct SwapOrderInput[]",
-						"name": "inputs",
+						"internalType": "struct MultiTokenOutput[]",
+						"name": "outputs",
 						"type": "tuple[]"
 					},
+					{
+						"internalType": "address",
+						"name": "recipientAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint32",
+						"name": "slippageBps",
+						"type": "uint32"
+					}
+				],
+				"name": "swapEthToMultipleTokens",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
 					{
 						"components": [
 							{
@@ -32,51 +50,29 @@
 								"type": "address"
 							},
 							{
-								"internalType": "uint16",
-								"name": "weightBips",
-								"type": "uint16"
+								"internalType": "uint256",
+								"name": "amount",
+								"type": "uint256"
 							}
 						],
-						"internalType": "struct SwapOrderOutput[]",
-						"name": "outputs",
+						"internalType": "struct MultiTokenInput[]",
+						"name": "inputs",
 						"type": "tuple[]"
 					},
 					{
-						"internalType": "address",
-						"name": "receiver",
+						"internalType": "address payable",
+						"name": "recipientAddress",
 						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "slippageBips",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "deadlineInSec",
-						"type": "uint256"
-					},
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "feeAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "uint16",
-								"name": "feeBips",
-								"type": "uint16"
-							}
-						],
-						"internalType": "struct SwapFee[]",
-						"name": "fees",
-						"type": "tuple[]"
+						"internalType": "uint32",
+						"name": "slippageBps",
+						"type": "uint32"
 					}
 				],
-				"name": "swap",
+				"name": "swapMultipleTokensToEth",
 				"outputs": [],
-				"stateMutability": "payable",
+				"stateMutability": "nonpayable",
 				"type": "function"
 			}
 		],
@@ -93,7 +89,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/multiswap/interface/iMultiSwapRouter.sol": "IMultiSwapRouter"
+			"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": "IMultiSwapRouter"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -107,12 +103,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/multiswap/interface/iMultiSwapRouter.sol": {
-			"keccak256": "0xcf2603e394ec46e7e54c1e6dcd3daccef52d0a396a3cc72fb66a53e0c8a0a114",
+		"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+			"keccak256": "0xf4b77809aef35001507f3324b56287c47469b03d692cc21ead888e50294e2278",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://09af63980ecf382004936836dd6b273ff0f621998bcb9d97a63da8c5c1f07280",
-				"dweb:/ipfs/QmW6HYqCSu3Xjjd487pFV8eWgLjh83VK2xzW2QgsADNGqj"
+				"bzz-raw://ee0e2d6a32ab4a5f4ab8609bb958af9eb1baf3c756ac4fd8b0bb53e0b1ed62be",
+				"dweb:/ipfs/QmYjxKzwcxntFBBrUdn2bjEJVAb6s2s7yGLo4ZZuGD38ab"
 			]
 		}
 	},

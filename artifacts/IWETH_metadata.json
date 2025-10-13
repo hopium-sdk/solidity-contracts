@@ -9,7 +9,55 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "spender",
+						"type": "address"
+					}
+				],
+				"name": "allowance",
+				"outputs": [
+					{
+						"internalType": "uint256",
 						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "spender",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "approve",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
 						"type": "address"
 					}
 				],
@@ -32,19 +80,61 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					},
+				"inputs": [],
+				"name": "totalSupply",
+				"outputs": [
 					{
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
 					}
 				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
 				"name": "transfer",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "transferFrom",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -82,7 +172,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/multiswap/main/multiswap-router.sol": "IWETH"
+			"hopium/common/interface/iweth.sol": "IWETH"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -96,39 +186,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"@openzeppelin/contracts/security/ReentrancyGuard.sol": {
-			"keccak256": "0xa535a5df777d44e945dd24aa43a11e44b024140fc340ad0dfe42acf4002aade1",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://41319e7f621f2dc3733511332c4fd032f8e32ad2aa7fd6f665c19741d9941a34",
-				"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1"
-			]
-		},
-		"hopium/common/interface/imActive.sol": {
-			"keccak256": "0xc2ee8143001e064b7399891f652a74992469884f27719a3a77108839df8db2ce",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://f2b7deed09edd45178e9295c027ed4813e78438696f78f27904b3da6421949d2",
-				"dweb:/ipfs/QmYivXXuUfpnzj7HS9A51UFYmpnzHJ39V5e9y6q8Uo1t5u"
-			]
-		},
-		"hopium/common/interface/imDirectory.sol": {
-			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
-				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
-			]
-		},
-		"hopium/common/storage/bips.sol": {
-			"keccak256": "0x3e39e84d405a0032d123c0dc0828e5a44caf8cd7b77c5092020854933f19888a",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://0254a58b591dacdd2c9c083970b924c7b81cc325967b2f2e13f94a62828af6b0",
-				"dweb:/ipfs/QmQXmTNzdiXtUoCE7pUXLJKjYhxVJqQn5PdxS88e1daq9h"
-			]
-		},
-		"hopium/common/utils/ierc20.sol": {
+		"hopium/common/interface/ierc20.sol": {
 			"keccak256": "0x06621693c71a7aa555704700fc27eed66d47985744f77d0ae654edf3a6c57f7c",
 			"license": "MIT",
 			"urls": [
@@ -136,28 +194,12 @@
 				"dweb:/ipfs/QmVvZuotoyhm5XcWoBYWMHQDowpSbML3jtaHnCsV3AiyDU"
 			]
 		},
-		"hopium/common/utils/transfer-helpers.sol": {
-			"keccak256": "0x9785e1d014bd47eab5257c9943a916e74759ffa315d59c88899ce7488d89c98f",
+		"hopium/common/interface/iweth.sol": {
+			"keccak256": "0xbc19abfa70aa141d1d67d8ead91e3d6599c5a4a3eb99f87c61fbb936d7d2b9ec",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b022895930d7b97ed6cac8149db2f679e760ba16515206db4ba6d1ec1626d931",
-				"dweb:/ipfs/QmbpX398WgBu5ZDCNmggTUyZzEFruoLEXpNpG2VgcmVz5Y"
-			]
-		},
-		"hopium/multiswap/interface/iMultiSwapRouter.sol": {
-			"keccak256": "0xcf2603e394ec46e7e54c1e6dcd3daccef52d0a396a3cc72fb66a53e0c8a0a114",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://09af63980ecf382004936836dd6b273ff0f621998bcb9d97a63da8c5c1f07280",
-				"dweb:/ipfs/QmW6HYqCSu3Xjjd487pFV8eWgLjh83VK2xzW2QgsADNGqj"
-			]
-		},
-		"hopium/multiswap/main/multiswap-router.sol": {
-			"keccak256": "0xad0144809ef4419b009d6363d324dea09e48a27d986258923fb145e969c9a74f",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://7301a4d008750f01bc4b97485d9fc7950b3e211c3d21ab0b68229327af443d05",
-				"dweb:/ipfs/QmSAq5pnoQzExijmu3mc11EH2VUewFVKZqiLYWhUzLKDzz"
+				"bzz-raw://911c00ebca9045a567babf91a309471e4aee9437aebf004285718b49e5f21b4a",
+				"dweb:/ipfs/QmUDhY53YdmHdqYXWKcDmZDuC2xhfxeXtETqadp1ZNiXUj"
 			]
 		}
 	},

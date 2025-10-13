@@ -57,12 +57,36 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/standalone/main/price-oracle.sol": {
-			"keccak256": "0x025937e2db17879abde9b068e4dab69822ef9ccfca0602c33ac91cd362bf5d1c",
+		"hopium/common/interface/imDirectory.sol": {
+			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://82c711f92e36ceeb8ebdeab28f4edf9f9aee060294c1e0f3d3f001dc52f8354f",
-				"dweb:/ipfs/QmTde5RFP8mRqCmytq4hahd8BsQwuh1R3WiAc47Dy7sNp3"
+				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
+				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
+			]
+		},
+		"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+			"keccak256": "0x5924967309a24bec8f1fc958a273f1d145f1111e088cdc87b840666c82aba67b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4c9da154df9a3d839409376c09dbbe6a88c16a85a5a07a4aecd3f17479670c58",
+				"dweb:/ipfs/QmeFnhSieRzjKnRbfXm3r7BNJdY2qNTgguSJut8JARGQ2t"
+			]
+		},
+		"hopium/multiswap-eth/interface/imMultiSwapEthRouter.sol": {
+			"keccak256": "0x67cd6409a4db4f14edd2dea5daa60d82ce74994b7b342c5d2f5cdb9fddb5c9e7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://48a5ac0b1626c83477c69c8eacbbc51c050468a58345e2fe1a03c4b6fcdbd0e0",
+				"dweb:/ipfs/QmUxApGW4nH7G873HeFcqNhrE2F5a8YANTFDuTJYvhuVSj"
+			]
+		},
+		"hopium/standalone/main/price-oracle.sol": {
+			"keccak256": "0xb14227a490d6242b4c9818ecc579028dfc35717ae29fc57ac6b8c6df044e5b01",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://41f359b20c3e6fc04b12cc6e0b2ea7090c69d5c888a6572f140a87fde6aa2f9d",
+				"dweb:/ipfs/QmdV773WUJgGffD6GeP8Y41KfdSJCYN1SZhFLCTVXPPjEj"
 			]
 		}
 	},

@@ -1,0 +1,120 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "Directory",
+				"outputs": [
+					{
+						"internalType": "contract IDirectory",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_directory",
+						"type": "address"
+					}
+				],
+				"name": "changeDirectoryAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_key",
+						"type": "string"
+					}
+				],
+				"name": "fetchFromDirectory",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/multiswap-eth/interface/imMultiSwapEthRouter.sol": "ImMultiSwapEthRouter"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/common/interface/imDirectory.sol": {
+			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
+				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
+			]
+		},
+		"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+			"keccak256": "0xf909e979220736773d66433cae2c9253700009c84be8760a22521a8de250fa13",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5b31c5ee638cb77d0dac08728d4ada27c2d2ecc27402e8bde879f12947737a02",
+				"dweb:/ipfs/QmaoQHk6KyxiJXARRXWE6Ab33u9iG8heDxZcmRM7V78cVt"
+			]
+		},
+		"hopium/multiswap-eth/interface/imMultiSwapEthRouter.sol": {
+			"keccak256": "0x67cd6409a4db4f14edd2dea5daa60d82ce74994b7b342c5d2f5cdb9fddb5c9e7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://48a5ac0b1626c83477c69c8eacbbc51c050468a58345e2fe1a03c4b6fcdbd0e0",
+				"dweb:/ipfs/QmUxApGW4nH7G873HeFcqNhrE2F5a8YANTFDuTJYvhuVSj"
+			]
+		}
+	},
+	"version": 1
+}

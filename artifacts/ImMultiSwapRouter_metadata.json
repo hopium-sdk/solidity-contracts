@@ -77,7 +77,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/multiswap/interface/imMultiSwapRouter.sol": "ImMultiSwapRouter"
+			"hopium/multiswap-eth/interface/imMultiSwapEthRouter.sol": "ImMultiSwapRouter"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -99,20 +99,20 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
-		"hopium/multiswap/interface/iMultiSwapRouter.sol": {
-			"keccak256": "0xcf2603e394ec46e7e54c1e6dcd3daccef52d0a396a3cc72fb66a53e0c8a0a114",
+		"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+			"keccak256": "0x65337ea7f821537d036dc8a6c70702aa51fc55302b549007d410585d7e8b294c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://09af63980ecf382004936836dd6b273ff0f621998bcb9d97a63da8c5c1f07280",
-				"dweb:/ipfs/QmW6HYqCSu3Xjjd487pFV8eWgLjh83VK2xzW2QgsADNGqj"
+				"bzz-raw://eb99d3d3e30f49355ac6536e9eb606302965a220601b751afe5980b282591100",
+				"dweb:/ipfs/QmWj6Jy9GUUtMMHHjTNFVB3T1hSX536TobiFAox63jjzuc"
 			]
 		},
-		"hopium/multiswap/interface/imMultiSwapRouter.sol": {
-			"keccak256": "0xd0c29729ee4a8f3fb13da132daeda34745dd2f2af13d6fe2a019c963f8c6841d",
+		"hopium/multiswap-eth/interface/imMultiSwapEthRouter.sol": {
+			"keccak256": "0x54543d369560e98ac73356680bcf1faa6555ac099acb095b0f5e7ed2f460fb3b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ca088fa03fa058d73ee180fa3d76b1333b890f3f56deb986876a31adbfdb94a3",
-				"dweb:/ipfs/QmT9cfMjzcZA1LsHiZaVf5jAW1R621wi9YuzEAhPC2CDuP"
+				"bzz-raw://a6bd4417877a31df19afbc0eb8abf8f07a5ac8521a56d71e383befac2fee2f95",
+				"dweb:/ipfs/QmSSQEzrh9BSM2znxpHBbvhChj4vvqELyngJk5GQaE7p2B"
 			]
 		}
 	},

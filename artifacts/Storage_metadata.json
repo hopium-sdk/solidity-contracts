@@ -6,87 +6,96 @@
 	"output": {
 		"abi": [
 			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "indexId",
-						"type": "uint256"
-					},
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "caller",
-						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "receiver",
-						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "etfTokenAmount",
-						"type": "uint256"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "ethAmount",
-						"type": "uint256"
-					}
-				],
-				"name": "EtfTokensMinted",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "indexId",
-						"type": "uint256"
-					},
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "caller",
-						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "receiver",
-						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "etfTokenAmount",
-						"type": "uint256"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "ethAmount",
-						"type": "uint256"
-					}
-				],
-				"name": "EtfTokensRedeemed",
-				"type": "event"
+				"inputs": [],
+				"name": "ZeroAddress",
+				"type": "error"
 			},
 			{
 				"inputs": [],
-				"name": "platformFee",
+				"name": "permit2",
 				"outputs": [
 					{
-						"internalType": "uint16",
+						"internalType": "contract IPermit2",
 						"name": "",
-						"type": "uint16"
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "uRouter",
+				"outputs": [
+					{
+						"internalType": "contract IUniversalRouter",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v2Factory",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV2Factory",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v2Router",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV2Router02",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v3Factory",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV3Factory",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v3Quoter",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV3Quoter",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "wethAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -106,7 +115,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/etf/main/etf-router.sol": "Storage"
+			"hopium/multiswap-eth/main/multiswap-eth-router.sol": "Storage"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -128,12 +137,12 @@
 				"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1"
 			]
 		},
-		"hopium/common/interface/imActive.sol": {
-			"keccak256": "0xc2ee8143001e064b7399891f652a74992469884f27719a3a77108839df8db2ce",
+		"hopium/common/interface/ierc20.sol": {
+			"keccak256": "0x06621693c71a7aa555704700fc27eed66d47985744f77d0ae654edf3a6c57f7c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f2b7deed09edd45178e9295c027ed4813e78438696f78f27904b3da6421949d2",
-				"dweb:/ipfs/QmYivXXuUfpnzj7HS9A51UFYmpnzHJ39V5e9y6q8Uo1t5u"
+				"bzz-raw://85951ebab78257d64b5d0c4ee77d8c3b5884e199e3f98f8df816ac8029cd90ba",
+				"dweb:/ipfs/QmVvZuotoyhm5XcWoBYWMHQDowpSbML3jtaHnCsV3AiyDU"
 			]
 		},
 		"hopium/common/interface/imDirectory.sol": {
@@ -144,6 +153,22 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
+		"hopium/common/interface/imPermit2.sol": {
+			"keccak256": "0x45b585963f05232fe306ede3ec77dc17de39d479d78c4cb5449cdff5ae6e8403",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9b55f95cf511be3c57e7bbd45e85a46572c53597189a7beb0d86ec763772c82d",
+				"dweb:/ipfs/QmdymxXRGT2PXhnZBmwbEvvk4h3Z3vbnooz7aQq1GP9GVy"
+			]
+		},
+		"hopium/common/interface/iweth.sol": {
+			"keccak256": "0xbc19abfa70aa141d1d67d8ead91e3d6599c5a4a3eb99f87c61fbb936d7d2b9ec",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://911c00ebca9045a567babf91a309471e4aee9437aebf004285718b49e5f21b4a",
+				"dweb:/ipfs/QmUDhY53YdmHdqYXWKcDmZDuC2xhfxeXtETqadp1ZNiXUj"
+			]
+		},
 		"hopium/common/storage/bips.sol": {
 			"keccak256": "0x3e39e84d405a0032d123c0dc0828e5a44caf8cd7b77c5092020854933f19888a",
 			"license": "MIT",
@@ -152,116 +177,52 @@
 				"dweb:/ipfs/QmQXmTNzdiXtUoCE7pUXLJKjYhxVJqQn5PdxS88e1daq9h"
 			]
 		},
-		"hopium/common/utils/ierc20.sol": {
-			"keccak256": "0x06621693c71a7aa555704700fc27eed66d47985744f77d0ae654edf3a6c57f7c",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://85951ebab78257d64b5d0c4ee77d8c3b5884e199e3f98f8df816ac8029cd90ba",
-				"dweb:/ipfs/QmVvZuotoyhm5XcWoBYWMHQDowpSbML3jtaHnCsV3AiyDU"
-			]
-		},
 		"hopium/common/utils/transfer-helpers.sol": {
-			"keccak256": "0x9785e1d014bd47eab5257c9943a916e74759ffa315d59c88899ce7488d89c98f",
+			"keccak256": "0x3c955635cdfdcbc072f796e4ffe551731510141135b0a2f69649511ce433df56",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b022895930d7b97ed6cac8149db2f679e760ba16515206db4ba6d1ec1626d931",
-				"dweb:/ipfs/QmbpX398WgBu5ZDCNmggTUyZzEFruoLEXpNpG2VgcmVz5Y"
+				"bzz-raw://5014ba914a001b421b8854530667967976d49f9f1c6073c2ad5d0b592a62d715",
+				"dweb:/ipfs/QmYTpTwfN1Khz3yEUdWH55hrHkDPsk1mxxcdBBxhWoLKvq"
 			]
 		},
-		"hopium/etf/interface/iEtfToken.sol": {
-			"keccak256": "0x4bf190ed008aae8ac1607437b5115c34166cf84f6557e8ad470f42b95c8572f6",
+		"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+			"keccak256": "0x67b4ec9f7dff209ae01ae9e8e299ce648f53038edba46bb83bdd063caaee7970",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e8be03a55396baa8098df3497d6a3b17a87a9434101bbb636a04d223801ac19a",
-				"dweb:/ipfs/QmNRME98Nei6kW4Tmrq9agiEiYWEf9c7jL2Ftnu3hw8L88"
+				"bzz-raw://f2b84929c02344165804df7e5c22fa4ed7779f65e61aa5e80d8cadb7c5e116e0",
+				"dweb:/ipfs/QmYUKkkYjoeor1es6rBjBg68dcQQecEzYPnZYvwA2gKxyS"
 			]
 		},
-		"hopium/etf/interface/iEtfVault.sol": {
-			"keccak256": "0xfb14def9e2497164d73a038644d6f2ceb3fe8cfa996ca53a5487439dfe7f6ee2",
+		"hopium/multiswap-eth/interface/uniswapV2.sol": {
+			"keccak256": "0xdd8afdfef3fc93bb606a050f43111b8603b21add7a93a9bfba89a49b3ed3b051",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4ac07badc503ea718e351f5e4694021ed548e4e5256f90be6d53c871a108dc3b",
-				"dweb:/ipfs/QmeK4yf9x5LF2JaGRfmYto7sddL3AWFU9N1sirAmd8ZFBY"
+				"bzz-raw://35fdbff42fe25299c8d624addf2eabbad85299873a4f72539bf6c5ce1c40351d",
+				"dweb:/ipfs/QmVPF7eEvdMTK6mm54VDEN3ymKaXSamX4YbtZfTWUY7aYa"
 			]
 		},
-		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x9cfc476b774a92659a646d6a43aba5469411095e24879e6b205948a8cccb1961",
+		"hopium/multiswap-eth/interface/uniswapV3.sol": {
+			"keccak256": "0xfa8bcf1dd583cedf664f54a6bdb4a17b76bcc2093da66d4e6316c6c114dddfa8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2be2117fe765ce2959796b673503334ce0f00ee2c36149519bb9ff07d3bb6689",
-				"dweb:/ipfs/QmXi6P1b2St4LCuSDa7NZ58gjyhuFS1tHs4kTgEfiGaeiy"
+				"bzz-raw://8e7bbffa8ca730fdac3768429fae816cdc50da3a981c282758f03cfc3e2b2343",
+				"dweb:/ipfs/QmcPVd95VDw6VZmzKaNm8rP9VVMe8zQmVmnMvM2uiGm2Bb"
 			]
 		},
-		"hopium/etf/interface/imEtfTokenDeployer.sol": {
-			"keccak256": "0x0b513a5c51c2a351fcb3f983dce598278c5c8c1255cbed64bcb5bae12b001d7e",
+		"hopium/multiswap-eth/interface/universal-router.sol": {
+			"keccak256": "0x9990bf50be738563550a245afadc944f192178dbfdb4675124909051c272a45b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4dd397ee20cf2a88c2dbde288aafbe5f93375564ded5cb6af6edd8df31ec593f",
-				"dweb:/ipfs/QmTuy1CYmXzqs9YtTVeBRvSi2YgLDCixxcsjr2U1j9j9an"
+				"bzz-raw://2b3a16c623a5c130dd193813cbca221261938a5e547e94f1183bfbb5b5672cd6",
+				"dweb:/ipfs/QmP9YjmLyWhPx493mtrcpMnULfgrKNRnduU8ZmpNtAZCqb"
 			]
 		},
-		"hopium/etf/interface/imEtfVaultDeployer.sol": {
-			"keccak256": "0xa957db6122506e7bdcfaca4e5ed3dddd558731e5616d9a9f1aec669d1ece4228",
+		"hopium/multiswap-eth/main/multiswap-eth-router.sol": {
+			"keccak256": "0x56550b2cc6f140f7cfcc484e0dd826c90ecc3e01aada1eff00dbe37616f4f250",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://da5e8e42d904de15a07be21b7a610cd518757b93b28b6b0c0d13c84e15c07d3e",
-				"dweb:/ipfs/QmZBQ2Dj9rC6PqUk3fRUHfCPRv8q394mwezWjf4YtxYBa6"
-			]
-		},
-		"hopium/etf/interface/imIndexFactory.sol": {
-			"keccak256": "0xad9bd69a6cea1c2452fdfa45cdc718b01fa537742681125cd6e07cde3da33b0b",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://4ca5d66650a6d7ee89528e6773821b57168599b47758a1c346ecdc39a23cab1e",
-				"dweb:/ipfs/QmaU5gQyFt3R1VBpGj6ghDyHw2GABQa9gNnVbhNQTxnoUS"
-			]
-		},
-		"hopium/etf/interface/imIndexPriceOracle.sol": {
-			"keccak256": "0xc691bc85c2a507d96bca1a31dee86e3c1a43fe948fc51eb53ba8d83a1424846b",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://3f56c889d65889f4c2e53434b3169d7c7db345a099e9a42692fc576653125c47",
-				"dweb:/ipfs/QmXrkmxbGCFniXDG8o8GxAF77XmTgMzyLsgAWY12PMWuiH"
-			]
-		},
-		"hopium/etf/main/etf-router.sol": {
-			"keccak256": "0xe80b81ca8c59e0aa3de98cd54c29a9210dbf67837ca968fa95179af7a0c27e33",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://4d99a0ac202095637ca6efbb7004986d40af1e65a50410408e52ffb28e2e6815",
-				"dweb:/ipfs/QmSEpBZaT2Z7mytZQFyQQu1dhhHBtaVJwKg46e5RpCVuD3"
-			]
-		},
-		"hopium/etf/storage/index.sol": {
-			"keccak256": "0x47ffce3fe0d548947c3dbb9235ccd09284d2d3a8115675bcd4c9cc254f0393b0",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://54eaee7eee47863faf7a5a9d09c905de4080480e148919c8a00dc12052fc27d9",
-				"dweb:/ipfs/QmWpKwZ5wv583jTC7JwSna6VosDdmjtD97o9DxY8EYzJrQ"
-			]
-		},
-		"hopium/etf/utils/etf-addresses-helpers.sol": {
-			"keccak256": "0x8347970428d8320e455df33b7ff4840abe4fbba63230265b0f5c6981309f57c5",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://7a899f2239645a02f4b622b588e6a4ed0c0021601802a855677dc394518ac2e0",
-				"dweb:/ipfs/QmcvatSJydEHmjv7m8LCPgCc5yQJqi8F2aJHur6HDiSgbb"
-			]
-		},
-		"hopium/multiswap/interface/iMultiSwapRouter.sol": {
-			"keccak256": "0xcf2603e394ec46e7e54c1e6dcd3daccef52d0a396a3cc72fb66a53e0c8a0a114",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://09af63980ecf382004936836dd6b273ff0f621998bcb9d97a63da8c5c1f07280",
-				"dweb:/ipfs/QmW6HYqCSu3Xjjd487pFV8eWgLjh83VK2xzW2QgsADNGqj"
-			]
-		},
-		"hopium/multiswap/interface/imMultiSwapRouter.sol": {
-			"keccak256": "0xd0c29729ee4a8f3fb13da132daeda34745dd2f2af13d6fe2a019c963f8c6841d",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://ca088fa03fa058d73ee180fa3d76b1333b890f3f56deb986876a31adbfdb94a3",
-				"dweb:/ipfs/QmT9cfMjzcZA1LsHiZaVf5jAW1R621wi9YuzEAhPC2CDuP"
+				"bzz-raw://f6d18233adee7f458e85b94df9373cf38dafde8202b01e50cd3e440518af5698",
+				"dweb:/ipfs/QmdxXkKvNtzu7YMzzBSiPeQf1j2pWoiYokg1x1ySSabuav"
 			]
 		}
 	},

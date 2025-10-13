@@ -1,0 +1,113 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "tokenIn",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "tokenOut",
+								"type": "address"
+							},
+							{
+								"internalType": "uint24",
+								"name": "fee",
+								"type": "uint24"
+							},
+							{
+								"internalType": "uint256",
+								"name": "amountIn",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint160",
+								"name": "sqrtPriceLimitX96",
+								"type": "uint160"
+							}
+						],
+						"internalType": "struct IQuoterV2.QuoteExactInputSingleParams",
+						"name": "params",
+						"type": "tuple"
+					}
+				],
+				"name": "quoteExactInputSingle",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint160",
+						"name": "",
+						"type": "uint160"
+					},
+					{
+						"internalType": "uint32",
+						"name": "",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"quoteExactInputSingle((address,address,uint24,uint256,uint160))": {
+					"returns": {
+						"_0": "amountOut, sqrtPriceX96After, initializedTicksCrossed, gasEstimate"
+					}
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/multiswap-eth/interface/uniswapV3.sol": "IQuoterV2"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/multiswap-eth/interface/uniswapV3.sol": {
+			"keccak256": "0xffa0fa06bf29bb69c2699e27b52d9534cb7b383e54a1f4f1219e8006077be9bb",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://92b88ceaf1b90b6ebead3928b0950adc587680b5594d588ee19cce6193e719b2",
+				"dweb:/ipfs/QmXbavp5eND5GA23w7Wgtg89tDZ3CREKQ6HgrC5EC5rX63"
+			]
+		}
+	},
+	"version": 1
+}

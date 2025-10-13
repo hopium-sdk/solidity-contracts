@@ -66,19 +66,19 @@
 			]
 		},
 		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x3820f2778c924824b1e6dfca430b0342c45f7f7af501369e4f59a4b11a077a54",
+			"keccak256": "0x9cfc476b774a92659a646d6a43aba5469411095e24879e6b205948a8cccb1961",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://04d4ee52be93a42e457abdf9847279d4f743de2a308620e0cd6c7423775af9c1",
-				"dweb:/ipfs/QmcfbB8X9PGMx1Ra9ZyHz7BFfDYjbdnvcDbK44kqXHvEum"
+				"bzz-raw://2be2117fe765ce2959796b673503334ce0f00ee2c36149519bb9ff07d3bb6689",
+				"dweb:/ipfs/QmXi6P1b2St4LCuSDa7NZ58gjyhuFS1tHs4kTgEfiGaeiy"
 			]
 		},
 		"hopium/etf/main/index-factory.sol": {
-			"keccak256": "0xcc032dd9c59d2cd3cb8aad76a15b5cb1703c7ae84d0ddb02d5c2927cd462882b",
+			"keccak256": "0x702268e4b258e44870761e946124b78bab97de83659896c6daa3f3b137759366",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ec6a61b42a201a168457822736f80c43363663ef383a4150df96155cbb6ea542",
-				"dweb:/ipfs/QmP4rnogG7kyaFuu4DrZF9sxJq6zUyFQDZcWKNGJCQuzNX"
+				"bzz-raw://4ae2a2eae1355111e6a4787e42c4d2f81f369ae0634df99dc2b93ecd916a511b",
+				"dweb:/ipfs/QmXkLFLykykcetgge91iA8wsj9BCtwtoHRMpLwSyaCLPHU"
 			]
 		},
 		"hopium/etf/storage/index.sol": {
@@ -87,6 +87,22 @@
 			"urls": [
 				"bzz-raw://54eaee7eee47863faf7a5a9d09c905de4080480e148919c8a00dc12052fc27d9",
 				"dweb:/ipfs/QmWpKwZ5wv583jTC7JwSna6VosDdmjtD97o9DxY8EYzJrQ"
+			]
+		},
+		"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+			"keccak256": "0x67b4ec9f7dff209ae01ae9e8e299ce648f53038edba46bb83bdd063caaee7970",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f2b84929c02344165804df7e5c22fa4ed7779f65e61aa5e80d8cadb7c5e116e0",
+				"dweb:/ipfs/QmYUKkkYjoeor1es6rBjBg68dcQQecEzYPnZYvwA2gKxyS"
+			]
+		},
+		"hopium/multiswap-eth/interface/imMultiSwapEthRouter.sol": {
+			"keccak256": "0x67cd6409a4db4f14edd2dea5daa60d82ce74994b7b342c5d2f5cdb9fddb5c9e7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://48a5ac0b1626c83477c69c8eacbbc51c050468a58345e2fe1a03c4b6fcdbd0e0",
+				"dweb:/ipfs/QmUxApGW4nH7G873HeFcqNhrE2F5a8YANTFDuTJYvhuVSj"
 			]
 		}
 	},

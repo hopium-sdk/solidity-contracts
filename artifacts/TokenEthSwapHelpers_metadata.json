@@ -1,0 +1,470 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "AllowanceTooLow",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ETHSendFailed",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ETHSendFailure",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InsufficientETH",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "NoSwaps",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "NothingReceived",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "TokenIsWETH",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ZeroAddress",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ZeroAmount",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "Directory",
+				"outputs": [
+					{
+						"internalType": "contract IDirectory",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "cachedPools",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "poolAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint24",
+						"name": "poolFee",
+						"type": "uint24"
+					},
+					{
+						"internalType": "uint8",
+						"name": "isV3Pool",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint64",
+						"name": "lastCached",
+						"type": "uint64"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_directory",
+						"type": "address"
+					}
+				],
+				"name": "changeDirectoryAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_key",
+						"type": "string"
+					}
+				],
+				"name": "fetchFromDirectory",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getBestWethPool",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "poolAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint24",
+								"name": "poolFee",
+								"type": "uint24"
+							},
+							{
+								"internalType": "uint8",
+								"name": "isV3Pool",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint64",
+								"name": "lastCached",
+								"type": "uint64"
+							}
+						],
+						"internalType": "struct Pool",
+						"name": "pool",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getBestWethPoolUpdatable",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "poolAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint24",
+								"name": "poolFee",
+								"type": "uint24"
+							},
+							{
+								"internalType": "uint8",
+								"name": "isV3Pool",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint64",
+								"name": "lastCached",
+								"type": "uint64"
+							}
+						],
+						"internalType": "struct Pool",
+						"name": "out",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "permit2",
+				"outputs": [
+					{
+						"internalType": "contract IPermit2",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "newStaleTime",
+						"type": "uint256"
+					}
+				],
+				"name": "setStaleTimePoolCache",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "staleTime",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "uRouter",
+				"outputs": [
+					{
+						"internalType": "contract IUniversalRouter",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v2Factory",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV2Factory",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v2Router",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV2Router02",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v3Factory",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV3Factory",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v3Quoter",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV3Quoter",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "wethAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/multiswap-eth/main/multiswap-eth-router.sol": "TokenEthSwapHelpers"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/security/ReentrancyGuard.sol": {
+			"keccak256": "0xa535a5df777d44e945dd24aa43a11e44b024140fc340ad0dfe42acf4002aade1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://41319e7f621f2dc3733511332c4fd032f8e32ad2aa7fd6f665c19741d9941a34",
+				"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1"
+			]
+		},
+		"hopium/common/interface/ierc20.sol": {
+			"keccak256": "0x06621693c71a7aa555704700fc27eed66d47985744f77d0ae654edf3a6c57f7c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://85951ebab78257d64b5d0c4ee77d8c3b5884e199e3f98f8df816ac8029cd90ba",
+				"dweb:/ipfs/QmVvZuotoyhm5XcWoBYWMHQDowpSbML3jtaHnCsV3AiyDU"
+			]
+		},
+		"hopium/common/interface/imDirectory.sol": {
+			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
+				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
+			]
+		},
+		"hopium/common/interface/imPermit2.sol": {
+			"keccak256": "0x45b585963f05232fe306ede3ec77dc17de39d479d78c4cb5449cdff5ae6e8403",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9b55f95cf511be3c57e7bbd45e85a46572c53597189a7beb0d86ec763772c82d",
+				"dweb:/ipfs/QmdymxXRGT2PXhnZBmwbEvvk4h3Z3vbnooz7aQq1GP9GVy"
+			]
+		},
+		"hopium/common/interface/iweth.sol": {
+			"keccak256": "0xbc19abfa70aa141d1d67d8ead91e3d6599c5a4a3eb99f87c61fbb936d7d2b9ec",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://911c00ebca9045a567babf91a309471e4aee9437aebf004285718b49e5f21b4a",
+				"dweb:/ipfs/QmUDhY53YdmHdqYXWKcDmZDuC2xhfxeXtETqadp1ZNiXUj"
+			]
+		},
+		"hopium/common/storage/bips.sol": {
+			"keccak256": "0x3e39e84d405a0032d123c0dc0828e5a44caf8cd7b77c5092020854933f19888a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0254a58b591dacdd2c9c083970b924c7b81cc325967b2f2e13f94a62828af6b0",
+				"dweb:/ipfs/QmQXmTNzdiXtUoCE7pUXLJKjYhxVJqQn5PdxS88e1daq9h"
+			]
+		},
+		"hopium/common/utils/transfer-helpers.sol": {
+			"keccak256": "0x3c955635cdfdcbc072f796e4ffe551731510141135b0a2f69649511ce433df56",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5014ba914a001b421b8854530667967976d49f9f1c6073c2ad5d0b592a62d715",
+				"dweb:/ipfs/QmYTpTwfN1Khz3yEUdWH55hrHkDPsk1mxxcdBBxhWoLKvq"
+			]
+		},
+		"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+			"keccak256": "0x67b4ec9f7dff209ae01ae9e8e299ce648f53038edba46bb83bdd063caaee7970",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f2b84929c02344165804df7e5c22fa4ed7779f65e61aa5e80d8cadb7c5e116e0",
+				"dweb:/ipfs/QmYUKkkYjoeor1es6rBjBg68dcQQecEzYPnZYvwA2gKxyS"
+			]
+		},
+		"hopium/multiswap-eth/interface/uniswapV2.sol": {
+			"keccak256": "0xdd8afdfef3fc93bb606a050f43111b8603b21add7a93a9bfba89a49b3ed3b051",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://35fdbff42fe25299c8d624addf2eabbad85299873a4f72539bf6c5ce1c40351d",
+				"dweb:/ipfs/QmVPF7eEvdMTK6mm54VDEN3ymKaXSamX4YbtZfTWUY7aYa"
+			]
+		},
+		"hopium/multiswap-eth/interface/uniswapV3.sol": {
+			"keccak256": "0xfa8bcf1dd583cedf664f54a6bdb4a17b76bcc2093da66d4e6316c6c114dddfa8",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8e7bbffa8ca730fdac3768429fae816cdc50da3a981c282758f03cfc3e2b2343",
+				"dweb:/ipfs/QmcPVd95VDw6VZmzKaNm8rP9VVMe8zQmVmnMvM2uiGm2Bb"
+			]
+		},
+		"hopium/multiswap-eth/interface/universal-router.sol": {
+			"keccak256": "0x9990bf50be738563550a245afadc944f192178dbfdb4675124909051c272a45b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2b3a16c623a5c130dd193813cbca221261938a5e547e94f1183bfbb5b5672cd6",
+				"dweb:/ipfs/QmP9YjmLyWhPx493mtrcpMnULfgrKNRnduU8ZmpNtAZCqb"
+			]
+		},
+		"hopium/multiswap-eth/main/multiswap-eth-router.sol": {
+			"keccak256": "0x56550b2cc6f140f7cfcc484e0dd826c90ecc3e01aada1eff00dbe37616f4f250",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f6d18233adee7f458e85b94df9373cf38dafde8202b01e50cd3e440518af5698",
+				"dweb:/ipfs/QmdxXkKvNtzu7YMzzBSiPeQf1j2pWoiYokg1x1ySSabuav"
+			]
+		}
+	},
+	"version": 1
+}

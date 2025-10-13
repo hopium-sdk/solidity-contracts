@@ -49,20 +49,19 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"FACTORY_ADDR()": "b13e6196",
-			"WETH_ADDR()": "82dfc5f7",
-			"router()": "f887ea40"
+			"WETH()": "ad5c4648",
+			"findBestWETHPool(address)": "87b73c7a",
+			"v2Factory()": "b4b57c39",
+			"v2Router()": "deadbc14",
+			"v3Factory()": "7c887c59",
+			"v3Quoter()": "d7dfe3af",
+			"v3Router()": "0dc91306"
 		}
 	},
 	"abi": [
 		{
 			"inputs": [],
 			"name": "AllowanceTooLow",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "BadTokenAmount",
 			"type": "error"
 		},
 		{
@@ -77,22 +76,7 @@
 		},
 		{
 			"inputs": [],
-			"name": "InsufficientWeth",
-			"type": "error"
-		},
-		{
-			"inputs": [],
 			"name": "NothingReceived",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "OnlyThis",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "QuoteUnavailable",
 			"type": "error"
 		},
 		{
@@ -102,7 +86,7 @@
 		},
 		{
 			"inputs": [],
-			"name": "FACTORY_ADDR",
+			"name": "WETH",
 			"outputs": [
 				{
 					"internalType": "address",
@@ -114,11 +98,45 @@
 			"type": "function"
 		},
 		{
-			"inputs": [],
-			"name": "WETH_ADDR",
-			"outputs": [
+			"inputs": [
 				{
 					"internalType": "address",
+					"name": "token",
+					"type": "address"
+				}
+			],
+			"name": "findBestWETHPool",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "isV3",
+					"type": "bool"
+				},
+				{
+					"internalType": "address",
+					"name": "pool",
+					"type": "address"
+				},
+				{
+					"internalType": "uint24",
+					"name": "fee",
+					"type": "uint24"
+				},
+				{
+					"internalType": "uint256",
+					"name": "wethLiquidity",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "v2Factory",
+			"outputs": [
+				{
+					"internalType": "contract IUniswapV2Factory",
 					"name": "",
 					"type": "address"
 				}
@@ -128,10 +146,49 @@
 		},
 		{
 			"inputs": [],
-			"name": "router",
+			"name": "v2Router",
 			"outputs": [
 				{
 					"internalType": "contract IUniswapV2Router02",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "v3Factory",
+			"outputs": [
+				{
+					"internalType": "contract IUniswapV3Factory",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "v3Quoter",
+			"outputs": [
+				{
+					"internalType": "contract IUniswapV3Quoter",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "v3Router",
+			"outputs": [
+				{
+					"internalType": "contract ISwapRouter",
 					"name": "",
 					"type": "address"
 				}
