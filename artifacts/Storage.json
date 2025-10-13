@@ -49,60 +49,92 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"IS_WETH_USD_PAIR_ADDRESS_V3()": "5498f4bc",
-			"WETH_ADDRESS()": "040141e5",
-			"WETH_DECIMALS()": "d08aef7c",
-			"WETH_USD_PAIR_ADDRESS()": "0b017603"
+			"platformFee()": "26232a2e"
 		}
 	},
 	"abi": [
 		{
-			"inputs": [],
-			"name": "IS_WETH_USD_PAIR_ADDRESS_V3",
-			"outputs": [
+			"anonymous": false,
+			"inputs": [
 				{
-					"internalType": "bool",
-					"name": "",
-					"type": "bool"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "WETH_ADDRESS",
-			"outputs": [
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "indexId",
+					"type": "uint256"
+				},
 				{
+					"indexed": false,
 					"internalType": "address",
-					"name": "",
+					"name": "caller",
 					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "WETH_DECIMALS",
-			"outputs": [
+				},
 				{
-					"internalType": "uint8",
-					"name": "",
-					"type": "uint8"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "WETH_USD_PAIR_ADDRESS",
-			"outputs": [
-				{
+					"indexed": false,
 					"internalType": "address",
-					"name": "",
+					"name": "receiver",
 					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "etfTokenAmount",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "ethAmount",
+					"type": "uint256"
+				}
+			],
+			"name": "EtfTokensMinted",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "indexId",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "address",
+					"name": "caller",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "address",
+					"name": "receiver",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "etfTokenAmount",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "ethAmount",
+					"type": "uint256"
+				}
+			],
+			"name": "EtfTokensRedeemed",
+			"type": "event"
+		},
+		{
+			"inputs": [],
+			"name": "platformFee",
+			"outputs": [
+				{
+					"internalType": "uint16",
+					"name": "",
+					"type": "uint16"
 				}
 			],
 			"stateMutability": "view",

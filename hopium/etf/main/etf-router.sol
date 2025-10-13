@@ -113,24 +113,26 @@ abstract contract Helpers is ImMultiSwapEthRouter, ImEtfFactory, ImIndexPriceOra
     error ZeroIndexPrice();
     error ZeroNav();
     // Mint ETF tokens at fair price given incoming WETH amount
-    function _mintEtfTokens(uint256 indexId, uint256 wethAmount, address etfTokenAddress, address receiver) internal returns (uint256) {
-        uint256 supply = IERC20(etfTokenAddress).totalSupply();
-        uint256 navWethBefore = getEtfFactory().getEtfNavWeth(indexId);
+    function _calcMintAmount(
+        uint256 indexId,
+        uint256 wethAmount,
+        address etfTokenAddress
+    ) internal view returns (uint256 mintAmount) {
+        // Snapshot current supply and NAV before any deposits/swaps
+        uint256 supplyBefore = IERC20(etfTokenAddress).totalSupply();
 
-        uint256 mintAmount;
-        if (supply == 0) {
-            // Bootstrap to index price
-            uint256 p = getIndexPriceOracle().getIndexWethPrice(indexId); // WETH per 1e18-share
-            if (p == 0) revert ZeroIndexPrice();
-            mintAmount = (wethAmount * WAD) / p;
+        if (supplyBefore == 0) {
+            // Bootstrap to oracle index price (WETH per 1e18 ETF share)
+            uint256 priceWeth = getIndexPriceOracle().getIndexWethPrice(indexId);
+            if (priceWeth == 0) revert ZeroIndexPrice();
+            // shares = ethIn * 1e18 / price
+            mintAmount = (wethAmount * WAD) / priceWeth;
         } else {
+            uint256 navWethBefore = getEtfFactory().getEtfNavWeth(indexId);
             if (navWethBefore == 0) revert ZeroNav();
-            // shares = ethIn * supply / navBefore
-            mintAmount = (wethAmount * supply) / navWethBefore;
+            // Fair-mint: shares = ethIn * supplyBefore / navBefore
+            mintAmount = (wethAmount * supplyBefore) / navWethBefore;
         }
-
-        IEtfToken(etfTokenAddress).mint(receiver, mintAmount);
-        return mintAmount;
     }
 
     function _resolveTokenAndVault(uint256 indexId) internal view returns (address etfTokenAddress, address etfVaultAddress) {
@@ -166,15 +168,19 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
         Index memory index = getIndexFactory().getIndexById(indexId);
         (address etfTokenAddress, address etfVaultAddress) = _resolveTokenAndVault(indexId);
 
+        // Net ETH after platform fee
         uint256 ethAmount = _transferPlatformFee(msg.value);
 
-        // Swap ETH -> component tokens to the vault
+        // Compute mint amount from the pre-swap snapshot (inside helper)
+        uint256 etfTokenAmount = _calcMintAmount(indexId, ethAmount, etfTokenAddress);
+
+        // Swap ETH -> component tokens into the vault
         _swapEthToVaultTokens(index, ethAmount, etfVaultAddress, slippageBips);
 
-        // Mint ETF tokens
-        uint256 etfTokenAmount = _mintEtfTokens(indexId, ethAmount, etfTokenAddress, receiver);
+        // Mint ETF tokens to receiver
+        IEtfToken(etfTokenAddress).mint(receiver, etfTokenAmount);
 
-        // Emit volume event on etf factory
+        // Update factory volume metrics
         getEtfFactory().updateEtfVolume(indexId, ethAmount);
 
         emit EtfTokensMinted(indexId, msg.sender, receiver, etfTokenAmount, ethAmount);
