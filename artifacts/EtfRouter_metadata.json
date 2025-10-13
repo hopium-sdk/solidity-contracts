@@ -23,12 +23,12 @@
 			},
 			{
 				"inputs": [],
-				"name": "FeeTooLarge",
+				"name": "InsufficientETH",
 				"type": "error"
 			},
 			{
 				"inputs": [],
-				"name": "InsufficientETH",
+				"name": "InvalidBips",
 				"type": "error"
 			},
 			{
@@ -147,6 +147,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "DEFAULT_SLIPPAGE_BIPS",
+				"outputs": [
+					{
+						"internalType": "uint32",
+						"name": "",
+						"type": "uint32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "Directory",
 				"outputs": [
 					{
@@ -156,6 +169,19 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint32",
+						"name": "newSlippageBips",
+						"type": "uint32"
+					}
+				],
+				"name": "changeDefaultSlippage",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -227,11 +253,6 @@
 						"internalType": "address",
 						"name": "receiver",
 						"type": "address"
-					},
-					{
-						"internalType": "uint32",
-						"name": "slippageBips",
-						"type": "uint32"
 					}
 				],
 				"name": "mintEtfTokens",
@@ -299,11 +320,6 @@
 						"internalType": "address payable",
 						"name": "receiver",
 						"type": "address"
-					},
-					{
-						"internalType": "uint32",
-						"name": "slippageBips",
-						"type": "uint32"
 					}
 				],
 				"name": "redeemEtfTokens",
@@ -469,11 +485,11 @@
 			]
 		},
 		"hopium/etf/main/etf-router.sol": {
-			"keccak256": "0x9ea08453c22b1b1d731e7197ab1ff0623650e29d5461673817f2996e7d7efaea",
+			"keccak256": "0x5e0f03dc1bbf33caecd3c092b86961aa307a543f2d9e1c113091deb5e99648fd",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://236647c0afa6edec32a9ecf107364f2d063110597b61ee9213efa634221c34b4",
-				"dweb:/ipfs/QmcJMVcryxZGpQnJBaCa8R7CnGEE7b1oeJdUPTQ6qBLS7U"
+				"bzz-raw://00d35412404c8716bfaa08de6e08633235cd1ccf1490e0cfced66bd5c0d845f4",
+				"dweb:/ipfs/QmWCGbnVpSJXoSqH1oY1utid1eTte5TYYb6xTaWruFStw6"
 			]
 		},
 		"hopium/etf/types/index.sol": {

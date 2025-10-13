@@ -19,6 +19,7 @@ uint256 constant WAD = 1e18;
 // -------- Custom errors (cheaper than revert strings) --------
 error ZeroMsgValue();
 error ZeroReceiver();
+error InvalidBips();
 
 abstract contract Storage {
     // packed-friendly size; keep as-is for behavior, but easy to co-pack later if desired
@@ -160,8 +161,11 @@ abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle
 contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImActive {
     constructor(address _directory) ImDirectory(_directory) {}
 
+    uint32 public DEFAULT_SLIPPAGE_BIPS = 300;
+
+
     // -------- Mint from ETH --------
-    function mintEtfTokens(uint256 indexId, address receiver, uint32 slippageBips) external payable nonReentrant onlyActive {
+    function mintEtfTokens(uint256 indexId, address receiver) external payable nonReentrant onlyActive {
         if (msg.value == 0) revert ZeroMsgValue();
         if (receiver == address(0)) revert ZeroReceiver();
 
@@ -175,7 +179,7 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
         uint256 etfTokenAmount = _calcMintAmount(indexId, ethAmount, etfTokenAddress);
 
         // Swap ETH -> component tokens into the vault
-        _swapEthToVaultTokens(index, ethAmount, etfVaultAddress, slippageBips);
+        _swapEthToVaultTokens(index, ethAmount, etfVaultAddress, DEFAULT_SLIPPAGE_BIPS);
 
         // Mint ETF tokens to receiver
         IEtfToken(etfTokenAddress).mint(receiver, etfTokenAmount);
@@ -189,7 +193,7 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
     error SupplyZero();
     error RedeemTooLarge();
     // -------- Redeem to ETH --------
-    function redeemEtfTokens(uint256 indexId, uint256 etfTokenAmount, address payable receiver, uint32 slippageBips) external nonReentrant onlyActive {
+    function redeemEtfTokens(uint256 indexId, uint256 etfTokenAmount, address payable receiver) external nonReentrant onlyActive {
         if (etfTokenAmount == 0) revert ZeroMsgValue();
         if (receiver == address(0)) revert ZeroReceiver();
 
@@ -206,7 +210,7 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
 
         // Swap vault tokens -> ETH to this router
         uint256 ethBalBefore = address(this).balance;
-        _swapVaultTokensToEth(index, etfTokenAmount, supplyBefore, etfVaultAddress, payable(address(this)), slippageBips);
+        _swapVaultTokensToEth(index, etfTokenAmount, supplyBefore, etfVaultAddress, payable(address(this)), DEFAULT_SLIPPAGE_BIPS);
         uint256 ethBalAfter = address(this).balance;
 
         uint256 deltaBal = ethBalAfter - ethBalBefore;
@@ -222,10 +226,14 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
         emit EtfTokensRedeemed(indexId, msg.sender, receiver, etfTokenAmount, ethAmount);
     }
 
-    error FeeTooLarge();
     function changePlatformFee(uint16 newFee) public onlyOwner onlyActive {
-        if (newFee > HUNDRED_PERCENT_BIPS) revert FeeTooLarge();
+        if (newFee > HUNDRED_PERCENT_BIPS) revert InvalidBips();
         platformFee = newFee;
+    }
+
+     function changeDefaultSlippage(uint32 newSlippageBips) external onlyOwner {
+        if (newSlippageBips > HUNDRED_PERCENT_BIPS) revert InvalidBips();
+        DEFAULT_SLIPPAGE_BIPS = newSlippageBips;
     }
 
     function recoverAsset(address tokenAddress, address toAddress) public onlyOwner {

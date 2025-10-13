@@ -68,11 +68,6 @@
 			},
 			{
 				"inputs": [],
-				"name": "InvalidSlippage",
-				"type": "error"
-			},
-			{
-				"inputs": [],
 				"name": "NoPoolFound",
 				"type": "error"
 			},
@@ -125,19 +120,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "MAX_SLIPPAGE_BIPS",
-				"outputs": [
-					{
-						"internalType": "uint32",
-						"name": "",
-						"type": "uint32"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -146,19 +128,6 @@
 					}
 				],
 				"name": "changeDirectoryAddress",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint32",
-						"name": "newMaxSlippageBips",
-						"type": "uint32"
-					}
-				],
-				"name": "changeMaxSlippage",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -503,11 +472,11 @@
 			]
 		},
 		"hopium/uniswap/main/multiswap-router.sol": {
-			"keccak256": "0x90e1e4b38ec663a9fe2ebfcf90cb9757466c3bb3caf9a1a5fe0940ff072ee23c",
+			"keccak256": "0xbe6d580c59156543ebe7892dab190e5b196d8853927c347a171b9612391ad6f6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8a8ca0e66ac8dd28ab3c569cfb55c674a09f304d07ce561c3c6bf77aba86902d",
-				"dweb:/ipfs/QmUXhcM5pjct7ksEcirS3gdhi9M7VG8BZjFo2DGU55C5MQ"
+				"bzz-raw://ba33355d0fc0797f3aac6e3f7c1a4a1378962bd8fa8f2e5fcda6892ee393c504",
+				"dweb:/ipfs/QmZrjzuvZbNY1jThjNEQZKxCKrbEV45CxE9d8DJcjN5Py2"
 			]
 		},
 		"hopium/uniswap/types/multiswap.sol": {
