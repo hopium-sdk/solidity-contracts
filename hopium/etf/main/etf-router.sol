@@ -5,7 +5,7 @@ import "hopium/common/interface/imDirectory.sol";
 import "hopium/etf/interface/imEtfFactory.sol";
 import "hopium/etf/interface/imIndexFactory.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "hopium/multiswap/interface/imMultiSwapRouter.sol";
+import "hopium/multiswap-eth/interface/imMultiSwapEthRouter.sol";
 import "hopium/etf/interface/imIndexPriceOracle.sol";
 import "hopium/etf/interface/iEtfToken.sol";
 import "hopium/common/storage/bips.sol";
@@ -28,72 +28,86 @@ abstract contract Storage {
     event EtfTokensRedeemed(uint256 indexId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
 }
 
-abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle, TransferHelpers, Storage, EtfAddressesHelpers {
+abstract contract Helpers is ImMultiSwapEthRouter, ImEtfFactory, ImIndexPriceOracle, TransferHelpers, Storage, EtfAddressesHelpers {
 
     // Swap ETH into the index's component tokens and deliver directly to the vault
-    function _swapEthToVaultTokens(Index memory index, uint256 ethAmount, address receiver, uint256 slippageBips, uint256 deadlineInSec) internal {
-        SwapOrderInput[] memory inputs = new SwapOrderInput[](1);
-        inputs[0] = SwapOrderInput({ tokenAddress: address(0), amount: ethAmount });
-
+    function _swapEthToVaultTokens(
+        Index memory index,
+        uint256 ethAmount,
+        address receiverVault,
+        uint32 slippageBips
+    ) internal {
         uint256 len = index.holdings.length;
-        SwapOrderOutput[] memory outputs = new SwapOrderOutput[](len);
-        for (uint256 i; i < len; ) {
-            outputs[i] = SwapOrderOutput({
-                tokenAddress: index.holdings[i].tokenAddress,
-                weightBips: index.holdings[i].weightBips
-            });
-            unchecked { ++i; }
+        if (len == 0) return;
+
+        MultiTokenOutput[] memory outputs = new MultiTokenOutput[](len);
+        unchecked {
+            for (uint256 i; i < len; ++i) {
+                outputs[i] = MultiTokenOutput({
+                    tokenAddress: index.holdings[i].tokenAddress,
+                    weightBips: index.holdings[i].weightBips
+                });
+            }
         }
 
-        // inline zero-fees array to avoid a helper call
-        getMultiSwapRouter().swap{value: ethAmount}(inputs, outputs, receiver, slippageBips, deadlineInSec, new SwapFee[](0));
+        getMultiSwapEthRouter().swapEthToMultipleTokens{value: ethAmount}(
+            outputs,
+            receiverVault,
+            slippageBips
+        );
     }
 
     error NothingToWithdraw();
     // Redeem a proportional slice of vault holdings into ETH and send to `receiver`
-    function _swapVaultTokensToEth(Index memory index, uint256 etfTokenAmount, uint256 etfTokenTotalSupplyBefore, address etfVaultAddress, address receiver, uint256 slippageBips, uint256 deadlineInSec) internal {
+    function _swapVaultTokensToEth(
+        Index memory index,
+        uint256 etfTokenAmount,
+        uint256 etfTokenTotalSupplyBefore,
+        address etfVaultAddress,
+        address payable receiver,
+        uint32 slippageBips
+    ) internal {
         uint256 len = index.holdings.length;
 
-        // Read each balance once, compute withdraws once
+        // Compute proportional withdraw amounts
         uint256[] memory withdraws = new uint256[](len);
         uint256 nonZeroCount;
-        for (uint256 i; i < len; ) {
-            address t = index.holdings[i].tokenAddress;
-            uint256 bal = IERC20(t).balanceOf(etfVaultAddress);
-            uint256 w = (bal * etfTokenAmount) / etfTokenTotalSupplyBefore;
-            withdraws[i] = w;
-            if (w != 0) nonZeroCount++;
-            unchecked { ++i; }
+        unchecked {
+            for (uint256 i; i < len; ++i) {
+                address t = index.holdings[i].tokenAddress;
+                uint256 bal = IERC20(t).balanceOf(etfVaultAddress);
+                uint256 w = (bal * etfTokenAmount) / etfTokenTotalSupplyBefore;
+                withdraws[i] = w;
+                if (w != 0) ++nonZeroCount;
+            }
         }
-
         if (nonZeroCount == 0) revert NothingToWithdraw();
 
-        // Build inputs and pull tokens (single router addr var; no IMultiSwapRouter local)
-        SwapOrderInput[] memory inputs = new SwapOrderInput[](nonZeroCount);
-        address routerAddr = address(getMultiSwapRouter());
-
+        // Redeem each non-zero token amount straight to the MultiswapEthRouter
+        IMultiSwapEthRouter multiSwapEthRouter = getMultiSwapEthRouter();
+        address routerAddr = address(multiSwapEthRouter);
+        MultiTokenInput[] memory inputs = new MultiTokenInput[](nonZeroCount);
         uint256 k;
-        for (uint256 i; i < len; ) {
-            uint256 w = withdraws[i];
-            if (w != 0) {
+        unchecked {
+            for (uint256 i; i < len; ++i) {
+                uint256 w = withdraws[i];
+                if (w == 0) continue;
                 address t = index.holdings[i].tokenAddress;
 
-                IEtfVault(etfVaultAddress).redeem(t, w, address(this));
-                _approveMaxIfNeeded(t, routerAddr, w);
+                // send tokens to the router so it already holds them
+                IEtfVault(etfVaultAddress).redeem(t, w, routerAddr);
 
-                inputs[k++] = SwapOrderInput({ tokenAddress: t, amount: w });
+                inputs[k++] = MultiTokenInput({ tokenAddress: t, amount: w });
             }
-            unchecked { ++i; }
         }
 
-        // Build outputs and swap to WETH
-        SwapOrderOutput[] memory outputs = new SwapOrderOutput[](1);
-        outputs[0] = SwapOrderOutput({
-            tokenAddress: address(0),
-            weightBips: uint16(HUNDRED_PERCENT_BIPS)
-        });
-
-        IMultiSwapRouter(routerAddr).swap(inputs, outputs, receiver, slippageBips, deadlineInSec, new SwapFee[](0));
+        // Router already has the tokens -> preTransferred = true
+        multiSwapEthRouter.swapMultipleTokensToEth(
+            inputs,
+            receiver,
+            slippageBips,
+            true
+        );
     }
 
     error ZeroIndexPrice();
@@ -145,7 +159,7 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
     constructor(address _directory) ImDirectory(_directory) {}
 
     // -------- Mint from ETH --------
-    function mintEtfTokens(uint256 indexId, address receiver, uint256 slippageBips, uint256 deadlineInSec) external payable nonReentrant onlyActive {
+    function mintEtfTokens(uint256 indexId, address receiver, uint32 slippageBips) external payable nonReentrant onlyActive {
         if (msg.value == 0) revert ZeroMsgValue();
         if (receiver == address(0)) revert ZeroReceiver();
 
@@ -155,7 +169,7 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
         uint256 ethAmount = _transferPlatformFee(msg.value);
 
         // Swap ETH -> component tokens to the vault
-        _swapEthToVaultTokens(index, ethAmount, etfVaultAddress, slippageBips, deadlineInSec);
+        _swapEthToVaultTokens(index, ethAmount, etfVaultAddress, slippageBips);
 
         // Mint ETF tokens
         uint256 etfTokenAmount = _mintEtfTokens(indexId, ethAmount, etfTokenAddress, receiver);
@@ -169,7 +183,7 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
     error SupplyZero();
     error RedeemTooLarge();
     // -------- Redeem to ETH --------
-    function redeemEtfTokens(uint256 indexId, uint256 etfTokenAmount, address payable receiver, uint256 slippageBips, uint256 deadlineInSec) external nonReentrant onlyActive {
+    function redeemEtfTokens(uint256 indexId, uint256 etfTokenAmount, address payable receiver, uint32 slippageBips) external nonReentrant onlyActive {
         if (etfTokenAmount == 0) revert ZeroMsgValue();
         if (receiver == address(0)) revert ZeroReceiver();
 
@@ -186,7 +200,7 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
 
         // Swap vault tokens -> ETH to this router
         uint256 ethBalBefore = address(this).balance;
-        _swapVaultTokensToEth(index, etfTokenAmount, supplyBefore, etfVaultAddress, address(this), slippageBips, deadlineInSec);
+        _swapVaultTokensToEth(index, etfTokenAmount, supplyBefore, etfVaultAddress, payable(address(this)), slippageBips);
         uint256 ethBalAfter = address(this).balance;
 
         uint256 deltaBal = ethBalAfter - ethBalBefore;

@@ -23,12 +23,13 @@ interface IMultiSwapEthRouter {
         MultiTokenOutput[] calldata outputs,
         address recipientAddress,
         uint32 slippageBps
-    ) external;
+    ) external payable;
 
     function swapMultipleTokensToEth(
-        MultiTokenInput[] calldata inputs,
+        MultiTokenInput[] calldata inputsIn,
         address payable recipientAddress,
-        uint32 slippageBps
+        uint32 slippageBps,
+        bool preTransferred
     ) external;
 
     function getBestWethPool(address tokenAddress) external view returns (Pool memory pool);
