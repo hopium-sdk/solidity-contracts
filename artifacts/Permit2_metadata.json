@@ -1,0 +1,53 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/common/lib/permit2.sol": "Permit2"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/common/interface-ext/iPermit2.sol": {
+			"keccak256": "0x9191b13e8fd31a57186f5a64334b5d75253e6528fe8475182534a832dbe69ec4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://7dc991bb244752fae1d785d16a553094ce8d0c3b213c853df25ccb550247612e",
+				"dweb:/ipfs/QmWSdLMucSbMieropJNtQ2vQgtBUws1LiSjZ8Ajtu7rt6z"
+			]
+		},
+		"hopium/common/lib/permit2.sol": {
+			"keccak256": "0x0b86b7caa1dda19ef706acf8bd743f695f6ef40495c6f50714ba942513ee8d6e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2937f544fa25d3a2ce804be0d9947032c283952354f25cd6860cb762d504e9dc",
+				"dweb:/ipfs/QmegRwfeqrLJPECXK6rkqZ2h8Ymv4qdQ4hicW459qB8tUG"
+			]
+		}
+	},
+	"version": 1
+}

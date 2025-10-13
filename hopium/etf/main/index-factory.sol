@@ -3,11 +3,11 @@ pragma solidity 0.8.30;
 
 import "hopium/common/interface/imDirectory.sol";
 import "hopium/etf/types/index.sol";
-import "hopium/common/storage/bips.sol";
-import "hopium/common/utils/id-idx.sol";
+import "hopium/common/types/bips.sol";
+import "hopium/common/lib/ididx.sol";
 import "hopium/etf/interface/imEtfFactory.sol";
 import "hopium/common/interface/imActive.sol";
-import "hopium/multiswap-eth/interface/imMultiSwapEthRouter.sol";
+import "hopium/uniswap/interface/imPoolFinder.sol";
 
 /// @notice Storage keeps created indexes and mapping tables
 abstract contract Storage {
@@ -21,7 +21,7 @@ abstract contract Storage {
 }
 
 /// @notice Utils: sorting & hashing helpers
-abstract contract Utils is IdIdxUtils {
+abstract contract Utils {
     /// @dev insertion sort by (tokenAddress, weightBips). Cheaper for small n.
     function _insertionSort(Holding[] memory a) internal pure {
         uint256 n = a.length;
@@ -56,7 +56,7 @@ abstract contract Utils is IdIdxUtils {
 }
 
 /// @notice Validation + helpers fused for fewer passes & less memory churn
-abstract contract ValidationHelpers is Storage, Utils, ImMultiSwapEthRouter {
+abstract contract ValidationHelpers is Storage, Utils, ImPoolFinder {
     error EmptyTicker();
     error TickerExists();
     /// @dev ensure ticker is non-empty and globally unique (by bytes32 hash)
@@ -87,7 +87,7 @@ abstract contract ValidationHelpers is Storage, Utils, ImMultiSwapEthRouter {
             Holding calldata h = holdings[i];
             address token = h.tokenAddress;
             uint256 w = h.weightBips;
-            Pool memory pool = getMultiSwapEthRouter().getBestWethPoolUpdatable(token);
+            Pool memory pool = getPoolFinder().getBestWethPoolUpdatable(token);
 
             if (token == address(0)) revert ZeroToken();
             if (w == 0) revert ZeroWeight();
@@ -141,7 +141,7 @@ contract IndexFactory is ImDirectory, ValidationHelpers, ImEtfFactory, ImActive 
         bytes32 iHash = _validateIndexHashUnique(sorted);
 
         // next 0-based position becomes a 1-based id via helper
-        uint256 newIndexId = _idxToId(createdIndexes.length);
+        uint256 newIndexId = IdIdx.idxToId(createdIndexes.length);
         createdIndexes.push(index);
 
         // register mappings
@@ -161,7 +161,7 @@ contract IndexFactory is ImDirectory, ValidationHelpers, ImEtfFactory, ImActive 
     error InvalidId();
     function getIndexById(uint256 indexId) external view returns (Index memory) {
         if (indexId == 0 || indexId > createdIndexes.length) revert InvalidId();
-        return createdIndexes[_idToIdx(indexId)];
+        return createdIndexes[IdIdx.idToIdx(indexId)];
     }
 
     error UnknownTicker();
@@ -169,6 +169,6 @@ contract IndexFactory is ImDirectory, ValidationHelpers, ImEtfFactory, ImActive 
         bytes32 tHash = _tickerKey(ticker);
         uint256 indexId = indexTickerHashToId[tHash];
         if (indexId == 0) revert UnknownTicker();
-        return createdIndexes[_idToIdx(indexId)];
+        return createdIndexes[IdIdx.idToIdx(indexId)];
     }
 }

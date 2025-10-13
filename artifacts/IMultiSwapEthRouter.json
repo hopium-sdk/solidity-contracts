@@ -49,95 +49,11 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"getBestWethPool(address)": "df697cc4",
-			"getBestWethPoolUpdatable(address)": "d32563c8",
 			"swapEthToMultipleTokens((address,uint16)[],address,uint32)": "1623306b",
 			"swapMultipleTokensToEth((address,uint256)[],address,uint32,bool)": "3814bc6e"
 		}
 	},
 	"abi": [
-		{
-			"inputs": [
-				{
-					"internalType": "address",
-					"name": "tokenAddress",
-					"type": "address"
-				}
-			],
-			"name": "getBestWethPool",
-			"outputs": [
-				{
-					"components": [
-						{
-							"internalType": "address",
-							"name": "poolAddress",
-							"type": "address"
-						},
-						{
-							"internalType": "uint24",
-							"name": "poolFee",
-							"type": "uint24"
-						},
-						{
-							"internalType": "uint8",
-							"name": "isV3Pool",
-							"type": "uint8"
-						},
-						{
-							"internalType": "uint64",
-							"name": "lastCached",
-							"type": "uint64"
-						}
-					],
-					"internalType": "struct Pool",
-					"name": "pool",
-					"type": "tuple"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "address",
-					"name": "tokenAddress",
-					"type": "address"
-				}
-			],
-			"name": "getBestWethPoolUpdatable",
-			"outputs": [
-				{
-					"components": [
-						{
-							"internalType": "address",
-							"name": "poolAddress",
-							"type": "address"
-						},
-						{
-							"internalType": "uint24",
-							"name": "poolFee",
-							"type": "uint24"
-						},
-						{
-							"internalType": "uint8",
-							"name": "isV3Pool",
-							"type": "uint8"
-						},
-						{
-							"internalType": "uint64",
-							"name": "lastCached",
-							"type": "uint64"
-						}
-					],
-					"internalType": "struct Pool",
-					"name": "pool",
-					"type": "tuple"
-				}
-			],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
 		{
 			"inputs": [
 				{

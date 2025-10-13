@@ -18,7 +18,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/common/interface/ipermit2.sol": "ImPermit2"
+			"hopium/common/lib/permit2.sol": "ImPermit2"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -32,12 +32,20 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/common/interface/ipermit2.sol": {
-			"keccak256": "0x45b585963f05232fe306ede3ec77dc17de39d479d78c4cb5449cdff5ae6e8403",
+		"hopium/common/interface-ext/iPermit2.sol": {
+			"keccak256": "0x9191b13e8fd31a57186f5a64334b5d75253e6528fe8475182534a832dbe69ec4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://9b55f95cf511be3c57e7bbd45e85a46572c53597189a7beb0d86ec763772c82d",
-				"dweb:/ipfs/QmdymxXRGT2PXhnZBmwbEvvk4h3Z3vbnooz7aQq1GP9GVy"
+				"bzz-raw://7dc991bb244752fae1d785d16a553094ce8d0c3b213c853df25ccb550247612e",
+				"dweb:/ipfs/QmWSdLMucSbMieropJNtQ2vQgtBUws1LiSjZ8Ajtu7rt6z"
+			]
+		},
+		"hopium/common/lib/permit2.sol": {
+			"keccak256": "0x39d3a0ca61f9bd029ed6afc68054e36f82db99a8c77b8d5ba59e4b29a8e2f301",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e3669430fd560aaf18f80fd2f8f7bf882bcce4f658684cba7faf69d42aaced30",
+				"dweb:/ipfs/QmQT37fJbSGHV43nJ6aYoFB9HFb73zKot3oNVKHUAcRavP"
 			]
 		}
 	},

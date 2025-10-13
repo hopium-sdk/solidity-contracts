@@ -50,7 +50,7 @@
 		"gasEstimates": null,
 		"methodIdentifiers": {
 			"swapEthToMultipleTokens((address,uint16)[],address,uint32)": "1623306b",
-			"swapMultipleTokensToEth((address,uint256)[],address,uint32)": "3de545c2"
+			"swapMultipleTokensToEth((address,uint256)[],address,uint32,bool)": "3814bc6e"
 		}
 	},
 	"abi": [
@@ -86,7 +86,7 @@
 			],
 			"name": "swapEthToMultipleTokens",
 			"outputs": [],
-			"stateMutability": "nonpayable",
+			"stateMutability": "payable",
 			"type": "function"
 		},
 		{
@@ -105,7 +105,7 @@
 						}
 					],
 					"internalType": "struct MultiTokenInput[]",
-					"name": "inputs",
+					"name": "inputsIn",
 					"type": "tuple[]"
 				},
 				{
@@ -117,6 +117,11 @@
 					"internalType": "uint32",
 					"name": "slippageBps",
 					"type": "uint32"
+				},
+				{
+					"internalType": "bool",
+					"name": "preTransferred",
+					"type": "bool"
 				}
 			],
 			"name": "swapMultipleTokensToEth",

@@ -37,7 +37,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/multiswap-eth/interface/universal-router.sol": "IUniversalRouter"
+			"hopium/uniswap/interface-ext/universal-router.sol": "IUniversalRouter"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -51,7 +51,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/multiswap-eth/interface/universal-router.sol": {
+		"hopium/uniswap/interface-ext/universal-router.sol": {
 			"keccak256": "0x9990bf50be738563550a245afadc944f192178dbfdb4675124909051c272a45b",
 			"license": "MIT",
 			"urls": [

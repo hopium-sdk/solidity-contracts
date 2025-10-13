@@ -18,7 +18,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/multiswap-eth/utils/oracleLibrary.sol": "OracleLibrary"
+			"hopium/uniswap/lib/oracleLibrary.sol": "OracleLibrary"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -32,36 +32,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/multiswap-eth/interface/uniswapV3.sol": {
-			"keccak256": "0xf7973138b1fe9ea12d8e05ebb142aec328e0824446881112f6d13d7ce59bdd6a",
+		"hopium/uniswap/lib/oracleLibrary.sol": {
+			"keccak256": "0x660043055ae600d85ce53112a0252e40ef425460378d457998b2064fb0270719",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://84fc650d3de4c9e6de8bbd8a77b7ccca6ea5ee90318087a406b09099fb5ad3eb",
-				"dweb:/ipfs/Qmd7YXgge6hgNxCE33tZ12e4By4A9PHzKwpXbcK19Kd6fX"
-			]
-		},
-		"hopium/multiswap-eth/utils/fullMath.sol": {
-			"keccak256": "0xcd063d59449476f651d61702f20299bf83d3230a2568895f8d7c79ae43ad71a3",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://8f1c2d9a6d5d28542e552f7b47338417ec44ba9b0df8d505c7fa5cead4dda7a3",
-				"dweb:/ipfs/QmSEuBPFRtNgv3VB17YQx3dEnreD8sRgChfbsNvBQzeXKQ"
-			]
-		},
-		"hopium/multiswap-eth/utils/oracleLibrary.sol": {
-			"keccak256": "0x53e316508de7ddd8219d98d9e2e963b12eb2526b10957d2473db4150c02391f7",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://485373c25190c2b1167b149769c8589dab855351007697faaf8b937d81b55c18",
-				"dweb:/ipfs/QmXZkGaDHREd4fNbFUh9qcq3DuSbnQg1wsqpaWJHUMMhmk"
-			]
-		},
-		"hopium/multiswap-eth/utils/tickMath.sol": {
-			"keccak256": "0x2716e74702fa876058a468c22bb5d832eb8e02c0f4f2c79cb2a2ed0196fcdd65",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://900349f059c92550f59863270dcd1ff1f23efc0ef0fa9492372a8d6205fa41a1",
-				"dweb:/ipfs/Qma8tB3C2JRyytYHLJM4xfKzQDiBq1hNuYbT1C3wCYpKDP"
+				"bzz-raw://76555ceef10c440774931cc6b86257cf3ebe357440a83b9d58157d763e132b56",
+				"dweb:/ipfs/QmTC6YnsSFEqSYujiDC4y7kKD1AYdCS55uJUyz68Mrc73u"
 			]
 		}
 	},

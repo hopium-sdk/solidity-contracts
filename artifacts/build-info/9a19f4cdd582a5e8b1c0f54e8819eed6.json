@@ -1,0 +1,687 @@
+{
+	"id": "9a19f4cdd582a5e8b1c0f54e8819eed6",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.30",
+	"solcLongVersion": "0.8.30+commit.73712a01",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nimport \"hopium/multiswap-eth/types/types.sol\";\n\ninterface IMultiSwapEthRouter {\n   function swapEthToMultipleTokens(\n        MultiTokenOutput[] calldata outputs,\n        address recipientAddress,\n        uint32 slippageBps\n    ) external payable;\n\n    function swapMultipleTokensToEth(\n        MultiTokenInput[] calldata inputsIn,\n        address payable recipientAddress,\n        uint32 slippageBps,\n        bool preTransferred\n    ) external;\n}"
+			},
+			"hopium/multiswap-eth/types/types.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nstruct MultiTokenInput {\n    address tokenAddress;\n    uint256 amount; // For tokens->ETH: amount of the ERC20 to sell\n}\n\nstruct MultiTokenOutput {\n    address tokenAddress;\n    uint16  weightBips; // Weight in basis points (must sum to <= 10_000)\n}"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			},
+			"remappings": []
+		}
+	},
+	"output": {
+		"contracts": {
+			"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+				"IMultiSwapEthRouter": {
+					"abi": [
+						{
+							"inputs": [
+								{
+									"components": [
+										{
+											"internalType": "address",
+											"name": "tokenAddress",
+											"type": "address"
+										},
+										{
+											"internalType": "uint16",
+											"name": "weightBips",
+											"type": "uint16"
+										}
+									],
+									"internalType": "struct MultiTokenOutput[]",
+									"name": "outputs",
+									"type": "tuple[]"
+								},
+								{
+									"internalType": "address",
+									"name": "recipientAddress",
+									"type": "address"
+								},
+								{
+									"internalType": "uint32",
+									"name": "slippageBps",
+									"type": "uint32"
+								}
+							],
+							"name": "swapEthToMultipleTokens",
+							"outputs": [],
+							"stateMutability": "payable",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"components": [
+										{
+											"internalType": "address",
+											"name": "tokenAddress",
+											"type": "address"
+										},
+										{
+											"internalType": "uint256",
+											"name": "amount",
+											"type": "uint256"
+										}
+									],
+									"internalType": "struct MultiTokenInput[]",
+									"name": "inputsIn",
+									"type": "tuple[]"
+								},
+								{
+									"internalType": "address payable",
+									"name": "recipientAddress",
+									"type": "address"
+								},
+								{
+									"internalType": "uint32",
+									"name": "slippageBps",
+									"type": "uint32"
+								},
+								{
+									"internalType": "bool",
+									"name": "preTransferred",
+									"type": "bool"
+								}
+							],
+							"name": "swapMultipleTokensToEth",
+							"outputs": [],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"kind": "dev",
+						"methods": {},
+						"version": 1
+					},
+					"evm": {
+						"assembly": "",
+						"bytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"deployedBytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"immutableReferences": {},
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"gasEstimates": null,
+						"legacyAssembly": null,
+						"methodIdentifiers": {
+							"swapEthToMultipleTokens((address,uint16)[],address,uint32)": "1623306b",
+							"swapMultipleTokensToEth((address,uint256)[],address,uint32,bool)": "3814bc6e"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint16\",\"name\":\"weightBips\",\"type\":\"uint16\"}],\"internalType\":\"struct MultiTokenOutput[]\",\"name\":\"outputs\",\"type\":\"tuple[]\"},{\"internalType\":\"address\",\"name\":\"recipientAddress\",\"type\":\"address\"},{\"internalType\":\"uint32\",\"name\":\"slippageBps\",\"type\":\"uint32\"}],\"name\":\"swapEthToMultipleTokens\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"internalType\":\"struct MultiTokenInput[]\",\"name\":\"inputsIn\",\"type\":\"tuple[]\"},{\"internalType\":\"address payable\",\"name\":\"recipientAddress\",\"type\":\"address\"},{\"internalType\":\"uint32\",\"name\":\"slippageBps\",\"type\":\"uint32\"},{\"internalType\":\"bool\",\"name\":\"preTransferred\",\"type\":\"bool\"}],\"name\":\"swapMultipleTokensToEth\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol\":\"IMultiSwapEthRouter\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol\":{\"keccak256\":\"0xdc62ee88009a14c77553279d9826982f4a5d55f94577082a0e5ab4ed4ca56869\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f823713b6ebd56f644803514d9b103fd1259a7ea9103821d047401d21bc6b9a7\",\"dweb:/ipfs/Qma2DcqG4wBr52inRLMCdfGx8jSLfqDr4o9Q8gD4J9UhW3\"]},\"hopium/multiswap-eth/types/types.sol\":{\"keccak256\":\"0xe2dcb69f0f9c7488cffb97d26716f2a00789c46d88c626ecf40b1f307e8c4fef\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d3c648a6c544702b06f5c06ce7acb54e9ac4d56d4c4f75674f472bffdc0d9d97\",\"dweb:/ipfs/QmcVWssTMawFsswLFmK4NF67jBaHFrH7Hj1YkQZeXJdKGi\"]}},\"version\":1}",
+					"storageLayout": {
+						"storage": [],
+						"types": null
+					},
+					"userdoc": {
+						"kind": "user",
+						"methods": {},
+						"version": 1
+					}
+				}
+			}
+		},
+		"sources": {
+			"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
+				"ast": {
+					"absolutePath": "hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol",
+					"exportedSymbols": {
+						"IMultiSwapEthRouter": [
+							27
+						],
+						"MultiTokenInput": [
+							34
+						],
+						"MultiTokenOutput": [
+							39
+						]
+					},
+					"id": 28,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:0"
+						},
+						{
+							"absolutePath": "hopium/multiswap-eth/types/types.sol",
+							"file": "hopium/multiswap-eth/types/types.sol",
+							"id": 2,
+							"nameLocation": "-1:-1:-1",
+							"nodeType": "ImportDirective",
+							"scope": 28,
+							"sourceUnit": 40,
+							"src": "57:46:0",
+							"symbolAliases": [],
+							"unitAlias": ""
+						},
+						{
+							"abstract": false,
+							"baseContracts": [],
+							"canonicalName": "IMultiSwapEthRouter",
+							"contractDependencies": [],
+							"contractKind": "interface",
+							"fullyImplemented": false,
+							"id": 27,
+							"linearizedBaseContracts": [
+								27
+							],
+							"name": "IMultiSwapEthRouter",
+							"nameLocation": "115:19:0",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"functionSelector": "1623306b",
+									"id": 13,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "swapEthToMultipleTokens",
+									"nameLocation": "149:23:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 11,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 6,
+												"mutability": "mutable",
+												"name": "outputs",
+												"nameLocation": "210:7:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 13,
+												"src": "182:35:0",
+												"stateVariable": false,
+												"storageLocation": "calldata",
+												"typeDescriptions": {
+													"typeIdentifier": "t_array$_t_struct$_MultiTokenOutput_$39_calldata_ptr_$dyn_calldata_ptr",
+													"typeString": "struct MultiTokenOutput[]"
+												},
+												"typeName": {
+													"baseType": {
+														"id": 4,
+														"nodeType": "UserDefinedTypeName",
+														"pathNode": {
+															"id": 3,
+															"name": "MultiTokenOutput",
+															"nameLocations": [
+																"182:16:0"
+															],
+															"nodeType": "IdentifierPath",
+															"referencedDeclaration": 39,
+															"src": "182:16:0"
+														},
+														"referencedDeclaration": 39,
+														"src": "182:16:0",
+														"typeDescriptions": {
+															"typeIdentifier": "t_struct$_MultiTokenOutput_$39_storage_ptr",
+															"typeString": "struct MultiTokenOutput"
+														}
+													},
+													"id": 5,
+													"nodeType": "ArrayTypeName",
+													"src": "182:18:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_array$_t_struct$_MultiTokenOutput_$39_storage_$dyn_storage_ptr",
+														"typeString": "struct MultiTokenOutput[]"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 8,
+												"mutability": "mutable",
+												"name": "recipientAddress",
+												"nameLocation": "235:16:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 13,
+												"src": "227:24:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 7,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "227:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 10,
+												"mutability": "mutable",
+												"name": "slippageBps",
+												"nameLocation": "268:11:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 13,
+												"src": "261:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint32",
+													"typeString": "uint32"
+												},
+												"typeName": {
+													"id": 9,
+													"name": "uint32",
+													"nodeType": "ElementaryTypeName",
+													"src": "261:6:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint32",
+														"typeString": "uint32"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "172:113:0"
+									},
+									"returnParameters": {
+										"id": 12,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "302:0:0"
+									},
+									"scope": 27,
+									"src": "140:163:0",
+									"stateMutability": "payable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "3814bc6e",
+									"id": 26,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "swapMultipleTokensToEth",
+									"nameLocation": "318:23:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 24,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 17,
+												"mutability": "mutable",
+												"name": "inputsIn",
+												"nameLocation": "378:8:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 26,
+												"src": "351:35:0",
+												"stateVariable": false,
+												"storageLocation": "calldata",
+												"typeDescriptions": {
+													"typeIdentifier": "t_array$_t_struct$_MultiTokenInput_$34_calldata_ptr_$dyn_calldata_ptr",
+													"typeString": "struct MultiTokenInput[]"
+												},
+												"typeName": {
+													"baseType": {
+														"id": 15,
+														"nodeType": "UserDefinedTypeName",
+														"pathNode": {
+															"id": 14,
+															"name": "MultiTokenInput",
+															"nameLocations": [
+																"351:15:0"
+															],
+															"nodeType": "IdentifierPath",
+															"referencedDeclaration": 34,
+															"src": "351:15:0"
+														},
+														"referencedDeclaration": 34,
+														"src": "351:15:0",
+														"typeDescriptions": {
+															"typeIdentifier": "t_struct$_MultiTokenInput_$34_storage_ptr",
+															"typeString": "struct MultiTokenInput"
+														}
+													},
+													"id": 16,
+													"nodeType": "ArrayTypeName",
+													"src": "351:17:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_array$_t_struct$_MultiTokenInput_$34_storage_$dyn_storage_ptr",
+														"typeString": "struct MultiTokenInput[]"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 19,
+												"mutability": "mutable",
+												"name": "recipientAddress",
+												"nameLocation": "412:16:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 26,
+												"src": "396:32:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address_payable",
+													"typeString": "address payable"
+												},
+												"typeName": {
+													"id": 18,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "396:15:0",
+													"stateMutability": "payable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address_payable",
+														"typeString": "address payable"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 21,
+												"mutability": "mutable",
+												"name": "slippageBps",
+												"nameLocation": "445:11:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 26,
+												"src": "438:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint32",
+													"typeString": "uint32"
+												},
+												"typeName": {
+													"id": 20,
+													"name": "uint32",
+													"nodeType": "ElementaryTypeName",
+													"src": "438:6:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint32",
+														"typeString": "uint32"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 23,
+												"mutability": "mutable",
+												"name": "preTransferred",
+												"nameLocation": "471:14:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 26,
+												"src": "466:19:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bool",
+													"typeString": "bool"
+												},
+												"typeName": {
+													"id": 22,
+													"name": "bool",
+													"nodeType": "ElementaryTypeName",
+													"src": "466:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bool",
+														"typeString": "bool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "341:150:0"
+									},
+									"returnParameters": {
+										"id": 25,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "500:0:0"
+									},
+									"scope": 27,
+									"src": "309:192:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								}
+							],
+							"scope": 28,
+							"src": "105:398:0",
+							"usedErrors": [],
+							"usedEvents": []
+						}
+					],
+					"src": "32:471:0"
+				},
+				"id": 0
+			},
+			"hopium/multiswap-eth/types/types.sol": {
+				"ast": {
+					"absolutePath": "hopium/multiswap-eth/types/types.sol",
+					"exportedSymbols": {
+						"MultiTokenInput": [
+							34
+						],
+						"MultiTokenOutput": [
+							39
+						]
+					},
+					"id": 40,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 29,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:1"
+						},
+						{
+							"canonicalName": "MultiTokenInput",
+							"id": 34,
+							"members": [
+								{
+									"constant": false,
+									"id": 31,
+									"mutability": "mutable",
+									"name": "tokenAddress",
+									"nameLocation": "94:12:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 34,
+									"src": "86:20:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 30,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "86:7:1",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 33,
+									"mutability": "mutable",
+									"name": "amount",
+									"nameLocation": "120:6:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 34,
+									"src": "112:14:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 32,
+										"name": "uint256",
+										"nodeType": "ElementaryTypeName",
+										"src": "112:7:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "MultiTokenInput",
+							"nameLocation": "64:15:1",
+							"nodeType": "StructDefinition",
+							"scope": 40,
+							"src": "57:120:1",
+							"visibility": "public"
+						},
+						{
+							"canonicalName": "MultiTokenOutput",
+							"id": 39,
+							"members": [
+								{
+									"constant": false,
+									"id": 36,
+									"mutability": "mutable",
+									"name": "tokenAddress",
+									"nameLocation": "217:12:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 39,
+									"src": "209:20:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 35,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "209:7:1",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 38,
+									"mutability": "mutable",
+									"name": "weightBips",
+									"nameLocation": "243:10:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 39,
+									"src": "235:18:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint16",
+										"typeString": "uint16"
+									},
+									"typeName": {
+										"id": 37,
+										"name": "uint16",
+										"nodeType": "ElementaryTypeName",
+										"src": "235:6:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint16",
+											"typeString": "uint16"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "MultiTokenOutput",
+							"nameLocation": "186:16:1",
+							"nodeType": "StructDefinition",
+							"scope": 40,
+							"src": "179:127:1",
+							"visibility": "public"
+						}
+					],
+					"src": "32:274:1"
+				},
+				"id": 1
+			}
+		}
+	}
+}

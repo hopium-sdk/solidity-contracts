@@ -172,7 +172,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/common/interface/iweth.sol": "IWETH"
+			"hopium/common/interface-ext/iWeth.sol": "IWETH"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -186,7 +186,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/common/interface/ierc20.sol": {
+		"hopium/common/interface-ext/iErc20.sol": {
 			"keccak256": "0x06621693c71a7aa555704700fc27eed66d47985744f77d0ae654edf3a6c57f7c",
 			"license": "MIT",
 			"urls": [
@@ -194,12 +194,12 @@
 				"dweb:/ipfs/QmVvZuotoyhm5XcWoBYWMHQDowpSbML3jtaHnCsV3AiyDU"
 			]
 		},
-		"hopium/common/interface/iweth.sol": {
-			"keccak256": "0xbc19abfa70aa141d1d67d8ead91e3d6599c5a4a3eb99f87c61fbb936d7d2b9ec",
+		"hopium/common/interface-ext/iWeth.sol": {
+			"keccak256": "0xc1cb6b6a96e2e7b072c5395fef740daef6d524154a5a409406a26352de45998a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://911c00ebca9045a567babf91a309471e4aee9437aebf004285718b49e5f21b4a",
-				"dweb:/ipfs/QmUDhY53YdmHdqYXWKcDmZDuC2xhfxeXtETqadp1ZNiXUj"
+				"bzz-raw://258c1ef2331e633a4babce5fca499b5dff1b8aa000e50b304df039e6f5397015",
+				"dweb:/ipfs/QmeW14LDHGxSri75ixD72rnJGshEJEjKRKbQJXunc1Cdyr"
 			]
 		}
 	},

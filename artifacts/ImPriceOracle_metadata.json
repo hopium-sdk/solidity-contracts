@@ -77,7 +77,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/standalone/interface/imPriceOracle.sol": "ImPriceOracle"
+			"hopium/uniswap/interface/imPriceOracle.sol": "ImPriceOracle"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -99,7 +99,7 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
-		"hopium/standalone/interface/iPriceOracle.sol": {
+		"hopium/uniswap/interface/iPriceOracle.sol": {
 			"keccak256": "0xa265524b501a2667bc2f1cb1c33c5a2a5c80d5cce552fd9e70699a134fe568d6",
 			"license": "MIT",
 			"urls": [
@@ -107,12 +107,12 @@
 				"dweb:/ipfs/QmQT3GQDK2aMYbP6QkX29uKxtxoWiZTFeVFKxjMGP2Bgpw"
 			]
 		},
-		"hopium/standalone/interface/imPriceOracle.sol": {
-			"keccak256": "0xd2f4c0687a0c6e40a7c27d4ffafe63c805124c8369f2df6f90cb1cf90aee4103",
+		"hopium/uniswap/interface/imPriceOracle.sol": {
+			"keccak256": "0x146a005bde9b1bf6a72357dffb3fc9d88885a64c86eeb3a648bbe51f633a7447",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b4ce8c36ddd5157a3cbb954e58cfb0a7533b782ef8e111215bd08246d0265a7a",
-				"dweb:/ipfs/QmbsZouM9V5mr6pUZDGSQZrEYXdxbTkr5FeHiSCnwV9jUz"
+				"bzz-raw://231d23aa1c439ad2092a2217eab60608c8bd7afd373e3ee2ca811178f038725f",
+				"dweb:/ipfs/QmcjCauFMPk6ie8mFu7hewxszbcodHvaB1sgPMnsivE3ES"
 			]
 		}
 	},

@@ -26,7 +26,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/multiswap-eth/utils/tickMath.sol": "TickMath"
+			"hopium/uniswap/lib/oracleLibrary.sol": "TickMath"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -40,12 +40,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/multiswap-eth/utils/tickMath.sol": {
-			"keccak256": "0x2716e74702fa876058a468c22bb5d832eb8e02c0f4f2c79cb2a2ed0196fcdd65",
+		"hopium/uniswap/lib/oracleLibrary.sol": {
+			"keccak256": "0x660043055ae600d85ce53112a0252e40ef425460378d457998b2064fb0270719",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://900349f059c92550f59863270dcd1ff1f23efc0ef0fa9492372a8d6205fa41a1",
-				"dweb:/ipfs/Qma8tB3C2JRyytYHLJM4xfKzQDiBq1hNuYbT1C3wCYpKDP"
+				"bzz-raw://76555ceef10c440774931cc6b86257cf3ebe357440a83b9d58157d763e132b56",
+				"dweb:/ipfs/QmTC6YnsSFEqSYujiDC4y7kKD1AYdCS55uJUyz68Mrc73u"
 			]
 		}
 	},

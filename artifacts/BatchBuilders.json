@@ -52,12 +52,8 @@
 			"Directory()": "658a847a",
 			"changeDirectoryAddress(address)": "ba4c7be1",
 			"fetchFromDirectory(string)": "27262618",
-			"getBestWethPool(address)": "df697cc4",
-			"getBestWethPoolUpdatable(address)": "d32563c8",
 			"owner()": "8da5cb5b",
 			"permit2()": "12261ee7",
-			"setStaleTimePoolCache(uint256)": "a7590163",
-			"staleTime()": "38b88052",
 			"uRouter()": "5cf39049",
 			"v2Factory()": "b4b57c39",
 			"v2Router()": "deadbc14",
@@ -68,27 +64,7 @@
 	"abi": [
 		{
 			"inputs": [],
-			"name": "AllowanceTooLow",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "ETHSendFailed",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "InsufficientETH",
-			"type": "error"
-		},
-		{
-			"inputs": [],
 			"name": "NoSwaps",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "NothingReceived",
 			"type": "error"
 		},
 		{
@@ -98,17 +74,7 @@
 		},
 		{
 			"inputs": [],
-			"name": "TokenIsWETH",
-			"type": "error"
-		},
-		{
-			"inputs": [],
 			"name": "ZeroAddress",
-			"type": "error"
-		},
-		{
-			"inputs": [],
-			"name": "ZeroAmount",
 			"type": "error"
 		},
 		{
@@ -157,88 +123,6 @@
 			"type": "function"
 		},
 		{
-			"inputs": [
-				{
-					"internalType": "address",
-					"name": "tokenAddress",
-					"type": "address"
-				}
-			],
-			"name": "getBestWethPool",
-			"outputs": [
-				{
-					"components": [
-						{
-							"internalType": "address",
-							"name": "poolAddress",
-							"type": "address"
-						},
-						{
-							"internalType": "uint24",
-							"name": "poolFee",
-							"type": "uint24"
-						},
-						{
-							"internalType": "uint8",
-							"name": "isV3Pool",
-							"type": "uint8"
-						},
-						{
-							"internalType": "uint64",
-							"name": "lastCached",
-							"type": "uint64"
-						}
-					],
-					"internalType": "struct Pool",
-					"name": "pool",
-					"type": "tuple"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "address",
-					"name": "tokenAddress",
-					"type": "address"
-				}
-			],
-			"name": "getBestWethPoolUpdatable",
-			"outputs": [
-				{
-					"components": [
-						{
-							"internalType": "address",
-							"name": "poolAddress",
-							"type": "address"
-						},
-						{
-							"internalType": "uint24",
-							"name": "poolFee",
-							"type": "uint24"
-						},
-						{
-							"internalType": "uint8",
-							"name": "isV3Pool",
-							"type": "uint8"
-						},
-						{
-							"internalType": "uint64",
-							"name": "lastCached",
-							"type": "uint64"
-						}
-					],
-					"internalType": "struct Pool",
-					"name": "out",
-					"type": "tuple"
-				}
-			],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
 			"inputs": [],
 			"name": "owner",
 			"outputs": [
@@ -259,32 +143,6 @@
 					"internalType": "contract IPermit2",
 					"name": "",
 					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "newStaleTime",
-					"type": "uint256"
-				}
-			],
-			"name": "setStaleTimePoolCache",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "staleTime",
-			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
 				}
 			],
 			"stateMutability": "view",

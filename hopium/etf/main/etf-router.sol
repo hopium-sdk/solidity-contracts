@@ -5,12 +5,12 @@ import "hopium/common/interface/imDirectory.sol";
 import "hopium/etf/interface/imEtfFactory.sol";
 import "hopium/etf/interface/imIndexFactory.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "hopium/multiswap-eth/interface/imMultiSwapEthRouter.sol";
+import "hopium/uniswap/interface/imMultiSwapRouter.sol";
 import "hopium/etf/interface/imIndexPriceOracle.sol";
 import "hopium/etf/interface/iEtfToken.sol";
-import "hopium/common/storage/bips.sol";
+import "hopium/common/types/bips.sol";
 import "hopium/etf/interface/iEtfVault.sol";
-import "hopium/common/utils/transfer-helpers.sol";
+import "hopium/common/lib/transfer-helpers.sol";
 import "hopium/common/interface/imActive.sol";
 import "hopium/etf/utils/etf-addresses-helpers.sol";
 
@@ -28,7 +28,7 @@ abstract contract Storage {
     event EtfTokensRedeemed(uint256 indexId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
 }
 
-abstract contract Helpers is ImMultiSwapEthRouter, ImEtfFactory, ImIndexPriceOracle, TransferHelpers, Storage, EtfAddressesHelpers {
+abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle, Storage, EtfAddressesHelpers {
 
     // Swap ETH into the index's component tokens and deliver directly to the vault
     function _swapEthToVaultTokens(
@@ -50,7 +50,7 @@ abstract contract Helpers is ImMultiSwapEthRouter, ImEtfFactory, ImIndexPriceOra
             }
         }
 
-        getMultiSwapEthRouter().swapEthToMultipleTokens{value: ethAmount}(
+        getMultiSwapRouter().swapEthToMultipleTokens{value: ethAmount}(
             outputs,
             receiverVault,
             slippageBips
@@ -84,8 +84,8 @@ abstract contract Helpers is ImMultiSwapEthRouter, ImEtfFactory, ImIndexPriceOra
         if (nonZeroCount == 0) revert NothingToWithdraw();
 
         // Redeem each non-zero token amount straight to the MultiswapEthRouter
-        IMultiSwapEthRouter multiSwapEthRouter = getMultiSwapEthRouter();
-        address routerAddr = address(multiSwapEthRouter);
+        IMultiSwapRouter multiSwapRouter = getMultiSwapRouter();
+        address routerAddr = address(multiSwapRouter);
         MultiTokenInput[] memory inputs = new MultiTokenInput[](nonZeroCount);
         uint256 k;
         unchecked {
@@ -102,7 +102,7 @@ abstract contract Helpers is ImMultiSwapEthRouter, ImEtfFactory, ImIndexPriceOra
         }
 
         // Router already has the tokens -> preTransferred = true
-        multiSwapEthRouter.swapMultipleTokensToEth(
+        multiSwapRouter.swapMultipleTokensToEth(
             inputs,
             receiver,
             slippageBips,
@@ -150,7 +150,7 @@ abstract contract Helpers is ImMultiSwapEthRouter, ImEtfFactory, ImIndexPriceOra
 
         uint256 fee = (amount * uint256(feeBips)) / uint256(HUNDRED_PERCENT_BIPS);
         if (fee != 0) {
-            _sendEth(vault, fee);
+            TransferHelpers.sendEth(vault, fee);
             return amount - fee;
         }
         return amount;
@@ -214,7 +214,7 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
 
         // Platform fee (if any), then send ETH to receiver
         uint256 ethAmount = _transferPlatformFee(deltaBal);
-        _sendEth(receiver, ethAmount);
+        TransferHelpers.sendEth(receiver, ethAmount);
 
         // Emit volume event on etf factory
         getEtfFactory().updateEtfVolume(indexId, ethAmount);
@@ -229,7 +229,7 @@ contract EtfRouter is ImDirectory, ImIndexFactory, ReentrancyGuard, Helpers, ImA
     }
 
     function recoverAsset(address tokenAddress, address toAddress) public onlyOwner {
-        _recoverAsset(tokenAddress, toAddress);
+        TransferHelpers.recoverAsset(tokenAddress, toAddress);
     }
 
     receive() external payable {}

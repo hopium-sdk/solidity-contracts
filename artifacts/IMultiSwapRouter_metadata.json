@@ -37,7 +37,7 @@
 				],
 				"name": "swapEthToMultipleTokens",
 				"outputs": [],
-				"stateMutability": "nonpayable",
+				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -56,7 +56,7 @@
 							}
 						],
 						"internalType": "struct MultiTokenInput[]",
-						"name": "inputs",
+						"name": "inputsIn",
 						"type": "tuple[]"
 					},
 					{
@@ -68,6 +68,11 @@
 						"internalType": "uint32",
 						"name": "slippageBps",
 						"type": "uint32"
+					},
+					{
+						"internalType": "bool",
+						"name": "preTransferred",
+						"type": "bool"
 					}
 				],
 				"name": "swapMultipleTokensToEth",
@@ -89,7 +94,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": "IMultiSwapRouter"
+			"hopium/uniswap/interface/imMultiSwapRouter.sol": "IMultiSwapRouter"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -103,12 +108,28 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/multiswap-eth/interface/iMultiSwapEthRouter.sol": {
-			"keccak256": "0xf4b77809aef35001507f3324b56287c47469b03d692cc21ead888e50294e2278",
+		"hopium/common/interface/imDirectory.sol": {
+			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ee0e2d6a32ab4a5f4ab8609bb958af9eb1baf3c756ac4fd8b0bb53e0b1ed62be",
-				"dweb:/ipfs/QmYjxKzwcxntFBBrUdn2bjEJVAb6s2s7yGLo4ZZuGD38ab"
+				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
+				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
+			]
+		},
+		"hopium/uniswap/interface/imMultiSwapRouter.sol": {
+			"keccak256": "0x29e5a33930b1618dc8b5cbeebd58d37d3cf6b4c5d67fd92d31b0c4c1d15a8c6e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://caa67855633a5da1782379e47721cd13929902ea9be36273c913b1e5c5f61125",
+				"dweb:/ipfs/QmYBGAKx3N6yR1LCZgD8QJNsDuVSqJ8gzgjY1NhPRY67J1"
+			]
+		},
+		"hopium/uniswap/types/multiswap.sol": {
+			"keccak256": "0xe2dcb69f0f9c7488cffb97d26716f2a00789c46d88c626ecf40b1f307e8c4fef",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d3c648a6c544702b06f5c06ce7acb54e9ac4d56d4c4f75674f472bffdc0d9d97",
+				"dweb:/ipfs/QmcVWssTMawFsswLFmK4NF67jBaHFrH7Hj1YkQZeXJdKGi"
 			]
 		}
 	},

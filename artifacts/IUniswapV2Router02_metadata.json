@@ -69,7 +69,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/multiswap-eth/interface/uniswapV2.sol": "IUniswapV2Router02"
+			"hopium/uniswap/interface-ext/uniswapV2.sol": "IUniswapV2Router02"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -83,7 +83,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/multiswap-eth/interface/uniswapV2.sol": {
+		"hopium/uniswap/interface-ext/uniswapV2.sol": {
 			"keccak256": "0xdd8afdfef3fc93bb606a050f43111b8603b21add7a93a9bfba89a49b3ed3b051",
 			"license": "MIT",
 			"urls": [

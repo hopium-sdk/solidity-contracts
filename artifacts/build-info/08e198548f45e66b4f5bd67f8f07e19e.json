@@ -1,0 +1,193 @@
+{
+	"id": "08e198548f45e66b4f5bd67f8f07e19e",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.30",
+	"solcLongVersion": "0.8.30+commit.73712a01",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"hopium/standalone/types/pool.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nstruct Pool {\n    address poolAddress; // 20\n    uint24  poolFee;     // 3\n    uint8   isV3Pool;    // 1 (0/1)\n    uint64  lastCached;  // 8\n}"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			},
+			"remappings": []
+		}
+	},
+	"output": {
+		"sources": {
+			"hopium/standalone/types/pool.sol": {
+				"ast": {
+					"absolutePath": "hopium/standalone/types/pool.sol",
+					"exportedSymbols": {
+						"Pool": [
+							10
+						]
+					},
+					"id": 11,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:0"
+						},
+						{
+							"canonicalName": "Pool",
+							"id": 10,
+							"members": [
+								{
+									"constant": false,
+									"id": 3,
+									"mutability": "mutable",
+									"name": "poolAddress",
+									"nameLocation": "83:11:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 10,
+									"src": "75:19:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 2,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "75:7:0",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 5,
+									"mutability": "mutable",
+									"name": "poolFee",
+									"nameLocation": "114:7:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 10,
+									"src": "106:15:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint24",
+										"typeString": "uint24"
+									},
+									"typeName": {
+										"id": 4,
+										"name": "uint24",
+										"nodeType": "ElementaryTypeName",
+										"src": "106:6:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint24",
+											"typeString": "uint24"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 7,
+									"mutability": "mutable",
+									"name": "isV3Pool",
+									"nameLocation": "144:8:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 10,
+									"src": "136:16:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint8",
+										"typeString": "uint8"
+									},
+									"typeName": {
+										"id": 6,
+										"name": "uint8",
+										"nodeType": "ElementaryTypeName",
+										"src": "136:5:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint8",
+											"typeString": "uint8"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 9,
+									"mutability": "mutable",
+									"name": "lastCached",
+									"nameLocation": "180:10:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 10,
+									"src": "172:18:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint64",
+										"typeString": "uint64"
+									},
+									"typeName": {
+										"id": 8,
+										"name": "uint64",
+										"nodeType": "ElementaryTypeName",
+										"src": "172:6:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint64",
+											"typeString": "uint64"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "Pool",
+							"nameLocation": "64:4:0",
+							"nodeType": "StructDefinition",
+							"scope": 11,
+							"src": "57:142:0",
+							"visibility": "public"
+						}
+					],
+					"src": "32:167:0"
+				},
+				"id": 0
+			}
+		}
+	}
+}

@@ -21,7 +21,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/multiswap-eth/utils/fullMath.sol": "FullMath"
+			"hopium/uniswap/lib/oracleLibrary.sol": "FullMath"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -35,12 +35,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/multiswap-eth/utils/fullMath.sol": {
-			"keccak256": "0xcd063d59449476f651d61702f20299bf83d3230a2568895f8d7c79ae43ad71a3",
+		"hopium/uniswap/lib/oracleLibrary.sol": {
+			"keccak256": "0x660043055ae600d85ce53112a0252e40ef425460378d457998b2064fb0270719",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8f1c2d9a6d5d28542e552f7b47338417ec44ba9b0df8d505c7fa5cead4dda7a3",
-				"dweb:/ipfs/QmSEuBPFRtNgv3VB17YQx3dEnreD8sRgChfbsNvBQzeXKQ"
+				"bzz-raw://76555ceef10c440774931cc6b86257cf3ebe357440a83b9d58157d763e132b56",
+				"dweb:/ipfs/QmTC6YnsSFEqSYujiDC4y7kKD1AYdCS55uJUyz68Mrc73u"
 			]
 		}
 	},

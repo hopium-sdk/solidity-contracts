@@ -4,8 +4,8 @@ pragma solidity 0.8.30;
 import "hopium/common/interface/imDirectory.sol";
 import "hopium/etf/types/index.sol";
 import "hopium/etf/interface/imIndexFactory.sol";
-import "hopium/standalone/interface/imPriceOracle.sol";
-import "hopium/common/storage/bips.sol"; // HUNDRED_PERCENT_BIPS
+import "hopium/uniswap/interface/imPriceOracle.sol";
+import "hopium/common/types/bips.sol"; // HUNDRED_PERCENT_BIPS
 
 abstract contract Helpers {
     /// @dev Weighted sum: Σ (metric(token) * weightBips) / 10_000

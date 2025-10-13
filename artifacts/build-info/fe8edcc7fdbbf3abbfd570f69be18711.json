@@ -1,0 +1,578 @@
+{
+	"id": "fe8edcc7fdbbf3abbfd570f69be18711",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.30",
+	"solcLongVersion": "0.8.30+commit.73712a01",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"hopium/pool-finder/interface/iPoolFinder.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nimport \"hopium/pool-finder/types/pool.sol\";\n\ninterface IMultiSwapEthRouter {\n    function getBestWethPool(address tokenAddress) external view returns (Pool memory pool);\n    function getBestWethPoolUpdatable(address tokenAddress) external returns (Pool memory pool);\n}"
+			},
+			"hopium/pool-finder/types/pool.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nstruct Pool {\n    address poolAddress; // 20\n    uint24  poolFee;     // 3\n    uint8   isV3Pool;    // 1 (0/1)\n    uint64  lastCached;  // 8\n}"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			},
+			"remappings": []
+		}
+	},
+	"output": {
+		"contracts": {
+			"hopium/pool-finder/interface/iPoolFinder.sol": {
+				"IMultiSwapEthRouter": {
+					"abi": [
+						{
+							"inputs": [
+								{
+									"internalType": "address",
+									"name": "tokenAddress",
+									"type": "address"
+								}
+							],
+							"name": "getBestWethPool",
+							"outputs": [
+								{
+									"components": [
+										{
+											"internalType": "address",
+											"name": "poolAddress",
+											"type": "address"
+										},
+										{
+											"internalType": "uint24",
+											"name": "poolFee",
+											"type": "uint24"
+										},
+										{
+											"internalType": "uint8",
+											"name": "isV3Pool",
+											"type": "uint8"
+										},
+										{
+											"internalType": "uint64",
+											"name": "lastCached",
+											"type": "uint64"
+										}
+									],
+									"internalType": "struct Pool",
+									"name": "pool",
+									"type": "tuple"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "address",
+									"name": "tokenAddress",
+									"type": "address"
+								}
+							],
+							"name": "getBestWethPoolUpdatable",
+							"outputs": [
+								{
+									"components": [
+										{
+											"internalType": "address",
+											"name": "poolAddress",
+											"type": "address"
+										},
+										{
+											"internalType": "uint24",
+											"name": "poolFee",
+											"type": "uint24"
+										},
+										{
+											"internalType": "uint8",
+											"name": "isV3Pool",
+											"type": "uint8"
+										},
+										{
+											"internalType": "uint64",
+											"name": "lastCached",
+											"type": "uint64"
+										}
+									],
+									"internalType": "struct Pool",
+									"name": "pool",
+									"type": "tuple"
+								}
+							],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"kind": "dev",
+						"methods": {},
+						"version": 1
+					},
+					"evm": {
+						"assembly": "",
+						"bytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"deployedBytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"immutableReferences": {},
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"gasEstimates": null,
+						"legacyAssembly": null,
+						"methodIdentifiers": {
+							"getBestWethPool(address)": "df697cc4",
+							"getBestWethPoolUpdatable(address)": "d32563c8"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"getBestWethPool\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"poolAddress\",\"type\":\"address\"},{\"internalType\":\"uint24\",\"name\":\"poolFee\",\"type\":\"uint24\"},{\"internalType\":\"uint8\",\"name\":\"isV3Pool\",\"type\":\"uint8\"},{\"internalType\":\"uint64\",\"name\":\"lastCached\",\"type\":\"uint64\"}],\"internalType\":\"struct Pool\",\"name\":\"pool\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"getBestWethPoolUpdatable\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"poolAddress\",\"type\":\"address\"},{\"internalType\":\"uint24\",\"name\":\"poolFee\",\"type\":\"uint24\"},{\"internalType\":\"uint8\",\"name\":\"isV3Pool\",\"type\":\"uint8\"},{\"internalType\":\"uint64\",\"name\":\"lastCached\",\"type\":\"uint64\"}],\"internalType\":\"struct Pool\",\"name\":\"pool\",\"type\":\"tuple\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/pool-finder/interface/iPoolFinder.sol\":\"IMultiSwapEthRouter\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/pool-finder/interface/iPoolFinder.sol\":{\"keccak256\":\"0xe32d52d497d170fa5b3cf1c8da4b354532ffcc0964f402788b7401f84017170b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8cd238cfc13f6a8ffa71b056d911e11a9a85a9c683e1a918fa9f58261db894e4\",\"dweb:/ipfs/QmSpkLPxMu1icA5mLJGeAFTknzKd8f5oWRRXQEqHtqwayB\"]},\"hopium/pool-finder/types/pool.sol\":{\"keccak256\":\"0x1d9c7b4c311509599d60b1aec11cdfa094032bdad20935ab40bb98136681e6c9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4d3ef706149f664d236461d84237ddab7f71d4585e4f9d868ed3118d6c11cbe0\",\"dweb:/ipfs/QmaJx7Z1V8j9Edkg9mHTF6bLQphRCuwQHnR4K96DcPmnVg\"]}},\"version\":1}",
+					"storageLayout": {
+						"storage": [],
+						"types": null
+					},
+					"userdoc": {
+						"kind": "user",
+						"methods": {},
+						"version": 1
+					}
+				}
+			}
+		},
+		"sources": {
+			"hopium/pool-finder/interface/iPoolFinder.sol": {
+				"ast": {
+					"absolutePath": "hopium/pool-finder/interface/iPoolFinder.sol",
+					"exportedSymbols": {
+						"IMultiSwapEthRouter": [
+							19
+						],
+						"Pool": [
+							30
+						]
+					},
+					"id": 20,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:0"
+						},
+						{
+							"absolutePath": "hopium/pool-finder/types/pool.sol",
+							"file": "hopium/pool-finder/types/pool.sol",
+							"id": 2,
+							"nameLocation": "-1:-1:-1",
+							"nodeType": "ImportDirective",
+							"scope": 20,
+							"sourceUnit": 31,
+							"src": "57:43:0",
+							"symbolAliases": [],
+							"unitAlias": ""
+						},
+						{
+							"abstract": false,
+							"baseContracts": [],
+							"canonicalName": "IMultiSwapEthRouter",
+							"contractDependencies": [],
+							"contractKind": "interface",
+							"fullyImplemented": false,
+							"id": 19,
+							"linearizedBaseContracts": [
+								19
+							],
+							"name": "IMultiSwapEthRouter",
+							"nameLocation": "112:19:0",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"functionSelector": "df697cc4",
+									"id": 10,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "getBestWethPool",
+									"nameLocation": "147:15:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 5,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 4,
+												"mutability": "mutable",
+												"name": "tokenAddress",
+												"nameLocation": "171:12:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 10,
+												"src": "163:20:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 3,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "163:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "162:22:0"
+									},
+									"returnParameters": {
+										"id": 9,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 8,
+												"mutability": "mutable",
+												"name": "pool",
+												"nameLocation": "220:4:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 10,
+												"src": "208:16:0",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_struct$_Pool_$30_memory_ptr",
+													"typeString": "struct Pool"
+												},
+												"typeName": {
+													"id": 7,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 6,
+														"name": "Pool",
+														"nameLocations": [
+															"208:4:0"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 30,
+														"src": "208:4:0"
+													},
+													"referencedDeclaration": 30,
+													"src": "208:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_struct$_Pool_$30_storage_ptr",
+														"typeString": "struct Pool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "207:18:0"
+									},
+									"scope": 19,
+									"src": "138:88:0",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "d32563c8",
+									"id": 18,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "getBestWethPoolUpdatable",
+									"nameLocation": "240:24:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 13,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 12,
+												"mutability": "mutable",
+												"name": "tokenAddress",
+												"nameLocation": "273:12:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 18,
+												"src": "265:20:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 11,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "265:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "264:22:0"
+									},
+									"returnParameters": {
+										"id": 17,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 16,
+												"mutability": "mutable",
+												"name": "pool",
+												"nameLocation": "317:4:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 18,
+												"src": "305:16:0",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_struct$_Pool_$30_memory_ptr",
+													"typeString": "struct Pool"
+												},
+												"typeName": {
+													"id": 15,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 14,
+														"name": "Pool",
+														"nameLocations": [
+															"305:4:0"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 30,
+														"src": "305:4:0"
+													},
+													"referencedDeclaration": 30,
+													"src": "305:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_struct$_Pool_$30_storage_ptr",
+														"typeString": "struct Pool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "304:18:0"
+									},
+									"scope": 19,
+									"src": "231:92:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								}
+							],
+							"scope": 20,
+							"src": "102:223:0",
+							"usedErrors": [],
+							"usedEvents": []
+						}
+					],
+					"src": "32:293:0"
+				},
+				"id": 0
+			},
+			"hopium/pool-finder/types/pool.sol": {
+				"ast": {
+					"absolutePath": "hopium/pool-finder/types/pool.sol",
+					"exportedSymbols": {
+						"Pool": [
+							30
+						]
+					},
+					"id": 31,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 21,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:1"
+						},
+						{
+							"canonicalName": "Pool",
+							"id": 30,
+							"members": [
+								{
+									"constant": false,
+									"id": 23,
+									"mutability": "mutable",
+									"name": "poolAddress",
+									"nameLocation": "83:11:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 30,
+									"src": "75:19:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 22,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "75:7:1",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 25,
+									"mutability": "mutable",
+									"name": "poolFee",
+									"nameLocation": "114:7:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 30,
+									"src": "106:15:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint24",
+										"typeString": "uint24"
+									},
+									"typeName": {
+										"id": 24,
+										"name": "uint24",
+										"nodeType": "ElementaryTypeName",
+										"src": "106:6:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint24",
+											"typeString": "uint24"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 27,
+									"mutability": "mutable",
+									"name": "isV3Pool",
+									"nameLocation": "144:8:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 30,
+									"src": "136:16:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint8",
+										"typeString": "uint8"
+									},
+									"typeName": {
+										"id": 26,
+										"name": "uint8",
+										"nodeType": "ElementaryTypeName",
+										"src": "136:5:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint8",
+											"typeString": "uint8"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 29,
+									"mutability": "mutable",
+									"name": "lastCached",
+									"nameLocation": "180:10:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 30,
+									"src": "172:18:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint64",
+										"typeString": "uint64"
+									},
+									"typeName": {
+										"id": 28,
+										"name": "uint64",
+										"nodeType": "ElementaryTypeName",
+										"src": "172:6:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint64",
+											"typeString": "uint64"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "Pool",
+							"nameLocation": "64:4:1",
+							"nodeType": "StructDefinition",
+							"scope": 31,
+							"src": "57:142:1",
+							"visibility": "public"
+						}
+					],
+					"src": "32:167:1"
+				},
+				"id": 1
+			}
+		}
+	}
+}
