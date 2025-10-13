@@ -87,10 +87,17 @@ abstract contract POW {
 abstract contract Helpers is POW, Storage, ImMultiSwapEthRouter {
 
     error PairDoesNotExist();
-    function _getTokenToWethPairAddress(address tokenAddress) internal view returns (bool isV3Pool, address pairAddress) {
+    function _getTokenToWethPairAddress(address tokenAddress)
+        internal
+        view
+        returns (bool isV3Pool, address pairAddress)
+    {
         Pool memory pool = getMultiSwapEthRouter().getBestWethPool(tokenAddress);
-        if (pairAddress == address(0)) revert PairDoesNotExist();
-        return (pool.isV3Pool == 0 ? false : true, pool.poolAddress);
+
+        if (pool.poolAddress == address(0)) revert PairDoesNotExist();
+
+        isV3Pool   = pool.isV3Pool != 0;
+        pairAddress = pool.poolAddress;
     }
 
     error PairDoesNotContainBase();
@@ -154,7 +161,7 @@ abstract contract Helpers is POW, Storage, ImMultiSwapEthRouter {
         uint256 reserveB,
         uint8 decB
     ) internal pure returns (uint256) {
-        if(reserveA == 0 && reserveB == 0) revert EmptyReserves();
+        if(reserveA == 0 || reserveB == 0) revert EmptyReserves();
         // Scale factor = 1e18 * 10^(decB - decA)
         uint256 scale;
         unchecked {

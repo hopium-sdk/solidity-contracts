@@ -306,7 +306,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": true,
+			"enabled": false,
 			"runs": 200
 		},
 		"remappings": []
@@ -393,11 +393,11 @@
 			]
 		},
 		"hopium/multiswap-eth/main/multiswap-eth-router.sol": {
-			"keccak256": "0xeb0415f81de1fb5a199253cf5805129ea2c5039e224c3b2760bec7f3c609c059",
+			"keccak256": "0x9d65cd42f231d532f69f22ffc1a8a2702f798723caf579a738795e72c905f3bf",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://0fe74b7ce0de2713c1811bbde4bc9c471b3cf5d34f88a0bba024494f67a79b09",
-				"dweb:/ipfs/QmQJSnqX1qTWUkkKfes379aHDHBfn6uLoeqn92KRZz79eY"
+				"bzz-raw://2fb2faac674db4a5bf0dbb53113aa8d3e51298b4da50b38d6325bdc9ac9bc732",
+				"dweb:/ipfs/QmV4ZyzewcBs36dy6gLCyYRCtnc4nqjGChg1DJegZNpyy4"
 			]
 		},
 		"hopium/multiswap-eth/types/types.sol": {

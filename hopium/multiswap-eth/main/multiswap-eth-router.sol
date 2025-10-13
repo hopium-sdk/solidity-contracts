@@ -26,6 +26,7 @@ error ZeroAddress();
 error InvalidInput();
 error WeightsInvalid();
 error NoPoolFound();
+error InvalidSlippage();
 
 /* ----------------------------------------------------- */
 /*                        Storage                        */
@@ -515,6 +516,8 @@ abstract contract BatchBuilders is TokenEthSwapHelpers {
 /*                        Router                          */
 /* ----------------------------------------------------- */
 contract MultiswapEthRouter is BatchBuilders, ReentrancyGuard {
+    uint32 public MAX_SLIPPAGE_BIPS = 300;
+
     constructor(
         address _directory,
         address _v2Router,
@@ -541,6 +544,7 @@ contract MultiswapEthRouter is BatchBuilders, ReentrancyGuard {
         uint256 msgValue = msg.value;
         if (outputs.length == 0) revert InvalidInput();
         if (msgValue == 0) revert InvalidInput();
+        if (slippageBps > MAX_SLIPPAGE_BIPS) revert InvalidSlippage();
 
         EthToTokenBatch memory batch =
             _buildEthToTokensBatch(outputs, recipientAddress, slippageBps, msgValue);
@@ -584,6 +588,7 @@ contract MultiswapEthRouter is BatchBuilders, ReentrancyGuard {
     ) external nonReentrant {
         if (recipientAddress == address(0)) revert ZeroAddress();
         if (inputsIn.length == 0) revert InvalidInput();
+        if (slippageBps > MAX_SLIPPAGE_BIPS) revert InvalidSlippage();
 
         TokenToEthBatch memory batch =
             _buildTokensToEthBatch(inputsIn, slippageBps, preTransferred);
@@ -598,6 +603,10 @@ contract MultiswapEthRouter is BatchBuilders, ReentrancyGuard {
 
     function recoverAsset(address tokenAddress, address toAddress) external onlyOwner {
         _recoverAsset(tokenAddress, toAddress);
+    }
+
+    function changeMaxSlippage(uint32 newMaxSlippageBips) external onlyOwner {
+        MAX_SLIPPAGE_BIPS = newMaxSlippageBips;
     }
 
     receive() external payable {} // to receive ETH for wrap/unwrap only

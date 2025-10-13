@@ -92,11 +92,11 @@
 			]
 		},
 		"hopium/standalone/main/price-oracle.sol": {
-			"keccak256": "0xdf3e90f686861895c9dacb32be8a2b3ba2b2c847bd4c618784bf386d7526bb32",
+			"keccak256": "0x3a0edd78e2e7b6e0ea924c9925bfc39afc1ef918065fb56deb03435ec79cd947",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://71597df945c0236bf2eeb6bb8bdd83942fb7067e6242a5628d143979e11b3d5f",
-				"dweb:/ipfs/QmSU7wcZAGVY9Lo98ad4scMJYfdnvpQzWSS4i97uWrjQTg"
+				"bzz-raw://f5bcceeb9828737e47c2ef1744df5a21e033794f71008241ef430ca36a200e83",
+				"dweb:/ipfs/Qmadc1dEDT1rGfqRkwyUa5EopnjvfzmVXQfXm5UH3sfZBw"
 			]
 		}
 	},
