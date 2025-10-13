@@ -50,7 +50,7 @@
 		"gasEstimates": null,
 		"methodIdentifiers": {
 			"getBestWethPool(address)": "df697cc4",
-			"getBestWethPoolUpdatable(address)": "d32563c8"
+			"getBestWethPoolAndUpdateIfStale(address)": "6425f09e"
 		}
 	},
 	"abi": [
@@ -103,7 +103,7 @@
 					"type": "address"
 				}
 			],
-			"name": "getBestWethPoolUpdatable",
+			"name": "getBestWethPoolAndUpdateIfStale",
 			"outputs": [
 				{
 					"components": [

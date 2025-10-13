@@ -246,7 +246,7 @@ abstract contract TokenEthSwapHelpers is URSwapHelpers, ImPoolFinder {
         uint32 slippageBps
     ) internal returns (bytes1 cmd, bytes memory packedInput) {
         if (wethAmount == 0) return (bytes1(0), bytes(""));
-         Pool memory pool = getPoolFinder().getBestWethPoolUpdatable(tokenAddress);
+         Pool memory pool = getPoolFinder().getBestWethPoolAndUpdateIfStale(tokenAddress);
         if (pool.poolAddress == address(0)) revert NoPoolFound();
 
         uint256 minOut;
@@ -271,7 +271,7 @@ abstract contract TokenEthSwapHelpers is URSwapHelpers, ImPoolFinder {
         if (amountIn == 0) return (bytes1(0), bytes(""));
         if (tokenAddress == address(0) || tokenAddress == wethAddress) revert BadToken();
 
-        Pool memory pool = getPoolFinder().getBestWethPoolUpdatable(tokenAddress);
+        Pool memory pool = getPoolFinder().getBestWethPoolAndUpdateIfStale(tokenAddress);
         if (pool.poolAddress == address(0)) revert NoPoolFound();
 
         uint256 minOut;

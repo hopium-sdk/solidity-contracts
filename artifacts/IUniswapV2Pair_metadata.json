@@ -91,11 +91,11 @@
 			]
 		},
 		"hopium/uniswap/main/pool-finder.sol": {
-			"keccak256": "0x56b03b8b2bae18bb88029b3ab7210bd0debb123ac2573bda0fcac192eed82b51",
+			"keccak256": "0x6193b53b8e9703bc82a171c0a095266f021e0c1701349c2abccfa74c628a84a8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8bedce3fef8e61c0a469c3923a6f89544cddca7871ded66da604b896d6df7d4a",
-				"dweb:/ipfs/QmV1h7CcpoGpBsDojJLeWfuKK8wwG8DUxgfCViHxMurfna"
+				"bzz-raw://42bab14b8ace615a054cd3d6e28d3dbed58d7c96670b76463fac9be9ba2e38c6",
+				"dweb:/ipfs/QmTD6F6MB8LVDiV8sBV7pS2W5htote5Pnfs6GJsE7bo9yD"
 			]
 		},
 		"hopium/uniswap/types/pool.sol": {

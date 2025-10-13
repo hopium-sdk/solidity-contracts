@@ -54,8 +54,7 @@ contract PoolFinder is ImDirectory {
 
     uint256 public staleTime = 6 hours;
 
-    // ---- internal pool finder (pure read logic)
-    function _findBestWethPool(address tokenAddress) internal view returns (Pool memory pool) {
+    function findBestWethPool(address tokenAddress) public view returns (Pool memory pool) {
         if (tokenAddress == address(0)) revert ZeroAddress();
         if (tokenAddress == wethAddress) revert TokenIsWETH();
 
@@ -102,23 +101,23 @@ contract PoolFinder is ImDirectory {
     function getBestWethPool(address tokenAddress) external view returns (Pool memory pool) {
         pool = cachedPools[tokenAddress];
         if (pool.poolAddress != address(0)) return pool;
-        return _findBestWethPool(tokenAddress);
+        return findBestWethPool(tokenAddress);
     }
 
     // ---- WRITE fn: populate if missing; refresh only when stale; else return cached
-    function getBestWethPoolUpdatable(address tokenAddress) public returns (Pool memory out) {
+    function getBestWethPoolAndUpdateIfStale(address tokenAddress) public returns (Pool memory out) {
         Pool storage slot = cachedPools[tokenAddress];
 
         // missing?
         if (slot.poolAddress == address(0)) {
-            out = _findBestWethPool(tokenAddress);
+            out = findBestWethPool(tokenAddress);
             cachedPools[tokenAddress] = out; // <-- fix
             return out;
         }
 
         // stale?
         if (block.timestamp - slot.lastCached > staleTime) {
-            Pool memory fresh = _findBestWethPool(tokenAddress);
+            Pool memory fresh = findBestWethPool(tokenAddress);
             if (fresh.poolAddress != slot.poolAddress) {
                 cachedPools[tokenAddress] = fresh; // <-- fix
                 return fresh;

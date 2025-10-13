@@ -87,7 +87,7 @@ abstract contract ValidationHelpers is Storage, Utils, ImPoolFinder {
             Holding calldata h = holdings[i];
             address token = h.tokenAddress;
             uint256 w = h.weightBips;
-            Pool memory pool = getPoolFinder().getBestWethPoolUpdatable(token);
+            Pool memory pool = getPoolFinder().getBestWethPoolAndUpdateIfStale(token);
 
             if (token == address(0)) revert ZeroToken();
             if (w == 0) revert ZeroWeight();
