@@ -50,6 +50,7 @@
 		"gasEstimates": null,
 		"methodIdentifiers": {
 			"Directory()": "658a847a",
+			"WETH_ADDRESS()": "040141e5",
 			"changeDirectoryAddress(address)": "ba4c7be1",
 			"fetchFromDirectory(string)": "27262618",
 			"owner()": "8da5cb5b"
@@ -112,6 +113,19 @@
 			"outputs": [
 				{
 					"internalType": "contract IDirectory",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "WETH_ADDRESS",
+			"outputs": [
+				{
+					"internalType": "address",
 					"name": "",
 					"type": "address"
 				}

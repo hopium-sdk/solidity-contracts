@@ -11,6 +11,8 @@ import "hopium/uniswap/interface/imPoolFinder.sol";
 
 /// @notice Storage keeps created indexes and mapping tables
 abstract contract Storage {
+    address public immutable WETH_ADDRESS;
+
     Index[] internal createdIndexes;
 
     // map tickerHash (bytes32) → indexId (1-based)
@@ -87,12 +89,15 @@ abstract contract ValidationHelpers is Storage, Utils, ImPoolFinder {
             Holding calldata h = holdings[i];
             address token = h.tokenAddress;
             uint256 w = h.weightBips;
-            Pool memory pool = getPoolFinder().getBestWethPoolAndUpdateIfStale(token);
+
+            if (token != WETH_ADDRESS) {
+                Pool memory pool = getPoolFinder().getBestWethPoolAndUpdateIfStale(token);
+                if (pool.poolAddress == address(0)) revert NoPoolFound();
+            }
 
             if (token == address(0)) revert ZeroToken();
             if (w == 0) revert ZeroWeight();
             if (w > HUNDRED_PERCENT_BIPS) revert OverWeight();
-            if (pool.poolAddress == address(0)) revert NoPoolFound();
 
             sorted[i] = h;
             unchecked { ++i; }
@@ -123,7 +128,9 @@ abstract contract ValidationHelpers is Storage, Utils, ImPoolFinder {
 
 /// @notice Factory with gas-optimized validation & events
 contract IndexFactory is ImDirectory, ValidationHelpers, ImEtfFactory, ImActive {
-    constructor(address _directory) ImDirectory(_directory) {}
+    constructor(address _directory,  address _wethAddress) ImDirectory(_directory) {
+        WETH_ADDRESS = _wethAddress;
+    }
 
     /// @dev lean event: all topics, constant-size; no dynamic arrays/strings in data
     event IndexCreated(uint256 indexed indexId);

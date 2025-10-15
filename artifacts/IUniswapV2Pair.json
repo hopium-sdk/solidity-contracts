@@ -61,17 +61,17 @@
 			"outputs": [
 				{
 					"internalType": "uint112",
-					"name": "r0",
+					"name": "reserve0",
 					"type": "uint112"
 				},
 				{
 					"internalType": "uint112",
-					"name": "r1",
+					"name": "reserve1",
 					"type": "uint112"
 				},
 				{
 					"internalType": "uint32",
-					"name": "t",
+					"name": "blockTimestampLast",
 					"type": "uint32"
 				}
 			],

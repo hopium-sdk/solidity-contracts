@@ -11,6 +11,11 @@
 						"internalType": "address",
 						"name": "_directory",
 						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_wethAddress",
+						"type": "address"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -95,6 +100,19 @@
 				"outputs": [
 					{
 						"internalType": "contract IDirectory",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "WETH_ADDRESS",
+				"outputs": [
+					{
+						"internalType": "address",
 						"name": "",
 						"type": "address"
 					}
@@ -397,19 +415,19 @@
 			]
 		},
 		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x9cfc476b774a92659a646d6a43aba5469411095e24879e6b205948a8cccb1961",
+			"keccak256": "0x1b9fe13299c138060e45dcd475d1ca2bcf086f2919ea1ef6316686560c568050",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2be2117fe765ce2959796b673503334ce0f00ee2c36149519bb9ff07d3bb6689",
-				"dweb:/ipfs/QmXi6P1b2St4LCuSDa7NZ58gjyhuFS1tHs4kTgEfiGaeiy"
+				"bzz-raw://e28076309a22f79e4e71ee5f27c39b92f8ffd0d7c51f6c2172f5dd257b73d132",
+				"dweb:/ipfs/QmWsr2YCqezsaFhFyMuPhV4XZqiMG6zpSdQJixvYobQZJt"
 			]
 		},
 		"hopium/etf/main/index-factory.sol": {
-			"keccak256": "0x89e9b757136fcd7f332ebc0789de3022cfbf463ca124a0d68fd32e70a73b26f9",
+			"keccak256": "0x70fd4e675c2ea5133aab7fcdafb91f58e0bd69fdb6828cc198cfd79079a2fa1e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4b942b9aba1cd5d141c379e0afff4be7f546d0c5cd3457af9f80760c9cfb5cd2",
-				"dweb:/ipfs/QmbazkCdhWtN4sumnqnn9b7EE46Caasb2QX3oGc16LVpgQ"
+				"bzz-raw://c69738abb74ac9fb8ee943808b0b010d488ac49a4aa04bd71167a672b1af314a",
+				"dweb:/ipfs/QmbRe1MtMkCPgbG1cT6URXNjVycV8fpbRGmT1cVFKuAPU3"
 			]
 		},
 		"hopium/etf/types/index.sol": {

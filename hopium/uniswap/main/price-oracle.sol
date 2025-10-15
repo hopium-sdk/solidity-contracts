@@ -24,6 +24,19 @@ interface IUniswapV2Pair {
 interface IUniswapV3Pool {
     function token0() external view returns (address);
     function token1() external view returns (address);
+    function liquidity() external view returns (uint128);
+    function slot0()
+        external
+        view
+        returns (
+            uint160 sqrtPriceX96,
+            int24 tick,
+            uint16 observationIndex,
+            uint16 observationCardinality,
+            uint16 observationCardinalityNext,
+            uint8 feeProtocol,
+            bool unlocked
+        );
 }
 
 
@@ -33,6 +46,55 @@ abstract contract Storage {
     bool public immutable IS_WETH_USD_PAIR_ADDRESS_V3;
 
     uint8 public immutable WETH_DECIMALS;
+}
+
+abstract contract Math {
+    /// Full-precision mulDiv — computes floor(a*b/denominator) without overflow.
+    function _mulDiv(
+        uint256 a,
+        uint256 b,
+        uint256 denominator
+    ) internal pure returns (uint256 result) {
+        unchecked {
+            uint256 prod0;
+            uint256 prod1;
+            assembly {
+                let mm := mulmod(a, b, not(0))
+                prod0 := mul(a, b)
+                prod1 := sub(sub(mm, prod0), lt(mm, prod0))
+            }
+            if (prod1 == 0) {
+                return prod0 / denominator;
+            }
+            require(denominator > prod1, "mulDiv overflow");
+
+            uint256 remainder;
+            assembly {
+                remainder := mulmod(a, b, denominator)
+                prod1 := sub(prod1, gt(remainder, prod0))
+                prod0 := sub(prod0, remainder)
+            }
+
+            uint256 twos = denominator & (~denominator + 1);
+            assembly {
+                denominator := div(denominator, twos)
+                prod0 := div(prod0, twos)
+                twos := add(div(sub(0, twos), twos), 1)
+            }
+            prod0 |= prod1 * twos;
+
+            uint256 inv = (3 * denominator) ^ 2;
+            inv *= 2 - denominator * inv; // inverse mod 2^8
+            inv *= 2 - denominator * inv; // mod 2^16
+            inv *= 2 - denominator * inv; // mod 2^32
+            inv *= 2 - denominator * inv; // mod 2^64
+            inv *= 2 - denominator * inv; // mod 2^128
+            inv *= 2 - denominator * inv; // mod 2^256
+
+            result = prod0 * inv;
+            return result;
+        }
+    }
 }
 
 abstract contract POW {
@@ -84,7 +146,7 @@ abstract contract POW {
     }
 }
 
-abstract contract Helpers is POW, Storage, ImPoolFinder {
+abstract contract Helpers is POW, Storage, ImPoolFinder, Math {
 
     error PairDoesNotExist();
     function _getTokenToWethPairAddress(address tokenAddress)
@@ -93,16 +155,18 @@ abstract contract Helpers is POW, Storage, ImPoolFinder {
         returns (bool isV3Pool, address pairAddress)
     {
         Pool memory pool = getPoolFinder().getBestWethPool(tokenAddress);
-
         if (pool.poolAddress == address(0)) revert PairDoesNotExist();
-
-        isV3Pool   = pool.isV3Pool != 0;
+        isV3Pool    = pool.isV3Pool != 0;
         pairAddress = pool.poolAddress;
     }
 
     error PairDoesNotContainBase();
-    /// Returns reserves ordered so that `reserveBase` corresponds to `baseToken`,
-    /// plus decimals and the other token address as `quoteToken`.
+    /**
+     * @dev For v2: uses real reserves via getReserves()
+     *      For v3: uses VIRTUAL reserves computed from slot0() + liquidity()
+     * Returns reserves ordered so that `reserveBase` corresponds to `baseToken`,
+     * plus decimals and the other token address as `quoteToken`.
+     */
     function _getOrderedReserves(bool isV3Pool, address pairAddress, address baseToken)
         internal
         view
@@ -120,15 +184,25 @@ abstract contract Helpers is POW, Storage, ImPoolFinder {
         address t1;
 
         if (isV3Pool) {
+            // ---- Uniswap V3 path: virtual reserves from active liquidity ----
             IUniswapV3Pool pool = IUniswapV3Pool(pairAddress);
             t0 = pool.token0();
             t1 = pool.token1();
 
-            r0 = IERC20(t0).balanceOf(pairAddress);
-            r1 = IERC20(t1).balanceOf(pairAddress);
-        } else {
-            IUniswapV2Pair pair = IUniswapV2Pair(pairAddress);
+            (uint160 sqrtP,, , , , ,) = pool.slot0();
+            uint128 L = pool.liquidity();
 
+            // virtual0 = L * Q96 / sqrtP
+            // virtual1 = L * sqrtP / Q96
+            // where Q96 = 2^96
+            uint256 Q96 = 2 ** 96;
+
+            // Guard against division by zero (sqrtP can't be zero in a valid pool)
+            r0 = _mulDiv(uint256(L), Q96, uint256(sqrtP));
+            r1 = _mulDiv(uint256(L), uint256(sqrtP), Q96);
+        } else {
+            // ---- Uniswap V2 path: real reserves ----
+            IUniswapV2Pair pair = IUniswapV2Pair(pairAddress);
             (uint112 r0u, uint112 r1u, ) = pair.getReserves();
             r0 = uint256(r0u);
             r1 = uint256(r1u);
@@ -161,15 +235,13 @@ abstract contract Helpers is POW, Storage, ImPoolFinder {
         uint256 reserveB,
         uint8 decB
     ) internal pure returns (uint256) {
-        if(reserveA == 0 || reserveB == 0) revert EmptyReserves();
+        if (reserveA == 0 || reserveB == 0) revert EmptyReserves();
         // Scale factor = 1e18 * 10^(decB - decA)
         uint256 scale;
         unchecked {
             if (decB >= decA) {
                 scale = WAD * _pow10(decB - decA);
             } else {
-                // When decA > decB we divide by 10^(decA - decB) after mulDiv
-                // i.e., equivalent to scaling denominator.
                 // Implement as mulDiv(reserveA, WAD, reserveB * 10^(decA - decB))
                 uint256 denom = reserveB * _pow10(decA - decB);
                 return _mulDiv(reserveA, WAD, denom);
@@ -177,8 +249,6 @@ abstract contract Helpers is POW, Storage, ImPoolFinder {
         }
         return _mulDiv(reserveA, scale, reserveB);
     }
-
-    
 
     /// Scale arbitrary decimals to 1e18.
     function _scaleTo1e18(uint256 amount, uint8 decimals) internal pure returns (uint256 scaled) {
@@ -191,66 +261,10 @@ abstract contract Helpers is POW, Storage, ImPoolFinder {
             }
         }
     }
-
-    /// Full-precision mulDiv from Uniswap v3 (slightly adapted) — computes floor(a*b/denominator)
-    /// without overflow, with 512-bit intermediate.
-    function _mulDiv(
-        uint256 a,
-        uint256 b,
-        uint256 denominator
-    ) internal pure returns (uint256 result) {
-        unchecked {
-            // 512-bit multiply [prod1 prod0] = a * b
-            uint256 prod0; // least significant 256 bits
-            uint256 prod1; // most significant 256 bits
-            assembly {
-                let mm := mulmod(a, b, not(0))
-                prod0 := mul(a, b)
-                prod1 := sub(sub(mm, prod0), lt(mm, prod0))
-            }
-            if (prod1 == 0) {
-                // fits in 256 bits
-                return prod0 / denominator;
-            }
-            // Make sure the result is less than 2^256. Also prevents denominator == 0
-            require(denominator > prod1, "mulDiv overflow");
-
-            // Compute remainder, subtract from [prod1 prod0]
-            uint256 remainder;
-            assembly {
-                remainder := mulmod(a, b, denominator)
-                prod1 := sub(prod1, gt(remainder, prod0))
-                prod0 := sub(prod0, remainder)
-            }
-
-            // Factor powers of two out of denominator
-            uint256 twos = denominator & (~denominator + 1);
-            assembly {
-                denominator := div(denominator, twos)
-                prod0 := div(prod0, twos)
-                twos := add(div(sub(0, twos), twos), 1) // twos = 2^n
-            }
-            // Shift bits from prod1 into prod0
-            prod0 |= prod1 * twos;
-
-            // Invert denominator mod 2^256
-            uint256 inv = (3 * denominator) ^ 2;
-            inv *= 2 - denominator * inv; // inverse mod 2^8
-            inv *= 2 - denominator * inv; // mod 2^16
-            inv *= 2 - denominator * inv; // mod 2^32
-            inv *= 2 - denominator * inv; // mod 2^64
-            inv *= 2 - denominator * inv; // mod 2^128
-            inv *= 2 - denominator * inv; // mod 2^256
-
-            // result = prod0 * inv mod 2^256
-            result = prod0 * inv;
-            return result;
-        }
-    }
 }
 
 contract PriceOracle is Helpers {
-    
+
     constructor(
         address _directory,
         address _wethAddress,
@@ -267,6 +281,7 @@ contract PriceOracle is Helpers {
     // -- Read fns --
 
     /// @notice USD per 1 WETH (scaled 1e18) using the stored WETH/USD pair.
+    /// For v3, this uses virtual reserves derived from slot0/liquidity (not raw balances).
     function getWethUsdPrice() public view returns (uint256 price18) {
         (
             uint256 reserveWeth,
@@ -276,8 +291,7 @@ contract PriceOracle is Helpers {
 
         ) = _getOrderedReserves(IS_WETH_USD_PAIR_ADDRESS_V3, WETH_USD_PAIR_ADDRESS, WETH_ADDRESS);
 
-        // price = (reserveUsd * 1e18 * 10^(decW - decU? no → see formula below)) / reserveWeth
-        // We compute: (reserveUsd * 1e18 * 10^(decW? no)) / (reserveWeth * 10^(decU? no))
+        // price = (reserveUsd / reserveWeth) adjusted for decimals, scaled 1e18
         price18 = _price18(reserveUsd, decU, reserveWeth, decW);
     }
 
@@ -299,12 +313,12 @@ contract PriceOracle is Helpers {
     function getTokenUsdPrice(address tokenAddress) external view returns (uint256 price18) {
         uint256 tokenWeth = getTokenWethPrice(tokenAddress); // WETH per 1 TOKEN (1e18)
         uint256 wethUsd   = getWethUsdPrice();               // USD per 1 WETH (1e18)
-        // tokenUsd = tokenWeth * wethUsd / 1e18
         price18 = _mulDiv(tokenWeth, wethUsd, WAD);
     }
 
     /// @notice Total pool liquidity in WETH for the TOKEN–WETH pair (scaled 1e18).
     /// If TOKEN is WETH, returns WETH totalSupply (scaled to 1e18).
+    /// For v3, uses virtual reserves (active liquidity only).
     function getTokenLiquidityWeth(address tokenAddress) public view returns (uint256) {
         if (tokenAddress == WETH_ADDRESS) {
             uint256 supply = IERC20(WETH_ADDRESS).totalSupply();
@@ -355,5 +369,4 @@ contract PriceOracle is Helpers {
     function getTokenWethPairAddress(address tokenAddress) external view returns (bool isV3Pool, address pairAddress) {
         return _getTokenToWethPairAddress(tokenAddress);
     }
-
 }

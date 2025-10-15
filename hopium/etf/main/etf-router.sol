@@ -12,7 +12,6 @@ import "hopium/common/types/bips.sol";
 import "hopium/etf/interface/iEtfVault.sol";
 import "hopium/common/lib/transfer-helpers.sol";
 import "hopium/common/interface/imActive.sol";
-import "hopium/etf/utils/etf-addresses-helpers.sol";
 
 uint256 constant WAD = 1e18;
 
@@ -29,7 +28,7 @@ abstract contract Storage {
     event EtfTokensRedeemed(uint256 indexId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
 }
 
-abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle, Storage, EtfAddressesHelpers {
+abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle, Storage {
 
     // Swap ETH into the index's component tokens and deliver directly to the vault
     function _swapEthToVaultTokens(
@@ -137,8 +136,8 @@ abstract contract Helpers is ImMultiSwapRouter, ImEtfFactory, ImIndexPriceOracle
     }
 
     function _resolveTokenAndVault(uint256 indexId) internal view returns (address etfTokenAddress, address etfVaultAddress) {
-        etfTokenAddress = _getEtfTokenAddress(indexId);
-        etfVaultAddress = _getEtfVaultAddress(indexId);
+        etfTokenAddress = getEtfFactory().getEtfTokenAddress(indexId);
+        etfVaultAddress =  getEtfFactory().getEtfVaultAddress(indexId);
         if (etfTokenAddress == address(0)) revert ZeroReceiver(); // reuse small error to save bytecode (semantically: missing address)
         if (etfVaultAddress == address(0)) revert ZeroReceiver();
     }

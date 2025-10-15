@@ -8,17 +8,28 @@ import "hopium/common/interface-ext/iErc20.sol";
 import "hopium/uniswap/interface/imPriceOracle.sol";
 import "hopium/common/interface/imActive.sol";
 import "hopium/etf/interface/imEtfRouter.sol";
-import "hopium/etf/utils/etf-addresses-helpers.sol";
+import "hopium/etf/interface/imEtfTokenDeployer.sol";
+import "hopium/etf/interface/imEtfVaultDeployer.sol";
 
 uint256 constant WAD = 1e18;
 
 abstract contract Storage {
+    mapping(uint256 => address) internal indexIdToEtfTokens;
+    mapping(uint256 => address) internal indexIdToEtfVaults;
     mapping(uint256 => uint256) internal indexIdToTotalVolumeWeth;
     mapping(uint256 => uint256) internal indexIdToTotalVolumeUsd;
 }
 
 error ZeroWethUsdPrice();
-abstract contract Helpers is ImIndexFactory, ImPriceOracle, Storage, EtfAddressesHelpers {
+abstract contract Helpers is ImIndexFactory, ImPriceOracle, Storage, ImEtfTokenDeployer, ImEtfVaultDeployer {
+
+    function _getEtfTokenAddress(uint256 indexId) internal view returns (address) {
+        return indexIdToEtfTokens[indexId];
+    }
+
+    function _getEtfVaultAddress(uint256 indexId) internal view returns (address) {
+        return indexIdToEtfVaults[indexId];
+    }
 
     function _getEtfNavWeth(uint256 indexId) internal view returns (uint256 nav) {
         Index memory index = getIndexFactory().getIndexById(indexId);
@@ -68,7 +79,10 @@ contract EtfFactory is ImDirectory, Helpers, ImActive, ImEtfRouter {
         address etfTokenAddress = getEtfTokenDeployer().deployEtfToken(indexId, index.name, index.ticker);
 
         // deploy etf vault
-        address etfVaultAddress = getEtfVaultDeployer().deployEtfVault(indexId);
+        address etfVaultAddress = getEtfVaultDeployer().deployEtfVault();
+
+        indexIdToEtfTokens[indexId] = etfTokenAddress;
+        indexIdToEtfVaults[indexId] = etfVaultAddress;
 
         emit EtfDeployed(indexId, etfTokenAddress, etfVaultAddress);
     }

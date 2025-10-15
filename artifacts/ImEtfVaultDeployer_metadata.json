@@ -100,11 +100,11 @@
 			]
 		},
 		"hopium/etf/interface/imEtfVaultDeployer.sol": {
-			"keccak256": "0xa957db6122506e7bdcfaca4e5ed3dddd558731e5616d9a9f1aec669d1ece4228",
+			"keccak256": "0xc9f2e074e17065f79cc374c3da343d5b9b91ffb966030c4e5617ab7f7bf7e61a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://da5e8e42d904de15a07be21b7a610cd518757b93b28b6b0c0d13c84e15c07d3e",
-				"dweb:/ipfs/QmZBQ2Dj9rC6PqUk3fRUHfCPRv8q394mwezWjf4YtxYBa6"
+				"bzz-raw://6501e23316f16711386716a1f69d9e3745fe02a005e8a3f1dc8d978b095f2dad",
+				"dweb:/ipfs/QmRjWqc41hG9uRL1pYQcPMa4PBrFYLp23Nz5E2hFrmBvGZ"
 			]
 		}
 	},

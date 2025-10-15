@@ -117,25 +117,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "indexId",
-						"type": "uint256"
-					}
-				],
-				"name": "getEtfTokenAddress",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "tokenAddr",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [],
 				"name": "owner",
 				"outputs": [
@@ -163,11 +144,7 @@
 				]
 			},
 			"kind": "dev",
-			"methods": {
-				"getEtfTokenAddress(uint256)": {
-					"details": "Returns address(0) if it hasn't been deployed yet."
-				}
-			},
+			"methods": {},
 			"version": 1
 		},
 		"userdoc": {
@@ -175,9 +152,6 @@
 			"methods": {
 				"deployEtfToken(uint256,string,string)": {
 					"notice": "Deploy a new ETF token clone with per-clone name/symbol"
-				},
-				"getEtfTokenAddress(uint256)": {
-					"notice": "Predicts the ETF token address for given indexId."
 				}
 			},
 			"notice": "Factory that mints minimal-proxy clones of EtfToken (EIP-1167)",
@@ -240,20 +214,12 @@
 				"dweb:/ipfs/QmNRME98Nei6kW4Tmrq9agiEiYWEf9c7jL2Ftnu3hw8L88"
 			]
 		},
-		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x9cfc476b774a92659a646d6a43aba5469411095e24879e6b205948a8cccb1961",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://2be2117fe765ce2959796b673503334ce0f00ee2c36149519bb9ff07d3bb6689",
-				"dweb:/ipfs/QmXi6P1b2St4LCuSDa7NZ58gjyhuFS1tHs4kTgEfiGaeiy"
-			]
-		},
 		"hopium/etf/main/etf-token-deployer.sol": {
-			"keccak256": "0x5510ba6d54c1de0e28521655adb4a4d70afae03b05e821354b9d3903c1fb29ee",
+			"keccak256": "0x3dd803c9ff3ee46e7238fceb24f95d88f6d6af9ae1a7d7ea5649e0f742c79a76",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7d69a532af8063ca1a40e0ce0c93bb189d213a6b69699ccb34b23fb2ee795d3e",
-				"dweb:/ipfs/QmUDibQV9emBJkvA5maSr47wui5oRR4saiVXNPkPv1iuim"
+				"bzz-raw://978a90ddba171327af86e2706daf6fdd26f757c33fc3a560b8fdcc2a74b45ca4",
+				"dweb:/ipfs/QmT28HzoSDKrR3srmQEeRGzoW35hYnYmi1aQfnBRchRaW6"
 			]
 		}
 	},

@@ -5,7 +5,6 @@ import "hopium/common/interface/imDirectory.sol";
 
 interface IEtfTokenDeployer {
     function deployEtfToken(uint256 indexId, string calldata name, string calldata symbol) external returns (address);
-    function getEtfTokenAddress(uint256 indexId) external view returns (address);
 }
 
 abstract contract ImEtfTokenDeployer is ImDirectory {

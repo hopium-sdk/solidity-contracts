@@ -50,6 +50,8 @@
 		"gasEstimates": null,
 		"methodIdentifiers": {
 			"getEtfNavWeth(uint256)": "e4b603b3",
+			"getEtfTokenAddress(uint256)": "f2018a1f",
+			"getEtfVaultAddress(uint256)": "3ee79962",
 			"updateEtfVolume(uint256,uint256)": "1626542c"
 		}
 	},
@@ -68,6 +70,44 @@
 					"internalType": "uint256",
 					"name": "nav",
 					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "indexId",
+					"type": "uint256"
+				}
+			],
+			"name": "getEtfTokenAddress",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "indexId",
+					"type": "uint256"
+				}
+			],
+			"name": "getEtfVaultAddress",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
 				}
 			],
 			"stateMutability": "view",

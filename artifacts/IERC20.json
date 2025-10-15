@@ -49,7 +49,8 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"balanceOf(address)": "70a08231"
+			"balanceOf(address)": "70a08231",
+			"totalSupply()": "18160ddd"
 		}
 	},
 	"abi": [
@@ -62,6 +63,19 @@
 				}
 			],
 			"name": "balanceOf",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "totalSupply",
 			"outputs": [
 				{
 					"internalType": "uint256",

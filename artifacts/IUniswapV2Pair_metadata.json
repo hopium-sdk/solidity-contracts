@@ -11,17 +11,17 @@
 				"outputs": [
 					{
 						"internalType": "uint112",
-						"name": "r0",
+						"name": "reserve0",
 						"type": "uint112"
 					},
 					{
 						"internalType": "uint112",
-						"name": "r1",
+						"name": "reserve1",
 						"type": "uint112"
 					},
 					{
 						"internalType": "uint32",
-						"name": "t",
+						"name": "blockTimestampLast",
 						"type": "uint32"
 					}
 				],
@@ -68,7 +68,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/uniswap/main/pool-finder.sol": "IUniswapV2Pair"
+			"hopium/uniswap/main/price-oracle.sol": "IUniswapV2Pair"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -90,12 +90,20 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
-		"hopium/uniswap/main/pool-finder.sol": {
-			"keccak256": "0x6193b53b8e9703bc82a171c0a095266f021e0c1701349c2abccfa74c628a84a8",
+		"hopium/uniswap/interface/imPoolFinder.sol": {
+			"keccak256": "0x44b632c262192212ac573c3a26f7fb0af9be284d2ef1e59b05e23217406f49e9",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://42bab14b8ace615a054cd3d6e28d3dbed58d7c96670b76463fac9be9ba2e38c6",
-				"dweb:/ipfs/QmTD6F6MB8LVDiV8sBV7pS2W5htote5Pnfs6GJsE7bo9yD"
+				"bzz-raw://c457138ea78dbd4c4732a3ea165788a428c5650b93bdad80c9c6e2725ffdf978",
+				"dweb:/ipfs/QmbFyFS6VFcTzS4MFY3sGYz6m9ADV5j5CuYtppHnrMfpQn"
+			]
+		},
+		"hopium/uniswap/main/price-oracle.sol": {
+			"keccak256": "0x44f1c2e13ab658f41d3846d6fd3497a5f9159c0f9e2bf7bc73fc32332cd1c976",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b0a4f063bc93ef374dd222ae5259e10eb095c35332f435c6346b87a60e3e8761",
+				"dweb:/ipfs/QmTkEbLTP9VazBp69okdb1BZ7tYbhzAi5p1YbLBnhJnTv9"
 			]
 		},
 		"hopium/uniswap/types/pool.sol": {

@@ -49,8 +49,7 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"deployEtfToken(uint256,string,string)": "78f6c7c4",
-			"getEtfTokenAddress(uint256)": "f2018a1f"
+			"deployEtfToken(uint256,string,string)": "78f6c7c4"
 		}
 	},
 	"abi": [
@@ -81,25 +80,6 @@
 				}
 			],
 			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "indexId",
-					"type": "uint256"
-				}
-			],
-			"name": "getEtfTokenAddress",
-			"outputs": [
-				{
-					"internalType": "address",
-					"name": "",
-					"type": "address"
-				}
-			],
-			"stateMutability": "view",
 			"type": "function"
 		}
 	]
