@@ -18,7 +18,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/uniswap/main/price-oracle.sol": "Math"
+			"hopium/uniswap/main/uniswap-oracle.sol": "Math"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -48,12 +48,12 @@
 				"dweb:/ipfs/QmbFyFS6VFcTzS4MFY3sGYz6m9ADV5j5CuYtppHnrMfpQn"
 			]
 		},
-		"hopium/uniswap/main/price-oracle.sol": {
-			"keccak256": "0x44f1c2e13ab658f41d3846d6fd3497a5f9159c0f9e2bf7bc73fc32332cd1c976",
+		"hopium/uniswap/main/uniswap-oracle.sol": {
+			"keccak256": "0xfd11e12519289eff72b7bfe3b0cefdafe0ff22bf3862b27eaef9ff3a4ea1493f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b0a4f063bc93ef374dd222ae5259e10eb095c35332f435c6346b87a60e3e8761",
-				"dweb:/ipfs/QmTkEbLTP9VazBp69okdb1BZ7tYbhzAi5p1YbLBnhJnTv9"
+				"bzz-raw://24dbde6de0bfc03a95573a9ba9293af0dd41202e58b8a85d966d6ad0d20ee3ec",
+				"dweb:/ipfs/QmP6RUfJaQXz7n2c6ZvE3nQTpQTQr72vd87APoGmf7zK9Y"
 			]
 		},
 		"hopium/uniswap/types/pool.sol": {

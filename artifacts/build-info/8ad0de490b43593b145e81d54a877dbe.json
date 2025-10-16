@@ -1,0 +1,254 @@
+{
+	"id": "8ad0de490b43593b145e81d54a877dbe",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.30",
+	"solcLongVersion": "0.8.30+commit.73712a01",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"hopium/etf/types/etf.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nstruct Asset {\n    address tokenAddress;\n    uint16 weightBips;\n}\n\nstruct Etf {\n    string name;\n    string ticker;\n    Asset[] assets;\n}\n"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			},
+			"remappings": []
+		}
+	},
+	"output": {
+		"sources": {
+			"hopium/etf/types/etf.sol": {
+				"ast": {
+					"absolutePath": "hopium/etf/types/etf.sol",
+					"exportedSymbols": {
+						"Asset": [
+							6
+						],
+						"Etf": [
+							15
+						]
+					},
+					"id": 16,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:0"
+						},
+						{
+							"canonicalName": "Asset",
+							"id": 6,
+							"members": [
+								{
+									"constant": false,
+									"id": 3,
+									"mutability": "mutable",
+									"name": "tokenAddress",
+									"nameLocation": "84:12:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 6,
+									"src": "76:20:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 2,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "76:7:0",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 5,
+									"mutability": "mutable",
+									"name": "weightBips",
+									"nameLocation": "109:10:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 6,
+									"src": "102:17:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint16",
+										"typeString": "uint16"
+									},
+									"typeName": {
+										"id": 4,
+										"name": "uint16",
+										"nodeType": "ElementaryTypeName",
+										"src": "102:6:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint16",
+											"typeString": "uint16"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "Asset",
+							"nameLocation": "64:5:0",
+							"nodeType": "StructDefinition",
+							"scope": 16,
+							"src": "57:65:0",
+							"visibility": "public"
+						},
+						{
+							"canonicalName": "Etf",
+							"id": 15,
+							"members": [
+								{
+									"constant": false,
+									"id": 8,
+									"mutability": "mutable",
+									"name": "name",
+									"nameLocation": "148:4:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 15,
+									"src": "141:11:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_string_storage_ptr",
+										"typeString": "string"
+									},
+									"typeName": {
+										"id": 7,
+										"name": "string",
+										"nodeType": "ElementaryTypeName",
+										"src": "141:6:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_string_storage_ptr",
+											"typeString": "string"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 10,
+									"mutability": "mutable",
+									"name": "ticker",
+									"nameLocation": "165:6:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 15,
+									"src": "158:13:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_string_storage_ptr",
+										"typeString": "string"
+									},
+									"typeName": {
+										"id": 9,
+										"name": "string",
+										"nodeType": "ElementaryTypeName",
+										"src": "158:6:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_string_storage_ptr",
+											"typeString": "string"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 14,
+									"mutability": "mutable",
+									"name": "assets",
+									"nameLocation": "185:6:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 15,
+									"src": "177:14:0",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_array$_t_struct$_Asset_$6_storage_$dyn_storage_ptr",
+										"typeString": "struct Asset[]"
+									},
+									"typeName": {
+										"baseType": {
+											"id": 12,
+											"nodeType": "UserDefinedTypeName",
+											"pathNode": {
+												"id": 11,
+												"name": "Asset",
+												"nameLocations": [
+													"177:5:0"
+												],
+												"nodeType": "IdentifierPath",
+												"referencedDeclaration": 6,
+												"src": "177:5:0"
+											},
+											"referencedDeclaration": 6,
+											"src": "177:5:0",
+											"typeDescriptions": {
+												"typeIdentifier": "t_struct$_Asset_$6_storage_ptr",
+												"typeString": "struct Asset"
+											}
+										},
+										"id": 13,
+										"nodeType": "ArrayTypeName",
+										"src": "177:7:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_array$_t_struct$_Asset_$6_storage_$dyn_storage_ptr",
+											"typeString": "struct Asset[]"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "Etf",
+							"nameLocation": "131:3:0",
+							"nodeType": "StructDefinition",
+							"scope": 16,
+							"src": "124:70:0",
+							"visibility": "public"
+						}
+					],
+					"src": "32:163:0"
+				},
+				"id": 0
+			}
+		}
+	}
+}

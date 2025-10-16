@@ -6,22 +6,19 @@
 	"output": {
 		"abi": [],
 		"devdoc": {
-			"details": "Handles \"phantom overflow\" i.e., allows multiplication and division where an intermediate value overflows 256 bits",
 			"kind": "dev",
 			"methods": {},
-			"title": "Contains 512-bit math functions",
 			"version": 1
 		},
 		"userdoc": {
 			"kind": "user",
 			"methods": {},
-			"notice": "Facilitates multiplication and division that can have overflow of an intermediate value without any loss of precision",
 			"version": 1
 		}
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/uniswap/lib/oracleLibrary.sol": "FullMath"
+			"hopium/common/lib/full-math.sol": "FullMath"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -35,12 +32,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/uniswap/lib/oracleLibrary.sol": {
-			"keccak256": "0x660043055ae600d85ce53112a0252e40ef425460378d457998b2064fb0270719",
+		"hopium/common/lib/full-math.sol": {
+			"keccak256": "0xc01379955057b3818fdc67caee0b42bb45909fb3b0d1f2788ef552dc22fdb3d0",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://76555ceef10c440774931cc6b86257cf3ebe357440a83b9d58157d763e132b56",
-				"dweb:/ipfs/QmTC6YnsSFEqSYujiDC4y7kKD1AYdCS55uJUyz68Mrc73u"
+				"bzz-raw://a3ae69d75a9aa01a2802e60cd62b27cbadd29d848e87fd411710a466ad6cae95",
+				"dweb:/ipfs/QmaRZCGHFyz7S31BLMiAnaqDYwJsNzKQdTLGBDwig45pRo"
 			]
 		}
 	},

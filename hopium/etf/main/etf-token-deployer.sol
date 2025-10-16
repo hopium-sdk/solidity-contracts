@@ -33,12 +33,12 @@ contract EtfTokenDeployer is ImDirectory, Helpers {
     constructor(address _directory) ImDirectory(_directory) {}
 
     /// @notice Deploy a new ETF token clone with per-clone name/symbol
-    function deployEtfToken(uint256 indexId, string calldata name, string calldata symbol) external returns (address proxy) {
+    function deployEtfToken(uint256 etfId, string calldata name, string calldata symbol) external returns (address proxy) {
         // Create deterministic clone (CREATE2). Reverts if already deployed for same salt.
         proxy = Clones.cloneDeterministic(_getTokenImplAddress(), _randomSalt());
 
         // Initialize with per-clone params
-        IEtfToken(proxy).initialize(indexId, name, symbol, address(Directory));
+        IEtfToken(proxy).initialize(etfId, name, symbol, address(Directory));
     }
 
 }

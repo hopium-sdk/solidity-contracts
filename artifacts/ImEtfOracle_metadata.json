@@ -1,0 +1,128 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "Directory",
+				"outputs": [
+					{
+						"internalType": "contract IDirectory",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_directory",
+						"type": "address"
+					}
+				],
+				"name": "changeDirectoryAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_key",
+						"type": "string"
+					}
+				],
+				"name": "fetchFromDirectory",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/etf/interface/imEtfOracle.sol": "ImEtfOracle"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/common/interface/imDirectory.sol": {
+			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
+				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
+			]
+		},
+		"hopium/etf/interface/iEtfOracle.sol": {
+			"keccak256": "0xfd225528b0baa10399afa1964028a3f6843451ac6c26be247ad999917448beb3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ce9613dbfa2ed9c1b7d3494973547aa535698e3d2482c756c2b94164c126de97",
+				"dweb:/ipfs/QmXY8oy2s8Et8KkoHmZPZ63RCX7THGHU91ALY9JvEopS1A"
+			]
+		},
+		"hopium/etf/interface/imEtfOracle.sol": {
+			"keccak256": "0xf2e0cfd1d8908f2b83b9a00a9b857d41f59eaa523856cf141f658c6faad817a3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://34e67f1b7610a33fc288aeca7848b3bca941e08eb32204dd907a7000f9ca90c9",
+				"dweb:/ipfs/QmVSyp8nbynDC4bJA1vNN6hRaoUYMtZ1Ufnt7N4y2w2Roe"
+			]
+		},
+		"hopium/etf/types/etf.sol": {
+			"keccak256": "0xf0ad7bff285660b2f5459d371c7bb805b60f2a67429d416c8231e986f074d472",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5f8dc77edfc3b352a9e12bef5fdc71f726a8c5627cc1dd64baea860ce9b1af15",
+				"dweb:/ipfs/QmY9BKqmbe6xHFciqh5iTUHHqP3Dmx6nFJjqdrGbMSahoh"
+			]
+		}
+	},
+	"version": 1
+}

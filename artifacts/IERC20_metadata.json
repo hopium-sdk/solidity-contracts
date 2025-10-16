@@ -51,7 +51,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/uniswap/main/price-oracle.sol": "IERC20"
+			"hopium/uniswap/main/uniswap-oracle.sol": "IERC20"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -73,6 +73,14 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
+		"hopium/common/lib/full-math.sol": {
+			"keccak256": "0xc01379955057b3818fdc67caee0b42bb45909fb3b0d1f2788ef552dc22fdb3d0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a3ae69d75a9aa01a2802e60cd62b27cbadd29d848e87fd411710a466ad6cae95",
+				"dweb:/ipfs/QmaRZCGHFyz7S31BLMiAnaqDYwJsNzKQdTLGBDwig45pRo"
+			]
+		},
 		"hopium/uniswap/interface/imPoolFinder.sol": {
 			"keccak256": "0x44b632c262192212ac573c3a26f7fb0af9be284d2ef1e59b05e23217406f49e9",
 			"license": "MIT",
@@ -81,12 +89,12 @@
 				"dweb:/ipfs/QmbFyFS6VFcTzS4MFY3sGYz6m9ADV5j5CuYtppHnrMfpQn"
 			]
 		},
-		"hopium/uniswap/main/price-oracle.sol": {
-			"keccak256": "0x44f1c2e13ab658f41d3846d6fd3497a5f9159c0f9e2bf7bc73fc32332cd1c976",
+		"hopium/uniswap/main/uniswap-oracle.sol": {
+			"keccak256": "0xdb2a92db2d5179bc7b8208c2c688ef2dd412973835841c003f7d937cbfbe7b8c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b0a4f063bc93ef374dd222ae5259e10eb095c35332f435c6346b87a60e3e8761",
-				"dweb:/ipfs/QmTkEbLTP9VazBp69okdb1BZ7tYbhzAi5p1YbLBnhJnTv9"
+				"bzz-raw://04ff1e5f140381229d6e8d88cec4b2dc514087c905c936bba9aa558777135ce1",
+				"dweb:/ipfs/QmRG6ZMwQdUYWXr6FJqNBB4Z79qKJmxqpg699hjVX2jsEq"
 			]
 		},
 		"hopium/uniswap/types/pool.sol": {

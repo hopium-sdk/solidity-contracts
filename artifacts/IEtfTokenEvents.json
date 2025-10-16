@@ -57,7 +57,7 @@
 			"inputs": [
 				{
 					"internalType": "uint256",
-					"name": "indexId",
+					"name": "etfId",
 					"type": "uint256"
 				},
 				{

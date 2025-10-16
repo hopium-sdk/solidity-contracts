@@ -1,0 +1,414 @@
+{
+  "name": "EtfOracle",
+  "address": "0x4e332590320949e48cbe0af0c435b97b0a7d870b",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_directory",
+          "type": "address"
+        }
+      ],
+      "name": "changeDirectoryAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_directory",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "Directory",
+      "outputs": [
+        {
+          "internalType": "contract IDirectory",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_key",
+          "type": "string"
+        }
+      ],
+      "name": "fetchFromDirectory",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "etfId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getEtfUsdPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "etfId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getEtfWethPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "etfId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getStats",
+      "outputs": [
+        {
+          "components": [
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "eth18",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "usd18",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct EtfStats.EthUsd",
+              "name": "price",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "eth18",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "usd18",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct EtfStats.EthUsd",
+              "name": "volume",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "eth18",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "usd18",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct EtfStats.EthUsd",
+              "name": "tvl",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint256",
+              "name": "assetsLiquidityUsd",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "assetsMcapUsd",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct EtfStats.Stats",
+          "name": "s",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "etfId",
+          "type": "uint256"
+        }
+      ],
+      "name": "snapshotVault",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "uint8",
+              "name": "tokenDecimals",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "currentWeight",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenRawBalance",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenPriceWeth18",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenValueWeth18",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Snapshot[]",
+          "name": "s",
+          "type": "tuple[]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "etfTvlWeth",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "ticker",
+              "type": "string"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "tokenAddress",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "weightBips",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct Asset[]",
+              "name": "assets",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct Etf",
+          "name": "etf",
+          "type": "tuple"
+        },
+        {
+          "internalType": "address",
+          "name": "vaultAddress",
+          "type": "address"
+        }
+      ],
+      "name": "snapshotVaultUnchecked",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "uint8",
+              "name": "tokenDecimals",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "currentWeight",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenRawBalance",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenPriceWeth18",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenValueWeth18",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Snapshot[]",
+          "name": "s",
+          "type": "tuple[]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "etfTvlWeth",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "etfId",
+          "type": "uint256"
+        }
+      ],
+      "name": "snapshotVaultWithUsd",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "uint8",
+              "name": "tokenDecimals",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "currentWeight",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenRawBalance",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenPriceWeth18",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenPriceUsd18",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenValueWeth18",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenValueUsd18",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct SnapshotWithUsd[]",
+          "name": "s",
+          "type": "tuple[]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "etfTvlWeth",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "etfTvlUsd",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "filePath": "default_workspace/hopium/etf/main/etf-oracle.sol",
+  "pinnedAt": 1760598031751
+}

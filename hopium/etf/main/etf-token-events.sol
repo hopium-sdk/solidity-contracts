@@ -2,25 +2,25 @@
 pragma solidity 0.8.30;
 
 import "hopium/common/interface/imDirectory.sol";
-import "hopium/etf/interface/imIndexPriceOracle.sol";
+import "hopium/etf/interface/imEtfOracle.sol";
 
-contract EtfTokenEvents is ImDirectory, ImIndexPriceOracle {
+contract EtfTokenEvents is ImDirectory, ImEtfOracle {
 
     event EtfTokenTransfer(
         address indexed etfTokenAddress,
         address indexed fromAddress,
         address indexed toAddress,
         uint256 transferAmount,
-        uint256 indexWethPrice
+        uint256 etfWethPrice
     );
 
     constructor(address _directory) ImDirectory(_directory) {}
 
     /// @notice Emits a transfer event for ETF tokens
-    function emitTransferEvent(uint256 indexId, address fromAddress, address toAddress, uint256 transferAmount) external {
+    function emitTransferEvent(uint256 etfId, address fromAddress, address toAddress, uint256 transferAmount) external {
 
-        uint256 indexWethPrice = getIndexPriceOracle().getIndexWethPrice(indexId);
+        uint256 etfWethPrice = getEtfOracle().getEtfWethPrice(etfId);
 
-        emit EtfTokenTransfer(msg.sender, fromAddress, toAddress, transferAmount, indexWethPrice);
+        emit EtfTokenTransfer(msg.sender, fromAddress, toAddress, transferAmount, etfWethPrice);
     }
 }

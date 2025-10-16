@@ -1,0 +1,182 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
+					}
+				],
+				"name": "getEtfUsdPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
+					}
+				],
+				"name": "getEtfWethPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "ticker",
+								"type": "string"
+							},
+							{
+								"components": [
+									{
+										"internalType": "address",
+										"name": "tokenAddress",
+										"type": "address"
+									},
+									{
+										"internalType": "uint16",
+										"name": "weightBips",
+										"type": "uint16"
+									}
+								],
+								"internalType": "struct Asset[]",
+								"name": "assets",
+								"type": "tuple[]"
+							}
+						],
+						"internalType": "struct Etf",
+						"name": "etf",
+						"type": "tuple"
+					},
+					{
+						"internalType": "address",
+						"name": "vaultAddress",
+						"type": "address"
+					}
+				],
+				"name": "snapshotVaultUnchecked",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "tokenAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint8",
+								"name": "tokenDecimals",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint16",
+								"name": "currentWeight",
+								"type": "uint16"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenRawBalance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenPriceWeth18",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenValueWeth18",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Snapshot[]",
+						"name": "s",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "etfTvlWeth",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/etf/interface/iEtfOracle.sol": "IEtfOracle"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/etf/interface/iEtfOracle.sol": {
+			"keccak256": "0x9943e4ee5d08b59a6b704fe34bbc532b799a2b20ae638f4db186f21767e7f0bc",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://46d95bdfe6715bfe40a73f2bf6eddd4ad187a22f92032eeef386a8251f24dc3d",
+				"dweb:/ipfs/QmWH5oaeheZWufHXQPZMhohxg59PNfyHTkeSvWdTTcpRx8"
+			]
+		},
+		"hopium/etf/types/etf.sol": {
+			"keccak256": "0xf0ad7bff285660b2f5459d371c7bb805b60f2a67429d416c8231e986f074d472",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5f8dc77edfc3b352a9e12bef5fdc71f726a8c5627cc1dd64baea860ce9b1af15",
+				"dweb:/ipfs/QmY9BKqmbe6xHFciqh5iTUHHqP3Dmx6nFJjqdrGbMSahoh"
+			]
+		}
+	},
+	"version": 1
+}

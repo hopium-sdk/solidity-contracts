@@ -305,6 +305,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "etfId",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "string",
@@ -324,23 +337,10 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "indexId",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "indexId_",
+						"name": "etfId_",
 						"type": "uint256"
 					},
 					{
@@ -698,19 +698,19 @@
 			]
 		},
 		"hopium/etf/interface/imEtfTokenEvents.sol": {
-			"keccak256": "0x9548081e78efc87e7b3929d3cd145348442565483c01d4bdcfc0740a7a27d22d",
+			"keccak256": "0x4e2b9c193cccc609fe1736ec8c10d9fe1c5913a734a2e72134f23f8125cc979d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d63cbf354d9328719e91387a3596113343f14ce2574bbc3f3d0e3489923acbe4",
-				"dweb:/ipfs/QmWSG9ymvedPr7J1HotpTV643RxQesy6EPYbRQ9eC7eegC"
+				"bzz-raw://72ff8a846020a7276c16846085a86ebfd8a075568d6c6f55366af086dc49f89c",
+				"dweb:/ipfs/QmRsg6jgCp4MpHCGCGYYVh638U7C9mSYJidjHKryLgZswF"
 			]
 		},
 		"hopium/etf/main/etf-token.sol": {
-			"keccak256": "0x32779617743847a9c605e6fc968e4661c6b55385171257fa9bb2f2383c388748",
+			"keccak256": "0x0fecdd1cb89b2ed08ae3bf1c86c49c7e1fed55e1a1e00af8a5a01550961f3a20",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://dc70efedfc7c9ca7522f3bd7e76fb4895f59c9a160421872c18ac03de39c2a7a",
-				"dweb:/ipfs/QmfCqMn26KTpzzR4XTD7Vxm6GeJf9Lnd6XYZ3S16d2QHdZ"
+				"bzz-raw://1d434dbaede9c5f5e7c64054d3d0dc1be18890274e9bb784443e4472ee5f3e93",
+				"dweb:/ipfs/QmRj7N2h8AdPBsgbFFhH74xqmqFo2rUvWDC4c2q7HQdhF1"
 			]
 		}
 	},

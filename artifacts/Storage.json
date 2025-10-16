@@ -49,55 +49,51 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"IS_WETH_USD_PAIR_ADDRESS_V3()": "5498f4bc",
-			"WETH_ADDRESS()": "040141e5",
-			"WETH_DECIMALS()": "d08aef7c",
-			"WETH_USD_PAIR_ADDRESS()": "0b017603"
+			"WETH_ADDRESS()": "040141e5"
 		}
 	},
 	"abi": [
 		{
-			"inputs": [],
-			"name": "IS_WETH_USD_PAIR_ADDRESS_V3",
-			"outputs": [
+			"anonymous": false,
+			"inputs": [
 				{
-					"internalType": "bool",
-					"name": "",
-					"type": "bool"
+					"indexed": true,
+					"internalType": "uint256",
+					"name": "etfId",
+					"type": "uint256"
 				}
 			],
-			"stateMutability": "view",
-			"type": "function"
+			"name": "EtfCreated",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "uint256",
+					"name": "etfId",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "address",
+					"name": "etfTokenAddress",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "address",
+					"name": "etfVaultAddress",
+					"type": "address"
+				}
+			],
+			"name": "EtfDeployed",
+			"type": "event"
 		},
 		{
 			"inputs": [],
 			"name": "WETH_ADDRESS",
-			"outputs": [
-				{
-					"internalType": "address",
-					"name": "",
-					"type": "address"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "WETH_DECIMALS",
-			"outputs": [
-				{
-					"internalType": "uint8",
-					"name": "",
-					"type": "uint8"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "WETH_USD_PAIR_ADDRESS",
 			"outputs": [
 				{
 					"internalType": "address",

@@ -13,7 +13,7 @@ import "hopium/etf/interface/imEtfTokenEvents.sol";
 ///      Access control (onlyEtfRouter/onlyOwner) resolves via ImDirectory.
 contract EtfToken is Initializable, ERC20Upgradeable, ImEtfRouter, ImEtfTokenEvents {
     bool private _initialized;
-    uint256 public indexId;
+    uint256 public etfId;
 
     /// @dev The logic/implementation constructor runs once when you deploy the master.
     ///      Clones DO NOT run constructors, they use initialize().
@@ -24,7 +24,7 @@ contract EtfToken is Initializable, ERC20Upgradeable, ImEtfRouter, ImEtfTokenEve
 
     error AlreadyInitialized();
     /// @notice One-time initializer for clones (constructors don't run for proxies)
-    function initialize(uint256 indexId_, string memory name_, string memory symbol_, address directory_) external initializer {
+    function initialize(uint256 etfId_, string memory name_, string memory symbol_, address directory_) external initializer {
         if (_initialized) revert AlreadyInitialized();
         _initialized = true;
 
@@ -34,7 +34,7 @@ contract EtfToken is Initializable, ERC20Upgradeable, ImEtfRouter, ImEtfTokenEve
         // Initialize ERC20 storage (name/symbol)
         __ERC20_init(name_, symbol_);
 
-        indexId = indexId_;
+        etfId = etfId_;
     }
 
     /// @notice Router-controlled mint
@@ -53,6 +53,6 @@ contract EtfToken is Initializable, ERC20Upgradeable, ImEtfRouter, ImEtfTokenEve
 
         IEtfTokenEvents etfTokenEvents = getEtfTokenEvents();
         require(address(etfTokenEvents) != address(0), "EtfToken: events contract not set");
-        etfTokenEvents.emitTransferEvent(indexId, from, to, value);
+        etfTokenEvents.emitTransferEvent(etfId, from, to, value);
     }
 }

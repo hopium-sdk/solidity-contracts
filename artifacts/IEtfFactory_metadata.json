@@ -9,16 +9,45 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "indexId",
+						"name": "etfId",
 						"type": "uint256"
 					}
 				],
-				"name": "getEtfNavWeth",
+				"name": "getEtfById",
 				"outputs": [
 					{
-						"internalType": "uint256",
-						"name": "nav",
-						"type": "uint256"
+						"components": [
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "ticker",
+								"type": "string"
+							},
+							{
+								"components": [
+									{
+										"internalType": "address",
+										"name": "tokenAddress",
+										"type": "address"
+									},
+									{
+										"internalType": "uint16",
+										"name": "weightBips",
+										"type": "uint16"
+									}
+								],
+								"internalType": "struct Asset[]",
+								"name": "assets",
+								"type": "tuple[]"
+							}
+						],
+						"internalType": "struct Etf",
+						"name": "",
+						"type": "tuple"
 					}
 				],
 				"stateMutability": "view",
@@ -28,7 +57,118 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "indexId",
+						"name": "etfId",
+						"type": "uint256"
+					}
+				],
+				"name": "getEtfByIdAndAddresses",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "ticker",
+								"type": "string"
+							},
+							{
+								"components": [
+									{
+										"internalType": "address",
+										"name": "tokenAddress",
+										"type": "address"
+									},
+									{
+										"internalType": "uint16",
+										"name": "weightBips",
+										"type": "uint16"
+									}
+								],
+								"internalType": "struct Asset[]",
+								"name": "assets",
+								"type": "tuple[]"
+							}
+						],
+						"internalType": "struct Etf",
+						"name": "etf",
+						"type": "tuple"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "vaultAddress",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
+					}
+				],
+				"name": "getEtfByIdAndVault",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "ticker",
+								"type": "string"
+							},
+							{
+								"components": [
+									{
+										"internalType": "address",
+										"name": "tokenAddress",
+										"type": "address"
+									},
+									{
+										"internalType": "uint16",
+										"name": "weightBips",
+										"type": "uint16"
+									}
+								],
+								"internalType": "struct Asset[]",
+								"name": "assets",
+								"type": "tuple[]"
+							}
+						],
+						"internalType": "struct Etf",
+						"name": "etf",
+						"type": "tuple"
+					},
+					{
+						"internalType": "address",
+						"name": "vaultAddress",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
 						"type": "uint256"
 					}
 				],
@@ -47,7 +187,31 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "indexId",
+						"name": "etfId",
+						"type": "uint256"
+					}
+				],
+				"name": "getEtfTotalVolume",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "volWeth",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "volUsd",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
 						"type": "uint256"
 					}
 				],
@@ -66,7 +230,7 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "indexId",
+						"name": "etfId",
 						"type": "uint256"
 					},
 					{
@@ -117,11 +281,19 @@
 			]
 		},
 		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x1b9fe13299c138060e45dcd475d1ca2bcf086f2919ea1ef6316686560c568050",
+			"keccak256": "0x3888b346a6dc6aeaae0513df0d6b332f2cf3943b6e31ba09bff49c21ae34128a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e28076309a22f79e4e71ee5f27c39b92f8ffd0d7c51f6c2172f5dd257b73d132",
-				"dweb:/ipfs/QmWsr2YCqezsaFhFyMuPhV4XZqiMG6zpSdQJixvYobQZJt"
+				"bzz-raw://de4b4261d0eba06e5b1513e17f0de4a4696bf03060833d3a5775f076cf2523b3",
+				"dweb:/ipfs/Qmc6M8yVef1oRcE9AeUCQebxNTtQTWbARsSNBSFUVuFH76"
+			]
+		},
+		"hopium/etf/types/etf.sol": {
+			"keccak256": "0xf0ad7bff285660b2f5459d371c7bb805b60f2a67429d416c8231e986f074d472",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5f8dc77edfc3b352a9e12bef5fdc71f726a8c5627cc1dd64baea860ce9b1af15",
+				"dweb:/ipfs/QmY9BKqmbe6xHFciqh5iTUHHqP3Dmx6nFJjqdrGbMSahoh"
 			]
 		}
 	},

@@ -146,7 +146,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/uniswap/interface/iPriceOracle.sol": "IPriceOracle"
+			"hopium/uniswap/interface/iUniswapOracle.sol": "IPriceOracle"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -160,7 +160,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"hopium/uniswap/interface/iPriceOracle.sol": {
+		"hopium/uniswap/interface/iUniswapOracle.sol": {
 			"keccak256": "0xa265524b501a2667bc2f1cb1c33c5a2a5c80d5cce552fd9e70699a134fe568d6",
 			"license": "MIT",
 			"urls": [

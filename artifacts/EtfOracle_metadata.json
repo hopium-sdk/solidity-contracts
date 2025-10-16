@@ -1,0 +1,543 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_directory",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "Directory",
+				"outputs": [
+					{
+						"internalType": "contract IDirectory",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_directory",
+						"type": "address"
+					}
+				],
+				"name": "changeDirectoryAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_key",
+						"type": "string"
+					}
+				],
+				"name": "fetchFromDirectory",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
+					}
+				],
+				"name": "getEtfUsdPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
+					}
+				],
+				"name": "getEtfWethPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
+					}
+				],
+				"name": "getStats",
+				"outputs": [
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "eth18",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "usd18",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct EtfStats.EthUsd",
+								"name": "price",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "eth18",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "usd18",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct EtfStats.EthUsd",
+								"name": "volume",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "eth18",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "usd18",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct EtfStats.EthUsd",
+								"name": "tvl",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint256",
+								"name": "assetsLiquidityUsd",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "assetsMcapUsd",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct EtfStats.Stats",
+						"name": "s",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
+					}
+				],
+				"name": "snapshotVault",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "tokenAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint8",
+								"name": "tokenDecimals",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint16",
+								"name": "currentWeight",
+								"type": "uint16"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenRawBalance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenPriceWeth18",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenValueWeth18",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Snapshot[]",
+						"name": "s",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "etfTvlWeth",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "ticker",
+								"type": "string"
+							},
+							{
+								"components": [
+									{
+										"internalType": "address",
+										"name": "tokenAddress",
+										"type": "address"
+									},
+									{
+										"internalType": "uint16",
+										"name": "weightBips",
+										"type": "uint16"
+									}
+								],
+								"internalType": "struct Asset[]",
+								"name": "assets",
+								"type": "tuple[]"
+							}
+						],
+						"internalType": "struct Etf",
+						"name": "etf",
+						"type": "tuple"
+					},
+					{
+						"internalType": "address",
+						"name": "vaultAddress",
+						"type": "address"
+					}
+				],
+				"name": "snapshotVaultUnchecked",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "tokenAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint8",
+								"name": "tokenDecimals",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint16",
+								"name": "currentWeight",
+								"type": "uint16"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenRawBalance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenPriceWeth18",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenValueWeth18",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Snapshot[]",
+						"name": "s",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "etfTvlWeth",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
+					}
+				],
+				"name": "snapshotVaultWithUsd",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "tokenAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint8",
+								"name": "tokenDecimals",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint16",
+								"name": "currentWeight",
+								"type": "uint16"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenRawBalance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenPriceWeth18",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenPriceUsd18",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenValueWeth18",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenValueUsd18",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct SnapshotWithUsd[]",
+						"name": "s",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "etfTvlWeth",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "etfTvlUsd",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"getEtfUsdPrice(uint256)": {
+					"details": "Uses the internal _convertWethToUsd helper for conversion."
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"getEtfUsdPrice(uint256)": {
+					"notice": "Current NAV per ETF token in USD (1e18)."
+				},
+				"getEtfWethPrice(uint256)": {
+					"notice": "Current NAV per ETF token in WETH (1e18)."
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/etf/main/etf-oracle.sol": "EtfOracle"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/common/interface-ext/iErc20.sol": {
+			"keccak256": "0x06621693c71a7aa555704700fc27eed66d47985744f77d0ae654edf3a6c57f7c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://85951ebab78257d64b5d0c4ee77d8c3b5884e199e3f98f8df816ac8029cd90ba",
+				"dweb:/ipfs/QmVvZuotoyhm5XcWoBYWMHQDowpSbML3jtaHnCsV3AiyDU"
+			]
+		},
+		"hopium/common/interface-ext/iErc20Metadata.sol": {
+			"keccak256": "0x9394399ff5bdcd9508a79127b241eaddf7784ec78d537c4afda0e4ba5b51781c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://da42c95849e24902b57f3baee461c24f0f8b7a728db83817bbbde2df257b41c4",
+				"dweb:/ipfs/Qmer4Uo4xkm76we6ueQjsMLqj5NwEDKSj4Ed7dPRuHemSb"
+			]
+		},
+		"hopium/common/interface/imDirectory.sol": {
+			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
+				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
+			]
+		},
+		"hopium/common/lib/full-math.sol": {
+			"keccak256": "0xc01379955057b3818fdc67caee0b42bb45909fb3b0d1f2788ef552dc22fdb3d0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a3ae69d75a9aa01a2802e60cd62b27cbadd29d848e87fd411710a466ad6cae95",
+				"dweb:/ipfs/QmaRZCGHFyz7S31BLMiAnaqDYwJsNzKQdTLGBDwig45pRo"
+			]
+		},
+		"hopium/common/types/bips.sol": {
+			"keccak256": "0x3e39e84d405a0032d123c0dc0828e5a44caf8cd7b77c5092020854933f19888a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0254a58b591dacdd2c9c083970b924c7b81cc325967b2f2e13f94a62828af6b0",
+				"dweb:/ipfs/QmQXmTNzdiXtUoCE7pUXLJKjYhxVJqQn5PdxS88e1daq9h"
+			]
+		},
+		"hopium/etf/interface/iEtfOracle.sol": {
+			"keccak256": "0x9943e4ee5d08b59a6b704fe34bbc532b799a2b20ae638f4db186f21767e7f0bc",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://46d95bdfe6715bfe40a73f2bf6eddd4ad187a22f92032eeef386a8251f24dc3d",
+				"dweb:/ipfs/QmWH5oaeheZWufHXQPZMhohxg59PNfyHTkeSvWdTTcpRx8"
+			]
+		},
+		"hopium/etf/interface/imEtfFactory.sol": {
+			"keccak256": "0x3888b346a6dc6aeaae0513df0d6b332f2cf3943b6e31ba09bff49c21ae34128a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://de4b4261d0eba06e5b1513e17f0de4a4696bf03060833d3a5775f076cf2523b3",
+				"dweb:/ipfs/Qmc6M8yVef1oRcE9AeUCQebxNTtQTWbARsSNBSFUVuFH76"
+			]
+		},
+		"hopium/etf/main/etf-oracle.sol": {
+			"keccak256": "0x892090f0e8c05261dac3e595ded95c65ae7ee014e1b329ef3fed45fd00c72d23",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://233ae3a12b06960bace1e63972ba322b08789781191811a77914d523329527c0",
+				"dweb:/ipfs/QmZVG2kgoTiwqjYsZAyThMu4dE4euTVhM8XzRGsK5JQ4VP"
+			]
+		},
+		"hopium/etf/types/etf.sol": {
+			"keccak256": "0xf0ad7bff285660b2f5459d371c7bb805b60f2a67429d416c8231e986f074d472",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5f8dc77edfc3b352a9e12bef5fdc71f726a8c5627cc1dd64baea860ce9b1af15",
+				"dweb:/ipfs/QmY9BKqmbe6xHFciqh5iTUHHqP3Dmx6nFJjqdrGbMSahoh"
+			]
+		},
+		"hopium/uniswap/interface/iUniswapOracle.sol": {
+			"keccak256": "0x2ce606cf0c6303e7414a3d249ad6ad1cca318d13c0a05f2de54bfabbb55d47cf",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://97e0d29db824e4d366158b6ebc5377985f28ff9269ebbd32cba0b6ae23fc3533",
+				"dweb:/ipfs/QmXoPZgxziLgK2Jyn7X6aE6HWednMEKbYTvfUwWrdoYnLH"
+			]
+		},
+		"hopium/uniswap/interface/imUniswapOracle.sol": {
+			"keccak256": "0xf3c0ad9d8bc13ee6ffe244cf9fc252d048b876b5a57f4f5a45b851cc9096e6d6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ab0869c7d0cbdde633050e6f3a5d612e9f96254a674f5485b7849c22ad61a39f",
+				"dweb:/ipfs/QmWeRZ6gRuz81hQvZKdoPQG6NZgZj7Aw9TvR8RXSZ76XqJ"
+			]
+		}
+	},
+	"version": 1
+}

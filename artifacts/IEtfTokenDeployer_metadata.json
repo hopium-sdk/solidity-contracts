@@ -9,7 +9,7 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "indexId",
+						"name": "etfId",
 						"type": "uint256"
 					},
 					{
@@ -71,11 +71,11 @@
 			]
 		},
 		"hopium/etf/interface/imEtfTokenDeployer.sol": {
-			"keccak256": "0x41da03c13718837d9b5e96279677c1aeb6b170f6d9cc0f5cc264e60c7ffeeb9e",
+			"keccak256": "0x4ad4d88b25865a6462387e0715dc06dbaa86f7cbbc544b321e62b1dc0f105836",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e048890db56605e3ec375bbc59b9a5c5b5e87d5f00f04486d7ff3b065544a8d2",
-				"dweb:/ipfs/QmZ2sqEprEgb55TXNy4UATj5r1wmJ55uZACoyC9AehTAk5"
+				"bzz-raw://bf2f76b9a1baca8097bc38faffef9c49ab4e780780f2d231f00f0020dcf94165",
+				"dweb:/ipfs/QmbGgB9MkQtwr83mGhVDgwaftZtQeRACQQZv8ii5d7xmgh"
 			]
 		}
 	},
