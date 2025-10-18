@@ -120,6 +120,35 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "poolAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "isV3Pool",
+						"type": "bool"
+					}
+				],
+				"name": "getTokenWethPriceByPool",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "getWethUsdPrice",
 				"outputs": [
@@ -161,11 +190,11 @@
 	},
 	"sources": {
 		"hopium/uniswap/interface/iUniswapOracle.sol": {
-			"keccak256": "0x2ce606cf0c6303e7414a3d249ad6ad1cca318d13c0a05f2de54bfabbb55d47cf",
+			"keccak256": "0x7a419d787e7de855d1052e5feb1961d671c6b49d6994ad3acd964bd962beb430",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://97e0d29db824e4d366158b6ebc5377985f28ff9269ebbd32cba0b6ae23fc3533",
-				"dweb:/ipfs/QmXoPZgxziLgK2Jyn7X6aE6HWednMEKbYTvfUwWrdoYnLH"
+				"bzz-raw://ddd98dd3efe4f0f87528f687c9a2e3cd261c2ef78395a92caff28700bea24a82",
+				"dweb:/ipfs/QmP7zEoSu3SBemfnweYMJwqA9Xoc3KTSUNbpJSFPSa9hMq"
 			]
 		}
 	},

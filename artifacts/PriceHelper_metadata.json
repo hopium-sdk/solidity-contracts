@@ -1,0 +1,283 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "EmptyReserves",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "NotBasePool",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "PoolDoesNotExist",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ZeroLiquidity",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "Directory",
+				"outputs": [
+					{
+						"internalType": "contract IDirectory",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "IS_WETH_USD_PAIR_ADDRESS_V3",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "USD_ADDRESS",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "WETH_ADDRESS",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "WETH_DECIMALS",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "WETH_USD_PAIR_ADDRESS",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "poolAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "baseAddress",
+						"type": "address"
+					}
+				],
+				"name": "_getTokenPriceV2",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "price18",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "poolAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "baseAddress",
+						"type": "address"
+					}
+				],
+				"name": "_getTokenPriceV3",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "price18",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_directory",
+						"type": "address"
+					}
+				],
+				"name": "changeDirectoryAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_key",
+						"type": "string"
+					}
+				],
+				"name": "fetchFromDirectory",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"_getTokenPriceV2(address,address)": {
+					"details": "`baseAddress` must be either token0 or token1 in the pair.      Returns base units per 1 unit of the *other* token in the pool."
+				},
+				"_getTokenPriceV3(address,address)": {
+					"details": "`baseAddress` must be one side. Uses sqrtPriceX96 and handles decimals exactly."
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"_getTokenPriceV2(address,address)": {
+					"notice": "Base-per-1-token price (1e18 scaled) from a Uniswap V2-like pair."
+				},
+				"_getTokenPriceV3(address,address)": {
+					"notice": "Base-per-1-token price (1e18 scaled) from a Uniswap V3 pool via slot0."
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/uniswap/main/uniswap-oracle.sol": "PriceHelper"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/common/interface/imDirectory.sol": {
+			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
+				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
+			]
+		},
+		"hopium/common/lib/full-math.sol": {
+			"keccak256": "0xc01379955057b3818fdc67caee0b42bb45909fb3b0d1f2788ef552dc22fdb3d0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a3ae69d75a9aa01a2802e60cd62b27cbadd29d848e87fd411710a466ad6cae95",
+				"dweb:/ipfs/QmaRZCGHFyz7S31BLMiAnaqDYwJsNzKQdTLGBDwig45pRo"
+			]
+		},
+		"hopium/uniswap/interface/imPoolFinder.sol": {
+			"keccak256": "0x7e6213ae2a5134c5cf5db4379260aafa5266a837ee6e7fa453a2ea4a441341dd",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2b2e41e4d3ee83afde004f46bdfda73acb006ced4276e10340007b1a76c64b19",
+				"dweb:/ipfs/QmbBrtNKF51naV4ZjtGPj7jKBsn2FFBPRLmd65oSjAvyoG"
+			]
+		},
+		"hopium/uniswap/main/uniswap-oracle.sol": {
+			"keccak256": "0xe0a32ce875df0adaf217f8105f8bae14b787ba246fc4dfb1ba8f2a1b0174f852",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0ef46e30cd3096270478f9c43b58b8f830d213b9bb9ec1795d9d47baf8b6d176",
+				"dweb:/ipfs/QmcT1kwVBLKe9Kj2jmviBBvK674UWzS1yvq4qWrKnJpAqC"
+			]
+		},
+		"hopium/uniswap/types/pool.sol": {
+			"keccak256": "0x1d9c7b4c311509599d60b1aec11cdfa094032bdad20935ab40bb98136681e6c9",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4d3ef706149f664d236461d84237ddab7f71d4585e4f9d868ed3118d6c11cbe0",
+				"dweb:/ipfs/QmaJx7Z1V8j9Edkg9mHTF6bLQphRCuwQHnR4K96DcPmnVg"
+			]
+		}
+	},
+	"version": 1
+}

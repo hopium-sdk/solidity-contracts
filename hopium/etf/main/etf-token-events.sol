@@ -11,7 +11,8 @@ contract EtfTokenEvents is ImDirectory, ImEtfOracle {
         address indexed fromAddress,
         address indexed toAddress,
         uint256 transferAmount,
-        uint256 etfWethPrice
+        uint256 etfWethPrice,
+        uint256 etfUsdPrice
     );
 
     constructor(address _directory) ImDirectory(_directory) {}
@@ -19,8 +20,8 @@ contract EtfTokenEvents is ImDirectory, ImEtfOracle {
     /// @notice Emits a transfer event for ETF tokens
     function emitTransferEvent(uint256 etfId, address fromAddress, address toAddress, uint256 transferAmount) external {
 
-        uint256 etfWethPrice = getEtfOracle().getEtfWethPrice(etfId);
+        (uint256 etfWethPrice, uint256 etfUsdPrice) = getEtfOracle().getEtfPrice(etfId);
 
-        emit EtfTokenTransfer(msg.sender, fromAddress, toAddress, transferAmount, etfWethPrice);
+        emit EtfTokenTransfer(msg.sender, fromAddress, toAddress, transferAmount, etfWethPrice, etfUsdPrice);
     }
 }

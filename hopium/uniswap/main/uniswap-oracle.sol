@@ -43,6 +43,7 @@ interface IUniswapV3Pool {
 
 abstract contract Storage {
     address public immutable WETH_ADDRESS;
+    address public immutable USD_ADDRESS;
     address public immutable WETH_USD_PAIR_ADDRESS;
     bool public immutable IS_WETH_USD_PAIR_ADDRESS_V3;
 
@@ -96,88 +97,6 @@ abstract contract POW {
         // n == 18
         return POW10_18;
     }
-}
-
-abstract contract Helpers is POW, Storage, ImPoolFinder {
-
-    error PairDoesNotExist();
-    function _getTokenToWethPairAddress(address tokenAddress)
-        internal
-        view
-        returns (bool isV3Pool, address pairAddress)
-    {
-        Pool memory pool = getPoolFinder().getBestWethPool(tokenAddress);
-        if (pool.poolAddress == address(0)) revert PairDoesNotExist();
-        isV3Pool    = pool.isV3Pool != 0;
-        pairAddress = pool.poolAddress;
-    }
-
-    error PairDoesNotContainBase();
-    /**
-     * @dev For v2: uses real reserves via getReserves()
-     *      For v3: uses VIRTUAL reserves computed from slot0() + liquidity()
-     * Returns reserves ordered so that `reserveBase` corresponds to `baseToken`,
-     * plus decimals and the other token address as `quoteToken`.
-     */
-    function _getOrderedReserves(bool isV3Pool, address pairAddress, address baseToken)
-        internal
-        view
-        returns (
-            uint256 reserveBase,
-            uint8 decBase,
-            uint256 reserveQuote,
-            uint8 decQuote,
-            address quoteToken
-        )
-    {
-        uint256 r0;
-        uint256 r1;
-        address t0;
-        address t1;
-
-        if (isV3Pool) {
-            // ---- Uniswap V3 path: virtual reserves from active liquidity ----
-            IUniswapV3Pool pool = IUniswapV3Pool(pairAddress);
-            t0 = pool.token0();
-            t1 = pool.token1();
-
-            (uint160 sqrtP,, , , , ,) = pool.slot0();
-            uint128 L = pool.liquidity();
-
-            // virtual0 = L * Q96 / sqrtP
-            // virtual1 = L * sqrtP / Q96
-            // where Q96 = 2^96
-            uint256 Q96 = 2 ** 96;
-
-            // Guard against division by zero (sqrtP can't be zero in a valid pool)
-            r0 = FullMath.mulDiv(uint256(L), Q96, uint256(sqrtP));
-            r1 = FullMath.mulDiv(uint256(L), uint256(sqrtP), Q96);
-        } else {
-            // ---- Uniswap V2 path: real reserves ----
-            IUniswapV2Pair pair = IUniswapV2Pair(pairAddress);
-            (uint112 r0u, uint112 r1u, ) = pair.getReserves();
-            r0 = uint256(r0u);
-            r1 = uint256(r1u);
-            t0 = pair.token0();
-            t1 = pair.token1();
-        }
-
-        bool baseIsToken0;
-        if (t0 == baseToken) {
-            baseIsToken0 = true;
-        } else if (t1 == baseToken) {
-            baseIsToken0 = false;
-        } else {
-            revert PairDoesNotContainBase();
-        }
-
-        reserveBase  = baseIsToken0 ? r0 : r1;
-        reserveQuote = baseIsToken0 ? r1 : r0;
-        quoteToken   = baseIsToken0 ? t1 : t0;
-
-        decBase  = IERC20Metadata(baseToken).decimals();
-        decQuote = IERC20Metadata(quoteToken).decimals();
-    }
 
     error EmptyReserves();
     /// price18 = (reserveA * 1e18 * 10^(decB - decA)) / reserveB, computed with overflow-safe mulDiv.
@@ -215,86 +134,292 @@ abstract contract Helpers is POW, Storage, ImPoolFinder {
     }
 }
 
-contract UniswapOracle is Helpers {
+abstract contract PoolFinder is ImPoolFinder {
+    error PoolDoesNotExist();
+    function _findTokenWethPoolAddress(address tokenAddress)
+        internal
+        view
+        returns (bool isV3Pool, address poolAddress)
+    {
+        Pool memory pool = getPoolFinder().getBestWethPool(tokenAddress);
+        if (pool.poolAddress == address(0)) revert PoolDoesNotExist();
+        isV3Pool    = pool.isV3Pool != 0;
+        poolAddress = pool.poolAddress;
+    }
+}
+
+abstract contract PriceHelper is POW, Storage, PoolFinder {
+    error NotBasePool();
+    error ZeroLiquidity();
+
+    /// @notice Base-per-1-token price (1e18 scaled) from a Uniswap V2-like pair.
+    /// @dev `baseAddress` must be either token0 or token1 in the pair.
+    ///      Returns base units per 1 unit of the *other* token in the pool.
+    function _getTokenPriceV2(address poolAddress, address baseAddress) public view returns (uint256 price18) {
+        IUniswapV2Pair pool = IUniswapV2Pair(poolAddress);
+        address t0 = pool.token0();
+        address t1 = pool.token1();
+
+        (uint112 r0, uint112 r1, ) = pool.getReserves();
+
+        bool baseIs0 = (t0 == baseAddress);
+        bool baseIs1 = (t1 == baseAddress);
+        if (!(baseIs0 || baseIs1) || (baseIs0 && baseIs1)) revert NotBasePool();
+
+        if (baseIs0) {
+            // token = t1
+            uint8 baseDec  = IERC20Metadata(t0).decimals();
+            uint8 tokenDec = IERC20Metadata(t1).decimals();
+            price18 = _price18(uint256(r0), baseDec, uint256(r1), tokenDec);
+        } else {
+            // base = t1, token = t0
+            uint8 baseDec  = IERC20Metadata(t1).decimals();
+            uint8 tokenDec = IERC20Metadata(t0).decimals();
+            price18 = _price18(uint256(r1), baseDec, uint256(r0), tokenDec);
+        }
+    }
+
+    /// @notice Base-per-1-token price (1e18 scaled) from a Uniswap V3 pool via slot0.
+    /// @dev `baseAddress` must be one side. Uses sqrtPriceX96 and handles decimals exactly.
+    function _getTokenPriceV3(address poolAddress, address baseAddress) public view returns (uint256 price18) {
+        IUniswapV3Pool pool = IUniswapV3Pool(poolAddress);
+        (uint160 sqrtPriceX96, , , , , , ) = pool.slot0();
+        if (pool.liquidity() == 0) revert ZeroLiquidity();
+
+        address t0 = pool.token0();
+        address t1 = pool.token1();
+
+        bool baseIs0 = (t0 == baseAddress);
+        bool baseIs1 = (t1 == baseAddress);
+        if (!(baseIs0 || baseIs1) || (baseIs0 && baseIs1)) revert NotBasePool();
+
+        // priceQ96 = (token1/token0) in Q96 fixed point
+        uint256 priceQ96 = FullMath.mulDiv(uint256(sqrtPriceX96), uint256(sqrtPriceX96), 1 << 96);
+
+        if (baseIs1) {
+            // Want base/token0 = token1/token0
+            uint8 baseDec  = IERC20Metadata(t1).decimals();
+            uint8 tokenDec = IERC20Metadata(t0).decimals();
+
+            // scale = 1e18 * 10^(tokenDec - baseDec)
+            unchecked {
+                if (tokenDec >= baseDec) {
+                    uint256 scale = WAD * _pow10(tokenDec - baseDec);
+                    // price18 = priceQ96 * scale / 2^96
+                    return FullMath.mulDiv(priceQ96, scale, 1 << 96);
+                } else {
+                    // price18 = (priceQ96 * 1e18) / (2^96 * 10^(baseDec - tokenDec))
+                    uint256 denom = (1 << 96) * _pow10(baseDec - tokenDec);
+                    return FullMath.mulDiv(priceQ96, WAD, denom);
+                }
+            }
+        } else {
+            // baseIs0: want base/token1 = token0/token1 = 1 / (token1/token0)
+            uint8 baseDec  = IERC20Metadata(t0).decimals();
+            uint8 tokenDec = IERC20Metadata(t1).decimals();
+
+            unchecked {
+                if (baseDec >= tokenDec) {
+                    // price18 = (1e18 * 10^(baseDec - tokenDec) * 2^96) / priceQ96
+                    uint256 numer = WAD * _pow10(baseDec - tokenDec) * (1 << 96);
+                    return FullMath.mulDiv(numer, 1, priceQ96);
+                } else {
+                    // price18 = (1e18 * 2^96) / (priceQ96 * 10^(tokenDec - baseDec))
+                    uint256 denom = priceQ96 * _pow10(tokenDec - baseDec);
+                    return FullMath.mulDiv(WAD * (1 << 96), 1, denom);
+                }
+            }
+        }
+    }
+
+
+    function _getTokenPrice(address poolAddress, bool isV3Pool, address baseAddress) internal view returns (uint256 price18) {
+        if (isV3Pool) {
+            price18 = _getTokenPriceV3(poolAddress, baseAddress);
+        } else {
+            price18 = _getTokenPriceV2(poolAddress, baseAddress);
+        }
+    }
+}
+
+abstract contract WethUsdHelper is PriceHelper {
+
+    function _getWethUsdPrice() internal view returns (uint256 price18) {
+        price18 = _getTokenPrice(WETH_USD_PAIR_ADDRESS, IS_WETH_USD_PAIR_ADDRESS_V3, USD_ADDRESS);
+    }
+
+    /// @dev Convert a WETH-denominated 1e18 amount to USD 1e18 using the oracle.
+    ///      Returns 0 if either the amount or the oracle price is 0.
+    function _convertWethToUsd(uint256 wethAmount18) internal view returns (uint256 usdAmount18) {
+        if (wethAmount18 == 0) return 0;
+        uint256 wethUsdPrice18 = _getWethUsdPrice(); // USD per 1 WETH, 1e18
+        if (wethUsdPrice18 == 0) return 0;
+        // USD = WETH * (USD/WETH)
+        return FullMath.mulDiv(wethAmount18, wethUsdPrice18, WAD);
+    }
+}
+
+abstract contract LiquidityHelper is WethUsdHelper {
+    /// @dev Combines base and token reserves into total WETH value.
+    function _calcLiquidityWeth(
+        uint256 wethReserve,
+        uint8 wethDec,
+        uint256 tokenReserve,
+        uint8 tokenDec,
+        uint256 tokenWethPrice18
+    ) internal pure returns (uint256 wethLiquidity18) {
+        uint256 wethRes18 = _scaleTo1e18(wethReserve, wethDec);
+        uint256 tokenRes18 = _scaleTo1e18(tokenReserve, tokenDec);
+        uint256 tokenValueWeth = FullMath.mulDiv(tokenRes18, tokenWethPrice18, WAD);
+        wethLiquidity18 = wethRes18 + tokenValueWeth;
+    }
+
+    /// @dev Internal helper: Uniswap V2 pool liquidity in WETH terms.
+    function _getLiquidityWethV2(address poolAddress) internal view returns (uint256 wethLiquidity18) {
+        IUniswapV2Pair pool = IUniswapV2Pair(poolAddress);
+        (uint112 r0, uint112 r1, ) = pool.getReserves();
+        if (r0 == 0 || r1 == 0) revert EmptyReserves();
+
+        address t0 = pool.token0();
+        address t1 = pool.token1();
+        bool wethIs0 = (t0 == WETH_ADDRESS);
+        bool wethIs1 = (t1 == WETH_ADDRESS);
+        if (!(wethIs0 || wethIs1)) revert NotBasePool();
+
+        uint256 tokenWethPrice18 = _getTokenPrice(poolAddress, false, WETH_ADDRESS);
+
+        if (wethIs0) {
+            wethLiquidity18 = _calcLiquidityWeth(
+                r0,
+                IERC20Metadata(t0).decimals(),
+                r1,
+                IERC20Metadata(t1).decimals(),
+                tokenWethPrice18
+            );
+        } else {
+            wethLiquidity18 = _calcLiquidityWeth(
+                r1,
+                IERC20Metadata(t1).decimals(),
+                r0,
+                IERC20Metadata(t0).decimals(),
+                tokenWethPrice18
+            );
+        }
+    }
+
+    /// @dev Internal helper: Uniswap V3 pool liquidity in WETH terms.
+    function _getLiquidityWethV3(address poolAddress) internal view returns (uint256 wethLiquidity18) {
+        IUniswapV3Pool pool = IUniswapV3Pool(poolAddress);
+        (uint160 sqrtPriceX96, , , , , , ) = pool.slot0();
+        uint128 liq = pool.liquidity();
+        if (liq == 0) revert ZeroLiquidity();
+
+        address t0 = pool.token0();
+        address t1 = pool.token1();
+        bool wethIs0 = (t0 == WETH_ADDRESS);
+        bool wethIs1 = (t1 == WETH_ADDRESS);
+        if (!(wethIs0 || wethIs1)) revert NotBasePool();
+
+        // approximate virtual reserves
+        uint256 sqrtP = uint256(sqrtPriceX96);
+        uint256 reserve0 = FullMath.mulDiv(uint256(liq) << 96, 1, sqrtP);
+        uint256 reserve1 = FullMath.mulDiv(uint256(liq) * sqrtP, 1, 1 << 96);
+        uint256 tokenWethPrice18 = _getTokenPrice(poolAddress, true, WETH_ADDRESS);
+
+        if (wethIs0) {
+            wethLiquidity18 = _calcLiquidityWeth(
+                reserve0,
+                IERC20Metadata(t0).decimals(),
+                reserve1,
+                IERC20Metadata(t1).decimals(),
+                tokenWethPrice18
+            );
+        } else {
+            wethLiquidity18 = _calcLiquidityWeth(
+                reserve1,
+                IERC20Metadata(t1).decimals(),
+                reserve0,
+                IERC20Metadata(t0).decimals(),
+                tokenWethPrice18
+            );
+        }
+    }
+
+    /// @notice Total pool liquidity in WETH for the TOKEN–WETH pair (scaled 1e18).
+    /// If TOKEN is WETH, returns WETH totalSupply (scaled to 1e18).
+    function _getTokenLiquidityWeth(address tokenAddress) internal view returns (uint256 wethLiquidity18) {
+        if (tokenAddress == WETH_ADDRESS) {
+            uint256 supply = IERC20(WETH_ADDRESS).totalSupply();
+            return _scaleTo1e18(supply, WETH_DECIMALS);
+        }
+
+        (bool isV3Pool, address poolAddress) = _findTokenWethPoolAddress(tokenAddress);
+        if (isV3Pool) {
+            wethLiquidity18 = _getLiquidityWethV3(poolAddress);
+        } else {
+            wethLiquidity18 = _getLiquidityWethV2(poolAddress);
+        }
+    }
+    
+}
+
+contract UniswapOracle is LiquidityHelper {
 
     constructor(
         address _directory,
         address _wethAddress,
-        address _wethUsdPairAddress,
-        bool _isWethUsdPairV3
+        address _wethUsdPoolAddress,
+        bool _isWethUsdPoolV3
     ) ImDirectory(_directory) {
         WETH_ADDRESS = _wethAddress;
-        WETH_USD_PAIR_ADDRESS = _wethUsdPairAddress;
-        IS_WETH_USD_PAIR_ADDRESS_V3 = _isWethUsdPairV3;
+        WETH_USD_PAIR_ADDRESS = _wethUsdPoolAddress;
+        IS_WETH_USD_PAIR_ADDRESS_V3 = _isWethUsdPoolV3;
 
         WETH_DECIMALS = IERC20Metadata(_wethAddress).decimals();
+
+        if (_isWethUsdPoolV3) {
+            IUniswapV3Pool pool = IUniswapV3Pool(_wethUsdPoolAddress);
+            address t0 = pool.token0();
+            address t1 = pool.token1();
+            USD_ADDRESS = t0 == _wethAddress ? t1 : t0;
+        } else {
+            IUniswapV2Pair pool = IUniswapV2Pair(_wethUsdPoolAddress);
+            address t0 = pool.token0();
+            address t1 = pool.token1();
+            USD_ADDRESS = t0 == _wethAddress ? t1 : t0;
+        }
     }
 
     // -- Read fns --
-
-    /// @notice USD per 1 WETH (scaled 1e18) using the stored WETH/USD pair.
-    /// For v3, this uses virtual reserves derived from slot0/liquidity (not raw balances).
     function getWethUsdPrice() public view returns (uint256 price18) {
-        (
-            uint256 reserveWeth,
-            uint8 decW,
-            uint256 reserveUsd,
-            uint8 decU,
-
-        ) = _getOrderedReserves(IS_WETH_USD_PAIR_ADDRESS_V3, WETH_USD_PAIR_ADDRESS, WETH_ADDRESS);
-
-        // price = (reserveUsd / reserveWeth) adjusted for decimals, scaled 1e18
-        price18 = _price18(reserveUsd, decU, reserveWeth, decW);
+        return _getWethUsdPrice();
     }
 
-    /// @notice WETH per 1 TOKEN (scaled 1e18) for an arbitrary TOKEN–WETH pair.
-    /// If TOKEN is WETH, returns 1e18.
     function getTokenWethPrice(address tokenAddress) public view returns (uint256) {
         if (tokenAddress == WETH_ADDRESS) {
             return WAD;
         }
-        (bool isV3Pool,address pairAddress) = _getTokenToWethPairAddress(tokenAddress);
-        (uint256 reserveWeth, uint8 decW, uint256 reserveToken, uint8 decT,) =
-            _getOrderedReserves(isV3Pool, pairAddress, WETH_ADDRESS);
+        (bool isV3Pool, address poolAddress) = _findTokenWethPoolAddress(tokenAddress);
 
-        // WETH per 1 TOKEN = (reserveWeth / reserveToken) * 10^(decT - decW), scaled to 1e18
-        return _price18(reserveWeth, decW, reserveToken, decT);
+        return _getTokenPrice(poolAddress, isV3Pool, WETH_ADDRESS);
     }
 
     /// @notice USD price of 1 TOKEN (scaled 1e18).
     function getTokenUsdPrice(address tokenAddress) external view returns (uint256 price18) {
         uint256 tokenWeth = getTokenWethPrice(tokenAddress); // WETH per 1 TOKEN (1e18)
-        uint256 wethUsd   = getWethUsdPrice();               // USD per 1 WETH (1e18)
-        price18 = FullMath.mulDiv(tokenWeth, wethUsd, WAD);
+        price18 = _convertWethToUsd(tokenWeth);
     }
 
     /// @notice Total pool liquidity in WETH for the TOKEN–WETH pair (scaled 1e18).
     /// If TOKEN is WETH, returns WETH totalSupply (scaled to 1e18).
-    /// For v3, uses virtual reserves (active liquidity only).
     function getTokenLiquidityWeth(address tokenAddress) public view returns (uint256) {
-        if (tokenAddress == WETH_ADDRESS) {
-            uint256 supply = IERC20(WETH_ADDRESS).totalSupply();
-            return _scaleTo1e18(supply, WETH_DECIMALS);
-        }
-        (bool isV3,address pair) = _getTokenToWethPairAddress(tokenAddress);
-        (uint256 reserveToken, uint8 decT, uint256 reserveWeth, uint8 decW,) =
-            _getOrderedReserves(isV3, pair, tokenAddress);
-
-        uint256 tokenAmount18 = _scaleTo1e18(reserveToken, decT);
-        uint256 wethAmount18  = _scaleTo1e18(reserveWeth,  decW);
-
-        // Reuse these reserves to price token in WETH
-        uint256 tokenPriceInWeth18 = _price18(reserveWeth, decW, reserveToken, decT);
-        uint256 tokenValueInWeth18 = FullMath.mulDiv(tokenAmount18, tokenPriceInWeth18, WAD);
-
-        unchecked { return tokenValueInWeth18 + wethAmount18; }
+        return _getTokenLiquidityWeth(tokenAddress);
     }
 
     /// @notice Total pool liquidity in USD for the TOKEN–WETH pair (scaled 1e18).
     function getTokenLiquidityUsd(address tokenAddress) external view returns (uint256 totalLiquidityUsd18) {
         uint256 totalLiquidityWeth18 = getTokenLiquidityWeth(tokenAddress);
-        uint256 usdPerWeth18         = getWethUsdPrice();
-        totalLiquidityUsd18 = FullMath.mulDiv(totalLiquidityWeth18, usdPerWeth18, WAD);
+        totalLiquidityUsd18 = _convertWethToUsd(totalLiquidityWeth18);
     }
 
     /// @notice Market cap in WETH for TOKEN (scaled 1e18): totalSupply * (WETH per 1 TOKEN).
@@ -318,7 +443,11 @@ contract UniswapOracle is Helpers {
         marketCapUsd18 = FullMath.mulDiv(mcWeth18, usdPerWeth18, WAD);
     }
 
-    function getTokenWethPairAddress(address tokenAddress) external view returns (bool isV3Pool, address pairAddress) {
-        return _getTokenToWethPairAddress(tokenAddress);
+    function getTokenWethPoolAddress(address tokenAddress) external view returns (bool isV3Pool, address poolAddress) {
+        return _findTokenWethPoolAddress(tokenAddress);
+    }
+
+    function emitPoolChangedEventOnWethUsdPool() external onlyOwner {
+        getPoolFinder().emitPoolChangedEventOnWethUsdPool(WETH_USD_PAIR_ADDRESS, IS_WETH_USD_PAIR_ADDRESS_V3);
     }
 }

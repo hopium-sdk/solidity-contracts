@@ -24,8 +24,12 @@ abstract contract Storage {
     uint256 internal constant WAD = 1e18;
     uint32 public DEFAULT_SLIPPAGE_BIPS = 300;
 
-    event EtfTokensMinted(uint256 etfId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
-    event EtfTokensRedeemed(uint256 etfId, address caller, address receiver, uint256 etfTokenAmount, uint256 ethAmount);
+    struct TokenBalance {
+        address tokenAddress;
+        uint256 tokenAmount;
+    }
+
+    event VaultBalanceChanged(uint256 etfId, TokenBalance[] updatedBalances);
 }
 
 abstract contract Fee is ImDirectory, Storage, ImEtfFactory {
@@ -404,13 +408,7 @@ abstract contract MintRedeemHelpers is Fee, RedeemInputHelpers {
     error ZeroEtfPrice();
     error NoMintedAmount();
     error DeltaError();
-    function _mintEtfTokens(uint256 etfId, address receiver) internal returns (uint256 minted, uint256 delta) {
-        if (msg.value == 0) revert ZeroAmount();
-        if (receiver == address(0)) revert ZeroReceiver();
-
-        // Resolve config
-        (Etf memory etf, address etfToken, address etfVault) = getEtfFactory().getEtfByIdAndAddresses(etfId);
-
+    function _mintEtfTokens(uint256 etfId, Etf memory etf, address etfToken, address etfVault, address receiver) internal returns (uint256 minted, uint256 delta) {
         // Net ETH after platform fee
         uint256 ethBudget = _transferPlatformFee(msg.value);
 
@@ -450,12 +448,7 @@ abstract contract MintRedeemHelpers is Fee, RedeemInputHelpers {
     }
 
     error SupplyZero();
-    function _redeemEtfTokens(uint256 etfId, uint256 etfTokenAmount, address payable receiver) internal returns (uint256) {
-        if (etfTokenAmount == 0) revert ZeroAmount();
-        if (receiver == address(0)) revert ZeroReceiver();
-
-        (Etf memory etf, address etfTokenAddress, address etfVaultAddress) = getEtfFactory().getEtfByIdAndAddresses(etfId);
-
+    function _redeemEtfTokens(uint256 etfId, Etf memory etf, address etfTokenAddress, address etfVaultAddress, uint256 etfTokenAmount, address payable receiver) internal returns (uint256) {
         uint256 supply = IERC20(etfTokenAddress).totalSupply();
         if (supply == 0) revert SupplyZero();
 
@@ -532,9 +525,7 @@ abstract contract RebalanceHelpers is MintRedeemHelpers {
         if (sellCount == 0) revert EmptyBuf(); // nothing overweight
     }
 
-    function _rebalance(uint256 etfId) internal {
-        (Etf memory etf, address etfVaultAddress) = getEtfFactory().getEtfByIdAndVault(etfId);
-
+    function _rebalance(Etf memory etf, address etfVaultAddress) internal {
         // -------------------- Build Sell Inputs --------------------
 
         (MultiTokenInput[] memory sells, uint256 sellCount) = _buildRebalanceRedeemInputs(etf, etfVaultAddress);
@@ -576,27 +567,60 @@ abstract contract RebalanceHelpers is MintRedeemHelpers {
     }
 }
 
-contract EtfRouter is ReentrancyGuard, ImActive, RebalanceHelpers {
+abstract contract VaultBalance is RebalanceHelpers {
+    function emitVaultBalanceEvent(uint256 etfId, Etf memory etf, address etfVault) internal {
+        uint256 n = etf.assets.length;
+        TokenBalance[] memory updated = new TokenBalance[](n);
+
+        // Snapshot each asset's ERC-20 balance held by the vault (raw units)
+        for (uint256 i = 0; i < n; ) {
+            address token = etf.assets[i].tokenAddress;
+            uint256 bal   = IERC20(token).balanceOf(etfVault);
+
+            updated[i] = TokenBalance({ tokenAddress: token, tokenAmount: bal });
+
+            unchecked { ++i; }
+        }
+
+        emit VaultBalanceChanged(etfId, updated);
+    }
+}
+
+contract EtfRouter is ReentrancyGuard, ImActive, VaultBalance  {
     constructor(address _directory) ImDirectory(_directory) {}
 
     function mintEtfTokens(uint256 etfId, address receiver) external payable nonReentrant onlyActive {
-        (uint256 tokensMinted, uint256 ethAmount) = _mintEtfTokens(etfId, receiver);
+        if (msg.value == 0) revert ZeroAmount();
+        if (receiver == address(0)) revert ZeroReceiver();
+
+        // Resolve config
+        (Etf memory etf, address etfToken, address etfVault) = getEtfFactory().getEtfByIdAndAddresses(etfId);
+
+        _mintEtfTokens(etfId, etf, etfToken, etfVault, receiver);
 
         _refundEthDust(msg.sender);
 
-        emit EtfTokensMinted(etfId, msg.sender, receiver, tokensMinted, ethAmount);
+        emitVaultBalanceEvent(etfId, etf, etfVault);
     }
 
     // -------- Redeem to ETH --------
     function redeemEtfTokens(uint256 etfId, uint256 etfTokenAmount, address payable receiver) external nonReentrant onlyActive {
-        uint256 ethAmount = _redeemEtfTokens(etfId, etfTokenAmount, receiver);
+        if (etfTokenAmount == 0) revert ZeroAmount();
+        if (receiver == address(0)) revert ZeroReceiver();
 
-        emit EtfTokensRedeemed(etfId, msg.sender, receiver, etfTokenAmount, ethAmount);
+        (Etf memory etf, address etfTokenAddress, address etfVaultAddress) = getEtfFactory().getEtfByIdAndAddresses(etfId);
+
+        _redeemEtfTokens(etfId, etf, etfTokenAddress, etfVaultAddress, etfTokenAmount, receiver);
+
+        emitVaultBalanceEvent(etfId, etf, etfVaultAddress);
     }
 
     function rebalance(uint256 etfId) external nonReentrant onlyActive {
-        _rebalance(etfId);
+        (Etf memory etf, address etfVaultAddress) = getEtfFactory().getEtfByIdAndVault(etfId);
+        _rebalance(etf, etfVaultAddress);
        _refundEthDust(msg.sender);
+
+        emitVaultBalanceEvent(etfId, etf, etfVaultAddress);
     }
 
     function changePlatformFee(uint16 newFee) public onlyOwner onlyActive {

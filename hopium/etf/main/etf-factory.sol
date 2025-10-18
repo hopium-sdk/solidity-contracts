@@ -25,8 +25,7 @@ abstract contract Storage {
     mapping(uint256 => uint256) internal etfIdToTotalVolumeWeth;
     mapping(uint256 => uint256) internal etfIdToTotalVolumeUsd;
 
-    event EtfCreated(uint256 indexed etfId);
-    event EtfDeployed(uint256 indexed etfId, address etfTokenAddress, address etfVaultAddress);
+    event EtfDeployed(uint256 indexed etfId, Etf etf, address etfTokenAddress, address etfVaultAddress);
 }
 
 /// @notice Validation + helpers fused for fewer passes & less memory churn
@@ -95,7 +94,7 @@ abstract contract EtfCreationHelpers is Storage, ImPoolFinder {
             uint256 w = a.weightBips;
 
             if (token != WETH_ADDRESS) {
-                Pool memory pool = getPoolFinder().getBestWethPoolAndUpdateIfStale(token);
+                Pool memory pool = getPoolFinder().getBestWethPoolAndForceUpdate(token);
                 if (pool.poolAddress == address(0)) revert NoPoolFound();
             }
 
@@ -149,7 +148,6 @@ abstract contract Helpers is EtfCreationHelpers  {
         etfTickerHashToId[tickerHash] = etfId;
         etfAssetsHashToId[assetsHash] = etfId;
 
-        emit EtfCreated(etfId);
         return etfId;
     }
 }
@@ -174,7 +172,7 @@ contract EtfFactory is ImDirectory, Helpers, ImEtfTokenDeployer, ImEtfVaultDeplo
         etfIdToEtfTokens[etfId] = etfTokenAddress;
         etfIdToEtfVaults[etfId] = etfVaultAddress;
 
-        emit EtfDeployed(etfId, etfTokenAddress, etfVaultAddress);
+        emit EtfDeployed(etfId, etf, etfTokenAddress, etfVaultAddress);
 
         return etfId;
     }

@@ -246,7 +246,7 @@ abstract contract EtfStats is PriceHelpers {
 
         // 5. Aggregated per-asset stats
         s.assetsLiquidityUsd = _sumPerAsset(etf, uniO.getTokenLiquidityUsd);
-        s.assetsMcapUsd      = _sumPerAsset(etf, uniO.getTokenLiquidityUsd);
+        s.assetsMcapUsd      = _sumPerAsset(etf, uniO.getTokenMarketCapUsd);
     }
 }
 
@@ -269,6 +269,12 @@ contract EtfOracle is ImDirectory, PriceHelpers, EtfStats {
         return _convertWethToUsd(etfWethPrice18);
     }
 
+    function getEtfPrice(uint256 etfId) external view returns (uint256 wethPrice18, uint256 usdPrice18) {
+        (Etf memory etf, address vaultAddress) = getEtfFactory().getEtfByIdAndVault(etfId);
+        wethPrice18 = _getEtfWethPrice(etfId, etf, vaultAddress);
+        usdPrice18 = _convertWethToUsd(wethPrice18);
+    }
+
     function snapshotVault(uint256 etfId) external view returns (Snapshot[] memory s, uint256 etfTvlWeth) {
         (Etf memory etf, address vaultAddress) = getEtfFactory().getEtfByIdAndVault(etfId);
         return _snapshotVault(etf, vaultAddress);
@@ -283,8 +289,15 @@ contract EtfOracle is ImDirectory, PriceHelpers, EtfStats {
         return _snapshotVaultWithUsd(etf, vaultAddress);
     }
 
-    function getStats(uint256 etfId) external view returns (Stats memory s) {
+    function getEtfStats(uint256 etfId) external view returns (Stats memory s) {
         (Etf memory etf, address etfVault) = getEtfFactory().getEtfByIdAndVault(etfId);
         return _getStats(etfId, etf, etfVault);
+    }
+
+    function getEtfDetails(uint256 etfId) external view returns (Etf memory etf, Stats memory st, SnapshotWithUsd[] memory sn, uint256 etfTvlWeth, uint256 etfTvlUsd) {
+        address etfVault;
+        (etf, etfVault) = getEtfFactory().getEtfByIdAndVault(etfId);
+        st = _getStats(etfId, etf, etfVault);
+        (sn, etfTvlWeth, etfTvlUsd) = _snapshotVaultWithUsd(etf, etfVault);
     }
 }

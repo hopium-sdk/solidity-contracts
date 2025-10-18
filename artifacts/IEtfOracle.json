@@ -49,7 +49,7 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"getEtfUsdPrice(uint256)": "0705a3e8",
+			"getEtfPrice(uint256)": "79de9e82",
 			"getEtfWethPrice(uint256)": "812efc8e",
 			"snapshotVaultUnchecked((string,string,(address,uint16)[]),address)": "ee0d96c5"
 		}
@@ -63,11 +63,16 @@
 					"type": "uint256"
 				}
 			],
-			"name": "getEtfUsdPrice",
+			"name": "getEtfPrice",
 			"outputs": [
 				{
 					"internalType": "uint256",
-					"name": "",
+					"name": "wethPrice18",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "usdPrice18",
 					"type": "uint256"
 				}
 			],

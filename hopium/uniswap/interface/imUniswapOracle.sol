@@ -9,4 +9,9 @@ abstract contract ImUniswapOracle is ImDirectory {
     function getUniswapOracle() internal view virtual returns (IUniswapOracle) {
         return IUniswapOracle(fetchFromDirectory("uniswap-oracle"));
     }
+
+    modifier onlyUniswapOracle() {
+        require(msg.sender == fetchFromDirectory("uniswap-oracle"), "msg.sender is not uniswap-oracle");
+        _;
+    }
 }

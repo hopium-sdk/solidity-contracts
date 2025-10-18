@@ -1,0 +1,145 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "EmptyReserves",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "NotWethPool",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ZeroLiquidity",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "IS_WETH_USD_PAIR_ADDRESS_V3",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "WETH_ADDRESS",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "WETH_DECIMALS",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "WETH_USD_PAIR_ADDRESS",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"hopium/uniswap/main/uniswap-oracle.sol": "Price"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"hopium/common/interface/imDirectory.sol": {
+			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626",
+				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
+			]
+		},
+		"hopium/common/lib/full-math.sol": {
+			"keccak256": "0xc01379955057b3818fdc67caee0b42bb45909fb3b0d1f2788ef552dc22fdb3d0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a3ae69d75a9aa01a2802e60cd62b27cbadd29d848e87fd411710a466ad6cae95",
+				"dweb:/ipfs/QmaRZCGHFyz7S31BLMiAnaqDYwJsNzKQdTLGBDwig45pRo"
+			]
+		},
+		"hopium/uniswap/interface/imPoolFinder.sol": {
+			"keccak256": "0x44b632c262192212ac573c3a26f7fb0af9be284d2ef1e59b05e23217406f49e9",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c457138ea78dbd4c4732a3ea165788a428c5650b93bdad80c9c6e2725ffdf978",
+				"dweb:/ipfs/QmbFyFS6VFcTzS4MFY3sGYz6m9ADV5j5CuYtppHnrMfpQn"
+			]
+		},
+		"hopium/uniswap/main/uniswap-oracle.sol": {
+			"keccak256": "0xed4b314ed89018924f703b1a60c18729510346a1e44dd777fb97cb00cf755949",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://859030195b1d4893dad5eae4fed31174691eaa489c8116ec131e0c267016b316",
+				"dweb:/ipfs/QmRzdoUHMUVeKhjJATsBCQzaHaKsegwx5DQxeFPCVz9Xic"
+			]
+		},
+		"hopium/uniswap/types/pool.sol": {
+			"keccak256": "0x1d9c7b4c311509599d60b1aec11cdfa094032bdad20935ab40bb98136681e6c9",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4d3ef706149f664d236461d84237ddab7f71d4585e4f9d868ed3118d6c11cbe0",
+				"dweb:/ipfs/QmaJx7Z1V8j9Edkg9mHTF6bLQphRCuwQHnR4K96DcPmnVg"
+			]
+		}
+	},
+	"version": 1
+}

@@ -65,12 +65,28 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
-		"hopium/uniswap/main/pool-finder.sol": {
-			"keccak256": "0x6193b53b8e9703bc82a171c0a095266f021e0c1701349c2abccfa74c628a84a8",
+		"hopium/uniswap/interface/iUniswapOracle.sol": {
+			"keccak256": "0x7a419d787e7de855d1052e5feb1961d671c6b49d6994ad3acd964bd962beb430",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://42bab14b8ace615a054cd3d6e28d3dbed58d7c96670b76463fac9be9ba2e38c6",
-				"dweb:/ipfs/QmTD6F6MB8LVDiV8sBV7pS2W5htote5Pnfs6GJsE7bo9yD"
+				"bzz-raw://ddd98dd3efe4f0f87528f687c9a2e3cd261c2ef78395a92caff28700bea24a82",
+				"dweb:/ipfs/QmP7zEoSu3SBemfnweYMJwqA9Xoc3KTSUNbpJSFPSa9hMq"
+			]
+		},
+		"hopium/uniswap/interface/imUniswapOracle.sol": {
+			"keccak256": "0x088fc8294145ba7156c60fe2f80f9dd72299aed12468a25ef3659fb7af53e1c1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5d34fb444d8c39aa614ff4f94bc92a5381f6c70a68af66d2f92f1d88d3c7a434",
+				"dweb:/ipfs/QmYLYF6Si42AZnnZvTC6DwSkDGy757L6Zs16di9eJGoUM3"
+			]
+		},
+		"hopium/uniswap/main/pool-finder.sol": {
+			"keccak256": "0xf4a57cf5dc33024041063529ec7a5c3f113f41277cc967af4a9b3ad8c8106fb4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6f25cee512b844be5438060f96eb045a11bce343632eaed61d235b0d9549915a",
+				"dweb:/ipfs/Qmd5xEtA17vGSaD2LMKoVYgfrmb4UFvi4L65oQqp3mB37x"
 			]
 		},
 		"hopium/uniswap/types/pool.sol": {

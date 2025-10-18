@@ -6,39 +6,8 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_directory",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "_wethAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "_v2Factory",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "_v3Factory",
-						"type": "address"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "constructor"
-			},
-			{
 				"inputs": [],
-				"name": "TokenIsWETH",
-				"type": "error"
-			},
-			{
-				"inputs": [],
-				"name": "ZeroAddress",
+				"name": "PoolDoesNotExist",
 				"type": "error"
 			},
 			{
@@ -87,196 +56,8 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "tokenAddress",
-						"type": "address"
-					}
-				],
-				"name": "findBestWethPool",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "poolAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "uint24",
-								"name": "poolFee",
-								"type": "uint24"
-							},
-							{
-								"internalType": "uint8",
-								"name": "isV3Pool",
-								"type": "uint8"
-							},
-							{
-								"internalType": "uint64",
-								"name": "lastCached",
-								"type": "uint64"
-							}
-						],
-						"internalType": "struct Pool",
-						"name": "pool",
-						"type": "tuple"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "tokenAddress",
-						"type": "address"
-					}
-				],
-				"name": "getBestWethPool",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "poolAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "uint24",
-								"name": "poolFee",
-								"type": "uint24"
-							},
-							{
-								"internalType": "uint8",
-								"name": "isV3Pool",
-								"type": "uint8"
-							},
-							{
-								"internalType": "uint64",
-								"name": "lastCached",
-								"type": "uint64"
-							}
-						],
-						"internalType": "struct Pool",
-						"name": "pool",
-						"type": "tuple"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "tokenAddress",
-						"type": "address"
-					}
-				],
-				"name": "getBestWethPoolAndUpdateIfStale",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "poolAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "uint24",
-								"name": "poolFee",
-								"type": "uint24"
-							},
-							{
-								"internalType": "uint8",
-								"name": "isV3Pool",
-								"type": "uint8"
-							},
-							{
-								"internalType": "uint64",
-								"name": "lastCached",
-								"type": "uint64"
-							}
-						],
-						"internalType": "struct Pool",
-						"name": "out",
-						"type": "tuple"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
 				"inputs": [],
 				"name": "owner",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "newStaleTime",
-						"type": "uint256"
-					}
-				],
-				"name": "setStaleTimePoolCache",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "staleTime",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "v2Factory",
-				"outputs": [
-					{
-						"internalType": "contract IUniswapV2Factory",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "v3Factory",
-				"outputs": [
-					{
-						"internalType": "contract IUniswapV3Factory",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "wethAddress",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -301,7 +82,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/uniswap/main/pool-finder.sol": "PoolFinder"
+			"hopium/uniswap/main/uniswap-oracle.sol": "PoolFinder"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -323,12 +104,28 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
-		"hopium/uniswap/main/pool-finder.sol": {
-			"keccak256": "0x6193b53b8e9703bc82a171c0a095266f021e0c1701349c2abccfa74c628a84a8",
+		"hopium/common/lib/full-math.sol": {
+			"keccak256": "0xc01379955057b3818fdc67caee0b42bb45909fb3b0d1f2788ef552dc22fdb3d0",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://42bab14b8ace615a054cd3d6e28d3dbed58d7c96670b76463fac9be9ba2e38c6",
-				"dweb:/ipfs/QmTD6F6MB8LVDiV8sBV7pS2W5htote5Pnfs6GJsE7bo9yD"
+				"bzz-raw://a3ae69d75a9aa01a2802e60cd62b27cbadd29d848e87fd411710a466ad6cae95",
+				"dweb:/ipfs/QmaRZCGHFyz7S31BLMiAnaqDYwJsNzKQdTLGBDwig45pRo"
+			]
+		},
+		"hopium/uniswap/interface/imPoolFinder.sol": {
+			"keccak256": "0x7e6213ae2a5134c5cf5db4379260aafa5266a837ee6e7fa453a2ea4a441341dd",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2b2e41e4d3ee83afde004f46bdfda73acb006ced4276e10340007b1a76c64b19",
+				"dweb:/ipfs/QmbBrtNKF51naV4ZjtGPj7jKBsn2FFBPRLmd65oSjAvyoG"
+			]
+		},
+		"hopium/uniswap/main/uniswap-oracle.sol": {
+			"keccak256": "0xe0a32ce875df0adaf217f8105f8bae14b787ba246fc4dfb1ba8f2a1b0174f852",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0ef46e30cd3096270478f9c43b58b8f830d213b9bb9ec1795d9d47baf8b6d176",
+				"dweb:/ipfs/QmcT1kwVBLKe9Kj2jmviBBvK674UWzS1yvq4qWrKnJpAqC"
 			]
 		},
 		"hopium/uniswap/types/pool.sol": {

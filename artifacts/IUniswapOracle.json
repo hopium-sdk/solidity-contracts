@@ -55,6 +55,7 @@
 			"getTokenMarketCapWeth(address)": "63aa0c93",
 			"getTokenUsdPrice(address)": "00593bcf",
 			"getTokenWethPrice(address)": "7b49b49d",
+			"getTokenWethPriceByPool(address,address,bool)": "2cc233eb",
 			"getWethUsdPrice()": "6855e939"
 		}
 	},
@@ -167,6 +168,35 @@
 				{
 					"internalType": "uint256",
 					"name": "price18",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "tokenAddress",
+					"type": "address"
+				},
+				{
+					"internalType": "address",
+					"name": "poolAddress",
+					"type": "address"
+				},
+				{
+					"internalType": "bool",
+					"name": "isV3Pool",
+					"type": "bool"
+				}
+			],
+			"name": "getTokenWethPriceByPool",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
 					"type": "uint256"
 				}
 			],

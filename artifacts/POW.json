@@ -50,5 +50,11 @@
 		"gasEstimates": null,
 		"methodIdentifiers": {}
 	},
-	"abi": []
+	"abi": [
+		{
+			"inputs": [],
+			"name": "EmptyReserves",
+			"type": "error"
+		}
+	]
 }

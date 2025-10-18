@@ -49,11 +49,31 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
+			"emitPoolChangedEventOnWethUsdPool(address,bool)": "15345689",
 			"getBestWethPool(address)": "df697cc4",
+			"getBestWethPoolAndForceUpdate(address)": "0f26945f",
 			"getBestWethPoolAndUpdateIfStale(address)": "6425f09e"
 		}
 	},
 	"abi": [
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "poolAddress",
+					"type": "address"
+				},
+				{
+					"internalType": "bool",
+					"name": "isV3Pool",
+					"type": "bool"
+				}
+			],
+			"name": "emitPoolChangedEventOnWethUsdPool",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
 		{
 			"inputs": [
 				{
@@ -93,6 +113,47 @@
 				}
 			],
 			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "tokenAddress",
+					"type": "address"
+				}
+			],
+			"name": "getBestWethPoolAndForceUpdate",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "address",
+							"name": "poolAddress",
+							"type": "address"
+						},
+						{
+							"internalType": "uint24",
+							"name": "poolFee",
+							"type": "uint24"
+						},
+						{
+							"internalType": "uint8",
+							"name": "isV3Pool",
+							"type": "uint8"
+						},
+						{
+							"internalType": "uint64",
+							"name": "lastCached",
+							"type": "uint64"
+						}
+					],
+					"internalType": "struct Pool",
+					"name": "out",
+					"type": "tuple"
+				}
+			],
+			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{

@@ -13,11 +13,16 @@
 						"type": "uint256"
 					}
 				],
-				"name": "getEtfUsdPrice",
+				"name": "getEtfPrice",
 				"outputs": [
 					{
 						"internalType": "uint256",
-						"name": "",
+						"name": "wethPrice18",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "usdPrice18",
 						"type": "uint256"
 					}
 				],
@@ -162,11 +167,11 @@
 	},
 	"sources": {
 		"hopium/etf/interface/iEtfOracle.sol": {
-			"keccak256": "0x9943e4ee5d08b59a6b704fe34bbc532b799a2b20ae638f4db186f21767e7f0bc",
+			"keccak256": "0x9fcc55390204ab865e9d297efb57dc637f9c500e594305b07f67b660902d4809",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://46d95bdfe6715bfe40a73f2bf6eddd4ad187a22f92032eeef386a8251f24dc3d",
-				"dweb:/ipfs/QmWH5oaeheZWufHXQPZMhohxg59PNfyHTkeSvWdTTcpRx8"
+				"bzz-raw://c117860fc924a65c1da27605ea0be3583deebf75e7873080b61b77c38588dfcf",
+				"dweb:/ipfs/QmX3mqXNg8xtjrdiRpPkRoDXZGn9SHEmP9hCfA7oyzTnCv"
 			]
 		},
 		"hopium/etf/types/etf.sol": {

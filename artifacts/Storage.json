@@ -49,7 +49,8 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"WETH_ADDRESS()": "040141e5"
+			"DEFAULT_SLIPPAGE_BIPS()": "0650b0fc",
+			"PLATFORM_FEE()": "34fbc9a1"
 		}
 	},
 	"abi": [
@@ -57,48 +58,54 @@
 			"anonymous": false,
 			"inputs": [
 				{
-					"indexed": true,
-					"internalType": "uint256",
-					"name": "etfId",
-					"type": "uint256"
-				}
-			],
-			"name": "EtfCreated",
-			"type": "event"
-		},
-		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": true,
+					"indexed": false,
 					"internalType": "uint256",
 					"name": "etfId",
 					"type": "uint256"
 				},
 				{
+					"components": [
+						{
+							"internalType": "address",
+							"name": "tokenAddress",
+							"type": "address"
+						},
+						{
+							"internalType": "uint256",
+							"name": "tokenAmount",
+							"type": "uint256"
+						}
+					],
 					"indexed": false,
-					"internalType": "address",
-					"name": "etfTokenAddress",
-					"type": "address"
-				},
-				{
-					"indexed": false,
-					"internalType": "address",
-					"name": "etfVaultAddress",
-					"type": "address"
+					"internalType": "struct Storage.TokenBalance[]",
+					"name": "updatedBalances",
+					"type": "tuple[]"
 				}
 			],
-			"name": "EtfDeployed",
+			"name": "VaultBalanceChanged",
 			"type": "event"
 		},
 		{
 			"inputs": [],
-			"name": "WETH_ADDRESS",
+			"name": "DEFAULT_SLIPPAGE_BIPS",
 			"outputs": [
 				{
-					"internalType": "address",
+					"internalType": "uint32",
 					"name": "",
-					"type": "address"
+					"type": "uint32"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "PLATFORM_FEE",
+			"outputs": [
+				{
+					"internalType": "uint16",
+					"name": "",
+					"type": "uint16"
 				}
 			],
 			"stateMutability": "view",

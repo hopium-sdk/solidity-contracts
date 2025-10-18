@@ -9,6 +9,24 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "poolAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "isV3Pool",
+						"type": "bool"
+					}
+				],
+				"name": "emitPoolChangedEventOnWethUsdPool",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "tokenAddress",
 						"type": "address"
 					}
@@ -44,6 +62,47 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getBestWethPoolAndForceUpdate",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "poolAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint24",
+								"name": "poolFee",
+								"type": "uint24"
+							},
+							{
+								"internalType": "uint8",
+								"name": "isV3Pool",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint64",
+								"name": "lastCached",
+								"type": "uint64"
+							}
+						],
+						"internalType": "struct Pool",
+						"name": "out",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -124,11 +183,11 @@
 			]
 		},
 		"hopium/uniswap/interface/imPoolFinder.sol": {
-			"keccak256": "0x44b632c262192212ac573c3a26f7fb0af9be284d2ef1e59b05e23217406f49e9",
+			"keccak256": "0x7e6213ae2a5134c5cf5db4379260aafa5266a837ee6e7fa453a2ea4a441341dd",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c457138ea78dbd4c4732a3ea165788a428c5650b93bdad80c9c6e2725ffdf978",
-				"dweb:/ipfs/QmbFyFS6VFcTzS4MFY3sGYz6m9ADV5j5CuYtppHnrMfpQn"
+				"bzz-raw://2b2e41e4d3ee83afde004f46bdfda73acb006ced4276e10340007b1a76c64b19",
+				"dweb:/ipfs/QmbBrtNKF51naV4ZjtGPj7jKBsn2FFBPRLmd65oSjAvyoG"
 			]
 		},
 		"hopium/uniswap/types/pool.sol": {

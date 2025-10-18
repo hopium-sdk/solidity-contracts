@@ -224,6 +224,14 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
+		"hopium/common/lib/full-math.sol": {
+			"keccak256": "0xc01379955057b3818fdc67caee0b42bb45909fb3b0d1f2788ef552dc22fdb3d0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a3ae69d75a9aa01a2802e60cd62b27cbadd29d848e87fd411710a466ad6cae95",
+				"dweb:/ipfs/QmaRZCGHFyz7S31BLMiAnaqDYwJsNzKQdTLGBDwig45pRo"
+			]
+		},
 		"hopium/common/lib/permit2.sol": {
 			"keccak256": "0x0b86b7caa1dda19ef706acf8bd743f695f6ef40495c6f50714ba942513ee8d6e",
 			"license": "MIT",
@@ -281,11 +289,11 @@
 			]
 		},
 		"hopium/uniswap/lib/oracleLibrary.sol": {
-			"keccak256": "0x660043055ae600d85ce53112a0252e40ef425460378d457998b2064fb0270719",
+			"keccak256": "0x09b65d4a4f450f0ced80009a0f8b3408e18b24abbc25284239eec564b066606b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://76555ceef10c440774931cc6b86257cf3ebe357440a83b9d58157d763e132b56",
-				"dweb:/ipfs/QmTC6YnsSFEqSYujiDC4y7kKD1AYdCS55uJUyz68Mrc73u"
+				"bzz-raw://84d173595163afe09d68f9f327983ab191dd09a652c7a55f8512ec872c08f949",
+				"dweb:/ipfs/QmWbQkQGDBsJqjLk9E9t3wYNHhdDs4dQVr4Am83tQt5aj7"
 			]
 		},
 		"hopium/uniswap/main/multiswap-router.sol": {

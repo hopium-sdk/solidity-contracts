@@ -115,19 +115,41 @@
 					"internalType": "uint256",
 					"name": "etfId",
 					"type": "uint256"
-				}
-			],
-			"name": "EtfCreated",
-			"type": "event"
-		},
-		{
-			"anonymous": false,
-			"inputs": [
+				},
 				{
-					"indexed": true,
-					"internalType": "uint256",
-					"name": "etfId",
-					"type": "uint256"
+					"components": [
+						{
+							"internalType": "string",
+							"name": "name",
+							"type": "string"
+						},
+						{
+							"internalType": "string",
+							"name": "ticker",
+							"type": "string"
+						},
+						{
+							"components": [
+								{
+									"internalType": "address",
+									"name": "tokenAddress",
+									"type": "address"
+								},
+								{
+									"internalType": "uint16",
+									"name": "weightBips",
+									"type": "uint16"
+								}
+							],
+							"internalType": "struct Asset[]",
+							"name": "assets",
+							"type": "tuple[]"
+						}
+					],
+					"indexed": false,
+					"internalType": "struct Etf",
+					"name": "etf",
+					"type": "tuple"
 				},
 				{
 					"indexed": false,
