@@ -4,7 +4,7 @@ pragma solidity 0.8.30;
 import "hopium/common/interface/imDirectory.sol";
 
 interface IEtfRouter {
-    
+    function mintEtfTokens(uint256 etfId, address receiver) external payable;
 }
 
 abstract contract ImEtfRouter is ImDirectory {

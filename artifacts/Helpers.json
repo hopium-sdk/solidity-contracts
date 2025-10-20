@@ -74,6 +74,11 @@
 		},
 		{
 			"inputs": [],
+			"name": "InvalidSeedAmount",
+			"type": "error"
+		},
+		{
+			"inputs": [],
 			"name": "NoAssets",
 			"type": "error"
 		},
@@ -105,6 +110,11 @@
 		{
 			"inputs": [],
 			"name": "ZeroWeight",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "ZeroWethUsdPrice",
 			"type": "error"
 		},
 		{

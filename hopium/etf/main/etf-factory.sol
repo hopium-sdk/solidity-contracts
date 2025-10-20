@@ -10,6 +10,8 @@ import "hopium/etf/interface/imEtfTokenDeployer.sol";
 import "hopium/etf/interface/imEtfVaultDeployer.sol";
 import "hopium/etf/interface/imEtfRouter.sol";
 import "hopium/uniswap/interface/imUniswapOracle.sol";
+import "hopium/etf/interface/imEtfRouter.sol";
+import "hopium/common/lib/transfer-helpers.sol";
 
 abstract contract Storage {
     uint256 internal immutable WAD = 1e18;
@@ -129,7 +131,7 @@ abstract contract EtfCreationHelpers is Storage, ImPoolFinder {
     }
 }
 
-abstract contract Helpers is EtfCreationHelpers  {
+abstract contract Helpers is EtfCreationHelpers, ImUniswapOracle, ImEtfRouter  {
     function _createEtf(Etf calldata etf) internal returns (uint256) {
         // Validate ticker & get key
         bytes32 tickerHash = _validateTicker(etf.ticker);
@@ -150,16 +152,33 @@ abstract contract Helpers is EtfCreationHelpers  {
 
         return etfId;
     }
+
+    error ZeroWethUsdPrice();
+    function _getSeedPrice() internal view returns (uint256 usdInEth) {
+        uint256 wethUsd = getUniswapOracle().getWethUsdPrice(); // 1 ETH = wethUsd USD (1e18)
+        if (wethUsd == 0) revert ZeroWethUsdPrice();
+        // 1 USD = 1 / wethUsd ETH → scaled by WAD (1e18)
+        usdInEth = (WAD * WAD) / wethUsd;
+    }
+
+    error InvalidSeedAmount();
+    /// @notice Internal seeding helper. Mints ETF tokens equal to the ETH seed provided.
+    function _seedEtf(uint256 etfId) internal {
+        if (msg.value < _getSeedPrice()) revert InvalidSeedAmount();
+
+        // Forward ETH to router which mints ETF tokens to `receiver`
+        getEtfRouter().mintEtfTokens{ value: msg.value }(etfId, address(this));
+    }
 }
 
-contract EtfFactory is ImDirectory, Helpers, ImEtfTokenDeployer, ImEtfVaultDeployer, ImEtfRouter, ImUniswapOracle {
+contract EtfFactory is ImDirectory, Helpers, ImEtfTokenDeployer, ImEtfVaultDeployer {
     constructor(address _directory,  address _wethAddress) ImDirectory(_directory) {
         WETH_ADDRESS = _wethAddress;
     }
 
     // -- Write fns --
 
-    function createEtf(Etf calldata etf) external onlyOwner returns (uint256) {
+    function createEtf(Etf calldata etf) external payable onlyOwner returns (uint256) {
         //create etf
         uint256 etfId = _createEtf(etf);
 
@@ -174,11 +193,12 @@ contract EtfFactory is ImDirectory, Helpers, ImEtfTokenDeployer, ImEtfVaultDeplo
 
         emit EtfDeployed(etfId, etf, etfTokenAddress, etfVaultAddress);
 
+        _seedEtf(etfId);
+
         return etfId;
     }
 
     error ZeroTradeValue();
-    error ZeroWethUsdPrice();
     function updateEtfVolume(uint256 etfId, uint256 ethAmount) public onlyEtfRouter {
         if (ethAmount == 0) revert ZeroTradeValue();
 
@@ -225,4 +245,17 @@ contract EtfFactory is ImDirectory, Helpers, ImEtfTokenDeployer, ImEtfVaultDeplo
         volWeth = etfIdToTotalVolumeWeth[etfId];
         volUsd = etfIdToTotalVolumeUsd[etfId];
     }
+
+    function getSeedPrice() external view returns (uint256) {
+        uint256 base = _getSeedPrice();                 // in ETH (1e18)
+        uint256 num = HUNDRED_PERCENT_BIPS + 100;     // 11000 bips = +1%
+        // ceil(base * 11000 / 10000)
+        return (base * num + HUNDRED_PERCENT_BIPS - 1) / HUNDRED_PERCENT_BIPS;
+    }
+
+    function recoverAsset(address tokenAddress, address toAddress) public onlyOwner {
+        TransferHelpers.recoverAsset(tokenAddress, toAddress);
+    }
+
+    receive() external payable {}
 }

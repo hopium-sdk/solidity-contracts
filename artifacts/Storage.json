@@ -49,8 +49,7 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"DEFAULT_SLIPPAGE_BIPS()": "0650b0fc",
-			"PLATFORM_FEE()": "34fbc9a1"
+			"WETH_ADDRESS()": "040141e5"
 		}
 	},
 	"abi": [
@@ -58,7 +57,7 @@
 			"anonymous": false,
 			"inputs": [
 				{
-					"indexed": false,
+					"indexed": true,
 					"internalType": "uint256",
 					"name": "etfId",
 					"type": "uint256"
@@ -66,46 +65,62 @@
 				{
 					"components": [
 						{
-							"internalType": "address",
-							"name": "tokenAddress",
-							"type": "address"
+							"internalType": "string",
+							"name": "name",
+							"type": "string"
 						},
 						{
-							"internalType": "uint256",
-							"name": "tokenAmount",
-							"type": "uint256"
+							"internalType": "string",
+							"name": "ticker",
+							"type": "string"
+						},
+						{
+							"components": [
+								{
+									"internalType": "address",
+									"name": "tokenAddress",
+									"type": "address"
+								},
+								{
+									"internalType": "uint16",
+									"name": "weightBips",
+									"type": "uint16"
+								}
+							],
+							"internalType": "struct Asset[]",
+							"name": "assets",
+							"type": "tuple[]"
 						}
 					],
 					"indexed": false,
-					"internalType": "struct Storage.TokenBalance[]",
-					"name": "updatedBalances",
-					"type": "tuple[]"
+					"internalType": "struct Etf",
+					"name": "etf",
+					"type": "tuple"
+				},
+				{
+					"indexed": false,
+					"internalType": "address",
+					"name": "etfTokenAddress",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "address",
+					"name": "etfVaultAddress",
+					"type": "address"
 				}
 			],
-			"name": "VaultBalanceChanged",
+			"name": "EtfDeployed",
 			"type": "event"
 		},
 		{
 			"inputs": [],
-			"name": "DEFAULT_SLIPPAGE_BIPS",
+			"name": "WETH_ADDRESS",
 			"outputs": [
 				{
-					"internalType": "uint32",
+					"internalType": "address",
 					"name": "",
-					"type": "uint32"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "PLATFORM_FEE",
-			"outputs": [
-				{
-					"internalType": "uint16",
-					"name": "",
-					"type": "uint16"
+					"type": "address"
 				}
 			],
 			"stateMutability": "view",

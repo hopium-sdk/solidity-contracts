@@ -69,179 +69,6 @@
 						"type": "uint256"
 					}
 				],
-				"name": "getEtfDetails",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "string",
-								"name": "name",
-								"type": "string"
-							},
-							{
-								"internalType": "string",
-								"name": "ticker",
-								"type": "string"
-							},
-							{
-								"components": [
-									{
-										"internalType": "address",
-										"name": "tokenAddress",
-										"type": "address"
-									},
-									{
-										"internalType": "uint16",
-										"name": "weightBips",
-										"type": "uint16"
-									}
-								],
-								"internalType": "struct Asset[]",
-								"name": "assets",
-								"type": "tuple[]"
-							}
-						],
-						"internalType": "struct Etf",
-						"name": "etf",
-						"type": "tuple"
-					},
-					{
-						"components": [
-							{
-								"components": [
-									{
-										"internalType": "uint256",
-										"name": "eth18",
-										"type": "uint256"
-									},
-									{
-										"internalType": "uint256",
-										"name": "usd18",
-										"type": "uint256"
-									}
-								],
-								"internalType": "struct EtfStats.EthUsd",
-								"name": "price",
-								"type": "tuple"
-							},
-							{
-								"components": [
-									{
-										"internalType": "uint256",
-										"name": "eth18",
-										"type": "uint256"
-									},
-									{
-										"internalType": "uint256",
-										"name": "usd18",
-										"type": "uint256"
-									}
-								],
-								"internalType": "struct EtfStats.EthUsd",
-								"name": "volume",
-								"type": "tuple"
-							},
-							{
-								"components": [
-									{
-										"internalType": "uint256",
-										"name": "eth18",
-										"type": "uint256"
-									},
-									{
-										"internalType": "uint256",
-										"name": "usd18",
-										"type": "uint256"
-									}
-								],
-								"internalType": "struct EtfStats.EthUsd",
-								"name": "tvl",
-								"type": "tuple"
-							},
-							{
-								"internalType": "uint256",
-								"name": "assetsLiquidityUsd",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "assetsMcapUsd",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct EtfStats.Stats",
-						"name": "st",
-						"type": "tuple"
-					},
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "tokenAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "uint8",
-								"name": "tokenDecimals",
-								"type": "uint8"
-							},
-							{
-								"internalType": "uint16",
-								"name": "currentWeight",
-								"type": "uint16"
-							},
-							{
-								"internalType": "uint256",
-								"name": "tokenRawBalance",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "tokenPriceWeth18",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "tokenPriceUsd18",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "tokenValueWeth18",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "tokenValueUsd18",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct SnapshotWithUsd[]",
-						"name": "sn",
-						"type": "tuple[]"
-					},
-					{
-						"internalType": "uint256",
-						"name": "etfTvlWeth",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "etfTvlUsd",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "etfId",
-						"type": "uint256"
-					}
-				],
 				"name": "getEtfPrice",
 				"outputs": [
 					{
@@ -284,41 +111,7 @@
 									}
 								],
 								"internalType": "struct EtfStats.EthUsd",
-								"name": "price",
-								"type": "tuple"
-							},
-							{
-								"components": [
-									{
-										"internalType": "uint256",
-										"name": "eth18",
-										"type": "uint256"
-									},
-									{
-										"internalType": "uint256",
-										"name": "usd18",
-										"type": "uint256"
-									}
-								],
-								"internalType": "struct EtfStats.EthUsd",
 								"name": "volume",
-								"type": "tuple"
-							},
-							{
-								"components": [
-									{
-										"internalType": "uint256",
-										"name": "eth18",
-										"type": "uint256"
-									},
-									{
-										"internalType": "uint256",
-										"name": "usd18",
-										"type": "uint256"
-									}
-								],
-								"internalType": "struct EtfStats.EthUsd",
-								"name": "tvl",
 								"type": "tuple"
 							},
 							{
@@ -641,7 +434,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -704,11 +497,11 @@
 			]
 		},
 		"hopium/etf/main/etf-oracle.sol": {
-			"keccak256": "0x2f8a7db48f936d217e6644a0130dd44c1d8826f1f0a092c000f6ec48a18dcc05",
+			"keccak256": "0xa3c63a7b86f92e4cb8bffcba83ad58c4ab1dcbcb867d259f1f9098a2391fa274",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://79d6f4b5fe309f55259192f58b4469ef37bd669ebd1155d5acc53c202643a910",
-				"dweb:/ipfs/QmaTSm1XjL1zoJkoDLYJjVB8LK48c4igcVBwyeDcS1o6kC"
+				"bzz-raw://8e745be9da7d3da6694af080ce0834a357a7a10a7b8e19e2f6253b8f49e22162",
+				"dweb:/ipfs/Qmc6T751fssQZvxGZyP48g58XT6UDwuwB4cy8xudecdgrt"
 			]
 		},
 		"hopium/etf/types/etf.sol": {

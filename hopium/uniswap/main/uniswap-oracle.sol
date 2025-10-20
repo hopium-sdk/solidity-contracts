@@ -193,44 +193,42 @@ abstract contract PriceHelper is POW, Storage, PoolFinder {
         bool baseIs1 = (t1 == baseAddress);
         if (!(baseIs0 || baseIs1) || (baseIs0 && baseIs1)) revert NotBasePool();
 
-        // priceQ96 = (token1/token0) in Q96 fixed point
+        // P_raw in Q96: token1/token0 * 2^96
         uint256 priceQ96 = FullMath.mulDiv(uint256(sqrtPriceX96), uint256(sqrtPriceX96), 1 << 96);
 
         if (baseIs1) {
-            // Want base/token0 = token1/token0
+            // base = t1, token = t0: want (token1/token0)
             uint8 baseDec  = IERC20Metadata(t1).decimals();
             uint8 tokenDec = IERC20Metadata(t0).decimals();
-
-            // scale = 1e18 * 10^(tokenDec - baseDec)
             unchecked {
                 if (tokenDec >= baseDec) {
                     uint256 scale = WAD * _pow10(tokenDec - baseDec);
-                    // price18 = priceQ96 * scale / 2^96
                     return FullMath.mulDiv(priceQ96, scale, 1 << 96);
                 } else {
-                    // price18 = (priceQ96 * 1e18) / (2^96 * 10^(baseDec - tokenDec))
                     uint256 denom = (1 << 96) * _pow10(baseDec - tokenDec);
                     return FullMath.mulDiv(priceQ96, WAD, denom);
                 }
             }
         } else {
-            // baseIs0: want base/token1 = token0/token1 = 1 / (token1/token0)
+            // base = t0, token = t1: want 1 / (token1/token0)
             uint8 baseDec  = IERC20Metadata(t0).decimals();
             uint8 tokenDec = IERC20Metadata(t1).decimals();
-
             unchecked {
-                if (baseDec >= tokenDec) {
-                    // price18 = (1e18 * 10^(baseDec - tokenDec) * 2^96) / priceQ96
-                    uint256 numer = WAD * _pow10(baseDec - tokenDec) * (1 << 96);
+                // **FIX STARTS HERE** (use tokenDec - baseDec, not baseDec - tokenDec)
+                if (tokenDec >= baseDec) {
+                    // price18 = (1e18 * 10^(tokenDec - baseDec) * 2^96) / priceQ96
+                    uint256 numer = WAD * _pow10(tokenDec - baseDec) * (1 << 96);
                     return FullMath.mulDiv(numer, 1, priceQ96);
                 } else {
-                    // price18 = (1e18 * 2^96) / (priceQ96 * 10^(tokenDec - baseDec))
-                    uint256 denom = priceQ96 * _pow10(tokenDec - baseDec);
+                    // price18 = (1e18 * 2^96) / (priceQ96 * 10^(baseDec - tokenDec))
+                    uint256 denom = priceQ96 * _pow10(baseDec - tokenDec);
                     return FullMath.mulDiv(WAD * (1 << 96), 1, denom);
                 }
+                // **FIX ENDS HERE**
             }
         }
     }
+
 
 
     function _getTokenPrice(address poolAddress, bool isV3Pool, address baseAddress) internal view returns (uint256 price18) {

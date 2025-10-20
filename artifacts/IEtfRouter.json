@@ -48,7 +48,28 @@
 			"sourceMap": ""
 		},
 		"gasEstimates": null,
-		"methodIdentifiers": {}
+		"methodIdentifiers": {
+			"mintEtfTokens(uint256,address)": "25c006f9"
+		}
 	},
-	"abi": []
+	"abi": [
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "etfId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "receiver",
+					"type": "address"
+				}
+			],
+			"name": "mintEtfTokens",
+			"outputs": [],
+			"stateMutability": "payable",
+			"type": "function"
+		}
+	]
 }

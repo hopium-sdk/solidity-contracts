@@ -58,6 +58,11 @@
 	"abi": [
 		{
 			"inputs": [],
+			"name": "CapacityExceeded",
+			"type": "error"
+		},
+		{
+			"inputs": [],
 			"name": "EmptyBuf",
 			"type": "error"
 		},

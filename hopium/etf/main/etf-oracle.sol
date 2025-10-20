@@ -205,9 +205,7 @@ abstract contract EtfStats is PriceHelpers {
     }
     
     struct Stats {
-        EthUsd  price;               // NAV per ETF token
         EthUsd  volume;              // cumulative volume since inception
-        EthUsd  tvl;                 // vault TVL
         uint256 assetsLiquidityUsd;  // sum of TOKEN–WETH pool liquidity (USD, 1e18)
         uint256 assetsMcapUsd;       // sum of token market caps (USD, 1e18)
     }
@@ -227,24 +225,14 @@ abstract contract EtfStats is PriceHelpers {
     }
 
     /// @notice Returns full ETF stats.
-    function _getStats(uint256 etfId, Etf memory etf, address etfVault) internal view returns (Stats memory s) {
+    function _getStats(uint256 etfId, Etf memory etf) internal view returns (Stats memory s) {
         IUniswapOracle uniO = getUniswapOracle();
 
-        // 2. NAV per ETF token
-        uint256 priceEth18 = _getEtfWethPrice(etfId, etf, etfVault);
-        uint256 priceUsd18 = _convertWethToUsd(priceEth18);
-        s.price = EthUsd({ eth18: priceEth18, usd18: priceUsd18 });
-
-        // 3. Volume (from factory)
+        // 1. Volume (from factory)
         (uint256 volWeth18, uint256 volUsd18) = getEtfFactory().getEtfTotalVolume(etfId);
         s.volume = EthUsd({ eth18: volWeth18, usd18: volUsd18 });
 
-        // 4. TVL (vault holdings)
-        uint256 tvlEth18 = _getEtfTvlWeth(etf, etfVault);
-        uint256 tvlUsd18 = _convertWethToUsd(tvlEth18);
-        s.tvl = EthUsd({ eth18: tvlEth18, usd18: tvlUsd18 });
-
-        // 5. Aggregated per-asset stats
+        // 2. Aggregated per-asset stats
         s.assetsLiquidityUsd = _sumPerAsset(etf, uniO.getTokenLiquidityUsd);
         s.assetsMcapUsd      = _sumPerAsset(etf, uniO.getTokenMarketCapUsd);
     }
@@ -290,14 +278,7 @@ contract EtfOracle is ImDirectory, PriceHelpers, EtfStats {
     }
 
     function getEtfStats(uint256 etfId) external view returns (Stats memory s) {
-        (Etf memory etf, address etfVault) = getEtfFactory().getEtfByIdAndVault(etfId);
-        return _getStats(etfId, etf, etfVault);
-    }
-
-    function getEtfDetails(uint256 etfId) external view returns (Etf memory etf, Stats memory st, SnapshotWithUsd[] memory sn, uint256 etfTvlWeth, uint256 etfTvlUsd) {
-        address etfVault;
-        (etf, etfVault) = getEtfFactory().getEtfByIdAndVault(etfId);
-        st = _getStats(etfId, etf, etfVault);
-        (sn, etfTvlWeth, etfTvlUsd) = _snapshotVaultWithUsd(etf, etfVault);
+        (Etf memory etf) = getEtfFactory().getEtfById(etfId);
+        return _getStats(etfId, etf);
     }
 }

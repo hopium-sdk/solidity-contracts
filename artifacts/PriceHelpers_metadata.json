@@ -85,7 +85,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -148,11 +148,11 @@
 			]
 		},
 		"hopium/etf/main/etf-oracle.sol": {
-			"keccak256": "0x2f8a7db48f936d217e6644a0130dd44c1d8826f1f0a092c000f6ec48a18dcc05",
+			"keccak256": "0xa3c63a7b86f92e4cb8bffcba83ad58c4ab1dcbcb867d259f1f9098a2391fa274",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://79d6f4b5fe309f55259192f58b4469ef37bd669ebd1155d5acc53c202643a910",
-				"dweb:/ipfs/QmaTSm1XjL1zoJkoDLYJjVB8LK48c4igcVBwyeDcS1o6kC"
+				"bzz-raw://8e745be9da7d3da6694af080ce0834a357a7a10a7b8e19e2f6253b8f49e22162",
+				"dweb:/ipfs/Qmc6T751fssQZvxGZyP48g58XT6UDwuwB4cy8xudecdgrt"
 			]
 		},
 		"hopium/etf/types/etf.sol": {

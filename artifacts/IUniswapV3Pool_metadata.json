@@ -140,11 +140,11 @@
 			]
 		},
 		"hopium/uniswap/main/uniswap-oracle.sol": {
-			"keccak256": "0xe0a32ce875df0adaf217f8105f8bae14b787ba246fc4dfb1ba8f2a1b0174f852",
+			"keccak256": "0x40f2a5cc13fe9dec357e0ce631ece345c32318e4a6625a0348efe1b92f47b571",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://0ef46e30cd3096270478f9c43b58b8f830d213b9bb9ec1795d9d47baf8b6d176",
-				"dweb:/ipfs/QmcT1kwVBLKe9Kj2jmviBBvK674UWzS1yvq4qWrKnJpAqC"
+				"bzz-raw://4ed63a7c255199b3972e5f3ffaa3a159148bb6656c389c44a93e52f3264ac26a",
+				"dweb:/ipfs/QmZuFPCHGYUV1QreazZ5YzZ2HWCFfBVrJzUf8g3NnBb6r3"
 			]
 		},
 		"hopium/uniswap/types/pool.sol": {

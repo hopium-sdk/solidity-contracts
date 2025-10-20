@@ -4,7 +4,26 @@
 	},
 	"language": "Solidity",
 	"output": {
-		"abi": [],
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "receiver",
+						"type": "address"
+					}
+				],
+				"name": "mintEtfTokens",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
 		"devdoc": {
 			"kind": "dev",
 			"methods": {},
@@ -41,11 +60,11 @@
 			]
 		},
 		"hopium/etf/interface/imEtfRouter.sol": {
-			"keccak256": "0x9ef2dafe8d3bf78ea2372470cd04070489e0d2324d91a8fbc7c3867a8eabc9f6",
+			"keccak256": "0x4fd93f9ce7640689f5972fd5223e6f0736328c6b138a29305f55f0648265b1f2",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a558b98b69ec2677eb516606b18553fb1ea77376d5db15cef8ef4283c7b7ad95",
-				"dweb:/ipfs/Qmdey7B1K99bf8XbQ3NAS1RMntRkziFFitrBQQpzM2hqiz"
+				"bzz-raw://3cd6c04d58f6085e83d6b0397ff7da38f3f3ba002fad5291a806e9c0237f413d",
+				"dweb:/ipfs/QmXgLguqgoW8HjmUJMiwbKWDdihwfcuJ7BsJ9UERvCc79G"
 			]
 		}
 	},

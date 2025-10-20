@@ -261,11 +261,11 @@
 			]
 		},
 		"hopium/etf/main/etf-router.sol": {
-			"keccak256": "0x98afc608674a4c4d1f10cda5e2d024fcd8ef8efb53444fe7ef766f4d40e6aea3",
+			"keccak256": "0xa4cf6e5d41f78ac74524891c60aac87bb2b1b49e2f18f63a96992bdf8de5629b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://64c92218728f22de9e2d2a5a583dc4028cd81e1eb58965745fd1699614267ee4",
-				"dweb:/ipfs/QmPJKSWpG86gkHjwC5g2vewXKoywAUG1Mau4hBwK2YyKoj"
+				"bzz-raw://1124975e31f6a45ac89d4310c973c90573c39c13c09da01c7be33ae560438ebd",
+				"dweb:/ipfs/QmQB153uM1YnSSEWw2BLPiwApsPZoP8T2vwyUEjnh3moHr"
 			]
 		},
 		"hopium/etf/types/etf.sol": {
