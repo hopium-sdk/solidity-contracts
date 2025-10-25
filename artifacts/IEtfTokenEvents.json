@@ -49,7 +49,7 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"emitTransferEvent(uint256,address,address,uint256)": "c082f03f"
+			"emitTransferEvent(uint256,address,address,uint256,uint256)": "4b4bcf7e"
 		}
 	},
 	"abi": [
@@ -73,6 +73,11 @@
 				{
 					"internalType": "uint256",
 					"name": "transferAmount",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "totalSupply",
 					"type": "uint256"
 				}
 			],

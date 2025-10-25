@@ -10,4 +10,5 @@ interface IUniswapOracle {
     function getTokenMarketCapWeth(address) external view returns (uint256);
     function getTokenMarketCapUsd(address) external view returns (uint256);
     function getTokenWethPriceByPool(address tokenAddress, address poolAddress, bool isV3Pool) external view returns (uint256);
+    function emitPoolChangedEventOnWethUsdPool() external;
 }

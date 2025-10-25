@@ -4,7 +4,7 @@ pragma solidity 0.8.30;
 import "hopium/common/interface/imDirectory.sol";
 
 interface IEtfTokenEvents {
-    function emitTransferEvent(uint256 etfId, address fromAddress, address toAddress, uint256 transferAmount) external;
+    function emitTransferEvent(uint256 etfId, address fromAddress, address toAddress, uint256 transferAmount, uint256 totalSupply) external;
 }
 
 abstract contract ImEtfTokenEvents is ImDirectory {

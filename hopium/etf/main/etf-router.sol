@@ -23,13 +23,6 @@ abstract contract Storage {
     uint16 public PLATFORM_FEE = 25;
     uint256 internal constant WAD = 1e18;
     uint32 public DEFAULT_SLIPPAGE_BIPS = 300;
-
-    struct TokenBalance {
-        address tokenAddress;
-        uint256 tokenAmount;
-    }
-
-    event VaultBalanceChanged(uint256 etfId, TokenBalance[] updatedBalances);
 }
 
 abstract contract Fee is ImDirectory, Storage, ImEtfFactory {
@@ -589,26 +582,7 @@ abstract contract RebalanceHelpers is MintRedeemHelpers {
     }
 }
 
-abstract contract VaultBalance is RebalanceHelpers {
-    function emitVaultBalanceEvent(uint256 etfId, Etf memory etf, address etfVault) internal {
-        uint256 n = etf.assets.length;
-        TokenBalance[] memory updated = new TokenBalance[](n);
-
-        // Snapshot each asset's ERC-20 balance held by the vault (raw units)
-        for (uint256 i = 0; i < n; ) {
-            address token = etf.assets[i].tokenAddress;
-            uint256 bal   = IERC20(token).balanceOf(etfVault);
-
-            updated[i] = TokenBalance({ tokenAddress: token, tokenAmount: bal });
-
-            unchecked { ++i; }
-        }
-
-        emit VaultBalanceChanged(etfId, updated);
-    }
-}
-
-contract EtfRouter is ReentrancyGuard, ImActive, VaultBalance  {
+contract EtfRouter is ReentrancyGuard, ImActive, RebalanceHelpers  {
     constructor(address _directory) ImDirectory(_directory) {}
 
     function mintEtfTokens(uint256 etfId, address receiver) external payable nonReentrant onlyActive {
@@ -618,12 +592,11 @@ contract EtfRouter is ReentrancyGuard, ImActive, VaultBalance  {
         // Resolve config
         (Etf memory etf, address etfToken, address etfVault) = getEtfFactory().getEtfByIdAndAddresses(etfId);
 
-        (, uint256 ethAmount) = _mintEtfTokens(etfId, etf, etfToken, etfVault, receiver);
+        _mintEtfTokens(etfId, etf, etfToken, etfVault, receiver);
 
         _refundEthDust(msg.sender);
 
-        emitVaultBalanceEvent(etfId, etf, etfVault);
-        getEtfFactory().updateEtfVolume(etfId, ethAmount);
+        getEtfFactory().emitVaultBalanceEvent(etfId);
     }
 
     // -------- Redeem to ETH --------
@@ -633,10 +606,9 @@ contract EtfRouter is ReentrancyGuard, ImActive, VaultBalance  {
 
         (Etf memory etf, address etfTokenAddress, address etfVaultAddress) = getEtfFactory().getEtfByIdAndAddresses(etfId);
 
-        (uint256 ethAmount) = _redeemEtfTokens(etfId, etf, etfTokenAddress, etfVaultAddress, etfTokenAmount, receiver);
+        _redeemEtfTokens(etfId, etf, etfTokenAddress, etfVaultAddress, etfTokenAmount, receiver);
 
-        emitVaultBalanceEvent(etfId, etf, etfVaultAddress);
-        getEtfFactory().updateEtfVolume(etfId, ethAmount);
+        getEtfFactory().emitVaultBalanceEvent(etfId);
     }
 
     function rebalance(uint256 etfId) external nonReentrant onlyActive {
@@ -644,7 +616,7 @@ contract EtfRouter is ReentrancyGuard, ImActive, VaultBalance  {
         _rebalance(etf, etfVaultAddress);
        _refundEthDust(msg.sender);
 
-        emitVaultBalanceEvent(etfId, etf, etfVaultAddress);
+        getEtfFactory().emitVaultBalanceEvent(etfId);
     }
 
     function changePlatformFee(uint16 newFee) public onlyOwner onlyActive {

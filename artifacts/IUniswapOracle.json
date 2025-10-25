@@ -49,6 +49,7 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
+			"emitPoolChangedEventOnWethUsdPool()": "be00e0c2",
 			"getTokenLiquidityUsd(address)": "57b6c133",
 			"getTokenLiquidityWeth(address)": "0dbc0d7d",
 			"getTokenMarketCapUsd(address)": "69a2e17d",
@@ -60,6 +61,13 @@
 		}
 	},
 	"abi": [
+		{
+			"inputs": [],
+			"name": "emitPoolChangedEventOnWethUsdPool",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
 		{
 			"inputs": [
 				{

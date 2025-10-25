@@ -445,7 +445,7 @@ contract UniswapOracle is LiquidityHelper {
         return _findTokenWethPoolAddress(tokenAddress);
     }
 
-    function emitPoolChangedEventOnWethUsdPool() external onlyOwner {
+    function emitPoolChangedEventOnWethUsdPool() external {
         getPoolFinder().emitPoolChangedEventOnWethUsdPool(WETH_USD_PAIR_ADDRESS, IS_WETH_USD_PAIR_ADDRESS_V3);
     }
 }

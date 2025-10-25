@@ -15,8 +15,8 @@ interface IEtfFactory {
     function getEtfByIdAndAddresses(uint256 etfId) external view returns (Etf memory etf, address tokenAddress, address vaultAddress);
     function getEtfByIdAndVault(uint256 etfId) external view returns (Etf memory etf, address vaultAddress);
 
-    //volume
-    function getEtfTotalVolume(uint256 etfId) external view returns (uint256 volWeth, uint256 volUsd);
+    //events
+    function emitVaultBalanceEvent(uint256 etfId) external;
 }
 
 abstract contract ImEtfFactory is ImDirectory {

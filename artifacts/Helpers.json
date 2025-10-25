@@ -74,6 +74,16 @@
 		},
 		{
 			"inputs": [],
+			"name": "InvalidAddress",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "InvalidId",
+			"type": "error"
+		},
+		{
+			"inputs": [],
 			"name": "InvalidSeedAmount",
 			"type": "error"
 		},
@@ -175,6 +185,37 @@
 				}
 			],
 			"name": "EtfDeployed",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "etfId",
+					"type": "uint256"
+				},
+				{
+					"components": [
+						{
+							"internalType": "address",
+							"name": "tokenAddress",
+							"type": "address"
+						},
+						{
+							"internalType": "uint256",
+							"name": "tokenAmount",
+							"type": "uint256"
+						}
+					],
+					"indexed": false,
+					"internalType": "struct Storage.TokenBalance[]",
+					"name": "updatedBalances",
+					"type": "tuple[]"
+				}
+			],
+			"name": "VaultBalanceChanged",
 			"type": "event"
 		},
 		{

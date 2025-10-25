@@ -205,7 +205,6 @@ abstract contract EtfStats is PriceHelpers {
     }
     
     struct Stats {
-        EthUsd  volume;              // cumulative volume since inception
         uint256 assetsLiquidityUsd;  // sum of TOKEN–WETH pool liquidity (USD, 1e18)
         uint256 assetsMcapUsd;       // sum of token market caps (USD, 1e18)
     }
@@ -225,14 +224,9 @@ abstract contract EtfStats is PriceHelpers {
     }
 
     /// @notice Returns full ETF stats.
-    function _getStats(uint256 etfId, Etf memory etf) internal view returns (Stats memory s) {
+    function _getStats(Etf memory etf) internal view returns (Stats memory s) {
         IUniswapOracle uniO = getUniswapOracle();
 
-        // 1. Volume (from factory)
-        (uint256 volWeth18, uint256 volUsd18) = getEtfFactory().getEtfTotalVolume(etfId);
-        s.volume = EthUsd({ eth18: volWeth18, usd18: volUsd18 });
-
-        // 2. Aggregated per-asset stats
         s.assetsLiquidityUsd = _sumPerAsset(etf, uniO.getTokenLiquidityUsd);
         s.assetsMcapUsd      = _sumPerAsset(etf, uniO.getTokenMarketCapUsd);
     }
@@ -279,6 +273,6 @@ contract EtfOracle is ImDirectory, PriceHelpers, EtfStats {
 
     function getEtfStats(uint256 etfId) external view returns (Stats memory s) {
         (Etf memory etf) = getEtfFactory().getEtfById(etfId);
-        return _getStats(etfId, etf);
+        return _getStats(etf);
     }
 }

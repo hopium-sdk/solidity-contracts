@@ -26,6 +26,11 @@
 						"internalType": "uint256",
 						"name": "transferAmount",
 						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "totalSupply",
+						"type": "uint256"
 					}
 				],
 				"name": "emitTransferEvent",
@@ -70,11 +75,11 @@
 			]
 		},
 		"hopium/etf/interface/imEtfTokenEvents.sol": {
-			"keccak256": "0x4e2b9c193cccc609fe1736ec8c10d9fe1c5913a734a2e72134f23f8125cc979d",
+			"keccak256": "0xb7c1a7fa36f7d45beab7d760001ce0c5cb26aa25b8bd7f558354fe74eacac50a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://72ff8a846020a7276c16846085a86ebfd8a075568d6c6f55366af086dc49f89c",
-				"dweb:/ipfs/QmRsg6jgCp4MpHCGCGYYVh638U7C9mSYJidjHKryLgZswF"
+				"bzz-raw://4d9883716d5e53b8a38b6cb06ca2e944d0b56240756720fb2dfeeec2978c235e",
+				"dweb:/ipfs/QmUjX3BntLw8XEfTXwko29e78UfqSth6M8NPdyDzp9xz5K"
 			]
 		}
 	},

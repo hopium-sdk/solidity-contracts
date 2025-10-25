@@ -24,10 +24,15 @@ abstract contract Storage {
 
     mapping(uint256 => address) internal etfIdToEtfTokens;
     mapping(uint256 => address) internal etfIdToEtfVaults;
-    mapping(uint256 => uint256) internal etfIdToTotalVolumeWeth;
-    mapping(uint256 => uint256) internal etfIdToTotalVolumeUsd;
 
     event EtfDeployed(uint256 indexed etfId, Etf etf, address etfTokenAddress, address etfVaultAddress);
+
+    struct TokenBalance {
+        address tokenAddress;
+        uint256 tokenAmount;
+    }
+
+    event VaultBalanceChanged(uint256 etfId, TokenBalance[] updatedBalances);
 }
 
 /// @notice Validation + helpers fused for fewer passes & less memory churn
@@ -169,9 +174,48 @@ abstract contract Helpers is EtfCreationHelpers, ImUniswapOracle, ImEtfRouter  {
         // Forward ETH to router which mints ETF tokens to `receiver`
         getEtfRouter().mintEtfTokens{ value: msg.value }(etfId, address(this));
     }
+
+    error InvalidId();
+    function _getEtfById(uint256 etfId) internal view returns (Etf memory) {
+        if (etfId == 0 || etfId > createdEtfs.length) revert InvalidId();
+        return createdEtfs[IdIdx.idToIdx(etfId)];
+    }
+
+    error InvalidAddress();
+    function _getEtfTokenAddress(uint256 etfId) internal view returns (address tokenAddress) {
+        tokenAddress = etfIdToEtfTokens[etfId];
+        if (tokenAddress == address(0)) revert InvalidAddress();
+    }
+
+    function _getEtfVaultAddress(uint256 etfId) internal view returns (address vaultAddress) {
+        vaultAddress = etfIdToEtfVaults[etfId];
+        if (vaultAddress == address(0)) revert InvalidAddress();
+    }
 }
 
-contract EtfFactory is ImDirectory, Helpers, ImEtfTokenDeployer, ImEtfVaultDeployer {
+abstract contract VaultBalance is Helpers {
+    function emitVaultBalanceEvent(uint256 etfId) public onlyEtfRouter {
+        Etf memory etf = _getEtfById(etfId);
+        address etfVault = _getEtfVaultAddress(etfId);
+
+        uint256 n = etf.assets.length;
+        TokenBalance[] memory updated = new TokenBalance[](n);
+
+        // Snapshot each asset's ERC-20 balance held by the vault (raw units)
+        for (uint256 i = 0; i < n; ) {
+            address token = etf.assets[i].tokenAddress;
+            uint256 bal   = IERC20(token).balanceOf(etfVault);
+
+            updated[i] = TokenBalance({ tokenAddress: token, tokenAmount: bal });
+
+            unchecked { ++i; }
+        }
+
+        emit VaultBalanceChanged(etfId, updated);
+    }
+}
+
+contract EtfFactory is ImDirectory, VaultBalance, ImEtfTokenDeployer, ImEtfVaultDeployer {
     constructor(address _directory,  address _wethAddress) ImDirectory(_directory) {
         WETH_ADDRESS = _wethAddress;
     }
@@ -195,39 +239,24 @@ contract EtfFactory is ImDirectory, Helpers, ImEtfTokenDeployer, ImEtfVaultDeplo
 
         _seedEtf(etfId);
 
+        if(etfId == 1) {
+            getUniswapOracle().emitPoolChangedEventOnWethUsdPool();
+        }
+
         return etfId;
     }
 
-    error ZeroTradeValue();
-    function updateEtfVolume(uint256 etfId, uint256 ethAmount) public onlyEtfRouter {
-        if (ethAmount == 0) revert ZeroTradeValue();
-
-        uint256 wethUsd = getUniswapOracle().getWethUsdPrice(); // 1e18
-        if (wethUsd == 0) revert ZeroWethUsdPrice();
-
-        uint256 amountUsd = (ethAmount * wethUsd) / WAD;
-
-        etfIdToTotalVolumeWeth[etfId] += ethAmount;
-        etfIdToTotalVolumeUsd[etfId] += amountUsd;
-    }
-
     // -- Read fns --
-
-    error InvalidId();
     function getEtfById(uint256 etfId) public view returns (Etf memory) {
-        if (etfId == 0 || etfId > createdEtfs.length) revert InvalidId();
-        return createdEtfs[IdIdx.idToIdx(etfId)];
+        return _getEtfById(etfId);
     }
 
-    error InvalidAddress();
     function getEtfTokenAddress(uint256 etfId) public view returns (address tokenAddress) {
-        tokenAddress = etfIdToEtfTokens[etfId];
-        if (tokenAddress == address(0)) revert InvalidAddress();
+        tokenAddress = _getEtfTokenAddress(etfId);
     }
 
     function getEtfVaultAddress(uint256 etfId) public view returns (address vaultAddress) {
-        vaultAddress = etfIdToEtfVaults[etfId];
-        if (vaultAddress == address(0)) revert InvalidAddress();
+        vaultAddress = _getEtfVaultAddress(etfId);
     }
 
     function getEtfByIdAndAddresses(uint256 etfId) external view returns (Etf memory etf, address tokenAddress, address vaultAddress) {
@@ -239,11 +268,6 @@ contract EtfFactory is ImDirectory, Helpers, ImEtfTokenDeployer, ImEtfVaultDeplo
     function getEtfByIdAndVault(uint256 etfId) external view returns (Etf memory etf, address vaultAddress) {
         etf = getEtfById(etfId);
         vaultAddress = getEtfVaultAddress(etfId);
-    }
-
-    function getEtfTotalVolume(uint256 etfId) external view returns (uint256 volWeth, uint256 volUsd) {
-        volWeth = etfIdToTotalVolumeWeth[etfId];
-        volUsd = etfIdToTotalVolumeUsd[etfId];
     }
 
     function getSeedPrice() external view returns (uint256) {

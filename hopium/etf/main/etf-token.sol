@@ -53,6 +53,6 @@ contract EtfToken is Initializable, ERC20Upgradeable, ImEtfRouter, ImEtfTokenEve
 
         IEtfTokenEvents etfTokenEvents = getEtfTokenEvents();
         require(address(etfTokenEvents) != address(0), "EtfToken: events contract not set");
-        etfTokenEvents.emitTransferEvent(etfId, from, to, value);
+        etfTokenEvents.emitTransferEvent(etfId, from, to, value, totalSupply());
     }
 }

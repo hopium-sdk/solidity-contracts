@@ -13,6 +13,19 @@
 						"type": "uint256"
 					}
 				],
+				"name": "emitVaultBalanceEvent",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
+					}
+				],
 				"name": "getEtfById",
 				"outputs": [
 					{
@@ -191,30 +204,6 @@
 						"type": "uint256"
 					}
 				],
-				"name": "getEtfTotalVolume",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "volWeth",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "volUsd",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "etfId",
-						"type": "uint256"
-					}
-				],
 				"name": "getEtfVaultAddress",
 				"outputs": [
 					{
@@ -281,11 +270,11 @@
 			]
 		},
 		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0x3888b346a6dc6aeaae0513df0d6b332f2cf3943b6e31ba09bff49c21ae34128a",
+			"keccak256": "0xa577081383e92c6ecb6e22da7d4f0001784a0399cca8d6ef6b052b617ce44304",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://de4b4261d0eba06e5b1513e17f0de4a4696bf03060833d3a5775f076cf2523b3",
-				"dweb:/ipfs/Qmc6M8yVef1oRcE9AeUCQebxNTtQTWbARsSNBSFUVuFH76"
+				"bzz-raw://c545779b015d4a45725f867cb75d4b381ca8f04f406a112c0cc02493b64ab10e",
+				"dweb:/ipfs/QmQ6Do6LVshuysLWdHerhzxVS2scbtTqXxQYM49hUvNGdi"
 			]
 		},
 		"hopium/etf/types/etf.sol": {

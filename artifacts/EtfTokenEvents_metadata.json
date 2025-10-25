@@ -20,10 +20,10 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": true,
-						"internalType": "address",
-						"name": "etfTokenAddress",
-						"type": "address"
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
 					},
 					{
 						"indexed": true,
@@ -53,6 +53,12 @@
 						"indexed": false,
 						"internalType": "uint256",
 						"name": "etfUsdPrice",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "totalSupply",
 						"type": "uint256"
 					}
 				],
@@ -106,6 +112,11 @@
 						"internalType": "uint256",
 						"name": "transferAmount",
 						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "totalSupply",
+						"type": "uint256"
 					}
 				],
 				"name": "emitTransferEvent",
@@ -154,7 +165,7 @@
 		"userdoc": {
 			"kind": "user",
 			"methods": {
-				"emitTransferEvent(uint256,address,address,uint256)": {
+				"emitTransferEvent(uint256,address,address,uint256,uint256)": {
 					"notice": "Emits a transfer event for ETF tokens"
 				}
 			},
@@ -202,11 +213,11 @@
 			]
 		},
 		"hopium/etf/main/etf-token-events.sol": {
-			"keccak256": "0xe86815e34ce2482df5a926c67e0345f27677b665ba2e724e6f21b4dc6afa8059",
+			"keccak256": "0x55058fd28f76b4d693eedd61e346c1392f758a9918536633a46aa961e10189e6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2a7f87d6f2703d18028ade4c99e5501e6bc940c1f49e4b8cffb01d31ae856770",
-				"dweb:/ipfs/QmRJ56RqQDqGKgq865yF2h4HzTgdBRMj9GKnhBGwdFzRkc"
+				"bzz-raw://df1cf2d0ad52e351be57061668c4557dc2e707fdea99d975ba38f19d64120f36",
+				"dweb:/ipfs/QmNb137UKQcJPs4exhPkNrJStqReomUFY4yYz3a9WdRX8z"
 			]
 		},
 		"hopium/etf/types/etf.sol": {

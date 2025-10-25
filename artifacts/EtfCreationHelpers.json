@@ -168,6 +168,37 @@
 			"type": "event"
 		},
 		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "etfId",
+					"type": "uint256"
+				},
+				{
+					"components": [
+						{
+							"internalType": "address",
+							"name": "tokenAddress",
+							"type": "address"
+						},
+						{
+							"internalType": "uint256",
+							"name": "tokenAmount",
+							"type": "uint256"
+						}
+					],
+					"indexed": false,
+					"internalType": "struct Storage.TokenBalance[]",
+					"name": "updatedBalances",
+					"type": "tuple[]"
+				}
+			],
+			"name": "VaultBalanceChanged",
+			"type": "event"
+		},
+		{
 			"inputs": [],
 			"name": "Directory",
 			"outputs": [

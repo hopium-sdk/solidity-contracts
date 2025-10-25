@@ -49,10 +49,10 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"DEFAULT_SLIPPAGE_BIPS()": "0650b0fc",
 			"Directory()": "658a847a",
-			"PLATFORM_FEE()": "34fbc9a1",
+			"WETH_ADDRESS()": "040141e5",
 			"changeDirectoryAddress(address)": "ba4c7be1",
+			"emitVaultBalanceEvent(uint256)": "594625a9",
 			"fetchFromDirectory(string)": "27262618",
 			"owner()": "8da5cb5b"
 		}
@@ -60,38 +60,133 @@
 	"abi": [
 		{
 			"inputs": [],
-			"name": "CapacityExceeded",
+			"name": "DuplicateToken",
 			"type": "error"
 		},
 		{
 			"inputs": [],
-			"name": "DeltaError",
+			"name": "EmptyTicker",
 			"type": "error"
 		},
 		{
 			"inputs": [],
-			"name": "EmptyBuf",
+			"name": "EtfExists",
 			"type": "error"
 		},
 		{
 			"inputs": [],
-			"name": "EmptyCand",
+			"name": "InvalidAddress",
 			"type": "error"
 		},
 		{
 			"inputs": [],
-			"name": "NoMintedAmount",
+			"name": "InvalidId",
 			"type": "error"
 		},
 		{
 			"inputs": [],
-			"name": "SupplyZero",
+			"name": "InvalidSeedAmount",
 			"type": "error"
 		},
 		{
 			"inputs": [],
-			"name": "ZeroEtfPrice",
+			"name": "NoAssets",
 			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "NoPoolFound",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "NotHundred",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "OverWeight",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "TickerExists",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "ZeroToken",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "ZeroWeight",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "ZeroWethUsdPrice",
+			"type": "error"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "uint256",
+					"name": "etfId",
+					"type": "uint256"
+				},
+				{
+					"components": [
+						{
+							"internalType": "string",
+							"name": "name",
+							"type": "string"
+						},
+						{
+							"internalType": "string",
+							"name": "ticker",
+							"type": "string"
+						},
+						{
+							"components": [
+								{
+									"internalType": "address",
+									"name": "tokenAddress",
+									"type": "address"
+								},
+								{
+									"internalType": "uint16",
+									"name": "weightBips",
+									"type": "uint16"
+								}
+							],
+							"internalType": "struct Asset[]",
+							"name": "assets",
+							"type": "tuple[]"
+						}
+					],
+					"indexed": false,
+					"internalType": "struct Etf",
+					"name": "etf",
+					"type": "tuple"
+				},
+				{
+					"indexed": false,
+					"internalType": "address",
+					"name": "etfTokenAddress",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "address",
+					"name": "etfVaultAddress",
+					"type": "address"
+				}
+			],
+			"name": "EtfDeployed",
+			"type": "event"
 		},
 		{
 			"anonymous": false,
@@ -126,19 +221,6 @@
 		},
 		{
 			"inputs": [],
-			"name": "DEFAULT_SLIPPAGE_BIPS",
-			"outputs": [
-				{
-					"internalType": "uint32",
-					"name": "",
-					"type": "uint32"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
 			"name": "Directory",
 			"outputs": [
 				{
@@ -152,12 +234,12 @@
 		},
 		{
 			"inputs": [],
-			"name": "PLATFORM_FEE",
+			"name": "WETH_ADDRESS",
 			"outputs": [
 				{
-					"internalType": "uint16",
+					"internalType": "address",
 					"name": "",
-					"type": "uint16"
+					"type": "address"
 				}
 			],
 			"stateMutability": "view",
@@ -172,6 +254,19 @@
 				}
 			],
 			"name": "changeDirectoryAddress",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "etfId",
+					"type": "uint256"
+				}
+			],
+			"name": "emitVaultBalanceEvent",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
