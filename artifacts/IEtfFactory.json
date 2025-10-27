@@ -49,6 +49,7 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
+			"emitPlatformFeeTransferredEvent(uint256,uint256)": "5e2dbb46",
 			"emitVaultBalanceEvent(uint256)": "594625a9",
 			"getEtfById(uint256)": "ecb0271c",
 			"getEtfByIdAndAddresses(uint256)": "61668690",
@@ -59,6 +60,24 @@
 		}
 	},
 	"abi": [
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "etfId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "ethAmount",
+					"type": "uint256"
+				}
+			],
+			"name": "emitPlatformFeeTransferredEvent",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
 		{
 			"inputs": [
 				{

@@ -1,6 +1,6 @@
 {
   "name": "EtfFactory",
-  "address": "0xa53277fb0074c1ae660ee9ab7ae31dc793865bf9",
+  "address": "0x62e2ddca649b32d11723321a46071403e7e06f4d",
   "abi": [
     {
       "inputs": [
@@ -85,6 +85,37 @@
       "type": "error"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "etfId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "emitPlatformFeeTransferredEvent",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "etfId",
+          "type": "uint256"
+        }
+      ],
+      "name": "emitVaultBalanceEvent",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "ETHSendFailed",
       "type": "error"
@@ -163,24 +194,6 @@
       "type": "error"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "etfId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "ethAmount",
-          "type": "uint256"
-        }
-      ],
-      "name": "updateEtfVolume",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "inputs": [],
       "name": "ZeroAmount",
       "type": "error"
@@ -188,11 +201,6 @@
     {
       "inputs": [],
       "name": "ZeroToken",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "ZeroTradeValue",
       "type": "error"
     },
     {
@@ -263,6 +271,62 @@
         }
       ],
       "name": "EtfDeployed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "etfId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ethAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "usdValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "PlatformFeeTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "etfId",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenAmount",
+              "type": "uint256"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct Storage.TokenBalance[]",
+          "name": "updatedBalances",
+          "type": "tuple[]"
+        }
+      ],
+      "name": "VaultBalanceChanged",
       "type": "event"
     },
     {
@@ -487,30 +551,6 @@
           "type": "uint256"
         }
       ],
-      "name": "getEtfTotalVolume",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "volWeth",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "volUsd",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "etfId",
-          "type": "uint256"
-        }
-      ],
       "name": "getEtfVaultAddress",
       "outputs": [
         {
@@ -563,5 +603,5 @@
     }
   ],
   "filePath": "default_workspace/hopium/etf/main/etf-factory.sol",
-  "pinnedAt": 1761035075548
+  "pinnedAt": 1761543493119
 }

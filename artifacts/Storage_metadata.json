@@ -75,6 +75,31 @@
 						"type": "uint256"
 					},
 					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "ethAmount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "usdValue",
+						"type": "uint256"
+					}
+				],
+				"name": "PlatformFeeTransferred",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
+					},
+					{
 						"components": [
 							{
 								"internalType": "address",
@@ -131,7 +156,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -186,11 +211,11 @@
 			]
 		},
 		"hopium/etf/interface/imEtfRouter.sol": {
-			"keccak256": "0x4fd93f9ce7640689f5972fd5223e6f0736328c6b138a29305f55f0648265b1f2",
+			"keccak256": "0xee4e14ac948dbd2973786c1ebf499817ee10357ab03369ef38d37dcf011848e1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3cd6c04d58f6085e83d6b0397ff7da38f3f3ba002fad5291a806e9c0237f413d",
-				"dweb:/ipfs/QmXgLguqgoW8HjmUJMiwbKWDdihwfcuJ7BsJ9UERvCc79G"
+				"bzz-raw://8aaf374a67edab3b271681d879f819927c5bdc459a887662965adf102206fcc0",
+				"dweb:/ipfs/QmbBpHwHDbT5g3HaNxw62poSH5o4GRptMXsKxWnMiUNA1N"
 			]
 		},
 		"hopium/etf/interface/imEtfTokenDeployer.sol": {
@@ -210,11 +235,11 @@
 			]
 		},
 		"hopium/etf/main/etf-factory.sol": {
-			"keccak256": "0x9eb6ed33d719eb3927bacd3eb85268f3b2b22b321ceb2c36e31bcc6edcbe5730",
+			"keccak256": "0x307fa91ef09a9c326b5c7dbae62dcab3e712ac29364fc1f34acbb82ef4ff6664",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1e47db6ed760be72453e1f29fc341d97c4451659ae290d3538c956cdcbefcb99",
-				"dweb:/ipfs/QmdwbaLKXUf9gcs8nVS7BthC41gGrDabuMLvEV6f1C9A95"
+				"bzz-raw://04ad67f6c062d3a5b6a68ecf13af8276b50766cd953e5a6f8b13db86f9833b54",
+				"dweb:/ipfs/QmQe8BfZcu3VVbjEZuSCuD7bNNLUFcvWTvL8ugaLZxbziA"
 			]
 		},
 		"hopium/etf/types/etf.sol": {

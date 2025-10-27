@@ -17,6 +17,7 @@ interface IEtfFactory {
 
     //events
     function emitVaultBalanceEvent(uint256 etfId) external;
+    function emitPlatformFeeTransferredEvent(uint256 etfId, uint256 ethAmount) external;
 }
 
 abstract contract ImEtfFactory is ImDirectory {

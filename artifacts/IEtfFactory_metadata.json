@@ -11,6 +11,24 @@
 						"internalType": "uint256",
 						"name": "etfId",
 						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "ethAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "emitPlatformFeeTransferredEvent",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "etfId",
+						"type": "uint256"
 					}
 				],
 				"name": "emitVaultBalanceEvent",
@@ -270,11 +288,11 @@
 			]
 		},
 		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0xa577081383e92c6ecb6e22da7d4f0001784a0399cca8d6ef6b052b617ce44304",
+			"keccak256": "0x451725aaecf59f5fb09966fdc793b37abde402db94d8101fdd9b5e19c7bb4fc6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c545779b015d4a45725f867cb75d4b381ca8f04f406a112c0cc02493b64ab10e",
-				"dweb:/ipfs/QmQ6Do6LVshuysLWdHerhzxVS2scbtTqXxQYM49hUvNGdi"
+				"bzz-raw://e6b67291919607f58717d6d9d20955c3cfb13cf487be69f14f2fbddb8c621c70",
+				"dweb:/ipfs/QmZRMbDK8toEbEj7dmKcWMy23fjJ3amBfSGM7oF7oLtxCn"
 			]
 		},
 		"hopium/etf/types/etf.sol": {

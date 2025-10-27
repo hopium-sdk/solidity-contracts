@@ -52,6 +52,7 @@
 			"Directory()": "658a847a",
 			"WETH_ADDRESS()": "040141e5",
 			"changeDirectoryAddress(address)": "ba4c7be1",
+			"emitPlatformFeeTransferredEvent(uint256,uint256)": "5e2dbb46",
 			"emitVaultBalanceEvent(uint256)": "594625a9",
 			"fetchFromDirectory(string)": "27262618",
 			"owner()": "8da5cb5b"
@@ -198,6 +199,31 @@
 					"type": "uint256"
 				},
 				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "ethAmount",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "usdValue",
+					"type": "uint256"
+				}
+			],
+			"name": "PlatformFeeTransferred",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "etfId",
+					"type": "uint256"
+				},
+				{
 					"components": [
 						{
 							"internalType": "address",
@@ -254,6 +280,24 @@
 				}
 			],
 			"name": "changeDirectoryAddress",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "etfId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "ethAmount",
+					"type": "uint256"
+				}
+			],
+			"name": "emitPlatformFeeTransferredEvent",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"

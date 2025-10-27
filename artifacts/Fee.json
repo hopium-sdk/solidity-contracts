@@ -49,15 +49,29 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
+			"AFFILIATE_USER_DISCOUNT_PERC()": "92b2bf79",
 			"DEFAULT_SLIPPAGE_BIPS()": "0650b0fc",
 			"Directory()": "658a847a",
-			"PLATFORM_FEE()": "34fbc9a1",
+			"PLATFORM_FEE_BIPS()": "73d99ad3",
 			"changeDirectoryAddress(address)": "ba4c7be1",
 			"fetchFromDirectory(string)": "27262618",
 			"owner()": "8da5cb5b"
 		}
 	},
 	"abi": [
+		{
+			"inputs": [],
+			"name": "AFFILIATE_USER_DISCOUNT_PERC",
+			"outputs": [
+				{
+					"internalType": "uint16",
+					"name": "",
+					"type": "uint16"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
 		{
 			"inputs": [],
 			"name": "DEFAULT_SLIPPAGE_BIPS",
@@ -86,7 +100,7 @@
 		},
 		{
 			"inputs": [],
-			"name": "PLATFORM_FEE",
+			"name": "PLATFORM_FEE_BIPS",
 			"outputs": [
 				{
 					"internalType": "uint16",

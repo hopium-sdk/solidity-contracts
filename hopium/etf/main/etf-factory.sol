@@ -33,6 +33,7 @@ abstract contract Storage {
     }
 
     event VaultBalanceChanged(uint256 etfId, TokenBalance[] updatedBalances);
+    event PlatformFeeTransferred(uint256 etfId, uint256 ethAmount, uint256 usdValue);
 }
 
 /// @notice Validation + helpers fused for fewer passes & less memory churn
@@ -66,7 +67,17 @@ abstract contract EtfCreationHelpers is Storage, ImPoolFinder {
 
     /// @dev derive bytes32 key for ticker
     function _tickerKey(string calldata t) internal pure returns (bytes32) {
-        return keccak256(bytes(t));
+        bytes memory b = bytes(t); // calldata -> memory copy
+        uint256 len = b.length;
+        for (uint256 i = 0; i < len; ) {
+            uint8 c = uint8(b[i]);
+            // 'A'..'Z' -> 'a'..'z'
+            if (c >= 65 && c <= 90) {
+                b[i] = bytes1(c + 32);
+            }
+            unchecked { ++i; }
+        }
+        return keccak256(b);
     }
 
     error EmptyTicker();
@@ -172,7 +183,7 @@ abstract contract Helpers is EtfCreationHelpers, ImUniswapOracle, ImEtfRouter  {
         if (msg.value < _getSeedPrice()) revert InvalidSeedAmount();
 
         // Forward ETH to router which mints ETF tokens to `receiver`
-        getEtfRouter().mintEtfTokens{ value: msg.value }(etfId, address(this));
+        getEtfRouter().mintEtfTokens{ value: msg.value }(etfId, address(this), "");
     }
 
     error InvalidId();
@@ -212,6 +223,13 @@ abstract contract VaultBalance is Helpers {
         }
 
         emit VaultBalanceChanged(etfId, updated);
+    }
+
+    function emitPlatformFeeTransferredEvent(uint256 etfId, uint256 ethAmount) public onlyEtfRouter {
+        uint256 wethUsdPrice = getUniswapOracle().getWethUsdPrice();
+        uint256 usdAmount = ethAmount * wethUsdPrice / 1e18;
+
+        emit PlatformFeeTransferred(etfId, ethAmount, usdAmount);
     }
 }
 

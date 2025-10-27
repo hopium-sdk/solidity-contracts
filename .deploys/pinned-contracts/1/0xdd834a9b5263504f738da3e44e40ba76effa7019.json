@@ -1,6 +1,6 @@
 {
   "name": "EtfOracle",
-  "address": "0xc7059ec711489a34c4abe9b424a7090ff7b418d4",
+  "address": "0xdd834a9b5263504f738da3e44e40ba76effa7019",
   "abi": [
     {
       "inputs": [
@@ -383,5 +383,5 @@
     }
   ],
   "filePath": "default_workspace/hopium/etf/main/etf-oracle.sol",
-  "pinnedAt": 1761104258433
+  "pinnedAt": 1761562483640
 }

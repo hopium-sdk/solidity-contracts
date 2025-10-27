@@ -37,7 +37,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -52,11 +52,11 @@
 			]
 		},
 		"hopium/etf/interface/imEtfRouter.sol": {
-			"keccak256": "0x4fd93f9ce7640689f5972fd5223e6f0736328c6b138a29305f55f0648265b1f2",
+			"keccak256": "0xee4e14ac948dbd2973786c1ebf499817ee10357ab03369ef38d37dcf011848e1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3cd6c04d58f6085e83d6b0397ff7da38f3f3ba002fad5291a806e9c0237f413d",
-				"dweb:/ipfs/QmXgLguqgoW8HjmUJMiwbKWDdihwfcuJ7BsJ9UERvCc79G"
+				"bzz-raw://8aaf374a67edab3b271681d879f819927c5bdc459a887662965adf102206fcc0",
+				"dweb:/ipfs/QmbBpHwHDbT5g3HaNxw62poSH5o4GRptMXsKxWnMiUNA1N"
 			]
 		},
 		"hopium/etf/main/etf-vault.sol": {

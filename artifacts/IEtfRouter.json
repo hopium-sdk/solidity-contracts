@@ -49,7 +49,7 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"mintEtfTokens(uint256,address)": "25c006f9"
+			"mintEtfTokens(uint256,address,string)": "f9b9547d"
 		}
 	},
 	"abi": [
@@ -64,6 +64,11 @@
 					"internalType": "address",
 					"name": "receiver",
 					"type": "address"
+				},
+				{
+					"internalType": "string",
+					"name": "affiliateCode",
+					"type": "string"
 				}
 			],
 			"name": "mintEtfTokens",

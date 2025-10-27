@@ -1,16 +1,13 @@
 {
-	"id": "971ea6dd0b13166a11903a8a9af91509",
+	"id": "55531cc7ef9a33706a4c6d765ce1f418",
 	"_format": "hh-sol-build-info-1",
 	"solcVersion": "0.8.30",
 	"solcLongVersion": "0.8.30+commit.73712a01",
 	"input": {
 		"language": "Solidity",
 		"sources": {
-			"hopium/etf/interface/imEtfFactory.sol": {
-				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nimport \"hopium/common/interface/imDirectory.sol\";\nimport \"hopium/etf/types/etf.sol\";\n\ninterface IEtfFactory {\n    function updateEtfVolume(uint256 etfId, uint256 ethAmount) external;\n\n    //read\n    //data\n    function getEtfById(uint256 etfId) external view returns (Etf memory);\n    function getEtfTokenAddress(uint256 etfId) external view returns (address);\n    function getEtfVaultAddress(uint256 etfId) external view returns (address);\n    function getEtfByIdAndAddresses(uint256 etfId) external view returns (Etf memory etf, address tokenAddress, address vaultAddress);\n    function getEtfByIdAndVault(uint256 etfId) external view returns (Etf memory etf, address vaultAddress);\n\n    //events\n    function emitVaultBalanceEvent(uint256 etfId) external;\n}\n\nabstract contract ImEtfFactory is ImDirectory {\n\n    function getEtfFactory() internal view virtual returns (IEtfFactory) {\n        return IEtfFactory(fetchFromDirectory(\"etf-factory\"));\n    }\n\n    modifier onlyEtfFactory() {\n        require(msg.sender == fetchFromDirectory(\"etf-factory\"), \"msg.sender is not etf factory\");\n        _;\n    }\n}"
-			},
-			"hopium/etf/types/etf.sol": {
-				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nstruct Asset {\n    address tokenAddress;\n    uint16 weightBips;\n}\n\nstruct Etf {\n    string name;\n    string ticker;\n    Asset[] assets;\n}\n"
+			"hopium/etf/interface/imEtfRouter.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nimport \"hopium/common/interface/imDirectory.sol\";\n\ninterface IEtfRouter {\n    function mintEtfTokens(uint256 etfId, address receiver, string calldata affiliateCode) external payable;\n}\n\nabstract contract ImEtfRouter is ImDirectory {\n\n    function getEtfRouter() internal view virtual returns (IEtfRouter) {\n        return IEtfRouter(fetchFromDirectory(\"etf-router\"));\n    }\n\n    modifier onlyEtfRouter() {\n        require(msg.sender == fetchFromDirectory(\"etf-router\"), \"msg.sender is not etf router\");\n        _;\n    }\n}"
 			},
 			"hopium/common/interface/imDirectory.sol": {
 				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\n/// @notice Interface used by the registry to talk to the external directory.\ninterface IDirectory {\n    function owner() external view returns (address);\n    function fetchFromDirectory(string memory _key) external view returns (address);\n}\n\nabstract contract ImDirectory {\n    IDirectory public Directory;\n\n    constructor(address _directory) {\n        _setDirectory(_directory); // no modifier here\n    }\n\n    function changeDirectoryAddress(address _directory) external onlyOwner {\n        _setDirectory(_directory);\n    }\n\n    function _setDirectory(address _directory) internal {\n        require(_directory != address(0), \"Directory cannot be zero address\");\n        require(_directory.code.length > 0, \"Directory must be a contract\");\n\n        // Sanity check the interface\n        try IDirectory(_directory).owner() returns (address) {\n            Directory = IDirectory(_directory);\n        } catch {\n            revert(\"Directory address does not implement owner()\");\n        }\n    }\n\n    modifier onlyOwner() {\n        require(msg.sender == Directory.owner(), \"Caller is not the owner\");\n        _;\n    }\n\n    function owner() public view returns (address) {\n        return Directory.owner();\n    }\n\n    function fetchFromDirectory(string memory _key) public view returns (address) {\n        return Directory.fetchFromDirectory(_key);\n    }\n}\n"
@@ -246,8 +243,8 @@
 					}
 				}
 			},
-			"hopium/etf/interface/imEtfFactory.sol": {
-				"IEtfFactory": {
+			"hopium/etf/interface/imEtfRouter.sol": {
+				"IEtfRouter": {
 					"abi": [
 						{
 							"inputs": [
@@ -255,226 +252,21 @@
 									"internalType": "uint256",
 									"name": "etfId",
 									"type": "uint256"
+								},
+								{
+									"internalType": "address",
+									"name": "receiver",
+									"type": "address"
+								},
+								{
+									"internalType": "string",
+									"name": "affiliateCode",
+									"type": "string"
 								}
 							],
-							"name": "emitVaultBalanceEvent",
+							"name": "mintEtfTokens",
 							"outputs": [],
-							"stateMutability": "nonpayable",
-							"type": "function"
-						},
-						{
-							"inputs": [
-								{
-									"internalType": "uint256",
-									"name": "etfId",
-									"type": "uint256"
-								}
-							],
-							"name": "getEtfById",
-							"outputs": [
-								{
-									"components": [
-										{
-											"internalType": "string",
-											"name": "name",
-											"type": "string"
-										},
-										{
-											"internalType": "string",
-											"name": "ticker",
-											"type": "string"
-										},
-										{
-											"components": [
-												{
-													"internalType": "address",
-													"name": "tokenAddress",
-													"type": "address"
-												},
-												{
-													"internalType": "uint16",
-													"name": "weightBips",
-													"type": "uint16"
-												}
-											],
-											"internalType": "struct Asset[]",
-											"name": "assets",
-											"type": "tuple[]"
-										}
-									],
-									"internalType": "struct Etf",
-									"name": "",
-									"type": "tuple"
-								}
-							],
-							"stateMutability": "view",
-							"type": "function"
-						},
-						{
-							"inputs": [
-								{
-									"internalType": "uint256",
-									"name": "etfId",
-									"type": "uint256"
-								}
-							],
-							"name": "getEtfByIdAndAddresses",
-							"outputs": [
-								{
-									"components": [
-										{
-											"internalType": "string",
-											"name": "name",
-											"type": "string"
-										},
-										{
-											"internalType": "string",
-											"name": "ticker",
-											"type": "string"
-										},
-										{
-											"components": [
-												{
-													"internalType": "address",
-													"name": "tokenAddress",
-													"type": "address"
-												},
-												{
-													"internalType": "uint16",
-													"name": "weightBips",
-													"type": "uint16"
-												}
-											],
-											"internalType": "struct Asset[]",
-											"name": "assets",
-											"type": "tuple[]"
-										}
-									],
-									"internalType": "struct Etf",
-									"name": "etf",
-									"type": "tuple"
-								},
-								{
-									"internalType": "address",
-									"name": "tokenAddress",
-									"type": "address"
-								},
-								{
-									"internalType": "address",
-									"name": "vaultAddress",
-									"type": "address"
-								}
-							],
-							"stateMutability": "view",
-							"type": "function"
-						},
-						{
-							"inputs": [
-								{
-									"internalType": "uint256",
-									"name": "etfId",
-									"type": "uint256"
-								}
-							],
-							"name": "getEtfByIdAndVault",
-							"outputs": [
-								{
-									"components": [
-										{
-											"internalType": "string",
-											"name": "name",
-											"type": "string"
-										},
-										{
-											"internalType": "string",
-											"name": "ticker",
-											"type": "string"
-										},
-										{
-											"components": [
-												{
-													"internalType": "address",
-													"name": "tokenAddress",
-													"type": "address"
-												},
-												{
-													"internalType": "uint16",
-													"name": "weightBips",
-													"type": "uint16"
-												}
-											],
-											"internalType": "struct Asset[]",
-											"name": "assets",
-											"type": "tuple[]"
-										}
-									],
-									"internalType": "struct Etf",
-									"name": "etf",
-									"type": "tuple"
-								},
-								{
-									"internalType": "address",
-									"name": "vaultAddress",
-									"type": "address"
-								}
-							],
-							"stateMutability": "view",
-							"type": "function"
-						},
-						{
-							"inputs": [
-								{
-									"internalType": "uint256",
-									"name": "etfId",
-									"type": "uint256"
-								}
-							],
-							"name": "getEtfTokenAddress",
-							"outputs": [
-								{
-									"internalType": "address",
-									"name": "",
-									"type": "address"
-								}
-							],
-							"stateMutability": "view",
-							"type": "function"
-						},
-						{
-							"inputs": [
-								{
-									"internalType": "uint256",
-									"name": "etfId",
-									"type": "uint256"
-								}
-							],
-							"name": "getEtfVaultAddress",
-							"outputs": [
-								{
-									"internalType": "address",
-									"name": "",
-									"type": "address"
-								}
-							],
-							"stateMutability": "view",
-							"type": "function"
-						},
-						{
-							"inputs": [
-								{
-									"internalType": "uint256",
-									"name": "etfId",
-									"type": "uint256"
-								},
-								{
-									"internalType": "uint256",
-									"name": "ethAmount",
-									"type": "uint256"
-								}
-							],
-							"name": "updateEtfVolume",
-							"outputs": [],
-							"stateMutability": "nonpayable",
+							"stateMutability": "payable",
 							"type": "function"
 						}
 					],
@@ -505,16 +297,10 @@
 						"gasEstimates": null,
 						"legacyAssembly": null,
 						"methodIdentifiers": {
-							"emitVaultBalanceEvent(uint256)": "594625a9",
-							"getEtfById(uint256)": "ecb0271c",
-							"getEtfByIdAndAddresses(uint256)": "61668690",
-							"getEtfByIdAndVault(uint256)": "3088f069",
-							"getEtfTokenAddress(uint256)": "f2018a1f",
-							"getEtfVaultAddress(uint256)": "3ee79962",
-							"updateEtfVolume(uint256,uint256)": "1626542c"
+							"mintEtfTokens(uint256,address,string)": "f9b9547d"
 						}
 					},
-					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"etfId\",\"type\":\"uint256\"}],\"name\":\"emitVaultBalanceEvent\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"etfId\",\"type\":\"uint256\"}],\"name\":\"getEtfById\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ticker\",\"type\":\"string\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint16\",\"name\":\"weightBips\",\"type\":\"uint16\"}],\"internalType\":\"struct Asset[]\",\"name\":\"assets\",\"type\":\"tuple[]\"}],\"internalType\":\"struct Etf\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"etfId\",\"type\":\"uint256\"}],\"name\":\"getEtfByIdAndAddresses\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ticker\",\"type\":\"string\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint16\",\"name\":\"weightBips\",\"type\":\"uint16\"}],\"internalType\":\"struct Asset[]\",\"name\":\"assets\",\"type\":\"tuple[]\"}],\"internalType\":\"struct Etf\",\"name\":\"etf\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"vaultAddress\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"etfId\",\"type\":\"uint256\"}],\"name\":\"getEtfByIdAndVault\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ticker\",\"type\":\"string\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint16\",\"name\":\"weightBips\",\"type\":\"uint16\"}],\"internalType\":\"struct Asset[]\",\"name\":\"assets\",\"type\":\"tuple[]\"}],\"internalType\":\"struct Etf\",\"name\":\"etf\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"vaultAddress\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"etfId\",\"type\":\"uint256\"}],\"name\":\"getEtfTokenAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"etfId\",\"type\":\"uint256\"}],\"name\":\"getEtfVaultAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"etfId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"ethAmount\",\"type\":\"uint256\"}],\"name\":\"updateEtfVolume\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/etf/interface/imEtfFactory.sol\":\"IEtfFactory\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/common/interface/imDirectory.sol\":{\"keccak256\":\"0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626\",\"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e\"]},\"hopium/etf/interface/imEtfFactory.sol\":{\"keccak256\":\"0xa577081383e92c6ecb6e22da7d4f0001784a0399cca8d6ef6b052b617ce44304\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c545779b015d4a45725f867cb75d4b381ca8f04f406a112c0cc02493b64ab10e\",\"dweb:/ipfs/QmQ6Do6LVshuysLWdHerhzxVS2scbtTqXxQYM49hUvNGdi\"]},\"hopium/etf/types/etf.sol\":{\"keccak256\":\"0xf0ad7bff285660b2f5459d371c7bb805b60f2a67429d416c8231e986f074d472\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5f8dc77edfc3b352a9e12bef5fdc71f726a8c5627cc1dd64baea860ce9b1af15\",\"dweb:/ipfs/QmY9BKqmbe6xHFciqh5iTUHHqP3Dmx6nFJjqdrGbMSahoh\"]}},\"version\":1}",
+					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"etfId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"affiliateCode\",\"type\":\"string\"}],\"name\":\"mintEtfTokens\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/etf/interface/imEtfRouter.sol\":\"IEtfRouter\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/common/interface/imDirectory.sol\":{\"keccak256\":\"0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626\",\"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e\"]},\"hopium/etf/interface/imEtfRouter.sol\":{\"keccak256\":\"0xee4e14ac948dbd2973786c1ebf499817ee10357ab03369ef38d37dcf011848e1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8aaf374a67edab3b271681d879f819927c5bdc459a887662965adf102206fcc0\",\"dweb:/ipfs/QmbBpHwHDbT5g3HaNxw62poSH5o4GRptMXsKxWnMiUNA1N\"]}},\"version\":1}",
 					"storageLayout": {
 						"storage": [],
 						"types": null
@@ -525,7 +311,7 @@
 						"version": 1
 					}
 				},
-				"ImEtfFactory": {
+				"ImEtfRouter": {
 					"abi": [
 						{
 							"inputs": [],
@@ -619,12 +405,12 @@
 							"owner()": "8da5cb5b"
 						}
 					},
-					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"Directory\",\"outputs\":[{\"internalType\":\"contract IDirectory\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_directory\",\"type\":\"address\"}],\"name\":\"changeDirectoryAddress\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_key\",\"type\":\"string\"}],\"name\":\"fetchFromDirectory\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/etf/interface/imEtfFactory.sol\":\"ImEtfFactory\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/common/interface/imDirectory.sol\":{\"keccak256\":\"0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626\",\"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e\"]},\"hopium/etf/interface/imEtfFactory.sol\":{\"keccak256\":\"0xa577081383e92c6ecb6e22da7d4f0001784a0399cca8d6ef6b052b617ce44304\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c545779b015d4a45725f867cb75d4b381ca8f04f406a112c0cc02493b64ab10e\",\"dweb:/ipfs/QmQ6Do6LVshuysLWdHerhzxVS2scbtTqXxQYM49hUvNGdi\"]},\"hopium/etf/types/etf.sol\":{\"keccak256\":\"0xf0ad7bff285660b2f5459d371c7bb805b60f2a67429d416c8231e986f074d472\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5f8dc77edfc3b352a9e12bef5fdc71f726a8c5627cc1dd64baea860ce9b1af15\",\"dweb:/ipfs/QmY9BKqmbe6xHFciqh5iTUHHqP3Dmx6nFJjqdrGbMSahoh\"]}},\"version\":1}",
+					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"Directory\",\"outputs\":[{\"internalType\":\"contract IDirectory\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_directory\",\"type\":\"address\"}],\"name\":\"changeDirectoryAddress\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_key\",\"type\":\"string\"}],\"name\":\"fetchFromDirectory\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/etf/interface/imEtfRouter.sol\":\"ImEtfRouter\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/common/interface/imDirectory.sol\":{\"keccak256\":\"0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://aa2677acab47f023b93d8194df8d4b1067437d1491c153d7448368df9831c626\",\"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e\"]},\"hopium/etf/interface/imEtfRouter.sol\":{\"keccak256\":\"0xee4e14ac948dbd2973786c1ebf499817ee10357ab03369ef38d37dcf011848e1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8aaf374a67edab3b271681d879f819927c5bdc459a887662965adf102206fcc0\",\"dweb:/ipfs/QmbBpHwHDbT5g3HaNxw62poSH5o4GRptMXsKxWnMiUNA1N\"]}},\"version\":1}",
 					"storageLayout": {
 						"storage": [
 							{
 								"astId": 18,
-								"contract": "hopium/etf/interface/imEtfFactory.sol:ImEtfFactory",
+								"contract": "hopium/etf/interface/imEtfRouter.sol:ImEtfRouter",
 								"label": "Directory",
 								"offset": 0,
 								"slot": "0",
@@ -2271,30 +2057,24 @@
 				},
 				"id": 0
 			},
-			"hopium/etf/interface/imEtfFactory.sol": {
+			"hopium/etf/interface/imEtfRouter.sol": {
 				"ast": {
-					"absolutePath": "hopium/etf/interface/imEtfFactory.sol",
+					"absolutePath": "hopium/etf/interface/imEtfRouter.sol",
 					"exportedSymbols": {
-						"Asset": [
-							224
-						],
-						"Etf": [
-							233
-						],
 						"IDirectory": [
 							15
 						],
-						"IEtfFactory": [
-							187
+						"IEtfRouter": [
+							139
 						],
 						"ImDirectory": [
 							126
 						],
-						"ImEtfFactory": [
-							217
+						"ImEtfRouter": [
+							169
 						]
 					},
-					"id": 218,
+					"id": 170,
 					"license": "MIT",
 					"nodeType": "SourceUnit",
 					"nodes": [
@@ -2314,61 +2094,49 @@
 							"id": 129,
 							"nameLocation": "-1:-1:-1",
 							"nodeType": "ImportDirective",
-							"scope": 218,
+							"scope": 170,
 							"sourceUnit": 127,
 							"src": "57:49:1",
 							"symbolAliases": [],
 							"unitAlias": ""
 						},
 						{
-							"absolutePath": "hopium/etf/types/etf.sol",
-							"file": "hopium/etf/types/etf.sol",
-							"id": 130,
-							"nameLocation": "-1:-1:-1",
-							"nodeType": "ImportDirective",
-							"scope": 218,
-							"sourceUnit": 234,
-							"src": "107:34:1",
-							"symbolAliases": [],
-							"unitAlias": ""
-						},
-						{
 							"abstract": false,
 							"baseContracts": [],
-							"canonicalName": "IEtfFactory",
+							"canonicalName": "IEtfRouter",
 							"contractDependencies": [],
 							"contractKind": "interface",
 							"fullyImplemented": false,
-							"id": 187,
+							"id": 139,
 							"linearizedBaseContracts": [
-								187
+								139
 							],
-							"name": "IEtfFactory",
-							"nameLocation": "153:11:1",
+							"name": "IEtfRouter",
+							"nameLocation": "118:10:1",
 							"nodeType": "ContractDefinition",
 							"nodes": [
 								{
-									"functionSelector": "1626542c",
-									"id": 137,
+									"functionSelector": "f9b9547d",
+									"id": 138,
 									"implemented": false,
 									"kind": "function",
 									"modifiers": [],
-									"name": "updateEtfVolume",
-									"nameLocation": "180:15:1",
+									"name": "mintEtfTokens",
+									"nameLocation": "144:13:1",
 									"nodeType": "FunctionDefinition",
 									"parameters": {
-										"id": 135,
+										"id": 136,
 										"nodeType": "ParameterList",
 										"parameters": [
 											{
 												"constant": false,
-												"id": 132,
+												"id": 131,
 												"mutability": "mutable",
 												"name": "etfId",
-												"nameLocation": "204:5:1",
+												"nameLocation": "166:5:1",
 												"nodeType": "VariableDeclaration",
-												"scope": 137,
-												"src": "196:13:1",
+												"scope": 138,
+												"src": "158:13:1",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
@@ -2376,10 +2144,10 @@
 													"typeString": "uint256"
 												},
 												"typeName": {
-													"id": 131,
+													"id": 130,
 													"name": "uint256",
 													"nodeType": "ElementaryTypeName",
-													"src": "196:7:1",
+													"src": "158:7:1",
 													"typeDescriptions": {
 														"typeIdentifier": "t_uint256",
 														"typeString": "uint256"
@@ -2389,635 +2157,77 @@
 											},
 											{
 												"constant": false,
-												"id": 134,
+												"id": 133,
 												"mutability": "mutable",
-												"name": "ethAmount",
-												"nameLocation": "219:9:1",
+												"name": "receiver",
+												"nameLocation": "181:8:1",
 												"nodeType": "VariableDeclaration",
-												"scope": 137,
-												"src": "211:17:1",
+												"scope": 138,
+												"src": "173:16:1",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
-													"typeIdentifier": "t_uint256",
-													"typeString": "uint256"
+													"typeIdentifier": "t_address",
+													"typeString": "address"
 												},
 												"typeName": {
-													"id": 133,
-													"name": "uint256",
+													"id": 132,
+													"name": "address",
 													"nodeType": "ElementaryTypeName",
-													"src": "211:7:1",
+													"src": "173:7:1",
+													"stateMutability": "nonpayable",
 													"typeDescriptions": {
-														"typeIdentifier": "t_uint256",
-														"typeString": "uint256"
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 135,
+												"mutability": "mutable",
+												"name": "affiliateCode",
+												"nameLocation": "207:13:1",
+												"nodeType": "VariableDeclaration",
+												"scope": 138,
+												"src": "191:29:1",
+												"stateVariable": false,
+												"storageLocation": "calldata",
+												"typeDescriptions": {
+													"typeIdentifier": "t_string_calldata_ptr",
+													"typeString": "string"
+												},
+												"typeName": {
+													"id": 134,
+													"name": "string",
+													"nodeType": "ElementaryTypeName",
+													"src": "191:6:1",
+													"typeDescriptions": {
+														"typeIdentifier": "t_string_storage_ptr",
+														"typeString": "string"
 													}
 												},
 												"visibility": "internal"
 											}
 										],
-										"src": "195:34:1"
+										"src": "157:64:1"
 									},
 									"returnParameters": {
-										"id": 136,
+										"id": 137,
 										"nodeType": "ParameterList",
 										"parameters": [],
 										"src": "238:0:1"
 									},
-									"scope": 187,
-									"src": "171:68:1",
-									"stateMutability": "nonpayable",
-									"virtual": false,
-									"visibility": "external"
-								},
-								{
-									"functionSelector": "ecb0271c",
-									"id": 145,
-									"implemented": false,
-									"kind": "function",
-									"modifiers": [],
-									"name": "getEtfById",
-									"nameLocation": "276:10:1",
-									"nodeType": "FunctionDefinition",
-									"parameters": {
-										"id": 140,
-										"nodeType": "ParameterList",
-										"parameters": [
-											{
-												"constant": false,
-												"id": 139,
-												"mutability": "mutable",
-												"name": "etfId",
-												"nameLocation": "295:5:1",
-												"nodeType": "VariableDeclaration",
-												"scope": 145,
-												"src": "287:13:1",
-												"stateVariable": false,
-												"storageLocation": "default",
-												"typeDescriptions": {
-													"typeIdentifier": "t_uint256",
-													"typeString": "uint256"
-												},
-												"typeName": {
-													"id": 138,
-													"name": "uint256",
-													"nodeType": "ElementaryTypeName",
-													"src": "287:7:1",
-													"typeDescriptions": {
-														"typeIdentifier": "t_uint256",
-														"typeString": "uint256"
-													}
-												},
-												"visibility": "internal"
-											}
-										],
-										"src": "286:15:1"
-									},
-									"returnParameters": {
-										"id": 144,
-										"nodeType": "ParameterList",
-										"parameters": [
-											{
-												"constant": false,
-												"id": 143,
-												"mutability": "mutable",
-												"name": "",
-												"nameLocation": "-1:-1:-1",
-												"nodeType": "VariableDeclaration",
-												"scope": 145,
-												"src": "325:10:1",
-												"stateVariable": false,
-												"storageLocation": "memory",
-												"typeDescriptions": {
-													"typeIdentifier": "t_struct$_Etf_$233_memory_ptr",
-													"typeString": "struct Etf"
-												},
-												"typeName": {
-													"id": 142,
-													"nodeType": "UserDefinedTypeName",
-													"pathNode": {
-														"id": 141,
-														"name": "Etf",
-														"nameLocations": [
-															"325:3:1"
-														],
-														"nodeType": "IdentifierPath",
-														"referencedDeclaration": 233,
-														"src": "325:3:1"
-													},
-													"referencedDeclaration": 233,
-													"src": "325:3:1",
-													"typeDescriptions": {
-														"typeIdentifier": "t_struct$_Etf_$233_storage_ptr",
-														"typeString": "struct Etf"
-													}
-												},
-												"visibility": "internal"
-											}
-										],
-										"src": "324:12:1"
-									},
-									"scope": 187,
-									"src": "267:70:1",
-									"stateMutability": "view",
-									"virtual": false,
-									"visibility": "external"
-								},
-								{
-									"functionSelector": "f2018a1f",
-									"id": 152,
-									"implemented": false,
-									"kind": "function",
-									"modifiers": [],
-									"name": "getEtfTokenAddress",
-									"nameLocation": "351:18:1",
-									"nodeType": "FunctionDefinition",
-									"parameters": {
-										"id": 148,
-										"nodeType": "ParameterList",
-										"parameters": [
-											{
-												"constant": false,
-												"id": 147,
-												"mutability": "mutable",
-												"name": "etfId",
-												"nameLocation": "378:5:1",
-												"nodeType": "VariableDeclaration",
-												"scope": 152,
-												"src": "370:13:1",
-												"stateVariable": false,
-												"storageLocation": "default",
-												"typeDescriptions": {
-													"typeIdentifier": "t_uint256",
-													"typeString": "uint256"
-												},
-												"typeName": {
-													"id": 146,
-													"name": "uint256",
-													"nodeType": "ElementaryTypeName",
-													"src": "370:7:1",
-													"typeDescriptions": {
-														"typeIdentifier": "t_uint256",
-														"typeString": "uint256"
-													}
-												},
-												"visibility": "internal"
-											}
-										],
-										"src": "369:15:1"
-									},
-									"returnParameters": {
-										"id": 151,
-										"nodeType": "ParameterList",
-										"parameters": [
-											{
-												"constant": false,
-												"id": 150,
-												"mutability": "mutable",
-												"name": "",
-												"nameLocation": "-1:-1:-1",
-												"nodeType": "VariableDeclaration",
-												"scope": 152,
-												"src": "408:7:1",
-												"stateVariable": false,
-												"storageLocation": "default",
-												"typeDescriptions": {
-													"typeIdentifier": "t_address",
-													"typeString": "address"
-												},
-												"typeName": {
-													"id": 149,
-													"name": "address",
-													"nodeType": "ElementaryTypeName",
-													"src": "408:7:1",
-													"stateMutability": "nonpayable",
-													"typeDescriptions": {
-														"typeIdentifier": "t_address",
-														"typeString": "address"
-													}
-												},
-												"visibility": "internal"
-											}
-										],
-										"src": "407:9:1"
-									},
-									"scope": 187,
-									"src": "342:75:1",
-									"stateMutability": "view",
-									"virtual": false,
-									"visibility": "external"
-								},
-								{
-									"functionSelector": "3ee79962",
-									"id": 159,
-									"implemented": false,
-									"kind": "function",
-									"modifiers": [],
-									"name": "getEtfVaultAddress",
-									"nameLocation": "431:18:1",
-									"nodeType": "FunctionDefinition",
-									"parameters": {
-										"id": 155,
-										"nodeType": "ParameterList",
-										"parameters": [
-											{
-												"constant": false,
-												"id": 154,
-												"mutability": "mutable",
-												"name": "etfId",
-												"nameLocation": "458:5:1",
-												"nodeType": "VariableDeclaration",
-												"scope": 159,
-												"src": "450:13:1",
-												"stateVariable": false,
-												"storageLocation": "default",
-												"typeDescriptions": {
-													"typeIdentifier": "t_uint256",
-													"typeString": "uint256"
-												},
-												"typeName": {
-													"id": 153,
-													"name": "uint256",
-													"nodeType": "ElementaryTypeName",
-													"src": "450:7:1",
-													"typeDescriptions": {
-														"typeIdentifier": "t_uint256",
-														"typeString": "uint256"
-													}
-												},
-												"visibility": "internal"
-											}
-										],
-										"src": "449:15:1"
-									},
-									"returnParameters": {
-										"id": 158,
-										"nodeType": "ParameterList",
-										"parameters": [
-											{
-												"constant": false,
-												"id": 157,
-												"mutability": "mutable",
-												"name": "",
-												"nameLocation": "-1:-1:-1",
-												"nodeType": "VariableDeclaration",
-												"scope": 159,
-												"src": "488:7:1",
-												"stateVariable": false,
-												"storageLocation": "default",
-												"typeDescriptions": {
-													"typeIdentifier": "t_address",
-													"typeString": "address"
-												},
-												"typeName": {
-													"id": 156,
-													"name": "address",
-													"nodeType": "ElementaryTypeName",
-													"src": "488:7:1",
-													"stateMutability": "nonpayable",
-													"typeDescriptions": {
-														"typeIdentifier": "t_address",
-														"typeString": "address"
-													}
-												},
-												"visibility": "internal"
-											}
-										],
-										"src": "487:9:1"
-									},
-									"scope": 187,
-									"src": "422:75:1",
-									"stateMutability": "view",
-									"virtual": false,
-									"visibility": "external"
-								},
-								{
-									"functionSelector": "61668690",
-									"id": 171,
-									"implemented": false,
-									"kind": "function",
-									"modifiers": [],
-									"name": "getEtfByIdAndAddresses",
-									"nameLocation": "511:22:1",
-									"nodeType": "FunctionDefinition",
-									"parameters": {
-										"id": 162,
-										"nodeType": "ParameterList",
-										"parameters": [
-											{
-												"constant": false,
-												"id": 161,
-												"mutability": "mutable",
-												"name": "etfId",
-												"nameLocation": "542:5:1",
-												"nodeType": "VariableDeclaration",
-												"scope": 171,
-												"src": "534:13:1",
-												"stateVariable": false,
-												"storageLocation": "default",
-												"typeDescriptions": {
-													"typeIdentifier": "t_uint256",
-													"typeString": "uint256"
-												},
-												"typeName": {
-													"id": 160,
-													"name": "uint256",
-													"nodeType": "ElementaryTypeName",
-													"src": "534:7:1",
-													"typeDescriptions": {
-														"typeIdentifier": "t_uint256",
-														"typeString": "uint256"
-													}
-												},
-												"visibility": "internal"
-											}
-										],
-										"src": "533:15:1"
-									},
-									"returnParameters": {
-										"id": 170,
-										"nodeType": "ParameterList",
-										"parameters": [
-											{
-												"constant": false,
-												"id": 165,
-												"mutability": "mutable",
-												"name": "etf",
-												"nameLocation": "583:3:1",
-												"nodeType": "VariableDeclaration",
-												"scope": 171,
-												"src": "572:14:1",
-												"stateVariable": false,
-												"storageLocation": "memory",
-												"typeDescriptions": {
-													"typeIdentifier": "t_struct$_Etf_$233_memory_ptr",
-													"typeString": "struct Etf"
-												},
-												"typeName": {
-													"id": 164,
-													"nodeType": "UserDefinedTypeName",
-													"pathNode": {
-														"id": 163,
-														"name": "Etf",
-														"nameLocations": [
-															"572:3:1"
-														],
-														"nodeType": "IdentifierPath",
-														"referencedDeclaration": 233,
-														"src": "572:3:1"
-													},
-													"referencedDeclaration": 233,
-													"src": "572:3:1",
-													"typeDescriptions": {
-														"typeIdentifier": "t_struct$_Etf_$233_storage_ptr",
-														"typeString": "struct Etf"
-													}
-												},
-												"visibility": "internal"
-											},
-											{
-												"constant": false,
-												"id": 167,
-												"mutability": "mutable",
-												"name": "tokenAddress",
-												"nameLocation": "596:12:1",
-												"nodeType": "VariableDeclaration",
-												"scope": 171,
-												"src": "588:20:1",
-												"stateVariable": false,
-												"storageLocation": "default",
-												"typeDescriptions": {
-													"typeIdentifier": "t_address",
-													"typeString": "address"
-												},
-												"typeName": {
-													"id": 166,
-													"name": "address",
-													"nodeType": "ElementaryTypeName",
-													"src": "588:7:1",
-													"stateMutability": "nonpayable",
-													"typeDescriptions": {
-														"typeIdentifier": "t_address",
-														"typeString": "address"
-													}
-												},
-												"visibility": "internal"
-											},
-											{
-												"constant": false,
-												"id": 169,
-												"mutability": "mutable",
-												"name": "vaultAddress",
-												"nameLocation": "618:12:1",
-												"nodeType": "VariableDeclaration",
-												"scope": 171,
-												"src": "610:20:1",
-												"stateVariable": false,
-												"storageLocation": "default",
-												"typeDescriptions": {
-													"typeIdentifier": "t_address",
-													"typeString": "address"
-												},
-												"typeName": {
-													"id": 168,
-													"name": "address",
-													"nodeType": "ElementaryTypeName",
-													"src": "610:7:1",
-													"stateMutability": "nonpayable",
-													"typeDescriptions": {
-														"typeIdentifier": "t_address",
-														"typeString": "address"
-													}
-												},
-												"visibility": "internal"
-											}
-										],
-										"src": "571:60:1"
-									},
-									"scope": 187,
-									"src": "502:130:1",
-									"stateMutability": "view",
-									"virtual": false,
-									"visibility": "external"
-								},
-								{
-									"functionSelector": "3088f069",
-									"id": 181,
-									"implemented": false,
-									"kind": "function",
-									"modifiers": [],
-									"name": "getEtfByIdAndVault",
-									"nameLocation": "646:18:1",
-									"nodeType": "FunctionDefinition",
-									"parameters": {
-										"id": 174,
-										"nodeType": "ParameterList",
-										"parameters": [
-											{
-												"constant": false,
-												"id": 173,
-												"mutability": "mutable",
-												"name": "etfId",
-												"nameLocation": "673:5:1",
-												"nodeType": "VariableDeclaration",
-												"scope": 181,
-												"src": "665:13:1",
-												"stateVariable": false,
-												"storageLocation": "default",
-												"typeDescriptions": {
-													"typeIdentifier": "t_uint256",
-													"typeString": "uint256"
-												},
-												"typeName": {
-													"id": 172,
-													"name": "uint256",
-													"nodeType": "ElementaryTypeName",
-													"src": "665:7:1",
-													"typeDescriptions": {
-														"typeIdentifier": "t_uint256",
-														"typeString": "uint256"
-													}
-												},
-												"visibility": "internal"
-											}
-										],
-										"src": "664:15:1"
-									},
-									"returnParameters": {
-										"id": 180,
-										"nodeType": "ParameterList",
-										"parameters": [
-											{
-												"constant": false,
-												"id": 177,
-												"mutability": "mutable",
-												"name": "etf",
-												"nameLocation": "714:3:1",
-												"nodeType": "VariableDeclaration",
-												"scope": 181,
-												"src": "703:14:1",
-												"stateVariable": false,
-												"storageLocation": "memory",
-												"typeDescriptions": {
-													"typeIdentifier": "t_struct$_Etf_$233_memory_ptr",
-													"typeString": "struct Etf"
-												},
-												"typeName": {
-													"id": 176,
-													"nodeType": "UserDefinedTypeName",
-													"pathNode": {
-														"id": 175,
-														"name": "Etf",
-														"nameLocations": [
-															"703:3:1"
-														],
-														"nodeType": "IdentifierPath",
-														"referencedDeclaration": 233,
-														"src": "703:3:1"
-													},
-													"referencedDeclaration": 233,
-													"src": "703:3:1",
-													"typeDescriptions": {
-														"typeIdentifier": "t_struct$_Etf_$233_storage_ptr",
-														"typeString": "struct Etf"
-													}
-												},
-												"visibility": "internal"
-											},
-											{
-												"constant": false,
-												"id": 179,
-												"mutability": "mutable",
-												"name": "vaultAddress",
-												"nameLocation": "727:12:1",
-												"nodeType": "VariableDeclaration",
-												"scope": 181,
-												"src": "719:20:1",
-												"stateVariable": false,
-												"storageLocation": "default",
-												"typeDescriptions": {
-													"typeIdentifier": "t_address",
-													"typeString": "address"
-												},
-												"typeName": {
-													"id": 178,
-													"name": "address",
-													"nodeType": "ElementaryTypeName",
-													"src": "719:7:1",
-													"stateMutability": "nonpayable",
-													"typeDescriptions": {
-														"typeIdentifier": "t_address",
-														"typeString": "address"
-													}
-												},
-												"visibility": "internal"
-											}
-										],
-										"src": "702:38:1"
-									},
-									"scope": 187,
-									"src": "637:104:1",
-									"stateMutability": "view",
-									"virtual": false,
-									"visibility": "external"
-								},
-								{
-									"functionSelector": "594625a9",
-									"id": 186,
-									"implemented": false,
-									"kind": "function",
-									"modifiers": [],
-									"name": "emitVaultBalanceEvent",
-									"nameLocation": "769:21:1",
-									"nodeType": "FunctionDefinition",
-									"parameters": {
-										"id": 184,
-										"nodeType": "ParameterList",
-										"parameters": [
-											{
-												"constant": false,
-												"id": 183,
-												"mutability": "mutable",
-												"name": "etfId",
-												"nameLocation": "799:5:1",
-												"nodeType": "VariableDeclaration",
-												"scope": 186,
-												"src": "791:13:1",
-												"stateVariable": false,
-												"storageLocation": "default",
-												"typeDescriptions": {
-													"typeIdentifier": "t_uint256",
-													"typeString": "uint256"
-												},
-												"typeName": {
-													"id": 182,
-													"name": "uint256",
-													"nodeType": "ElementaryTypeName",
-													"src": "791:7:1",
-													"typeDescriptions": {
-														"typeIdentifier": "t_uint256",
-														"typeString": "uint256"
-													}
-												},
-												"visibility": "internal"
-											}
-										],
-										"src": "790:15:1"
-									},
-									"returnParameters": {
-										"id": 185,
-										"nodeType": "ParameterList",
-										"parameters": [],
-										"src": "814:0:1"
-									},
-									"scope": 187,
-									"src": "760:55:1",
-									"stateMutability": "nonpayable",
+									"scope": 139,
+									"src": "135:104:1",
+									"stateMutability": "payable",
 									"virtual": false,
 									"visibility": "external"
 								}
 							],
-							"scope": 218,
-							"src": "143:674:1",
+							"scope": 170,
+							"src": "108:133:1",
 							"usedErrors": [],
 							"usedEvents": []
 						},
@@ -3026,38 +2236,38 @@
 							"baseContracts": [
 								{
 									"baseName": {
-										"id": 188,
+										"id": 140,
 										"name": "ImDirectory",
 										"nameLocations": [
-											"853:11:1"
+											"276:11:1"
 										],
 										"nodeType": "IdentifierPath",
 										"referencedDeclaration": 126,
-										"src": "853:11:1"
+										"src": "276:11:1"
 									},
-									"id": 189,
+									"id": 141,
 									"nodeType": "InheritanceSpecifier",
-									"src": "853:11:1"
+									"src": "276:11:1"
 								}
 							],
-							"canonicalName": "ImEtfFactory",
+							"canonicalName": "ImEtfRouter",
 							"contractDependencies": [],
 							"contractKind": "contract",
 							"fullyImplemented": true,
-							"id": 217,
+							"id": 169,
 							"linearizedBaseContracts": [
-								217,
+								169,
 								126
 							],
-							"name": "ImEtfFactory",
-							"nameLocation": "837:12:1",
+							"name": "ImEtfRouter",
+							"nameLocation": "261:11:1",
 							"nodeType": "ContractDefinition",
 							"nodes": [
 								{
 									"body": {
-										"id": 201,
+										"id": 153,
 										"nodeType": "Block",
-										"src": "941:70:1",
+										"src": "362:68:1",
 										"statements": [
 											{
 												"expression": {
@@ -3065,41 +2275,41 @@
 														{
 															"arguments": [
 																{
-																	"hexValue": "6574662d666163746f7279",
-																	"id": 197,
+																	"hexValue": "6574662d726f75746572",
+																	"id": 149,
 																	"isConstant": false,
 																	"isLValue": false,
 																	"isPure": true,
 																	"kind": "string",
 																	"lValueRequested": false,
 																	"nodeType": "Literal",
-																	"src": "989:13:1",
+																	"src": "409:12:1",
 																	"typeDescriptions": {
-																		"typeIdentifier": "t_stringliteral_943729610839eba57b71f5d9959c11c5b12a75d61eab5ef533c966664c99cdca",
-																		"typeString": "literal_string \"etf-factory\""
+																		"typeIdentifier": "t_stringliteral_f88d96806ae6e0ffb90f33067f9d810b2e6d69273e5977263af7566ab4b3aa6a",
+																		"typeString": "literal_string \"etf-router\""
 																	},
-																	"value": "etf-factory"
+																	"value": "etf-router"
 																}
 															],
 															"expression": {
 																"argumentTypes": [
 																	{
-																		"typeIdentifier": "t_stringliteral_943729610839eba57b71f5d9959c11c5b12a75d61eab5ef533c966664c99cdca",
-																		"typeString": "literal_string \"etf-factory\""
+																		"typeIdentifier": "t_stringliteral_f88d96806ae6e0ffb90f33067f9d810b2e6d69273e5977263af7566ab4b3aa6a",
+																		"typeString": "literal_string \"etf-router\""
 																	}
 																],
-																"id": 196,
+																"id": 148,
 																"name": "fetchFromDirectory",
 																"nodeType": "Identifier",
 																"overloadedDeclarations": [],
 																"referencedDeclaration": 125,
-																"src": "970:18:1",
+																"src": "390:18:1",
 																"typeDescriptions": {
 																	"typeIdentifier": "t_function_internal_view$_t_string_memory_ptr_$returns$_t_address_$",
 																	"typeString": "function (string memory) view returns (address)"
 																}
 															},
-															"id": 198,
+															"id": 150,
 															"isConstant": false,
 															"isLValue": false,
 															"isPure": false,
@@ -3108,7 +2318,7 @@
 															"nameLocations": [],
 															"names": [],
 															"nodeType": "FunctionCall",
-															"src": "970:33:1",
+															"src": "390:32:1",
 															"tryCall": false,
 															"typeDescriptions": {
 																"typeIdentifier": "t_address",
@@ -3123,18 +2333,18 @@
 																"typeString": "address"
 															}
 														],
-														"id": 195,
-														"name": "IEtfFactory",
+														"id": 147,
+														"name": "IEtfRouter",
 														"nodeType": "Identifier",
 														"overloadedDeclarations": [],
-														"referencedDeclaration": 187,
-														"src": "958:11:1",
+														"referencedDeclaration": 139,
+														"src": "379:10:1",
 														"typeDescriptions": {
-															"typeIdentifier": "t_type$_t_contract$_IEtfFactory_$187_$",
-															"typeString": "type(contract IEtfFactory)"
+															"typeIdentifier": "t_type$_t_contract$_IEtfRouter_$139_$",
+															"typeString": "type(contract IEtfRouter)"
 														}
 													},
-													"id": 199,
+													"id": 151,
 													"isConstant": false,
 													"isLValue": false,
 													"isPure": false,
@@ -3143,88 +2353,88 @@
 													"nameLocations": [],
 													"names": [],
 													"nodeType": "FunctionCall",
-													"src": "958:46:1",
+													"src": "379:44:1",
 													"tryCall": false,
 													"typeDescriptions": {
-														"typeIdentifier": "t_contract$_IEtfFactory_$187",
-														"typeString": "contract IEtfFactory"
+														"typeIdentifier": "t_contract$_IEtfRouter_$139",
+														"typeString": "contract IEtfRouter"
 													}
 												},
-												"functionReturnParameters": 194,
-												"id": 200,
+												"functionReturnParameters": 146,
+												"id": 152,
 												"nodeType": "Return",
-												"src": "951:53:1"
+												"src": "372:51:1"
 											}
 										]
 									},
-									"id": 202,
+									"id": 154,
 									"implemented": true,
 									"kind": "function",
 									"modifiers": [],
-									"name": "getEtfFactory",
-									"nameLocation": "881:13:1",
+									"name": "getEtfRouter",
+									"nameLocation": "304:12:1",
 									"nodeType": "FunctionDefinition",
 									"parameters": {
-										"id": 190,
+										"id": 142,
 										"nodeType": "ParameterList",
 										"parameters": [],
-										"src": "894:2:1"
+										"src": "316:2:1"
 									},
 									"returnParameters": {
-										"id": 194,
+										"id": 146,
 										"nodeType": "ParameterList",
 										"parameters": [
 											{
 												"constant": false,
-												"id": 193,
+												"id": 145,
 												"mutability": "mutable",
 												"name": "",
 												"nameLocation": "-1:-1:-1",
 												"nodeType": "VariableDeclaration",
-												"scope": 202,
-												"src": "928:11:1",
+												"scope": 154,
+												"src": "350:10:1",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
-													"typeIdentifier": "t_contract$_IEtfFactory_$187",
-													"typeString": "contract IEtfFactory"
+													"typeIdentifier": "t_contract$_IEtfRouter_$139",
+													"typeString": "contract IEtfRouter"
 												},
 												"typeName": {
-													"id": 192,
+													"id": 144,
 													"nodeType": "UserDefinedTypeName",
 													"pathNode": {
-														"id": 191,
-														"name": "IEtfFactory",
+														"id": 143,
+														"name": "IEtfRouter",
 														"nameLocations": [
-															"928:11:1"
+															"350:10:1"
 														],
 														"nodeType": "IdentifierPath",
-														"referencedDeclaration": 187,
-														"src": "928:11:1"
+														"referencedDeclaration": 139,
+														"src": "350:10:1"
 													},
-													"referencedDeclaration": 187,
-													"src": "928:11:1",
+													"referencedDeclaration": 139,
+													"src": "350:10:1",
 													"typeDescriptions": {
-														"typeIdentifier": "t_contract$_IEtfFactory_$187",
-														"typeString": "contract IEtfFactory"
+														"typeIdentifier": "t_contract$_IEtfRouter_$139",
+														"typeString": "contract IEtfRouter"
 													}
 												},
 												"visibility": "internal"
 											}
 										],
-										"src": "927:13:1"
+										"src": "349:12:1"
 									},
-									"scope": 217,
-									"src": "872:139:1",
+									"scope": 169,
+									"src": "295:135:1",
 									"stateMutability": "view",
 									"virtual": true,
 									"visibility": "internal"
 								},
 								{
 									"body": {
-										"id": 215,
+										"id": 167,
 										"nodeType": "Block",
-										"src": "1043:117:1",
+										"src": "461:115:1",
 										"statements": [
 											{
 												"expression": {
@@ -3234,33 +2444,33 @@
 																"typeIdentifier": "t_address",
 																"typeString": "address"
 															},
-															"id": 210,
+															"id": 162,
 															"isConstant": false,
 															"isLValue": false,
 															"isPure": false,
 															"lValueRequested": false,
 															"leftExpression": {
 																"expression": {
-																	"id": 205,
+																	"id": 157,
 																	"name": "msg",
 																	"nodeType": "Identifier",
 																	"overloadedDeclarations": [],
 																	"referencedDeclaration": 4294967281,
-																	"src": "1061:3:1",
+																	"src": "479:3:1",
 																	"typeDescriptions": {
 																		"typeIdentifier": "t_magic_message",
 																		"typeString": "msg"
 																	}
 																},
-																"id": 206,
+																"id": 158,
 																"isConstant": false,
 																"isLValue": false,
 																"isPure": false,
 																"lValueRequested": false,
-																"memberLocation": "1065:6:1",
+																"memberLocation": "483:6:1",
 																"memberName": "sender",
 																"nodeType": "MemberAccess",
-																"src": "1061:10:1",
+																"src": "479:10:1",
 																"typeDescriptions": {
 																	"typeIdentifier": "t_address",
 																	"typeString": "address"
@@ -3271,41 +2481,41 @@
 															"rightExpression": {
 																"arguments": [
 																	{
-																		"hexValue": "6574662d666163746f7279",
-																		"id": 208,
+																		"hexValue": "6574662d726f75746572",
+																		"id": 160,
 																		"isConstant": false,
 																		"isLValue": false,
 																		"isPure": true,
 																		"kind": "string",
 																		"lValueRequested": false,
 																		"nodeType": "Literal",
-																		"src": "1094:13:1",
+																		"src": "512:12:1",
 																		"typeDescriptions": {
-																			"typeIdentifier": "t_stringliteral_943729610839eba57b71f5d9959c11c5b12a75d61eab5ef533c966664c99cdca",
-																			"typeString": "literal_string \"etf-factory\""
+																			"typeIdentifier": "t_stringliteral_f88d96806ae6e0ffb90f33067f9d810b2e6d69273e5977263af7566ab4b3aa6a",
+																			"typeString": "literal_string \"etf-router\""
 																		},
-																		"value": "etf-factory"
+																		"value": "etf-router"
 																	}
 																],
 																"expression": {
 																	"argumentTypes": [
 																		{
-																			"typeIdentifier": "t_stringliteral_943729610839eba57b71f5d9959c11c5b12a75d61eab5ef533c966664c99cdca",
-																			"typeString": "literal_string \"etf-factory\""
+																			"typeIdentifier": "t_stringliteral_f88d96806ae6e0ffb90f33067f9d810b2e6d69273e5977263af7566ab4b3aa6a",
+																			"typeString": "literal_string \"etf-router\""
 																		}
 																	],
-																	"id": 207,
+																	"id": 159,
 																	"name": "fetchFromDirectory",
 																	"nodeType": "Identifier",
 																	"overloadedDeclarations": [],
 																	"referencedDeclaration": 125,
-																	"src": "1075:18:1",
+																	"src": "493:18:1",
 																	"typeDescriptions": {
 																		"typeIdentifier": "t_function_internal_view$_t_string_memory_ptr_$returns$_t_address_$",
 																		"typeString": "function (string memory) view returns (address)"
 																	}
 																},
-																"id": 209,
+																"id": 161,
 																"isConstant": false,
 																"isLValue": false,
 																"isPure": false,
@@ -3314,34 +2524,34 @@
 																"nameLocations": [],
 																"names": [],
 																"nodeType": "FunctionCall",
-																"src": "1075:33:1",
+																"src": "493:32:1",
 																"tryCall": false,
 																"typeDescriptions": {
 																	"typeIdentifier": "t_address",
 																	"typeString": "address"
 																}
 															},
-															"src": "1061:47:1",
+															"src": "479:46:1",
 															"typeDescriptions": {
 																"typeIdentifier": "t_bool",
 																"typeString": "bool"
 															}
 														},
 														{
-															"hexValue": "6d73672e73656e646572206973206e6f742065746620666163746f7279",
-															"id": 211,
+															"hexValue": "6d73672e73656e646572206973206e6f742065746620726f75746572",
+															"id": 163,
 															"isConstant": false,
 															"isLValue": false,
 															"isPure": true,
 															"kind": "string",
 															"lValueRequested": false,
 															"nodeType": "Literal",
-															"src": "1110:31:1",
+															"src": "527:30:1",
 															"typeDescriptions": {
-																"typeIdentifier": "t_stringliteral_96d2274afc2e46d87651e0ea9c531d7bd4a8254dcdfc9658ecdc8737b93f78e9",
-																"typeString": "literal_string \"msg.sender is not etf factory\""
+																"typeIdentifier": "t_stringliteral_bdbe95abee222508051e369adf0d08d9049b95fb3476e24567294273e8b990a9",
+																"typeString": "literal_string \"msg.sender is not etf router\""
 															},
-															"value": "msg.sender is not etf factory"
+															"value": "msg.sender is not etf router"
 														}
 													],
 													"expression": {
@@ -3351,11 +2561,11 @@
 																"typeString": "bool"
 															},
 															{
-																"typeIdentifier": "t_stringliteral_96d2274afc2e46d87651e0ea9c531d7bd4a8254dcdfc9658ecdc8737b93f78e9",
-																"typeString": "literal_string \"msg.sender is not etf factory\""
+																"typeIdentifier": "t_stringliteral_bdbe95abee222508051e369adf0d08d9049b95fb3476e24567294273e8b990a9",
+																"typeString": "literal_string \"msg.sender is not etf router\""
 															}
 														],
-														"id": 204,
+														"id": 156,
 														"name": "require",
 														"nodeType": "Identifier",
 														"overloadedDeclarations": [
@@ -3364,13 +2574,13 @@
 															4294967278
 														],
 														"referencedDeclaration": 4294967278,
-														"src": "1053:7:1",
+														"src": "471:7:1",
 														"typeDescriptions": {
 															"typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
 															"typeString": "function (bool,string memory) pure"
 														}
 													},
-													"id": 212,
+													"id": 164,
 													"isConstant": false,
 													"isLValue": false,
 													"isPure": false,
@@ -3379,257 +2589,48 @@
 													"nameLocations": [],
 													"names": [],
 													"nodeType": "FunctionCall",
-													"src": "1053:89:1",
+													"src": "471:87:1",
 													"tryCall": false,
 													"typeDescriptions": {
 														"typeIdentifier": "t_tuple$__$",
 														"typeString": "tuple()"
 													}
 												},
-												"id": 213,
+												"id": 165,
 												"nodeType": "ExpressionStatement",
-												"src": "1053:89:1"
+												"src": "471:87:1"
 											},
 											{
-												"id": 214,
+												"id": 166,
 												"nodeType": "PlaceholderStatement",
-												"src": "1152:1:1"
+												"src": "568:1:1"
 											}
 										]
 									},
-									"id": 216,
-									"name": "onlyEtfFactory",
-									"nameLocation": "1026:14:1",
+									"id": 168,
+									"name": "onlyEtfRouter",
+									"nameLocation": "445:13:1",
 									"nodeType": "ModifierDefinition",
 									"parameters": {
-										"id": 203,
+										"id": 155,
 										"nodeType": "ParameterList",
 										"parameters": [],
-										"src": "1040:2:1"
+										"src": "458:2:1"
 									},
-									"src": "1017:143:1",
+									"src": "436:140:1",
 									"virtual": false,
 									"visibility": "internal"
 								}
 							],
-							"scope": 218,
-							"src": "819:343:1",
+							"scope": 170,
+							"src": "243:335:1",
 							"usedErrors": [],
 							"usedEvents": []
 						}
 					],
-					"src": "32:1130:1"
+					"src": "32:546:1"
 				},
 				"id": 1
-			},
-			"hopium/etf/types/etf.sol": {
-				"ast": {
-					"absolutePath": "hopium/etf/types/etf.sol",
-					"exportedSymbols": {
-						"Asset": [
-							224
-						],
-						"Etf": [
-							233
-						]
-					},
-					"id": 234,
-					"license": "MIT",
-					"nodeType": "SourceUnit",
-					"nodes": [
-						{
-							"id": 219,
-							"literals": [
-								"solidity",
-								"0.8",
-								".30"
-							],
-							"nodeType": "PragmaDirective",
-							"src": "32:23:2"
-						},
-						{
-							"canonicalName": "Asset",
-							"id": 224,
-							"members": [
-								{
-									"constant": false,
-									"id": 221,
-									"mutability": "mutable",
-									"name": "tokenAddress",
-									"nameLocation": "84:12:2",
-									"nodeType": "VariableDeclaration",
-									"scope": 224,
-									"src": "76:20:2",
-									"stateVariable": false,
-									"storageLocation": "default",
-									"typeDescriptions": {
-										"typeIdentifier": "t_address",
-										"typeString": "address"
-									},
-									"typeName": {
-										"id": 220,
-										"name": "address",
-										"nodeType": "ElementaryTypeName",
-										"src": "76:7:2",
-										"stateMutability": "nonpayable",
-										"typeDescriptions": {
-											"typeIdentifier": "t_address",
-											"typeString": "address"
-										}
-									},
-									"visibility": "internal"
-								},
-								{
-									"constant": false,
-									"id": 223,
-									"mutability": "mutable",
-									"name": "weightBips",
-									"nameLocation": "109:10:2",
-									"nodeType": "VariableDeclaration",
-									"scope": 224,
-									"src": "102:17:2",
-									"stateVariable": false,
-									"storageLocation": "default",
-									"typeDescriptions": {
-										"typeIdentifier": "t_uint16",
-										"typeString": "uint16"
-									},
-									"typeName": {
-										"id": 222,
-										"name": "uint16",
-										"nodeType": "ElementaryTypeName",
-										"src": "102:6:2",
-										"typeDescriptions": {
-											"typeIdentifier": "t_uint16",
-											"typeString": "uint16"
-										}
-									},
-									"visibility": "internal"
-								}
-							],
-							"name": "Asset",
-							"nameLocation": "64:5:2",
-							"nodeType": "StructDefinition",
-							"scope": 234,
-							"src": "57:65:2",
-							"visibility": "public"
-						},
-						{
-							"canonicalName": "Etf",
-							"id": 233,
-							"members": [
-								{
-									"constant": false,
-									"id": 226,
-									"mutability": "mutable",
-									"name": "name",
-									"nameLocation": "148:4:2",
-									"nodeType": "VariableDeclaration",
-									"scope": 233,
-									"src": "141:11:2",
-									"stateVariable": false,
-									"storageLocation": "default",
-									"typeDescriptions": {
-										"typeIdentifier": "t_string_storage_ptr",
-										"typeString": "string"
-									},
-									"typeName": {
-										"id": 225,
-										"name": "string",
-										"nodeType": "ElementaryTypeName",
-										"src": "141:6:2",
-										"typeDescriptions": {
-											"typeIdentifier": "t_string_storage_ptr",
-											"typeString": "string"
-										}
-									},
-									"visibility": "internal"
-								},
-								{
-									"constant": false,
-									"id": 228,
-									"mutability": "mutable",
-									"name": "ticker",
-									"nameLocation": "165:6:2",
-									"nodeType": "VariableDeclaration",
-									"scope": 233,
-									"src": "158:13:2",
-									"stateVariable": false,
-									"storageLocation": "default",
-									"typeDescriptions": {
-										"typeIdentifier": "t_string_storage_ptr",
-										"typeString": "string"
-									},
-									"typeName": {
-										"id": 227,
-										"name": "string",
-										"nodeType": "ElementaryTypeName",
-										"src": "158:6:2",
-										"typeDescriptions": {
-											"typeIdentifier": "t_string_storage_ptr",
-											"typeString": "string"
-										}
-									},
-									"visibility": "internal"
-								},
-								{
-									"constant": false,
-									"id": 232,
-									"mutability": "mutable",
-									"name": "assets",
-									"nameLocation": "185:6:2",
-									"nodeType": "VariableDeclaration",
-									"scope": 233,
-									"src": "177:14:2",
-									"stateVariable": false,
-									"storageLocation": "default",
-									"typeDescriptions": {
-										"typeIdentifier": "t_array$_t_struct$_Asset_$224_storage_$dyn_storage_ptr",
-										"typeString": "struct Asset[]"
-									},
-									"typeName": {
-										"baseType": {
-											"id": 230,
-											"nodeType": "UserDefinedTypeName",
-											"pathNode": {
-												"id": 229,
-												"name": "Asset",
-												"nameLocations": [
-													"177:5:2"
-												],
-												"nodeType": "IdentifierPath",
-												"referencedDeclaration": 224,
-												"src": "177:5:2"
-											},
-											"referencedDeclaration": 224,
-											"src": "177:5:2",
-											"typeDescriptions": {
-												"typeIdentifier": "t_struct$_Asset_$224_storage_ptr",
-												"typeString": "struct Asset"
-											}
-										},
-										"id": 231,
-										"nodeType": "ArrayTypeName",
-										"src": "177:7:2",
-										"typeDescriptions": {
-											"typeIdentifier": "t_array$_t_struct$_Asset_$224_storage_$dyn_storage_ptr",
-											"typeString": "struct Asset[]"
-										}
-									},
-									"visibility": "internal"
-								}
-							],
-							"name": "Etf",
-							"nameLocation": "131:3:2",
-							"nodeType": "StructDefinition",
-							"scope": 234,
-							"src": "124:70:2",
-							"visibility": "public"
-						}
-					],
-					"src": "32:163:2"
-				},
-				"id": 2
 			}
 		}
 	}

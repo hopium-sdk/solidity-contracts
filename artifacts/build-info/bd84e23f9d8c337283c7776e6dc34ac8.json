@@ -1,0 +1,1321 @@
+{
+	"id": "bd84e23f9d8c337283c7776e6dc34ac8",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.30",
+	"solcLongVersion": "0.8.30+commit.73712a01",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"hopium/etf/interface/iEtfOracle.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nimport \"hopium/etf/types/etf.sol\";\nimport \"hopium/etf/types/snapshot.sol\";\n\ninterface IEtfOracle {\n   function getEtfWethPrice(uint256 etfId) external view returns (uint256);\n   function getEtfPrice(uint256 etfId) external view returns (uint256 wethPrice18, uint256 usdPrice18);\n   function snapshotVaultUnchecked(Etf memory etf, address vaultAddress) external view returns (Snapshot[] memory s, uint256 etfTvlWeth);\n}"
+			},
+			"hopium/etf/types/snapshot.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nstruct Snapshot {\n    address tokenAddress;\n    uint8   tokenDecimals;\n    uint16  currentWeight;\n    uint256 tokenRawBalance;          // vault raw balance\n    uint256 tokenPriceWeth18;  // WETH per 1 token (1e18)\n    uint256 tokenValueWeth18;  // raw * price / 10^dec\n}\n\nstruct SnapshotWithUsd {\n    address tokenAddress;\n    uint8   tokenDecimals;\n    uint16  currentWeight;\n    uint256 tokenRawBalance;          // vault raw balance\n    uint256 tokenPriceWeth18;  // WETH per 1 token (1e18)\n    uint256 tokenPriceUsd18;\n    uint256 tokenValueWeth18;  // raw * price / 10^dec\n    uint256 tokenValueUsd18;\n}"
+			},
+			"hopium/etf/types/etf.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\n\nstruct Asset {\n    address tokenAddress;\n    uint16 weightBips;\n}\n\nstruct Etf {\n    string name;\n    string ticker;\n    Asset[] assets;\n}\n"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			},
+			"remappings": []
+		}
+	},
+	"output": {
+		"contracts": {
+			"hopium/etf/interface/iEtfOracle.sol": {
+				"IEtfOracle": {
+					"abi": [
+						{
+							"inputs": [
+								{
+									"internalType": "uint256",
+									"name": "etfId",
+									"type": "uint256"
+								}
+							],
+							"name": "getEtfPrice",
+							"outputs": [
+								{
+									"internalType": "uint256",
+									"name": "wethPrice18",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "usdPrice18",
+									"type": "uint256"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "uint256",
+									"name": "etfId",
+									"type": "uint256"
+								}
+							],
+							"name": "getEtfWethPrice",
+							"outputs": [
+								{
+									"internalType": "uint256",
+									"name": "",
+									"type": "uint256"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"components": [
+										{
+											"internalType": "string",
+											"name": "name",
+											"type": "string"
+										},
+										{
+											"internalType": "string",
+											"name": "ticker",
+											"type": "string"
+										},
+										{
+											"components": [
+												{
+													"internalType": "address",
+													"name": "tokenAddress",
+													"type": "address"
+												},
+												{
+													"internalType": "uint16",
+													"name": "weightBips",
+													"type": "uint16"
+												}
+											],
+											"internalType": "struct Asset[]",
+											"name": "assets",
+											"type": "tuple[]"
+										}
+									],
+									"internalType": "struct Etf",
+									"name": "etf",
+									"type": "tuple"
+								},
+								{
+									"internalType": "address",
+									"name": "vaultAddress",
+									"type": "address"
+								}
+							],
+							"name": "snapshotVaultUnchecked",
+							"outputs": [
+								{
+									"components": [
+										{
+											"internalType": "address",
+											"name": "tokenAddress",
+											"type": "address"
+										},
+										{
+											"internalType": "uint8",
+											"name": "tokenDecimals",
+											"type": "uint8"
+										},
+										{
+											"internalType": "uint16",
+											"name": "currentWeight",
+											"type": "uint16"
+										},
+										{
+											"internalType": "uint256",
+											"name": "tokenRawBalance",
+											"type": "uint256"
+										},
+										{
+											"internalType": "uint256",
+											"name": "tokenPriceWeth18",
+											"type": "uint256"
+										},
+										{
+											"internalType": "uint256",
+											"name": "tokenValueWeth18",
+											"type": "uint256"
+										}
+									],
+									"internalType": "struct Snapshot[]",
+									"name": "s",
+									"type": "tuple[]"
+								},
+								{
+									"internalType": "uint256",
+									"name": "etfTvlWeth",
+									"type": "uint256"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"kind": "dev",
+						"methods": {},
+						"version": 1
+					},
+					"evm": {
+						"assembly": "",
+						"bytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"deployedBytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"immutableReferences": {},
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"gasEstimates": null,
+						"legacyAssembly": null,
+						"methodIdentifiers": {
+							"getEtfPrice(uint256)": "79de9e82",
+							"getEtfWethPrice(uint256)": "812efc8e",
+							"snapshotVaultUnchecked((string,string,(address,uint16)[]),address)": "ee0d96c5"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"etfId\",\"type\":\"uint256\"}],\"name\":\"getEtfPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"wethPrice18\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"usdPrice18\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"etfId\",\"type\":\"uint256\"}],\"name\":\"getEtfWethPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ticker\",\"type\":\"string\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint16\",\"name\":\"weightBips\",\"type\":\"uint16\"}],\"internalType\":\"struct Asset[]\",\"name\":\"assets\",\"type\":\"tuple[]\"}],\"internalType\":\"struct Etf\",\"name\":\"etf\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"vaultAddress\",\"type\":\"address\"}],\"name\":\"snapshotVaultUnchecked\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"tokenDecimals\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"currentWeight\",\"type\":\"uint16\"},{\"internalType\":\"uint256\",\"name\":\"tokenRawBalance\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tokenPriceWeth18\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tokenValueWeth18\",\"type\":\"uint256\"}],\"internalType\":\"struct Snapshot[]\",\"name\":\"s\",\"type\":\"tuple[]\"},{\"internalType\":\"uint256\",\"name\":\"etfTvlWeth\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"hopium/etf/interface/iEtfOracle.sol\":\"IEtfOracle\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"hopium/etf/interface/iEtfOracle.sol\":{\"keccak256\":\"0xec06985bcebfcb00a4d18ee1ee82407664ead5fc811c2d1dc3cfc2245b3fab68\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://be2ba55f4e5f3af20e389147cf99d9a797c93ed6b064a5d2120fee986d50edda\",\"dweb:/ipfs/QmVD4rzWyodrgVx9N9C2yMJuS1TwxUDmnsi69giN2DvDoJ\"]},\"hopium/etf/types/etf.sol\":{\"keccak256\":\"0xf0ad7bff285660b2f5459d371c7bb805b60f2a67429d416c8231e986f074d472\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5f8dc77edfc3b352a9e12bef5fdc71f726a8c5627cc1dd64baea860ce9b1af15\",\"dweb:/ipfs/QmY9BKqmbe6xHFciqh5iTUHHqP3Dmx6nFJjqdrGbMSahoh\"]},\"hopium/etf/types/snapshot.sol\":{\"keccak256\":\"0x135bab164fb20e97293b2dfe64005252b22eb2b9d34b16706dbbf21878d3511b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://0874a19530a40a15a1473dc9c23001eb7a5ddedfc7f9cea2e9fa4ecd1c9ef7cf\",\"dweb:/ipfs/QmVpkxTnnM92LEXjrze89ckU51NbVVVUJaduRi8vkCuPAU\"]}},\"version\":1}",
+					"storageLayout": {
+						"storage": [],
+						"types": null
+					},
+					"userdoc": {
+						"kind": "user",
+						"methods": {},
+						"version": 1
+					}
+				}
+			}
+		},
+		"sources": {
+			"hopium/etf/interface/iEtfOracle.sol": {
+				"ast": {
+					"absolutePath": "hopium/etf/interface/iEtfOracle.sol",
+					"exportedSymbols": {
+						"Asset": [
+							41
+						],
+						"Etf": [
+							50
+						],
+						"IEtfOracle": [
+							34
+						],
+						"Snapshot": [
+							65
+						],
+						"SnapshotWithUsd": [
+							82
+						]
+					},
+					"id": 35,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:0"
+						},
+						{
+							"absolutePath": "hopium/etf/types/etf.sol",
+							"file": "hopium/etf/types/etf.sol",
+							"id": 2,
+							"nameLocation": "-1:-1:-1",
+							"nodeType": "ImportDirective",
+							"scope": 35,
+							"sourceUnit": 51,
+							"src": "57:34:0",
+							"symbolAliases": [],
+							"unitAlias": ""
+						},
+						{
+							"absolutePath": "hopium/etf/types/snapshot.sol",
+							"file": "hopium/etf/types/snapshot.sol",
+							"id": 3,
+							"nameLocation": "-1:-1:-1",
+							"nodeType": "ImportDirective",
+							"scope": 35,
+							"sourceUnit": 83,
+							"src": "92:39:0",
+							"symbolAliases": [],
+							"unitAlias": ""
+						},
+						{
+							"abstract": false,
+							"baseContracts": [],
+							"canonicalName": "IEtfOracle",
+							"contractDependencies": [],
+							"contractKind": "interface",
+							"fullyImplemented": false,
+							"id": 34,
+							"linearizedBaseContracts": [
+								34
+							],
+							"name": "IEtfOracle",
+							"nameLocation": "143:10:0",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"functionSelector": "812efc8e",
+									"id": 10,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "getEtfWethPrice",
+									"nameLocation": "168:15:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 6,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 5,
+												"mutability": "mutable",
+												"name": "etfId",
+												"nameLocation": "192:5:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 10,
+												"src": "184:13:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 4,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "184:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "183:15:0"
+									},
+									"returnParameters": {
+										"id": 9,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 8,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 10,
+												"src": "222:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 7,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "222:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "221:9:0"
+									},
+									"scope": 34,
+									"src": "159:72:0",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "79de9e82",
+									"id": 19,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "getEtfPrice",
+									"nameLocation": "244:11:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 13,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 12,
+												"mutability": "mutable",
+												"name": "etfId",
+												"nameLocation": "264:5:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 19,
+												"src": "256:13:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 11,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "256:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "255:15:0"
+									},
+									"returnParameters": {
+										"id": 18,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 15,
+												"mutability": "mutable",
+												"name": "wethPrice18",
+												"nameLocation": "302:11:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 19,
+												"src": "294:19:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 14,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "294:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 17,
+												"mutability": "mutable",
+												"name": "usdPrice18",
+												"nameLocation": "323:10:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 19,
+												"src": "315:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 16,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "315:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "293:41:0"
+									},
+									"scope": 34,
+									"src": "235:100:0",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "ee0d96c5",
+									"id": 33,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "snapshotVaultUnchecked",
+									"nameLocation": "348:22:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 25,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 22,
+												"mutability": "mutable",
+												"name": "etf",
+												"nameLocation": "382:3:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 33,
+												"src": "371:14:0",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_struct$_Etf_$50_memory_ptr",
+													"typeString": "struct Etf"
+												},
+												"typeName": {
+													"id": 21,
+													"nodeType": "UserDefinedTypeName",
+													"pathNode": {
+														"id": 20,
+														"name": "Etf",
+														"nameLocations": [
+															"371:3:0"
+														],
+														"nodeType": "IdentifierPath",
+														"referencedDeclaration": 50,
+														"src": "371:3:0"
+													},
+													"referencedDeclaration": 50,
+													"src": "371:3:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_struct$_Etf_$50_storage_ptr",
+														"typeString": "struct Etf"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 24,
+												"mutability": "mutable",
+												"name": "vaultAddress",
+												"nameLocation": "395:12:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 33,
+												"src": "387:20:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 23,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "387:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "370:38:0"
+									},
+									"returnParameters": {
+										"id": 32,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 29,
+												"mutability": "mutable",
+												"name": "s",
+												"nameLocation": "450:1:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 33,
+												"src": "432:19:0",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_array$_t_struct$_Snapshot_$65_memory_ptr_$dyn_memory_ptr",
+													"typeString": "struct Snapshot[]"
+												},
+												"typeName": {
+													"baseType": {
+														"id": 27,
+														"nodeType": "UserDefinedTypeName",
+														"pathNode": {
+															"id": 26,
+															"name": "Snapshot",
+															"nameLocations": [
+																"432:8:0"
+															],
+															"nodeType": "IdentifierPath",
+															"referencedDeclaration": 65,
+															"src": "432:8:0"
+														},
+														"referencedDeclaration": 65,
+														"src": "432:8:0",
+														"typeDescriptions": {
+															"typeIdentifier": "t_struct$_Snapshot_$65_storage_ptr",
+															"typeString": "struct Snapshot"
+														}
+													},
+													"id": 28,
+													"nodeType": "ArrayTypeName",
+													"src": "432:10:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_array$_t_struct$_Snapshot_$65_storage_$dyn_storage_ptr",
+														"typeString": "struct Snapshot[]"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 31,
+												"mutability": "mutable",
+												"name": "etfTvlWeth",
+												"nameLocation": "461:10:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 33,
+												"src": "453:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 30,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "453:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "431:41:0"
+									},
+									"scope": 34,
+									"src": "339:134:0",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								}
+							],
+							"scope": 35,
+							"src": "133:342:0",
+							"usedErrors": [],
+							"usedEvents": []
+						}
+					],
+					"src": "32:443:0"
+				},
+				"id": 0
+			},
+			"hopium/etf/types/etf.sol": {
+				"ast": {
+					"absolutePath": "hopium/etf/types/etf.sol",
+					"exportedSymbols": {
+						"Asset": [
+							41
+						],
+						"Etf": [
+							50
+						]
+					},
+					"id": 51,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 36,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:1"
+						},
+						{
+							"canonicalName": "Asset",
+							"id": 41,
+							"members": [
+								{
+									"constant": false,
+									"id": 38,
+									"mutability": "mutable",
+									"name": "tokenAddress",
+									"nameLocation": "84:12:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 41,
+									"src": "76:20:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 37,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "76:7:1",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 40,
+									"mutability": "mutable",
+									"name": "weightBips",
+									"nameLocation": "109:10:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 41,
+									"src": "102:17:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint16",
+										"typeString": "uint16"
+									},
+									"typeName": {
+										"id": 39,
+										"name": "uint16",
+										"nodeType": "ElementaryTypeName",
+										"src": "102:6:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint16",
+											"typeString": "uint16"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "Asset",
+							"nameLocation": "64:5:1",
+							"nodeType": "StructDefinition",
+							"scope": 51,
+							"src": "57:65:1",
+							"visibility": "public"
+						},
+						{
+							"canonicalName": "Etf",
+							"id": 50,
+							"members": [
+								{
+									"constant": false,
+									"id": 43,
+									"mutability": "mutable",
+									"name": "name",
+									"nameLocation": "148:4:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 50,
+									"src": "141:11:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_string_storage_ptr",
+										"typeString": "string"
+									},
+									"typeName": {
+										"id": 42,
+										"name": "string",
+										"nodeType": "ElementaryTypeName",
+										"src": "141:6:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_string_storage_ptr",
+											"typeString": "string"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 45,
+									"mutability": "mutable",
+									"name": "ticker",
+									"nameLocation": "165:6:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 50,
+									"src": "158:13:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_string_storage_ptr",
+										"typeString": "string"
+									},
+									"typeName": {
+										"id": 44,
+										"name": "string",
+										"nodeType": "ElementaryTypeName",
+										"src": "158:6:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_string_storage_ptr",
+											"typeString": "string"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 49,
+									"mutability": "mutable",
+									"name": "assets",
+									"nameLocation": "185:6:1",
+									"nodeType": "VariableDeclaration",
+									"scope": 50,
+									"src": "177:14:1",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_array$_t_struct$_Asset_$41_storage_$dyn_storage_ptr",
+										"typeString": "struct Asset[]"
+									},
+									"typeName": {
+										"baseType": {
+											"id": 47,
+											"nodeType": "UserDefinedTypeName",
+											"pathNode": {
+												"id": 46,
+												"name": "Asset",
+												"nameLocations": [
+													"177:5:1"
+												],
+												"nodeType": "IdentifierPath",
+												"referencedDeclaration": 41,
+												"src": "177:5:1"
+											},
+											"referencedDeclaration": 41,
+											"src": "177:5:1",
+											"typeDescriptions": {
+												"typeIdentifier": "t_struct$_Asset_$41_storage_ptr",
+												"typeString": "struct Asset"
+											}
+										},
+										"id": 48,
+										"nodeType": "ArrayTypeName",
+										"src": "177:7:1",
+										"typeDescriptions": {
+											"typeIdentifier": "t_array$_t_struct$_Asset_$41_storage_$dyn_storage_ptr",
+											"typeString": "struct Asset[]"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "Etf",
+							"nameLocation": "131:3:1",
+							"nodeType": "StructDefinition",
+							"scope": 51,
+							"src": "124:70:1",
+							"visibility": "public"
+						}
+					],
+					"src": "32:163:1"
+				},
+				"id": 1
+			},
+			"hopium/etf/types/snapshot.sol": {
+				"ast": {
+					"absolutePath": "hopium/etf/types/snapshot.sol",
+					"exportedSymbols": {
+						"Snapshot": [
+							65
+						],
+						"SnapshotWithUsd": [
+							82
+						]
+					},
+					"id": 83,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 52,
+							"literals": [
+								"solidity",
+								"0.8",
+								".30"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:2"
+						},
+						{
+							"canonicalName": "Snapshot",
+							"id": 65,
+							"members": [
+								{
+									"constant": false,
+									"id": 54,
+									"mutability": "mutable",
+									"name": "tokenAddress",
+									"nameLocation": "87:12:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 65,
+									"src": "79:20:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 53,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "79:7:2",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 56,
+									"mutability": "mutable",
+									"name": "tokenDecimals",
+									"nameLocation": "113:13:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 65,
+									"src": "105:21:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint8",
+										"typeString": "uint8"
+									},
+									"typeName": {
+										"id": 55,
+										"name": "uint8",
+										"nodeType": "ElementaryTypeName",
+										"src": "105:5:2",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint8",
+											"typeString": "uint8"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 58,
+									"mutability": "mutable",
+									"name": "currentWeight",
+									"nameLocation": "140:13:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 65,
+									"src": "132:21:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint16",
+										"typeString": "uint16"
+									},
+									"typeName": {
+										"id": 57,
+										"name": "uint16",
+										"nodeType": "ElementaryTypeName",
+										"src": "132:6:2",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint16",
+											"typeString": "uint16"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 60,
+									"mutability": "mutable",
+									"name": "tokenRawBalance",
+									"nameLocation": "167:15:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 65,
+									"src": "159:23:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 59,
+										"name": "uint256",
+										"nodeType": "ElementaryTypeName",
+										"src": "159:7:2",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 62,
+									"mutability": "mutable",
+									"name": "tokenPriceWeth18",
+									"nameLocation": "226:16:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 65,
+									"src": "218:24:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 61,
+										"name": "uint256",
+										"nodeType": "ElementaryTypeName",
+										"src": "218:7:2",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 64,
+									"mutability": "mutable",
+									"name": "tokenValueWeth18",
+									"nameLocation": "284:16:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 65,
+									"src": "276:24:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 63,
+										"name": "uint256",
+										"nodeType": "ElementaryTypeName",
+										"src": "276:7:2",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "Snapshot",
+							"nameLocation": "64:8:2",
+							"nodeType": "StructDefinition",
+							"scope": 83,
+							"src": "57:271:2",
+							"visibility": "public"
+						},
+						{
+							"canonicalName": "SnapshotWithUsd",
+							"id": 82,
+							"members": [
+								{
+									"constant": false,
+									"id": 67,
+									"mutability": "mutable",
+									"name": "tokenAddress",
+									"nameLocation": "367:12:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 82,
+									"src": "359:20:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_address",
+										"typeString": "address"
+									},
+									"typeName": {
+										"id": 66,
+										"name": "address",
+										"nodeType": "ElementaryTypeName",
+										"src": "359:7:2",
+										"stateMutability": "nonpayable",
+										"typeDescriptions": {
+											"typeIdentifier": "t_address",
+											"typeString": "address"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 69,
+									"mutability": "mutable",
+									"name": "tokenDecimals",
+									"nameLocation": "393:13:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 82,
+									"src": "385:21:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint8",
+										"typeString": "uint8"
+									},
+									"typeName": {
+										"id": 68,
+										"name": "uint8",
+										"nodeType": "ElementaryTypeName",
+										"src": "385:5:2",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint8",
+											"typeString": "uint8"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 71,
+									"mutability": "mutable",
+									"name": "currentWeight",
+									"nameLocation": "420:13:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 82,
+									"src": "412:21:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint16",
+										"typeString": "uint16"
+									},
+									"typeName": {
+										"id": 70,
+										"name": "uint16",
+										"nodeType": "ElementaryTypeName",
+										"src": "412:6:2",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint16",
+											"typeString": "uint16"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 73,
+									"mutability": "mutable",
+									"name": "tokenRawBalance",
+									"nameLocation": "447:15:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 82,
+									"src": "439:23:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 72,
+										"name": "uint256",
+										"nodeType": "ElementaryTypeName",
+										"src": "439:7:2",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 75,
+									"mutability": "mutable",
+									"name": "tokenPriceWeth18",
+									"nameLocation": "506:16:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 82,
+									"src": "498:24:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 74,
+										"name": "uint256",
+										"nodeType": "ElementaryTypeName",
+										"src": "498:7:2",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 77,
+									"mutability": "mutable",
+									"name": "tokenPriceUsd18",
+									"nameLocation": "564:15:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 82,
+									"src": "556:23:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 76,
+										"name": "uint256",
+										"nodeType": "ElementaryTypeName",
+										"src": "556:7:2",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 79,
+									"mutability": "mutable",
+									"name": "tokenValueWeth18",
+									"nameLocation": "593:16:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 82,
+									"src": "585:24:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 78,
+										"name": "uint256",
+										"nodeType": "ElementaryTypeName",
+										"src": "585:7:2",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "internal"
+								},
+								{
+									"constant": false,
+									"id": 81,
+									"mutability": "mutable",
+									"name": "tokenValueUsd18",
+									"nameLocation": "648:15:2",
+									"nodeType": "VariableDeclaration",
+									"scope": 82,
+									"src": "640:23:2",
+									"stateVariable": false,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 80,
+										"name": "uint256",
+										"nodeType": "ElementaryTypeName",
+										"src": "640:7:2",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "internal"
+								}
+							],
+							"name": "SnapshotWithUsd",
+							"nameLocation": "337:15:2",
+							"nodeType": "StructDefinition",
+							"scope": 83,
+							"src": "330:336:2",
+							"visibility": "public"
+						}
+					],
+					"src": "32:634:2"
+				},
+				"id": 2
+			}
+		}
+	}
+}

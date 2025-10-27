@@ -18,11 +18,6 @@
 			},
 			{
 				"inputs": [],
-				"name": "CapacityExceeded",
-				"type": "error"
-			},
-			{
-				"inputs": [],
 				"name": "DeltaError",
 				"type": "error"
 			},
@@ -33,12 +28,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "EmptyBuf",
-				"type": "error"
-			},
-			{
-				"inputs": [],
-				"name": "EmptyCand",
+				"name": "EmptyArr",
 				"type": "error"
 			},
 			{
@@ -53,6 +43,11 @@
 			},
 			{
 				"inputs": [],
+				"name": "InvalidPerc",
+				"type": "error"
+			},
+			{
+				"inputs": [],
 				"name": "NoMintedAmount",
 				"type": "error"
 			},
@@ -63,12 +58,22 @@
 			},
 			{
 				"inputs": [],
+				"name": "TargetGtTvl",
+				"type": "error"
+			},
+			{
+				"inputs": [],
 				"name": "ZeroAmount",
 				"type": "error"
 			},
 			{
 				"inputs": [],
 				"name": "ZeroAmount",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ZeroDelta",
 				"type": "error"
 			},
 			{
@@ -80,6 +85,24 @@
 				"inputs": [],
 				"name": "ZeroReceiver",
 				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ZeroTvl",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "AFFILIATE_USER_DISCOUNT_PERC",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
 				"inputs": [],
@@ -109,7 +132,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "PLATFORM_FEE",
+				"name": "PLATFORM_FEE_BIPS",
 				"outputs": [
 					{
 						"internalType": "uint16",
@@ -150,7 +173,12 @@
 				"inputs": [
 					{
 						"internalType": "uint16",
-						"name": "newFee",
+						"name": "newFeeBips",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint16",
+						"name": "affUserDiscountPerc",
 						"type": "uint16"
 					}
 				],
@@ -202,6 +230,11 @@
 						"internalType": "address",
 						"name": "receiver",
 						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "affiliateCode",
+						"type": "string"
 					}
 				],
 				"name": "mintEtfTokens",
@@ -269,6 +302,11 @@
 						"internalType": "address payable",
 						"name": "receiver",
 						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "affiliateCode",
+						"type": "string"
 					}
 				],
 				"name": "redeemEtfTokens",
@@ -315,7 +353,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -394,11 +432,11 @@
 			]
 		},
 		"hopium/etf/interface/iEtfOracle.sol": {
-			"keccak256": "0x9fcc55390204ab865e9d297efb57dc637f9c500e594305b07f67b660902d4809",
+			"keccak256": "0xec06985bcebfcb00a4d18ee1ee82407664ead5fc811c2d1dc3cfc2245b3fab68",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c117860fc924a65c1da27605ea0be3583deebf75e7873080b61b77c38588dfcf",
-				"dweb:/ipfs/QmX3mqXNg8xtjrdiRpPkRoDXZGn9SHEmP9hCfA7oyzTnCv"
+				"bzz-raw://be2ba55f4e5f3af20e389147cf99d9a797c93ed6b064a5d2120fee986d50edda",
+				"dweb:/ipfs/QmVD4rzWyodrgVx9N9C2yMJuS1TwxUDmnsi69giN2DvDoJ"
 			]
 		},
 		"hopium/etf/interface/iEtfToken.sol": {
@@ -417,12 +455,20 @@
 				"dweb:/ipfs/QmeK4yf9x5LF2JaGRfmYto7sddL3AWFU9N1sirAmd8ZFBY"
 			]
 		},
-		"hopium/etf/interface/imEtfFactory.sol": {
-			"keccak256": "0xa577081383e92c6ecb6e22da7d4f0001784a0399cca8d6ef6b052b617ce44304",
+		"hopium/etf/interface/imEtfAffiliate.sol": {
+			"keccak256": "0x113f1bae1759fad2e35a7253d6d7296e692df72896aded7d736cb0409a1a351e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c545779b015d4a45725f867cb75d4b381ca8f04f406a112c0cc02493b64ab10e",
-				"dweb:/ipfs/QmQ6Do6LVshuysLWdHerhzxVS2scbtTqXxQYM49hUvNGdi"
+				"bzz-raw://dc0f7476a23e1c18f0cc89960236ab5685d4c4f0a3eeb85ded87fd01303273a7",
+				"dweb:/ipfs/QmZxsj3MFQuhCRFnnrocgAqrLmhMD8a3tQXJLW4AGHYAQY"
+			]
+		},
+		"hopium/etf/interface/imEtfFactory.sol": {
+			"keccak256": "0x451725aaecf59f5fb09966fdc793b37abde402db94d8101fdd9b5e19c7bb4fc6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e6b67291919607f58717d6d9d20955c3cfb13cf487be69f14f2fbddb8c621c70",
+				"dweb:/ipfs/QmZRMbDK8toEbEj7dmKcWMy23fjJ3amBfSGM7oF7oLtxCn"
 			]
 		},
 		"hopium/etf/interface/imEtfOracle.sol": {
@@ -433,12 +479,28 @@
 				"dweb:/ipfs/QmVSyp8nbynDC4bJA1vNN6hRaoUYMtZ1Ufnt7N4y2w2Roe"
 			]
 		},
-		"hopium/etf/main/etf-router.sol": {
-			"keccak256": "0x9f7668669c53c58b842d15bee6467433335338ff7e18d39199d88d78aa136262",
+		"hopium/etf/lib/hamilton.sol": {
+			"keccak256": "0xe9986ea7c86364446676a06fd8685d782ac67da0e7d6ce5c418b6e69b5717248",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://dbcffb408cd9bd6cf810c071211b5d26860e9f79eaadf1050818b802e71e7735",
-				"dweb:/ipfs/QmavKWrZEsc4Y5NEEyvnH6qFEuwmUFG4XRHnSSprnDHXUr"
+				"bzz-raw://b3af56fcc194a3e8572ccba2897b09ca518c5ecc0a102a7e6dd22a05ce0cbf73",
+				"dweb:/ipfs/QmQG3X1eBzSgzuEe4JS8JPNwhNM8X4uNMgUrDKyjGYzogZ"
+			]
+		},
+		"hopium/etf/lib/router-inputs.sol": {
+			"keccak256": "0x6eac841fc913b39bf6fd01dca175597d273ca66995e5ed09705150df2eaace2f",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c08f80b49a36bc21c4d9086ed84a325c58ebccb011eabad5a0518bde575b837b",
+				"dweb:/ipfs/QmU23GncU9w1Go8yCR9JmQoDSZ1xrMmm9ANaWMrfZybVT6"
+			]
+		},
+		"hopium/etf/main/etf-router.sol": {
+			"keccak256": "0x6c8db4cd9498ee1887c4f00a298eef75cbef267c9f62e2266c86413812b866ee",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://373c0cc56cf79169045ff2a80695b93df487ee36ceb43d0d16f9e57b359697a6",
+				"dweb:/ipfs/QmNoKUXg5fL1hxndubagj1ZTRdwGQEMCTHjDRi5fVQ1eJ7"
 			]
 		},
 		"hopium/etf/types/etf.sol": {
@@ -447,6 +509,14 @@
 			"urls": [
 				"bzz-raw://5f8dc77edfc3b352a9e12bef5fdc71f726a8c5627cc1dd64baea860ce9b1af15",
 				"dweb:/ipfs/QmY9BKqmbe6xHFciqh5iTUHHqP3Dmx6nFJjqdrGbMSahoh"
+			]
+		},
+		"hopium/etf/types/snapshot.sol": {
+			"keccak256": "0x135bab164fb20e97293b2dfe64005252b22eb2b9d34b16706dbbf21878d3511b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0874a19530a40a15a1473dc9c23001eb7a5ddedfc7f9cea2e9fa4ecd1c9ef7cf",
+				"dweb:/ipfs/QmVpkxTnnM92LEXjrze89ckU51NbVVVUJaduRi8vkCuPAU"
 			]
 		},
 		"hopium/uniswap/interface/iUniswapOracle.sol": {

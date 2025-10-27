@@ -1,23 +1,7 @@
 {
   "name": "EtfRouter",
-  "address": "0x36eb9a59b5f8436946f94adc788b9e2307b2360c",
+  "address": "0xbf053723de84bc53d75f22e95791194e6601aff5",
   "abi": [
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_directory",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "inputs": [],
-      "name": "CapacityExceeded",
-      "type": "error"
-    },
     {
       "inputs": [
         {
@@ -48,7 +32,12 @@
       "inputs": [
         {
           "internalType": "uint16",
-          "name": "newFee",
+          "name": "newFeeBips",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint16",
+          "name": "affUserDiscountPerc",
           "type": "uint16"
         }
       ],
@@ -56,6 +45,17 @@
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_directory",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
     },
     {
       "inputs": [],
@@ -69,12 +69,7 @@
     },
     {
       "inputs": [],
-      "name": "EmptyBuf",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "EmptyCand",
+      "name": "EmptyArr",
       "type": "error"
     },
     {
@@ -88,6 +83,11 @@
       "type": "error"
     },
     {
+      "inputs": [],
+      "name": "InvalidPerc",
+      "type": "error"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -98,6 +98,11 @@
           "internalType": "address",
           "name": "receiver",
           "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "affiliateCode",
+          "type": "string"
         }
       ],
       "name": "mintEtfTokens",
@@ -157,6 +162,11 @@
           "internalType": "address payable",
           "name": "receiver",
           "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "affiliateCode",
+          "type": "string"
         }
       ],
       "name": "redeemEtfTokens",
@@ -184,12 +194,22 @@
     },
     {
       "inputs": [],
+      "name": "TargetGtTvl",
+      "type": "error"
+    },
+    {
+      "inputs": [],
       "name": "ZeroAmount",
       "type": "error"
     },
     {
       "inputs": [],
       "name": "ZeroAmount",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ZeroDelta",
       "type": "error"
     },
     {
@@ -203,39 +223,26 @@
       "type": "error"
     },
     {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "etfId",
-          "type": "uint256"
-        },
-        {
-          "components": [
-            {
-              "internalType": "address",
-              "name": "tokenAddress",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "tokenAmount",
-              "type": "uint256"
-            }
-          ],
-          "indexed": false,
-          "internalType": "struct Storage.TokenBalance[]",
-          "name": "updatedBalances",
-          "type": "tuple[]"
-        }
-      ],
-      "name": "VaultBalanceChanged",
-      "type": "event"
+      "inputs": [],
+      "name": "ZeroTvl",
+      "type": "error"
     },
     {
       "stateMutability": "payable",
       "type": "receive"
+    },
+    {
+      "inputs": [],
+      "name": "AFFILIATE_USER_DISCOUNT_PERC",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "inputs": [],
@@ -310,7 +317,7 @@
     },
     {
       "inputs": [],
-      "name": "PLATFORM_FEE",
+      "name": "PLATFORM_FEE_BIPS",
       "outputs": [
         {
           "internalType": "uint16",
@@ -323,5 +330,5 @@
     }
   ],
   "filePath": "default_workspace/hopium/etf/main/etf-router.sol",
-  "pinnedAt": 1760929856093
+  "pinnedAt": 1761562746280
 }
