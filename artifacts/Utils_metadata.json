@@ -4,7 +4,66 @@
 	},
 	"language": "Solidity",
 	"output": {
-		"abi": [],
+		"abi": [
+			{
+				"inputs": [],
+				"name": "Directory",
+				"outputs": [
+					{
+						"internalType": "contract IDirectory",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_directory",
+						"type": "address"
+					}
+				],
+				"name": "changeDirectoryAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_key",
+						"type": "string"
+					}
+				],
+				"name": "fetchFromDirectory",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
 		"devdoc": {
 			"kind": "dev",
 			"methods": {},
@@ -18,7 +77,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"hopium/etf/main/etf-affiliate.sol": "Utils"
+			"hopium/etf/main/etf-oracle.sol": "Utils"
 		},
 		"evmVersion": "prague",
 		"libraries": {},
@@ -32,6 +91,22 @@
 		"remappings": []
 	},
 	"sources": {
+		"hopium/common/interface-ext/iErc20.sol": {
+			"keccak256": "0x06621693c71a7aa555704700fc27eed66d47985744f77d0ae654edf3a6c57f7c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://85951ebab78257d64b5d0c4ee77d8c3b5884e199e3f98f8df816ac8029cd90ba",
+				"dweb:/ipfs/QmVvZuotoyhm5XcWoBYWMHQDowpSbML3jtaHnCsV3AiyDU"
+			]
+		},
+		"hopium/common/interface-ext/iErc20Metadata.sol": {
+			"keccak256": "0x9394399ff5bdcd9508a79127b241eaddf7784ec78d537c4afda0e4ba5b51781c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://da42c95849e24902b57f3baee461c24f0f8b7a728db83817bbbde2df257b41c4",
+				"dweb:/ipfs/Qmer4Uo4xkm76we6ueQjsMLqj5NwEDKSj4Ed7dPRuHemSb"
+			]
+		},
 		"hopium/common/interface/imDirectory.sol": {
 			"keccak256": "0x7209180b40577206895c55a28715c488e9618fa58613d17e7d0997ab5eef2de7",
 			"license": "MIT",
@@ -40,20 +115,76 @@
 				"dweb:/ipfs/QmPFbJo6MyLm6z5AygEcEoNGYmRk13coFFBkRTyxXF9s8e"
 			]
 		},
-		"hopium/etf/interface/imEtfRouter.sol": {
-			"keccak256": "0xee4e14ac948dbd2973786c1ebf499817ee10357ab03369ef38d37dcf011848e1",
+		"hopium/common/lib/full-math.sol": {
+			"keccak256": "0xc01379955057b3818fdc67caee0b42bb45909fb3b0d1f2788ef552dc22fdb3d0",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8aaf374a67edab3b271681d879f819927c5bdc459a887662965adf102206fcc0",
-				"dweb:/ipfs/QmbBpHwHDbT5g3HaNxw62poSH5o4GRptMXsKxWnMiUNA1N"
+				"bzz-raw://a3ae69d75a9aa01a2802e60cd62b27cbadd29d848e87fd411710a466ad6cae95",
+				"dweb:/ipfs/QmaRZCGHFyz7S31BLMiAnaqDYwJsNzKQdTLGBDwig45pRo"
 			]
 		},
-		"hopium/etf/main/etf-affiliate.sol": {
-			"keccak256": "0xa613171fe2472bb3806235cc805586aedf58696808aaf2a6e8259aee55d644b9",
+		"hopium/common/types/bips.sol": {
+			"keccak256": "0x3e39e84d405a0032d123c0dc0828e5a44caf8cd7b77c5092020854933f19888a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://17c1b0adfc7b190ab65b96d96a245cc04a9c7196ceee7a6dc4be22b09b168421",
-				"dweb:/ipfs/QmVCaYEcW3BGqDT1Fy1CiX23ayFCHdqJNtJw9MUzbKF5Um"
+				"bzz-raw://0254a58b591dacdd2c9c083970b924c7b81cc325967b2f2e13f94a62828af6b0",
+				"dweb:/ipfs/QmQXmTNzdiXtUoCE7pUXLJKjYhxVJqQn5PdxS88e1daq9h"
+			]
+		},
+		"hopium/etf/interface/iEtfOracle.sol": {
+			"keccak256": "0xec06985bcebfcb00a4d18ee1ee82407664ead5fc811c2d1dc3cfc2245b3fab68",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://be2ba55f4e5f3af20e389147cf99d9a797c93ed6b064a5d2120fee986d50edda",
+				"dweb:/ipfs/QmVD4rzWyodrgVx9N9C2yMJuS1TwxUDmnsi69giN2DvDoJ"
+			]
+		},
+		"hopium/etf/interface/imEtfFactory.sol": {
+			"keccak256": "0x451725aaecf59f5fb09966fdc793b37abde402db94d8101fdd9b5e19c7bb4fc6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e6b67291919607f58717d6d9d20955c3cfb13cf487be69f14f2fbddb8c621c70",
+				"dweb:/ipfs/QmZRMbDK8toEbEj7dmKcWMy23fjJ3amBfSGM7oF7oLtxCn"
+			]
+		},
+		"hopium/etf/main/etf-oracle.sol": {
+			"keccak256": "0x496c732074e36b907ec316abda42d7e52eccaae733192b1f1c6fdfd19a9c1d1c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6666e01434baf21db1d27c3cbbda7d490636dfe6cee6f4cc6f5b3896121e09af",
+				"dweb:/ipfs/QmazjGw9kkxaYui9TJyLWgnsUiov1VwN46BNYjTp6kSYAA"
+			]
+		},
+		"hopium/etf/types/etf.sol": {
+			"keccak256": "0xf0ad7bff285660b2f5459d371c7bb805b60f2a67429d416c8231e986f074d472",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5f8dc77edfc3b352a9e12bef5fdc71f726a8c5627cc1dd64baea860ce9b1af15",
+				"dweb:/ipfs/QmY9BKqmbe6xHFciqh5iTUHHqP3Dmx6nFJjqdrGbMSahoh"
+			]
+		},
+		"hopium/etf/types/snapshot.sol": {
+			"keccak256": "0x135bab164fb20e97293b2dfe64005252b22eb2b9d34b16706dbbf21878d3511b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0874a19530a40a15a1473dc9c23001eb7a5ddedfc7f9cea2e9fa4ecd1c9ef7cf",
+				"dweb:/ipfs/QmVpkxTnnM92LEXjrze89ckU51NbVVVUJaduRi8vkCuPAU"
+			]
+		},
+		"hopium/uniswap/interface/iUniswapOracle.sol": {
+			"keccak256": "0xf511ce77af4675a976b7cc190549f116c8c30782d210f7e41cb84ad0afa2f8a1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://32d0e4e5beb41e884855bf07501677bc464b53b4f30136c7f93da426e2aec2d9",
+				"dweb:/ipfs/QmNXpUUbb9jgwWD7LisfLkvaB7NTYcV1UEV3R9hMSAJJsR"
+			]
+		},
+		"hopium/uniswap/interface/imUniswapOracle.sol": {
+			"keccak256": "0x088fc8294145ba7156c60fe2f80f9dd72299aed12468a25ef3659fb7af53e1c1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5d34fb444d8c39aa614ff4f94bc92a5381f6c70a68af66d2f92f1d88d3c7a434",
+				"dweb:/ipfs/QmYLYF6Si42AZnnZvTC6DwSkDGy757L6Zs16di9eJGoUM3"
 			]
 		}
 	},

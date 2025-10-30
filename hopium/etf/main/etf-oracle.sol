@@ -199,36 +199,36 @@ abstract contract PriceHelpers is SnapshotHelpers {
 
 abstract contract EtfStats is PriceHelpers {
 
-    struct EthUsd {
-        uint256 eth18; // value in WETH (1e18)
-        uint256 usd18; // value in USD  (1e18)
-    }
-    
     struct Stats {
         uint256 assetsLiquidityUsd;  // sum of TOKEN–WETH pool liquidity (USD, 1e18)
         uint256 assetsMcapUsd;       // sum of token market caps (USD, 1e18)
     }
 
-    /// @dev Generic helper to sum a per-token USD metric across all ETF assets.
-    ///      Accepts a function pointer of type (address) → (uint256).
-    ///      Wrapped in try/catch so missing pools won’t revert.
-    function _sumPerAsset(Etf memory etf, function (address) external view returns (uint256) fn) internal view returns (uint256 sum) {
+    /// @dev Weighted sum (by currentWeight bips) of a per-token USD metric.
+    function _weightedSumPerAsset(
+        Snapshot[] memory s,
+        function (address) external view returns (uint256) fn
+    ) internal view returns (uint256 sumUsd18) {
         unchecked {
-            for (uint256 i = 0; i < etf.assets.length; ++i) {
-                address token = etf.assets[i].tokenAddress;
-                try fn(token) returns (uint256 value) {
-                    sum += value;
-                } catch { /* ignore if oracle call fails */ }
+            for (uint256 i = 0; i < s.length; ++i) {
+                uint16 wBips = s[i].currentWeight;
+                if (wBips == 0) continue;
+
+                uint256 metric = fn(s[i].tokenAddress);
+                if (metric == 0) continue;
+
+                sumUsd18 += FullMath.mulDiv(metric, wBips, HUNDRED_PERCENT_BIPS);
             }
         }
     }
 
     /// @notice Returns full ETF stats.
-    function _getStats(Etf memory etf) internal view returns (Stats memory s) {
-        IUniswapOracle uniO = getUniswapOracle();
+    function _getStats(Etf memory etf, address vaultAddress) internal view returns (Stats memory stats) {
+        (Snapshot[] memory s, ) = _snapshotVault(etf, vaultAddress);
+        IUniswapOracle uni = getUniswapOracle();
 
-        s.assetsLiquidityUsd = _sumPerAsset(etf, uniO.getTokenLiquidityUsd);
-        s.assetsMcapUsd      = _sumPerAsset(etf, uniO.getTokenMarketCapUsd);
+        stats.assetsLiquidityUsd = _weightedSumPerAsset(s, uni.getTokenLiquidityUsd);
+        stats.assetsMcapUsd = _weightedSumPerAsset(s, uni.getTokenMarketCapUsd);
     }
 }
 
@@ -272,7 +272,7 @@ contract EtfOracle is ImDirectory, PriceHelpers, EtfStats {
     }
 
     function getEtfStats(uint256 etfId) external view returns (Stats memory s) {
-        (Etf memory etf) = getEtfFactory().getEtfById(etfId);
-        return _getStats(etf);
+        (Etf memory etf, address vaultAddress) = getEtfFactory().getEtfByIdAndVault(etfId);
+        return _getStats(etf, vaultAddress);
     }
 }

@@ -1,6 +1,6 @@
 {
   "name": "EtfFactory",
-  "address": "0xc5879e356a57f26025532661f3487374d250b5d1",
+  "address": "0x66f0190709515b9085dace355a0fd04f3cbb4ae7",
   "abi": [
     {
       "inputs": [
@@ -603,5 +603,5 @@
     }
   ],
   "filePath": "default_workspace/hopium/etf/main/etf-factory.sol",
-  "pinnedAt": 1761562851881
+  "pinnedAt": 1761757278098
 }
